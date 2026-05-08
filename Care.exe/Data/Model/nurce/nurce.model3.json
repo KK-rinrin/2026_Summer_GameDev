@@ -1,0 +1,25 @@
+{
+	"Version": 3,
+	"FileReferences": {
+		"Moc": "nurce.moc3",
+		"Textures": [
+			"nurce.1024/texture_00.png"
+		],
+		"DisplayInfo": "nurce.cdi3.json",
+		"Motions": {
+			"Idle": [
+				{
+					"File": "motions/Idle.motion3.json"
+				}
+			]
+		}
+	},
+	"Groups": [
+		{
+			"Target": "Parameter",
+			"Name": "EyeBlink",
+			"Ids": []
+		}
+	],
+	"HitAreas": []
+}

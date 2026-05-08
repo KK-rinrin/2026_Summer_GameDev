@@ -1,0 +1,36 @@
+{
+	"Version": 3,
+	"FileReferences": {
+		"Moc": "patient.moc3",
+		"Textures": [
+			"patient.1024/texture_00.png"
+		],
+		"Physics": "patient.physics3.json",
+		"DisplayInfo": "patient.cdi3.json",
+		"Motions": {
+			"Idle": [
+				{
+					"File": "motions/Idle.motion3.json"
+				}
+			],
+			"Doubt": [
+				{
+					"File": "motions/doubt.motion3.json"
+				}
+			]
+		}
+	},
+	"Groups": [
+		{
+			"Target": "Parameter",
+			"Name": "EyeBlink",
+			"Ids": []
+		},
+		{
+			"Target": "Parameter",
+			"Name": "LipSync",
+			"Ids": []
+		}
+	],
+	"HitAreas": []
+}
