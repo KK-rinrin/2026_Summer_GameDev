@@ -8,7 +8,7 @@ class ActorBase
 {
 
 public:
-	
+
 	// コンストラクタ
 	ActorBase(void);
 
@@ -32,7 +32,13 @@ public:
 
 	virtual void UpdateSortKey();
 
-	float GetSortY() const { return transform_.sortY; }
+	float GetSortY() const { return transform_.GetWorldPos().y; }
+
+	void BlockCrossingWorldY(float wallY, float thickness) { transform_.BlockCrossingWorldY(wallY, thickness); }
+	
+	bool IsHitCircle(const ActorBase& other) const;
+	
+	void MoveToBeforePos();
 
 protected:
 

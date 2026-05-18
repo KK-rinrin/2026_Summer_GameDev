@@ -6,13 +6,17 @@
 #include "../Object/Talk/Talk.h"
 #include "../Object/Actor/Player.h"
 #include "../Object/Actor/Patient.h"
+#include "../Object/Renderer2D.h"
 
 GameScene::GameScene(void)
 	:
 	SceneBase(),
 	talk_(nullptr),
 	canMove_(false),
-	player_(nullptr)
+	wallHandle_(-1),
+	render_(nullptr),
+	player_(nullptr),
+	patient_(nullptr)
 {
 	firstUpdate_ = true;
 }
@@ -47,7 +51,18 @@ void GameScene::Update(void)
 	}
 
 	if (canMove_)
-	player_->Update();
+	{
+		player_->Update();
+		if (currentStage_ == Stage::PAT_ROOM)
+		{
+			//player_->BlockCrossingWorldY(PICU_WALL_Y, PICU_WALL_THICKNESS);
+		}
+
+		if (player_->IsHitCircle(*patient_))
+		{
+			player_->MoveToBeforePos();
+		}
+	}
 
 	patient_->Update();
 
@@ -58,8 +73,7 @@ void GameScene::Draw(void)
 {
 	DrawGraph(0, 0, BGHandle_[static_cast<int>(currentStage_)], false);
 
-	patient_->Draw();
-	player_->Draw();
+	render_->Render();
 
 	talk_->Draw();
 }
@@ -71,6 +85,7 @@ void GameScene::Delete(void)
 
 	delete player_;
 	delete patient_;
+	delete render_;
 }
 
 void GameScene::InitLoad()
@@ -84,6 +99,12 @@ void GameScene::InitLoad()
 	patient_ = new Patient();
 	patient_->Init();
 
+	render_ = new Renderer2D();
+	render_->AddActor(patient_);
+	//render_->Add(PICU_WALL_Y, [this]() { if (currentStage_ == Stage::PAT_ROOM) DrawGraph(0, 0, wallHandle_, true); });
+	render_->AddActor(player_);
+
 	BGHandle_[0] = resMng_.Load(ResourceManager::SRC::BG_1).handleId_;
+	wallHandle_ = resMng_.Load(ResourceManager::SRC::BG_1_WALL).handleId_;
 	BGHandle_[1] = resMng_.Load(ResourceManager::SRC::BG_2).handleId_;
 }

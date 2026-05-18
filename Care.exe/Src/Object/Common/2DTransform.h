@@ -25,7 +25,6 @@ public:
 
 	VECTOR pos;		// 座標（xyz）※zは未使用
 	VECTOR beforePos; // 前回の座標
-	float sortY;	// Yレンダー用
 
 	int rotDir;		// 前:0 or 後ろ:1
 	bool isLeft; // 左向きかどうか（回転方向に応じて計算される）
@@ -52,6 +51,7 @@ public:
 	void Delete();
 
 	VECTOR GetWorldPos() const;
+	void BlockCrossingWorldY(float wallY, float thickness);
 
 private:
 	void CalcDrawParams();

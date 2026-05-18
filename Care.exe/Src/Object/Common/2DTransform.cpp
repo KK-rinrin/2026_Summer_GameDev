@@ -17,6 +17,10 @@ namespace {
 		const float t = AsoUtility::Clamp(percentY, 0.0f, 100.0f) / 100.0f;
 		return MOVE_MIN_Y + t * (MOVE_MAX_Y - MOVE_MIN_Y);
 	}
+	inline float WorldYToPercentY(float worldY) {
+		const float t = (worldY - MOVE_MIN_Y) / static_cast<float>(MOVE_MAX_Y - MOVE_MIN_Y);
+		return AsoUtility::Clamp(t * 100.0f, 0.0f, 100.0f);
+	}
 	// yé¿ç¿ïWÇ…âûÇ∂ÇΩãñóeÇ∑ÇÈ x ÇÃç≈è¨íl
 	inline float CalcXMinForY(float y) {
 		const float t = (y - MOVE_MIN_Y) / static_cast<float>(MOVE_MAX_Y - MOVE_MIN_Y);
@@ -194,6 +198,24 @@ void Transform2D::CalcDrawParams()
 	drawPos1.y = world.y - drawH;
 	drawPos2.x = world.x + drawW * 0.5f;
 	drawPos2.y = world.y;
+}
+
+void Transform2D::BlockCrossingWorldY(float wallY, float thickness)
+{
+	const float halfThickness = thickness * 0.5f;
+	const float backLimitY = wallY - halfThickness;
+	const float frontLimitY = wallY + halfThickness;
+	const float beforeWorldY = PercentToY(beforePos.y);
+	const float currentWorldY = PercentToY(pos.y);
+
+	if (beforeWorldY < wallY && currentWorldY > backLimitY)
+	{
+		pos.y = WorldYToPercentY(backLimitY);
+	}
+	else if (beforeWorldY > wallY && currentWorldY < frontLimitY)
+	{
+		pos.y = WorldYToPercentY(frontLimitY);
+	}
 }
 
 VECTOR Transform2D::GetWorldPos() const

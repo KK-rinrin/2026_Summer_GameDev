@@ -48,5 +48,5 @@ void TitleScene::UpdateSelectMenu(void)
 
 void TitleScene::DrawSelectMenu(void)
 {
-	DrawRotaGraph(Application::SCREEN_SIZE_X, Application::SCREEN_SIZE_Y - 200, 1.0, 0.0, imgTitle_, TRUE);
+	DrawRotaGraph(static_cast<int>(Application::SCREEN_SIZE_X * 0.5f), Application::SCREEN_SIZE_Y - 500, 1.0, 0.0, imgTitle_, TRUE);
 }

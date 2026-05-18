@@ -68,12 +68,14 @@ void Player::InitTransform()
 	// èâä˙à íu
 	transform_.pos.x = INIT_PER_X;
 	transform_.pos.y = INIT_PER_Y;
+	transform_.beforePos = transform_.pos;
 
 }
 
 void Player::InitCollider()
 {
     radius_ = COL_RADIUS;
+    collider_.radius = radius_;
 }
 
 void Player::InitAnimation()

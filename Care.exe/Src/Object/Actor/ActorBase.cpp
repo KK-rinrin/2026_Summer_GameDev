@@ -2,6 +2,7 @@
 #include "../../Manager/SceneManager.h"
 #include "ActorBase.h"
 #include "../../Common/Vector2.h"
+#include "../../Utility/AsoUtility.h"
 
 ActorBase::ActorBase(void)
 	:
@@ -54,7 +55,15 @@ const Transform2D& ActorBase::GetTransform(void) const
 
 void ActorBase::UpdateSortKey()
 {
-	// 足元のワールド座標をソートキーにする
-	VECTOR world = transform_.GetWorldPos();
-	transform_.sortY = world.y;
+}
+
+bool ActorBase::IsHitCircle(const ActorBase& other) const
+{
+	return AsoUtility::IsHitSpheres(transform_.pos, collider_.radius, other.transform_.pos, other.collider_.radius);
+}
+
+void ActorBase::MoveToBeforePos()
+{
+	transform_.pos = transform_.beforePos;
+	transform_.Update();
 }

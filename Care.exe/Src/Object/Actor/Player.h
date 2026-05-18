@@ -9,7 +9,7 @@ public:
 	static constexpr float INIT_PER_X = 90.0f;
 	static constexpr float INIT_PER_Y = 90.0f;
 
-	static constexpr float COL_RADIUS = 0.5f;
+	static constexpr float COL_RADIUS = 3.0f;
 
 	Player();
 	~Player();
