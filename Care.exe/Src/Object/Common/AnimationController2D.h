@@ -32,8 +32,8 @@ private:
     int currentFrame_;
     int stillIndex_;
     bool loop_;
-    bool pingpong_;    // ’Ç‰Á
-    int direction_;    // ’Ç‰Á: 1 or -1 for ping-pong
+    bool pingpong_;
+    int direction_;
     bool playing_;
     unsigned int lastTimeMs_;
     float frameDurationMs_;

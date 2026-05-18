@@ -1,5 +1,6 @@
 #pragma once
 #include "../Common/2DTransform.h"
+#include "../Collider/Collider.h"
 class ResourceManager;
 class SceneManager;
 
@@ -7,7 +8,7 @@ class ActorBase
 {
 
 public:
-
+	
 	// コンストラクタ
 	ActorBase(void);
 
@@ -29,6 +30,10 @@ public:
 	// 大きさ、回転、座標等の取得
 	const Transform2D& GetTransform(void) const;
 
+	virtual void UpdateSortKey();
+
+	float GetSortY() const { return transform_.sortY; }
+
 protected:
 
 	// シングルトン参照
@@ -37,7 +42,11 @@ protected:
 
 	// モデル制御の基本情報
 	Transform2D transform_;
+
 	AnimationController2D anim_;
+
+	CircleCollider collider_;
+	float radius_;
 
 	// リソースロード
 	virtual void InitLoad(void) = 0;

@@ -1,12 +1,15 @@
 #include "../../Manager/ResourceManager.h"
 #include "../../Manager/SceneManager.h"
 #include "ActorBase.h"
+#include "../../Common/Vector2.h"
 
 ActorBase::ActorBase(void)
-	: 
+	:
 	resMng_(ResourceManager::GetInstance()),
 	scnMng_(SceneManager::GetInstance()),
-	transform_()
+	transform_(),
+	radius_(0.0f),
+	collider_(radius_)
 {
 }
 
@@ -47,4 +50,11 @@ void ActorBase::Release(void)
 const Transform2D& ActorBase::GetTransform(void) const
 {
 	return transform_;
+}
+
+void ActorBase::UpdateSortKey()
+{
+	// 足元のワールド座標をソートキーにする
+	VECTOR world = transform_.GetWorldPos();
+	transform_.sortY = world.y;
 }

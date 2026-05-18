@@ -5,6 +5,7 @@
 #include "../Manager/ResourceManager.h"
 #include "../Object/Talk/Talk.h"
 #include "../Object/Actor/Player.h"
+#include "../Object/Actor/Patient.h"
 
 GameScene::GameScene(void)
 	:
@@ -25,7 +26,7 @@ void GameScene::Update(void)
 	if (firstUpdate_)
 	{
 		// 起動してすぐのみでやりたいことを記述
-		// talk_->SetTalk(TalkDatas::TalkDataIndex::TALK_0);
+		talk_->SetTalk(TalkDatas::TalkDataIndex::TALK_0);
 	}
 
 	if (talk_->Update())
@@ -45,8 +46,10 @@ void GameScene::Update(void)
 		sceMng_.ChangeScene(SceneManager::SCENE_ID::TITLE);
 	}
 
-	if (canMove_);	// 将来的にプレイヤー移動処理を実装
+	if (canMove_)
 	player_->Update();
+
+	patient_->Update();
 
 	firstUpdate_ = false;
 }
@@ -54,6 +57,8 @@ void GameScene::Update(void)
 void GameScene::Draw(void)
 {
 	DrawGraph(0, 0, BGHandle_[static_cast<int>(currentStage_)], false);
+
+	patient_->Draw();
 	player_->Draw();
 
 	talk_->Draw();
@@ -65,6 +70,7 @@ void GameScene::Delete(void)
 	delete talk_;
 
 	delete player_;
+	delete patient_;
 }
 
 void GameScene::InitLoad()
@@ -74,6 +80,9 @@ void GameScene::InitLoad()
 
 	player_ = new Player();
 	player_->Init();
+
+	patient_ = new Patient();
+	patient_->Init();
 
 	BGHandle_[0] = resMng_.Load(ResourceManager::SRC::BG_1).handleId_;
 	BGHandle_[1] = resMng_.Load(ResourceManager::SRC::BG_2).handleId_;

@@ -6,7 +6,7 @@
 /// 2D座標、回転、拡大を管理するクラス
 /// 2D画像をモデルとして扱う。
 /// ここでは疑似3D（遠近）表現を用いる。
-/// スプライト画像の場合、アニメーションも担保する
+/// スプライト画像も担保
 class Transform2D
 {
 public:
@@ -25,9 +25,11 @@ public:
 
 	VECTOR pos;		// 座標（xyz）※zは未使用
 	VECTOR beforePos; // 前回の座標
+	float sortY;	// Yレンダー用
 
 	int rotDir;		// 前:0 or 後ろ:1
 	bool isLeft; // 左向きかどうか（回転方向に応じて計算される）
+	bool enableImageScaling = true;
 	float scaleX;	// 拡大率X
 	float scaleY;	// 拡大率Y
 
@@ -36,9 +38,6 @@ public:
 
 	// コンストラクタ
 	Transform2D();
-
-	// 画像ハンドルの配列と分割数を指定して初期化
-	Transform2D(const std::vector<int>& handles, int indexX = 1, int indexY = 1);
 
 	// デストラクタ
 	~Transform2D();
@@ -51,6 +50,8 @@ public:
 	void Draw();
 
 	void Delete();
+
+	VECTOR GetWorldPos() const;
 
 private:
 	void CalcDrawParams();

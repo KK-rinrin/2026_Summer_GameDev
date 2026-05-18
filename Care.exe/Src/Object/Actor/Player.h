@@ -9,11 +9,12 @@ public:
 	static constexpr float INIT_PER_X = 90.0f;
 	static constexpr float INIT_PER_Y = 90.0f;
 
+	static constexpr float COL_RADIUS = 0.5f;
+
 	Player();
 	~Player();
 
 	void Update(void) override;
-	void Draw(void) override;
 
 private:
 	void InitLoad() override;

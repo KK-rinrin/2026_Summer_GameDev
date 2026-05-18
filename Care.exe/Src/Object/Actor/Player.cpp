@@ -37,12 +37,6 @@ void Player::Update(void)
 	anim_.Update();
 }
 
-void Player::Draw(void)
-{
-	// 2D —p•`‰æ‚ğˆÏ÷
-	transform_.Draw();
-}
-
 void Player::InitLoad()
 {
 	const Resource& res = resMng_.Load(ResourceManager::SRC::PLAYER_GRAPHICS);
@@ -75,18 +69,20 @@ void Player::InitTransform()
 	transform_.pos.x = INIT_PER_X;
 	transform_.pos.y = INIT_PER_Y;
 
-	// Ã~‰æ‘œ
-	transform_.stillIndex = 1;
-	transform_.stillIndex_back = 4;
 }
 
 void Player::InitCollider()
 {
+    radius_ = COL_RADIUS;
 }
 
 void Player::InitAnimation()
 {
-	
+    // Ã~‰æ‘œ
+    transform_.stillIndex = 1;
+    transform_.stillIndex_back = 4;
+
+    transform_.animController.SetPingPong(true);
 }
 
 void Player::InitPost()

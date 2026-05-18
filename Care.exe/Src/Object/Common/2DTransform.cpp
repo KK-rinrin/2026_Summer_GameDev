@@ -12,7 +12,6 @@ static constexpr int MOVE_MAXY_MIN_X = 50;
 static constexpr float MOVE_PERSPECTIVE_MIN_SCALE = 0.7f;
 
 namespace {
-
 	// pos: 0..100 圧縮されたパーセンテージを実座標に変換
 	inline float PercentToY(float percentY) {
 		const float t = AsoUtility::Clamp(percentY, 0.0f, 100.0f) / 100.0f;
@@ -39,45 +38,53 @@ namespace {
 }
 
 Transform2D::Transform2D()
-	: handleIds()
-	, currentHandleIndex(0)
+	: currentHandleIndex(0)
 	, indexX(1)
 	, indexY(1)
 	, pos(AsoUtility::VECTOR_ZERO)
 	, rotDir(0)
 {
+	handleIds.clear();
+
 	scaleX = 1.0f;
 	scaleY = 1.0f;
 	beforePos = AsoUtility::VECTOR_ZERO;
 	isLeft = false;
+	enableImageScaling = true;
 
 	animController.SetFrames(indexX > 0 ? indexX : 1);
 	animController.SetFrameDuration(AnimSpeed);
 	animController.SetStillIndex(stillIndex);
 	animController.SetLoop(true);
+
+	direction = AsoUtility::VECTOR_ZERO;
+	imageWidth = 0; imageHeight = 0;
+	drawPos1 = AsoUtility::VECTOR_ZERO; drawPos2 = AsoUtility::VECTOR_ZERO;
+	perspectiveScale = 1.0f;
 }
 
-Transform2D::Transform2D(const std::vector<int>& handles, int idxX, int idxY)
-	: handleIds(handles)
-	, currentHandleIndex(0)
-	, indexX(idxX > 0 ? idxX : 1)
-	, indexY(idxY > 0 ? idxY : 1)
-	, totalFrames(static_cast<int>(handles.size()))
-	, pos(AsoUtility::VECTOR_ZERO)
-	, rotDir(0)
-{
-	scaleX = 1.0f;
-	scaleY = 1.0f;
-	AnimSpeed = 0.1f;
-	stillIndex = 0;
-	beforePos = AsoUtility::VECTOR_ZERO;
-	isLeft = false;
-
-	animController.SetFrames(indexX > 0 ? indexX : 1);
-	animController.SetFrameDuration(AnimSpeed);
-	animController.SetStillIndex(stillIndex);
-	animController.SetLoop(true);
-}
+//Transform2D::Transform2D(const std::vector<int>& handles, int idxX, int idxY, bool scaling)
+//	: handleIds(handles)
+//	, currentHandleIndex(0)
+//	, indexX(idxX > 0 ? idxX : 1)
+//	, indexY(idxY > 0 ? idxY : 1)
+//	, totalFrames(static_cast<int>(handles.size()))
+//	, pos(AsoUtility::VECTOR_ZERO)
+//	, rotDir(0)
+//	, enableImageScaling(scaling)
+//{
+//	scaleX = 1.0f;
+//	scaleY = 1.0f;
+//	AnimSpeed = 0.1f;
+//	stillIndex = 0;
+//	beforePos = AsoUtility::VECTOR_ZERO;
+//	isLeft = false;
+//
+//	animController.SetFrames(indexX > 0 ? indexX : 1);
+//	animController.SetFrameDuration(AnimSpeed);
+//	animController.SetStillIndex(stillIndex);
+//	animController.SetLoop(true);
+//}
 
 Transform2D::~Transform2D()
 {
@@ -160,35 +167,47 @@ void Transform2D::Delete()
 
 void Transform2D::CalcDrawParams()
 {
-	// 画像の幅と高さを取得（描画計算に使用）
-	if (!handleIds.empty())
-	{
+	// 画像サイズ取得
+	if (!handleIds.empty()) {
 		GetGraphSize(handleIds.front(), &imageWidth, &imageHeight);
 	}
-	else
-	{
-		imageWidth = 0;
-		imageHeight = 0;
-	}
 
-	// 遠近法による拡大率を計算（距離に応じて変化）
-	const float actualY = PercentToY(pos.y);
-	const float t = (actualY - MOVE_MIN_Y) / static_cast<float>(MOVE_MAX_Y - MOVE_MIN_Y);
-	perspectiveScale = MOVE_PERSPECTIVE_MIN_SCALE + (1.0f - MOVE_PERSPECTIVE_MIN_SCALE) * t;
+	// ワールド座標を取得
+	VECTOR world = GetWorldPos();
 
 	// 描画サイズ
-	const float drawW = imageWidth * scaleX * perspectiveScale;
-	const float drawH = imageHeight * scaleY * perspectiveScale;
+	float drawW = imageWidth * scaleX;
+	float drawH = imageHeight * scaleY;
 
-	// 実座標 X を算出（y に対応する可動範囲内）
+	if (enableImageScaling) {
+		// ★ 遠近法スケールの計算（GetWorldPos ではやらない）
+		const float t = (world.y - MOVE_MIN_Y) / (MOVE_MAX_Y - MOVE_MIN_Y);
+		perspectiveScale = MOVE_PERSPECTIVE_MIN_SCALE +
+			(1.0f - MOVE_PERSPECTIVE_MIN_SCALE) * t;
+
+		drawW *= perspectiveScale;
+		drawH *= perspectiveScale;
+	}
+
+	// アンカー（足元）から矩形を作る
+	drawPos1.x = world.x - drawW * 0.5f;
+	drawPos1.y = world.y - drawH;
+	drawPos2.x = world.x + drawW * 0.5f;
+	drawPos2.y = world.y;
+}
+
+VECTOR Transform2D::GetWorldPos() const
+{
+	VECTOR v = AsoUtility::VECTOR_ZERO;
+
+	const float actualY = PercentToY(pos.y);
 	const float xmin = CalcXMinForY(actualY);
 	const float xmax = CalcXMaxForY(actualY);
 	const float worldX = xmin + (pos.x / 100.0f) * (xmax - xmin);
 
-	// drawPos は矩形の左上 / 右下のように扱う（ここでは drawPos1 を左上、drawPos2 を右下）
-	// アンカーは下中央に合わせる（キャラクターの足元を y に合わせる）
-	drawPos1.x = worldX - (drawW / 2.0f); // 左
-	drawPos1.y = actualY - drawH; // 上 = 足元 y から高さ分上へ
-	drawPos2.x = worldX + (drawW / 2.0f); // 右
-	drawPos2.y = actualY; // 下 = 足元 y
+	v.x = worldX;
+	v.y = actualY;
+	v.z = 0.0f;
+
+	return v;
 }

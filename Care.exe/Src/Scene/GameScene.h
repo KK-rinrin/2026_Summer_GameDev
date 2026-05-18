@@ -4,6 +4,8 @@
 
 class Talk;
 class Player;
+class Patient;
+class Renderer2D;
 
 class GameScene : public SceneBase
 {
@@ -11,7 +13,7 @@ class GameScene : public SceneBase
 public:
 	enum class Stage
 	{
-		PICU,
+		PAT_ROOM,
 		NURSE_STATION,
 	};
 	
@@ -36,11 +38,13 @@ private:
 	Talk* talk_;
 
 	int BGHandle_[2];
-	Stage currentStage_ = Stage::PICU;
+	Stage currentStage_ = Stage::PAT_ROOM;
 
 	bool canMove_ = false;
 
+	Renderer2D* render_;
 	Player* player_;
+	Patient* patient_;
 
 	bool firstUpdate_;
 };
