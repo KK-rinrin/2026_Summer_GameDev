@@ -11,6 +11,27 @@
 				{
 					"File": "motions/Idle.motion3.json"
 				}
+			],
+			"Pose_Close": [
+				{
+					"File": "motions/Pose_Close.motion3.json",
+					"FadeInTime": 0.3,
+					"FadeOutTime": 0
+				}
+			],
+			"Pose_Setting": [
+				{
+					"File": "motions/Pose_Setting.motion3.json",
+					"FadeInTime": 0.3,
+					"FadeOutTime": 0
+				}
+			],
+			"Pose_Start": [
+				{
+					"File": "motions/Pose_Start.motion3.json",
+					"FadeInTime": 0.3,
+					"FadeOutTime": 0
+				}
 			]
 		}
 	},

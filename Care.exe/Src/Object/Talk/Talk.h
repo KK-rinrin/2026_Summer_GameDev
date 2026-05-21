@@ -1,4 +1,5 @@
 #pragma once
+
 #include "TalkData.h"
 #include "window/Live2DTalkController.h"
 #include <memory>
@@ -28,11 +29,10 @@ public:
 	void SetPatientVisible(bool visible) { PatientVisible_ = visible; }
 	void SetPlayerVisible(bool visible) { PlayerVisible_ = visible; }
 
-	
 private:
-	// controller が Live2D を所有する
-	std::unique_ptr<Live2DTalkController> patientController_;
-	std::unique_ptr<Live2DTalkController> playerController_;
+	// Live2DTalkController をハブ経由で共有するため shared_ptr に変更
+	std::shared_ptr<Live2DTalkController> patientController_;
+	std::shared_ptr<Live2DTalkController> playerController_;
 
 	// 可視フラグ
 	bool PatientVisible_ = true;
@@ -41,8 +41,9 @@ private:
 	// TalkWindow を RAII 管理
 	std::unique_ptr<TalkWindow> talkWindow_;
 
-	TalkDatas::TalkDataIndex currentDataIndex_ = TDI::TALK_0;
-	bool isTalkEnd_;
+	// 会話状態
+	TalkDatas::TalkDataIndex currentDataIndex_ = TDI::NONE;
+	bool isTalkEnd_ = false;
 
 	int alpha_;
 };

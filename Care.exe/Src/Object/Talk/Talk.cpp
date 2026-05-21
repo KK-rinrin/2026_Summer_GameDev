@@ -2,6 +2,7 @@
 #include "window/TalkWindow.h"
 #include "../../Manager/ResourceManager.h"
 #include "../../Application.h"
+#include "../../Manager/Live2DModelHub.h" // 追加
 #include <utility>
 
 Talk::Talk()
@@ -24,12 +25,9 @@ Talk::~Talk()
 
 void Talk::Load()
 {
-	// controller を生成してモデルを読み込む
-	patientController_ = std::make_unique<Live2DTalkController>();
-	playerController_ = std::make_unique<Live2DTalkController>();
-
-	patientController_->Load(ResourceManager::SRC::PATIENT_MODEL);
-	playerController_->Load(ResourceManager::SRC::PLAYER_MODEL);
+	// ハブから共有コントローラを取得（shared_ptr を受け取る）
+	patientController_ = Live2DModelHub::Instance().GetController(ResourceManager::SRC::PATIENT_MODEL);
+	playerController_ = Live2DModelHub::Instance().GetController(ResourceManager::SRC::PLAYER_MODEL);
 
 	// TalkWindow を作り、controller を渡す
 	talkWindow_ = std::make_unique<TalkWindow>();
@@ -43,23 +41,22 @@ bool Talk::Update()
 {
 	// 必要なオブジェクトが揃っていなければ無視
 	if ((!patientController_ || !playerController_ || !talkWindow_) ||
-	(currentDataIndex_ == TDI::NONE)) return false;
+		(currentDataIndex_ == TDI::NONE)) return false;
 
 	if (!talkWindow_->IsConversationActive())
 	{
-		alpha_-= FADE_ALPHA;
+		alpha_ -= FADE_ALPHA;
 		if (alpha_ <= 0) currentDataIndex_ = TDI::NONE;
 	}
-	
+
 	// モデル設定（位置・拡大）
 	patientController_->SetExtendRate(EXTEND_RATE, EXTEND_RATE);
 	patientController_->SetTranslate(PATIENT_POS_X, MODEL_POS_Y);
 	patientController_->SetAlpha(alpha_);
-	
+
 	playerController_->SetExtendRate(EXTEND_RATE, EXTEND_RATE);
 	playerController_->SetTranslate(PLAYER_POS_X, MODEL_POS_Y);
 	playerController_->SetAlpha(alpha_);
-
 
 	// モーション更新
 	patientController_->Update(TEXT("Idle"));
@@ -112,17 +109,9 @@ void Talk::Delete()
 		talkWindow_.reset();
 	}
 
-	// controllers のモデルを削除してオブジェクト自体も破棄
-	if (patientController_)
-	{
-		patientController_->DeleteModel();
-		patientController_.reset();
-	}
-	if (playerController_)
-	{
-		playerController_->DeleteModel();
-		playerController_.reset();
-	}
+	// shared_ptr を破棄するだけ（ハブが所有している）
+	if (patientController_) patientController_.reset();
+	if (playerController_) playerController_.reset();
 }
 
 void Talk::SetTalk(TDI dataIndex)

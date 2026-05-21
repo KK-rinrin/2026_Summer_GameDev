@@ -184,8 +184,7 @@ void TalkWindow::Update()
 			}
 			else if (currentSpeaker_ == TalkDatas::Speaker::Player)
 			{
-				if (patientController_) playerController_->CloseMouth();
-
+				if (playerController_) playerController_->CloseMouth();
 			}
 		}
 		// 行の読み上げが終わって待機中 -> 次の行へ

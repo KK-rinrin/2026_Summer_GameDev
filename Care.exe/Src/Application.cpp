@@ -5,6 +5,7 @@
 #include "Manager/SceneManager.h"
 #include "Application.h"
 #include "FpsControl/FpsControl.h"
+#include "Manager/Live2DModelHub.h"
 
 Application* Application::instance_ = nullptr;
 
@@ -115,8 +116,13 @@ void Application::Run(void)
 
 void Application::Destroy(void)
 {
-
+	// 入力管理解放
 	InputManager::GetInstance().Destroy();
+
+	// Live2D モデルをハブから明示的に解放しておく
+	Live2DModelHub::Instance().ReleaseAll();
+
+	// リソース管理開放
 	ResourceManager::GetInstance().Destroy();
 	
 	// シーン管理解放

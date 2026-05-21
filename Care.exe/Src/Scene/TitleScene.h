@@ -1,7 +1,9 @@
 #pragma once
 #include "SceneBase.h"
 #include "../Object/Common/2DTransform.h"
-#include "../Manager/Live2D.h"
+#include <memory>
+
+class Live2DTalkController;
 
 class TitleScene : public SceneBase
 {
@@ -32,27 +34,6 @@ private:
 		CLOSE,
 	};
 
-	struct FaceParams
-	{
-		float angleX;
-		float angleY;
-		float angleZ;
-		float bodyAngleX;
-		float eyeBallX;
-		float eyeBallY;
-		float eyeLOpen;
-		float eyeROpen;
-		float eyeLSmile;
-		float eyeRSmile;
-		float mouthForm;
-		float mouthOpenY;
-		float cheek;
-		float browLY;
-		float browRY;
-		float browLAngle;
-		float browRAngle;
-	};
-
 	void InitLoad() override;
 
 	void UpdateSelectMenu(void);
@@ -67,18 +48,8 @@ private:
 
 	void DecideSelectMenu(void);
 
-	void ApplyPlayerFace(void);
-
-	FaceParams GetTargetPlayerFace(void) const;
-
-	FaceParams LerpPlayerFace(const FaceParams& start, const FaceParams& end) const;
-
-	void SetPlayerFaceParams(const FaceParams& params);
-
 	int imgTitle_;
 	int font_;
 	int selectMenu_;
-	Live2D playerModel_;
-	FaceParams playerFaceParams_;
-	bool isPlayerFaceInitialized_;
+	std::shared_ptr<Live2DTalkController> liveTalkController_;
 };
