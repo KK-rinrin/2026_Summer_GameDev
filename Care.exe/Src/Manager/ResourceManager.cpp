@@ -55,6 +55,8 @@ void ResourceManager::Init(void)
 	resourcesMap_.emplace(SRC::TALK_FONT, res);
 	res = new Resource(RES_T::FONT, "コーポレート明朝 ver3 Medium", 38);
 	resourcesMap_.emplace(SRC::TITLE_FONT, res);
+	res = new Resource(RES_T::FONT, "コーポレート明朝 ver3 Medium", 30);
+	resourcesMap_.emplace(SRC::SETTING_FONT, res);
 	
 }
 

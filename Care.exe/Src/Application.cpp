@@ -92,7 +92,7 @@ void Application::Run(void)
 	SceneManager& sceneManager = SceneManager::GetInstance();
 
 	// ƒQ[ƒ€ƒ‹[ƒv
-	while (ProcessMessage() == 0 && CheckHitKey(KEY_INPUT_ESCAPE) == 0)
+	while (ProcessMessage() == 0)
 	{
 		if (!fpsControl_->UpdateFrameRate())
 			continue;

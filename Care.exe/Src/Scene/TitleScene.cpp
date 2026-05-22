@@ -3,15 +3,16 @@
 #include <Windows.h>
 #include "../Utility/AsoUtility.h"
 #include "../Manager/InputManager.h"
+#include "../Manager/KeyConfig.h"
 #include "../Manager/SceneManager.h"
 #include "../Manager/ResourceManager.h"
 #include "TitleScene.h"
 #include "../Application.h"
 #include "../Object/Talk/window/Live2DTalkController.h"
 
-	static constexpr int TITLE_IMAGE_POS_X = Application::SCREEN_SIZE_X / 2;
-	static constexpr int TITLE_IMAGE_BOTTOM_OFFSET = 500;
-	static constexpr int TITLE_IMAGE_POS_Y = Application::SCREEN_SIZE_Y - TITLE_IMAGE_BOTTOM_OFFSET;
+static constexpr int TITLE_IMAGE_POS_X = Application::SCREEN_SIZE_X / 2;
+static constexpr int TITLE_IMAGE_BOTTOM_OFFSET = 500;
+static constexpr int TITLE_IMAGE_POS_Y = Application::SCREEN_SIZE_Y - TITLE_IMAGE_BOTTOM_OFFSET;
 
 TitleScene::TitleScene(void)
 	:
@@ -62,15 +63,15 @@ void TitleScene::InitLoad()
 
 void TitleScene::UpdateSelectMenu(void)
 {
-	if (iptMng_.IsTrgDown(KEY_INPUT_UP) || iptMng_.IsTrgDown(KEY_INPUT_W))
+	if (KeyConfig::IsTrgDown(KeyConfig::ACTION::MOVE_UP, iptMng_))
 	{
-		MoveSelectMenu(-1);
+		MoveSelectMenu(MENU_MOVE_PREV);
 	}
-	if (iptMng_.IsTrgDown(KEY_INPUT_DOWN) || iptMng_.IsTrgDown(KEY_INPUT_S))
+	if (KeyConfig::IsTrgDown(KeyConfig::ACTION::MOVE_DOWN, iptMng_))
 	{
-		MoveSelectMenu(1);
+		MoveSelectMenu(MENU_MOVE_NEXT);
 	}
-	if (iptMng_.IsTrgDown(KEY_INPUT_RETURN) || iptMng_.IsTrgDown(KEY_INPUT_SPACE))
+	if (KeyConfig::IsTrgDown(KeyConfig::ACTION::DECIDE, iptMng_))
 	{
 		DecideSelectMenu();
 	}
@@ -97,7 +98,6 @@ void TitleScene::DrawPlayerModel(void)
 
 void TitleScene::DrawSelectMenu(void)
 {
-	SetUseCharCodeFormat(DX_CHARCODEFORMAT_UTF8);
 	for (int i = 0; i < MENU_ITEM_NUM; ++i)
 	{
 		const int drawY = MENU_POS_Y + MENU_INTERVAL_Y * i;
@@ -105,7 +105,6 @@ void TitleScene::DrawSelectMenu(void)
 		const char* mark = (i == selectMenu_) ? SELECT_MARK : MENU_MARK_SPACE;
 		DrawFormatStringToHandle(MENU_POS_X, drawY, color, font_, "%s%s", mark, MENU_TEXTS[i]);
 	}
-	SetUseCharCodeFormat(DX_CHARCODEFORMAT_SHIFTJIS);
 }
 
 void TitleScene::MoveSelectMenu(int move)
@@ -121,6 +120,7 @@ void TitleScene::DecideSelectMenu(void)
 		sceMng_.ChangeScene(SceneManager::SCENE_ID::GAME);
 		break;
 	case Menu::SETTING:
+		sceMng_.ChangeScene(SceneManager::SCENE_ID::SETTING);
 		break;
 	case Menu::CLOSE:
 		PostQuitMessage(0);

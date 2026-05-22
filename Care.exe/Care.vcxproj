@@ -156,6 +156,7 @@
     <ClCompile Include="Src\FpsControl\FpsControl.cpp" />
     <ClCompile Include="Src\main.cpp" />
     <ClCompile Include="Src\Manager\InputManager.cpp" />
+    <ClCompile Include="Src\Manager\KeyConfig.cpp" />
     <ClCompile Include="Src\Manager\Live2D.cpp" />
     <ClCompile Include="Src\Manager\Live2DModelHub.cpp" />
     <ClCompile Include="Src\Manager\Resource.cpp" />
@@ -177,6 +178,7 @@
     <ClCompile Include="Src\Object\Talk\window\Text\Text\TalkScriptParser.cpp" />
     <ClCompile Include="Src\Scene\GameScene.cpp" />
     <ClCompile Include="Src\Scene\SceneBase.cpp" />
+    <ClCompile Include="Src\Scene\SettingScene.cpp" />
     <ClCompile Include="Src\Scene\TitleScene.cpp" />
     <ClCompile Include="Src\Utility\AsoUtility.cpp" />
     <ClCompile Include="Src\Utility\MatrixUtility.cpp" />
@@ -191,6 +193,7 @@
     <ClInclude Include="Src\FpsControl\FpsControl.h" />
     <ClInclude Include="Src\main.h" />
     <ClInclude Include="Src\Manager\InputManager.h" />
+    <ClInclude Include="Src\Manager\KeyConfig.h" />
     <ClInclude Include="Src\Manager\Live2D.h" />
     <ClInclude Include="Src\Manager\Live2DModelHub.h" />
     <ClInclude Include="Src\Manager\Resource.h" />
@@ -212,6 +215,7 @@
     <ClInclude Include="Src\Object\Talk\window\Text\Text\TalkScriptParser.h" />
     <ClInclude Include="Src\Scene\GameScene.h" />
     <ClInclude Include="Src\Scene\SceneBase.h" />
+    <ClInclude Include="Src\Scene\SettingScene.h" />
     <ClInclude Include="Src\Scene\TitleScene.h" />
     <ClInclude Include="Src\Utility\AsoUtility.h" />
     <ClInclude Include="Src\Utility\MatrixUtility.h" />

@@ -13,6 +13,8 @@ public:
 	{
 		TITLE_IMG,
 		TITLE_FONT,
+
+		SETTING_FONT,			// 設定画面用フォント
 		
 		// アドベンチャー画面
 		PLAYER_GRAPHICS,		// プレイヤーグラフィック

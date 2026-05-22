@@ -1,4 +1,5 @@
 #pragma once
+#include <array>
 #include "SceneBase.h"
 #include "../Object/Common/2DTransform.h"
 #include <memory>
@@ -17,14 +18,16 @@ class TitleScene : public SceneBase
 	static constexpr int MENU_POS_X = 520;
 	static constexpr int MENU_POS_Y = 285;
 	static constexpr int MENU_INTERVAL_Y = 54;
+	static constexpr int MENU_MOVE_PREV = -1;
+	static constexpr int MENU_MOVE_NEXT = 1;
 	static constexpr int MENU_COLOR = 0x7a7a7a;
 	static constexpr int MENU_SELECTED_COLOR = 0x333333;
-	static constexpr const char* SELECT_MARK = "\xE2\x96\xB6 ";
-	static constexpr const char* MENU_MARK_SPACE = "   ";
-	static constexpr std::array<const char*, 3> MENU_TEXTS = { "Start", "Setting", "Close" };
+	static constexpr const char* SELECT_MARK = "> ";
+	static constexpr const char* MENU_MARK_SPACE = "  ";
+	static constexpr int MENU_ITEM_NUM = 3;
+	static constexpr std::array<const char*, MENU_ITEM_NUM> MENU_TEXTS = { "Start", "Setting", "Close" };
 
 	static constexpr int PUSH_START_BLINK_INTERVAL = 30;
-	static constexpr int MENU_ITEM_NUM = 3;
 public:
 
 	// コンストラクタ

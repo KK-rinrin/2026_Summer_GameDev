@@ -1,5 +1,7 @@
 #include "Player.h"
 #include "../../Manager/ResourceManager.h"
+#include "../../Manager/InputManager.h"
+#include "../../Manager/KeyConfig.h"
 #include "../../Utility/AsoUtility.h"
 #include <algorithm>
 #include <cmath>
@@ -16,16 +18,17 @@ Player::~Player()
 void Player::Update(void)
 {
 	// キー入力による移動（矢印キー + WASD）
-	if (CheckHitKey(KEY_INPUT_RIGHT) || CheckHitKey(KEY_INPUT_D)) {
+	const InputManager& input = InputManager::GetInstance();
+	if (KeyConfig::IsNew(KeyConfig::ACTION::MOVE_RIGHT, input)) {
 		transform_.pos.x += moveSpeedPercent;
 	}
-	if (CheckHitKey(KEY_INPUT_LEFT) || CheckHitKey(KEY_INPUT_A)) {
+	if (KeyConfig::IsNew(KeyConfig::ACTION::MOVE_LEFT, input)) {
 		transform_.pos.x -= moveSpeedPercent;
 	}
-	if (CheckHitKey(KEY_INPUT_UP) || CheckHitKey(KEY_INPUT_W)) {
+	if (KeyConfig::IsNew(KeyConfig::ACTION::MOVE_UP, input)) {
 		transform_.pos.y -= moveSpeedPercent;
 	}
-	if (CheckHitKey(KEY_INPUT_DOWN) || CheckHitKey(KEY_INPUT_S)) {
+	if (KeyConfig::IsNew(KeyConfig::ACTION::MOVE_DOWN, input)) {
 		transform_.pos.y += moveSpeedPercent;
 	}
 

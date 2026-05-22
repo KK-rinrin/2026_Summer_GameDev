@@ -1,6 +1,7 @@
 #include <DxLib.h>
 #include "../Manager/SceneManager.h"
 #include "../Manager/InputManager.h"
+#include "../Manager/KeyConfig.h"
 #include "GameScene.h"
 #include "../Manager/ResourceManager.h"
 #include "../Object/Talk/Talk.h"
@@ -27,20 +28,12 @@ GameScene::~GameScene(void)
 
 void GameScene::Update(void)
 {
-
-	if (talk_->Update())
-	{
-		// 会話中は移動できない
-		canMove_ = false;
-	}
-	else
-	{
-		// 会話が終了している場合、移動できるようにする
-		canMove_ = true;
-	}
+	// Talk の更新結果を使いまわす
+	const bool isTalking = talk_->Update();
+	canMove_ = !isTalking;
 
 	// シーン遷移
-	if (iptMng_.IsTrgDown(KEY_INPUT_ESCAPE))
+	if (KeyConfig::IsTrgDown(KeyConfig::ACTION::CANCEL, iptMng_))
 	{
 		sceMng_.ChangeScene(SceneManager::SCENE_ID::TITLE);
 	}
@@ -51,6 +44,23 @@ void GameScene::Update(void)
 		if (currentStage_ == Stage::PAT_ROOM)
 		{
 			//player_->BlockCrossingWorldY(PICU_WALL_Y, PICU_WALL_THICKNESS);
+		}
+
+		// 決定キーで会話開始判定：プレイヤー位置（点）と Patient の会話円で判定
+		// 会話中でなければ開始できる
+		if (!isTalking)
+		{
+			const VECTOR pPos = player_->GetTransform().pos;
+			const VECTOR patPos = patient_->GetTransform().pos;
+
+			// 決定キーで会話開始判定
+			if (KeyConfig::IsTrgDown(KeyConfig::ACTION::DECIDE, iptMng_))
+			{
+				if (Collision::IsPointInCircle(pPos, patPos, Patient::TALK_RADIUS))
+				{
+					talk_->SetTalk(TalkDatas::TalkDataIndex::TALK_0);
+				}
+			}
 		}
 
 		if (player_->IsHitCircle(*patient_))
@@ -85,7 +95,7 @@ void GameScene::InitLoad()
 {
 	talk_ = new Talk();
 	talk_->Load();
-	talk_->SetTalk(TalkDatas::TalkDataIndex::TALK_0);
+	// talk_->SetTalk(TalkDatas::TalkDataIndex::TALK_0);
 
 	player_ = new Player();
 	player_->Init();

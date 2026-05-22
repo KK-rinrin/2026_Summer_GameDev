@@ -1,5 +1,7 @@
 #include "TalkWindow.h"
 #include "../../../Manager/ResourceManager.h"
+#include "../../../Manager/InputManager.h"
+#include "../../../Manager/KeyConfig.h"
 #include "../../../Manager/Live2D.h"
 #include "Live2DTalkController.h"
 #include <algorithm>
@@ -154,15 +156,11 @@ void TalkWindow::Update()
 	int mouseState = GetMouseInput();
 	bool leftDown = (mouseState & MOUSE_INPUT_LEFT) != 0;
 
-	char keyState[256];
-	GetHitKeyStateAll(keyState);
-	bool spaceDown = (keyState[KEY_INPUT_SPACE] != 0);
-	bool returnDown = (keyState[KEY_INPUT_RETURN] != 0);
+	const bool decideDown = KeyConfig::IsTrgDown(KeyConfig::ACTION::DECIDE, InputManager::GetInstance());
 
 	bool edgeTriggered =
 		(leftDown && !prevMouseLeftDown_) ||
-		(spaceDown && !prevKeySpaceDown_) ||
-		(returnDown && !prevKeyReturnDown_);
+		decideDown;
 
 	// 会話処理：エッジ入力に応じて挙動を変える
 	if (edgeTriggered && conversationActive_)
@@ -210,8 +208,6 @@ void TalkWindow::Update()
 
 	// エッジ状態を更新
 	prevMouseLeftDown_ = leftDown;
-	prevKeySpaceDown_ = spaceDown;
-	prevKeyReturnDown_ = returnDown;
 }
 
 // ==============================
