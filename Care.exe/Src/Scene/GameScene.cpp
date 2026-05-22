@@ -27,11 +27,6 @@ GameScene::~GameScene(void)
 
 void GameScene::Update(void)
 {
-	if (firstUpdate_)
-	{
-		// ‹N“®‚µ‚Ä‚·‚®‚Ì‚Ý‚Å‚â‚è‚½‚¢‚±‚Æ‚ð‹Lq
-		talk_->SetTalk(TalkDatas::TalkDataIndex::TALK_0);
-	}
 
 	if (talk_->Update())
 	{
@@ -65,8 +60,6 @@ void GameScene::Update(void)
 	}
 
 	patient_->Update();
-
-	firstUpdate_ = false;
 }
 
 void GameScene::Draw(void)
@@ -92,6 +85,7 @@ void GameScene::InitLoad()
 {
 	talk_ = new Talk();
 	talk_->Load();
+	talk_->SetTalk(TalkDatas::TalkDataIndex::TALK_0);
 
 	player_ = new Player();
 	player_->Init();

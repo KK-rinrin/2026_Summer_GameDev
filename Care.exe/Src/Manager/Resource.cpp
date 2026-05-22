@@ -184,9 +184,6 @@ void Resource::Release(void)
 		}
 		break;
 	}
-
-	// ˆÀ‘S‚Ì‚½‚ß type_ ‚ð NONE ‚É‚µ‚Ä‚¨‚­
-	type_ = TYPE::NONE;
 }
 
 void Resource::CopyHandle(int* imgs) const
