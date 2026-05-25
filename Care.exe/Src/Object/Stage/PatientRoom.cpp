@@ -27,7 +27,7 @@ void PatientRoom::InitLoad()
 	AddMovementBlock(WALL_SORT_Y, WALL_THICKNESS);
 
 	toiletHandle_ = resMng_.Load(ResourceManager::SRC::BG_1_TOILET).handleId_;
-	AddTransformObject(Transform2D(toiletHandle_, { 0.0f,0.0f,0.0f }, true));
+	AddTransformObject(Transform2D(toiletHandle_, TOILET_POS, false));
 }
 
 void PatientRoom::UpdateProcess()

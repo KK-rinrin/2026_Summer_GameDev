@@ -15,6 +15,8 @@ public:
 	~Player();
 
 	void Update(void) override;
+	void SetLocalPercent(float x, float y);
+	bool IsFacingRight() const;
 
 private:
 	void InitLoad() override;

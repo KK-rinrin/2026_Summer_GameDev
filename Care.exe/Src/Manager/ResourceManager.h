@@ -20,9 +20,13 @@ public:
 		PLAYER_GRAPHICS,		// プレイヤーグラフィック
 		PATIENT_GRAPHICS,		// ヌイグラフィック
 		BG_1,					// 患者部屋背景
-		BG_1_WALL,				// 患者部屋壁背景
-		BG_1_TOILET,			// 患者部屋トイレ背景
+		BG_1_WALL,				// 患者部屋壁画像
+		BG_1_TOILET,			// 患者部屋トイレ画像
+
 		BG_2,					// ナースステーション背景
+		BG_2_PC,				// パソコンデスク画像
+		BG_2_CHAIR,				// パソコンデスクの椅子
+		BG_2_LOCKER,			// ナースステーションのロッカー
 
 		// 会話画面
 		PLAYER_MODEL,			// プレイヤーLive2Dモデル

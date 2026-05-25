@@ -96,14 +96,14 @@ Transform2D::~Transform2D()
 	handleIds.clear();
 }
 
-Transform2D::Transform2D(const int handleId, VECTOR pos, bool applyNearFar, int idxX, int idxY)
+Transform2D::Transform2D(const int handleId, VECTOR pos, bool applyScaling, int idxX, int idxY)
 	: Transform2D() // デフォルトコンストラクタで初期化
 {
 	if (handleId != -1) {
 		handleIds.push_back(handleId);
 	}
 	this->pos = pos;
-	enableImageScaling = applyNearFar;
+	enableImageScaling = applyScaling;
 	SetHandles(handleIds, idxX, idxY);
 }
 
@@ -209,6 +209,15 @@ void Transform2D::CalcDrawParams()
 	drawPos1.y = world.y - drawH;
 	drawPos2.x = world.x + drawW * 0.5f;
 	drawPos2.y = world.y;
+}
+
+VECTOR Transform2D::WorldToLocalPercent(const VECTOR& worldPos)
+{
+	VECTOR local = AsoUtility::VECTOR_ZERO;
+	local.x = WorldXToPercentX(worldPos.x, worldPos.y);
+	local.y = WorldYToPercentY(worldPos.y);
+	local.z = 0.0f;
+	return local;
 }
 
 void Transform2D::BlockCrossingWorldY(float wallY, float thickness)

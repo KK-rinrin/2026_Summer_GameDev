@@ -40,6 +40,19 @@ void Player::Update(void)
 	anim_.Update();
 }
 
+void Player::SetLocalPercent(float x, float y)
+{
+	transform_.pos.x = x;
+	transform_.pos.y = y;
+	transform_.beforePos = transform_.pos;
+	transform_.Update();
+}
+
+bool Player::IsFacingRight() const
+{
+	return !transform_.isLeft;
+}
+
 void Player::InitLoad()
 {
 	const Resource& res = resMng_.Load(ResourceManager::SRC::PLAYER_GRAPHICS);

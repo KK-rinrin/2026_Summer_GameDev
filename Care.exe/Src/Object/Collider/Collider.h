@@ -36,8 +36,9 @@ struct RectCollider : public Collider {
 };
 
 // 衝突判定ユーティリティ（点と円の判定などを集約）
-struct Collision
+class Collision
 {
+public:
     // 点(point)が中心(center), 半径(radius)の円の内側にいるか
     static bool IsPointInCircle(const VECTOR& point, const VECTOR& center, float radius)
     {
@@ -51,5 +52,12 @@ struct Collision
     {
         return (point.x >= center.x - halfW && point.x <= center.x + halfW &&
                 point.y >= center.y - halfH && point.y <= center.y + halfH);
+	}
+
+	// 点(point)が左上(leftTop), 右下(rightBottom)の矩形の内側にいるか
+	static bool IsPointInRect(const VECTOR& point, const VECTOR& leftTop, const VECTOR& rightBottom)
+	{
+		return (point.x >= leftTop.x && point.x <= rightBottom.x &&
+			point.y >= leftTop.y && point.y <= rightBottom.y);
 	}
 };

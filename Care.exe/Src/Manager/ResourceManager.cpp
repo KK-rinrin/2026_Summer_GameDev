@@ -42,10 +42,16 @@ void ResourceManager::Init(void)
 	resourcesMap_.emplace(SRC::PLAYER_GRAPHICS, res);
 	res = new Resource(RES_T::IMGS, PATH_IMG + "Game/Patient.png", 3, 2, 120, 300);
 	resourcesMap_.emplace(SRC::PATIENT_GRAPHICS, res);
+
+	// 背景グラフィック
 	CreateResource(SRC::BG_1, RES_T::IMG, PATH_IMG + "Game/BG/PICU_BG.png");
 	CreateResource(SRC::BG_1_WALL, RES_T::IMG, PATH_IMG + "Game/BG/PICU_Wall.png");
 	CreateResource(SRC::BG_1_TOILET, RES_T::IMG, PATH_IMG + "Game/BG/toilet.png");
-	CreateResource(SRC::BG_2, RES_T::IMG, PATH_IMG + "Game/NS_BG.png");
+
+	CreateResource(SRC::BG_2, RES_T::IMG, PATH_IMG + "Game/BG/NS_BG.png");
+	CreateResource(SRC::BG_2_PC, RES_T::IMG, PATH_IMG + "Game/BG/NS_PCdesk.png");
+	CreateResource(SRC::BG_2_CHAIR, RES_T::IMG, PATH_IMG + "Game/BG/NS_Chair.png");
+	CreateResource(SRC::BG_2_LOCKER, RES_T::IMG, PATH_IMG + "Game/BG/NS_locker.png");
 
 	// Live2Dモデル
 	CreateResource(SRC::PATIENT_MODEL, RES_T::LIVE2D, PATH_MODEL + "patient/patient.model3.json");

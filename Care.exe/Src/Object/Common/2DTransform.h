@@ -42,7 +42,7 @@ public:
 	~Transform2D();
 
 	// 画像ハンドルと分割数を指定して初期化
-	Transform2D(const int handleId, VECTOR pos, bool applyNearFar = true,int idxX = 1, int idxY = 1);
+	Transform2D(const int handleId, VECTOR pos, bool applyScaling = true,int idxX = 1, int idxY = 1);
 
 	// 外部配列を設定（コピーする）
 	void SetHandles(const std::vector<int>& handles, int idxX, int idxY);
@@ -54,6 +54,7 @@ public:
 	void Delete();
 
 	VECTOR GetWorldPos() const;
+	static VECTOR WorldToLocalPercent(const VECTOR& worldPos);
 	void BlockCrossingWorldY(float wallY, float thickness);
 
 private:
@@ -66,7 +67,6 @@ private:
 
 	VECTOR drawPos1; // 描画位置1（右上）
 	VECTOR drawPos2; // 描画位置2（左下）
-
 
 	// 遠近法関連
 	float perspectiveScale; // 遠近法による拡大率

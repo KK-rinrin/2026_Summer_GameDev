@@ -151,6 +151,7 @@
     <ClCompile Include="Src\Application.cpp" />
     <ClCompile Include="Src\Common\Fader.cpp" />
     <ClCompile Include="Src\Common\FpsController.cpp" />
+    <ClCompile Include="Src\Debug\DebugCursorPosition.cpp" />
     <ClCompile Include="Src\Common\Quaternion.cpp" />
     <ClCompile Include="Src\Common\Vector2.cpp" />
     <ClCompile Include="Src\FpsControl\FpsControl.cpp" />
@@ -188,6 +189,7 @@
     <ClInclude Include="Src\Application.h" />
     <ClInclude Include="Src\Common\Fader.h" />
     <ClInclude Include="Src\Common\FpsController.h" />
+    <ClInclude Include="Src\Debug\DebugCursorPosition.h" />
     <ClInclude Include="Src\Common\Quaternion.h" />
     <ClInclude Include="Src\Common\Vector2.h" />
     <ClInclude Include="Src\FpsControl\FpsControl.h" />

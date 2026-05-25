@@ -11,6 +11,7 @@
 #include "../Object/Stage/StageBase.h"
 #include "../Object/Stage/PatientRoom.h"
 #include "../Object/Stage/NurceStation.h"
+#include "../Debug/DebugCursorPosition.h"
 
 GameScene::GameScene(void)
 	:
@@ -20,7 +21,8 @@ GameScene::GameScene(void)
 	stage_(nullptr),
 	render_(nullptr),
 	player_(nullptr),
-	patient_(nullptr)
+	patient_(nullptr),
+	debugCursorPosition_(nullptr)
 {
 	firstUpdate_ = true;
 }
@@ -35,49 +37,28 @@ void GameScene::Update(void)
 	const bool isTalking = talk_->Update();
 	canMove_ = !isTalking;
 
-	if (stage_ != nullptr)
-	{
-		stage_->Update();
-	}
-
 	// シーン遷移
 	if (KeyConfig::IsTrgDown(KeyConfig::ACTION::CANCEL, iptMng_))
 	{
 		sceMng_.ChangeScene(SceneManager::SCENE_ID::TITLE);
 	}
 
-	if (canMove_)
+#ifdef _DEBUG
+	if (debugCursorPosition_ != nullptr)
 	{
-		player_->Update();
-		if (stage_ != nullptr)
-		{
-			stage_->ApplyMovementBlocks(*player_);
-		}
-
-		// 決定キーで会話開始判定：プレイヤー位置（点）と Patient の会話円で判定
-		// 会話中でなければ開始できる
-		if (!isTalking)
-		{
-			const VECTOR pPos = player_->GetTransform().pos;
-			const VECTOR patPos = patient_->GetTransform().pos;
-
-			// 決定キーで会話開始判定
-			if (KeyConfig::IsTrgDown(KeyConfig::ACTION::DECIDE, iptMng_))
-			{
-				if (Collision::IsPointInCircle(pPos, patPos, Patient::TALK_RADIUS))
-				{
-					talk_->SetTalk(TalkDatas::TalkDataIndex::TALK_0);
-				}
-			}
-		}
-
-		if (player_->IsHitCircle(*patient_))
-		{
-			player_->MoveToBeforePos();
-		}
+		debugCursorPosition_->Update();
 	}
+#endif
 
-	patient_->Update();
+	switch (currentStage_)
+	{
+	case Stage::PAT_ROOM:
+		UpdatePR();
+		break;
+	case Stage::NURSE_STATION:
+		UpdateNS();
+		break;
+	}
 }
 
 void GameScene::Draw(void)
@@ -90,6 +71,13 @@ void GameScene::Draw(void)
 	render_->Render();
 
 	talk_->Draw();
+
+#ifdef _DEBUG
+	if (debugCursorPosition_ != nullptr)
+	{
+		debugCursorPosition_->Draw();
+	}
+#endif
 }
 
 void GameScene::Delete(void)
@@ -104,6 +92,7 @@ void GameScene::Delete(void)
 		stage_->Delete();
 		delete stage_;
 	}
+	delete debugCursorPosition_;
 	delete render_;
 }
 
@@ -112,6 +101,28 @@ void GameScene::InitLoad()
 	talk_ = new Talk();
 	talk_->Load();
 	// talk_->SetTalk(TalkDatas::TalkDataIndex::TALK_0);
+
+	player_ = new Player();
+	player_->Init();
+
+	patient_ = new Patient();
+	patient_->Init();
+
+	render_ = new Renderer2D();
+	debugCursorPosition_ = new DebugCursorPosition();
+	ChangeStage(currentStage_);
+}
+
+void GameScene::ChangeStage(Stage nextStage)
+{
+	currentStage_ = nextStage;
+
+	if (stage_ != nullptr)
+	{
+		stage_->Delete();
+		delete stage_;
+		stage_ = nullptr;
+	}
 
 	switch (currentStage_)
 	{
@@ -122,16 +133,101 @@ void GameScene::InitLoad()
 		stage_ = new NurceStation();
 		break;
 	}
-	stage_->Init();
 
-	player_ = new Player();
-	player_->Init();
+	if (stage_ != nullptr)
+	{
+		stage_->Init();
+	}
 
-	patient_ = new Patient();
-	patient_->Init();
+	if (render_ != nullptr)
+	{
+		render_->Clear();
+		if (stage_ != nullptr)
+		{
+			stage_->RegisterObjects(*render_);
+		}
 
-	render_ = new Renderer2D();
-	stage_->RegisterObjects(*render_);
-	render_->AddActor(patient_);
-	render_->AddActor(player_);
+		if (currentStage_ == Stage::PAT_ROOM)
+		{
+			render_->AddActor(patient_);
+		}
+		render_->AddActor(player_);
+	}
+}
+
+void GameScene::UpdatePR()
+{
+	if (stage_ != nullptr)
+	{
+		stage_->Update();
+	}
+
+	if (canMove_)
+	{
+		player_->Update();
+		if (stage_ != nullptr)
+		{
+			stage_->ApplyMovementBlocks(*player_);
+		}
+
+		const VECTOR pPos = player_->GetTransform().pos;
+		const VECTOR patPos = patient_->GetTransform().pos;
+
+		// 決定キーで会話開始判定：プレイヤー位置（点）と Patient の会話円で判定
+		if (KeyConfig::IsTrgDown(KeyConfig::ACTION::DECIDE, iptMng_))
+		{
+			if (Collision::IsPointInRect(pPos, PR_TO_NS_AREA1_0, PR_TO_NS_AREA1_1) && player_->IsFacingRight())
+			{
+				ChangeStage(Stage::NURSE_STATION);
+				player_->SetLocalPercent(NS_MOVE_POS.x, NS_MOVE_POS.y);
+				return;
+			}
+
+			
+
+			if (Collision::IsPointInCircle(pPos, patPos, Patient::TALK_RADIUS))
+			{
+				talk_->SetTalk(TalkDatas::TalkDataIndex::TALK_0);
+			}
+		}
+
+		if (player_->IsHitCircle(*patient_))
+		{
+			player_->MoveToBeforePos();
+		}
+	}
+
+	patient_->Update();
+}
+
+void GameScene::UpdateNS()
+{
+	if (stage_ != nullptr)
+	{
+		stage_->Update();
+	}
+
+	if (canMove_)
+	{
+		player_->Update();
+		if (stage_ != nullptr)
+		{
+			stage_->ApplyMovementBlocks(*player_);
+		}
+
+		// 決定キーで会話開始判定：プレイヤー位置（点）と Patient の会話円で判定
+		if (KeyConfig::IsTrgDown(KeyConfig::ACTION::DECIDE, iptMng_))
+		{
+			const VECTOR pPos = player_->GetTransform().pos;
+
+			if (Collision::IsPointInRect(pPos, NS_TO_PR_AREA1_0, NS_TO_PR_AREA1_1) && !player_->IsFacingRight())
+			{
+				ChangeStage(Stage::PAT_ROOM);
+				player_->SetLocalPercent(PR_MOVE_POS.x, PR_MOVE_POS.y);
+				return;
+			}
+
+			
+		}
+	}
 }
