@@ -6,6 +6,7 @@ class Talk;
 class Player;
 class Patient;
 class Renderer2D;
+class StageBase;
 
 class GameScene : public SceneBase
 {
@@ -37,15 +38,11 @@ private:
 
 	Talk* talk_;
 
-	static constexpr float PICU_WALL_Y = 400.0f;
-	static constexpr float PICU_WALL_THICKNESS = 40.0f;
-
-	int BGHandle_[2];
-	int wallHandle_;
 	Stage currentStage_ = Stage::PAT_ROOM;
 
 	bool canMove_ = false;
 
+	StageBase* stage_;
 	Renderer2D* render_;
 	Player* player_;
 	Patient* patient_;

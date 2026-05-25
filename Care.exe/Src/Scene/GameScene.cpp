@@ -8,13 +8,16 @@
 #include "../Object/Actor/Player.h"
 #include "../Object/Actor/Patient.h"
 #include "../Object/Renderer2D.h"
+#include "../Object/Stage/StageBase.h"
+#include "../Object/Stage/PatientRoom.h"
+#include "../Object/Stage/NurceStation.h"
 
 GameScene::GameScene(void)
 	:
 	SceneBase(),
 	talk_(nullptr),
 	canMove_(false),
-	wallHandle_(-1),
+	stage_(nullptr),
 	render_(nullptr),
 	player_(nullptr),
 	patient_(nullptr)
@@ -32,6 +35,11 @@ void GameScene::Update(void)
 	const bool isTalking = talk_->Update();
 	canMove_ = !isTalking;
 
+	if (stage_ != nullptr)
+	{
+		stage_->Update();
+	}
+
 	// シーン遷移
 	if (KeyConfig::IsTrgDown(KeyConfig::ACTION::CANCEL, iptMng_))
 	{
@@ -41,9 +49,9 @@ void GameScene::Update(void)
 	if (canMove_)
 	{
 		player_->Update();
-		if (currentStage_ == Stage::PAT_ROOM)
+		if (stage_ != nullptr)
 		{
-			//player_->BlockCrossingWorldY(PICU_WALL_Y, PICU_WALL_THICKNESS);
+			stage_->ApplyMovementBlocks(*player_);
 		}
 
 		// 決定キーで会話開始判定：プレイヤー位置（点）と Patient の会話円で判定
@@ -74,7 +82,10 @@ void GameScene::Update(void)
 
 void GameScene::Draw(void)
 {
-	DrawGraph(0, 0, BGHandle_[static_cast<int>(currentStage_)], false);
+	if (stage_ != nullptr)
+	{
+		stage_->DrawBackground();
+	}
 
 	render_->Render();
 
@@ -88,6 +99,11 @@ void GameScene::Delete(void)
 
 	delete player_;
 	delete patient_;
+	if (stage_ != nullptr)
+	{
+		stage_->Delete();
+		delete stage_;
+	}
 	delete render_;
 }
 
@@ -97,6 +113,17 @@ void GameScene::InitLoad()
 	talk_->Load();
 	// talk_->SetTalk(TalkDatas::TalkDataIndex::TALK_0);
 
+	switch (currentStage_)
+	{
+	case Stage::PAT_ROOM:
+		stage_ = new PatientRoom();
+		break;
+	case Stage::NURSE_STATION:
+		stage_ = new NurceStation();
+		break;
+	}
+	stage_->Init();
+
 	player_ = new Player();
 	player_->Init();
 
@@ -104,11 +131,7 @@ void GameScene::InitLoad()
 	patient_->Init();
 
 	render_ = new Renderer2D();
+	stage_->RegisterObjects(*render_);
 	render_->AddActor(patient_);
-	//render_->Add(PICU_WALL_Y, [this]() { if (currentStage_ == Stage::PAT_ROOM) DrawGraph(0, 0, wallHandle_, true); });
 	render_->AddActor(player_);
-
-	BGHandle_[0] = resMng_.Load(ResourceManager::SRC::BG_1).handleId_;
-	wallHandle_ = resMng_.Load(ResourceManager::SRC::BG_1_WALL).handleId_;
-	BGHandle_[1] = resMng_.Load(ResourceManager::SRC::BG_2).handleId_;
 }

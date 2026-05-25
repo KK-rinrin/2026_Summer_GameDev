@@ -44,6 +44,7 @@ void ResourceManager::Init(void)
 	resourcesMap_.emplace(SRC::PATIENT_GRAPHICS, res);
 	CreateResource(SRC::BG_1, RES_T::IMG, PATH_IMG + "Game/BG/PICU_BG.png");
 	CreateResource(SRC::BG_1_WALL, RES_T::IMG, PATH_IMG + "Game/BG/PICU_Wall.png");
+	CreateResource(SRC::BG_1_TOILET, RES_T::IMG, PATH_IMG + "Game/BG/toilet.png");
 	CreateResource(SRC::BG_2, RES_T::IMG, PATH_IMG + "Game/NS_BG.png");
 
 	// Live2Dƒ‚ƒfƒ‹

@@ -41,11 +41,11 @@ void SettingScene::Update(void)
 void SettingScene::Draw(void)
 {
 	// タイトルの描画
-	DrawStringToHandle(TITLE_POS_X, TITLE_POS_Y, TITLE_TEXT, TITLE_COLOR, font_);
+	DrawStringToHandle(TITLE_POS_X, TITLE_POS_Y, TITLE_TEXT, TITLE_COLOR, fontTitle_);
 	
 	// キャンセルキーでタイトルに戻る旨の描画
 	DrawStringToHandle(TITLE_POS_X, TITLE_POS_Y + ITEM_INTERVAL_Y,
-		"キャンセルキーでタイトルに戻る", ITEM_COLOR, font_);
+		"キャンセルキーでタイトルに戻る", ITEM_COLOR, fontTitle_);
 
 	// 項目の描画
 	DrawItems();
@@ -57,6 +57,7 @@ void SettingScene::Delete(void)
 
 void SettingScene::InitLoad(void)
 {
+	fontTitle_ = resMng_.Load(ResourceManager::SRC::TITLE_FONT).handleId_;
 	font_ = resMng_.Load(ResourceManager::SRC::SETTING_FONT).handleId_;
 }
 

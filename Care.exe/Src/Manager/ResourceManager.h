@@ -19,8 +19,9 @@ public:
 		// アドベンチャー画面
 		PLAYER_GRAPHICS,		// プレイヤーグラフィック
 		PATIENT_GRAPHICS,		// ヌイグラフィック
-		BG_1,					// PICU背景
-		BG_1_WALL,				// PICU壁背景
+		BG_1,					// 患者部屋背景
+		BG_1_WALL,				// 患者部屋壁背景
+		BG_1_TOILET,			// 患者部屋トイレ背景
 		BG_2,					// ナースステーション背景
 
 		// 会話画面

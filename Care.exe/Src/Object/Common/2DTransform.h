@@ -41,6 +41,9 @@ public:
 	// デストラクタ
 	~Transform2D();
 
+	// 画像ハンドルと分割数を指定して初期化
+	Transform2D(const int handleId, VECTOR pos, bool applyNearFar = true,int idxX = 1, int idxY = 1);
+
 	// 外部配列を設定（コピーする）
 	void SetHandles(const std::vector<int>& handles, int idxX, int idxY);
 

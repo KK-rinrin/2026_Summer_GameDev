@@ -96,6 +96,17 @@ Transform2D::~Transform2D()
 	handleIds.clear();
 }
 
+Transform2D::Transform2D(const int handleId, VECTOR pos, bool applyNearFar, int idxX, int idxY)
+	: Transform2D() // デフォルトコンストラクタで初期化
+{
+	if (handleId != -1) {
+		handleIds.push_back(handleId);
+	}
+	this->pos = pos;
+	enableImageScaling = applyNearFar;
+	SetHandles(handleIds, idxX, idxY);
+}
+
 void Transform2D::SetHandles(const std::vector<int>& handles, int idxX, int idxY)
 {
 	handleIds = handles;
