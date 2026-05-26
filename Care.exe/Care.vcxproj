@@ -160,6 +160,7 @@
     <ClCompile Include="Src\Manager\KeyConfig.cpp" />
     <ClCompile Include="Src\Manager\Live2D.cpp" />
     <ClCompile Include="Src\Manager\Live2DModelHub.cpp" />
+    <ClCompile Include="Src\Manager\ProgressManager.cpp" />
     <ClCompile Include="Src\Manager\Resource.cpp" />
     <ClCompile Include="Src\Manager\ResourceManager.cpp" />
     <ClCompile Include="Src\Manager\SceneManager.cpp" />
@@ -198,6 +199,7 @@
     <ClInclude Include="Src\Manager\KeyConfig.h" />
     <ClInclude Include="Src\Manager\Live2D.h" />
     <ClInclude Include="Src\Manager\Live2DModelHub.h" />
+    <ClInclude Include="Src\Manager\ProgressManager.h" />
     <ClInclude Include="Src\Manager\Resource.h" />
     <ClInclude Include="Src\Manager\ResourceManager.h" />
     <ClInclude Include="Src\Manager\SceneManager.h" />

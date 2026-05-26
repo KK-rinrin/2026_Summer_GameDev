@@ -10,7 +10,7 @@ public:
 	static constexpr float COL_RADIUS = 3.0f;
 
 	// 会話反応範囲（Player の位置がこの円に入っていて決定キーを押せば会話開始）
-	static constexpr float TALK_RADIUS = 30.0f;
+	static constexpr float TALK_RADIUS = 19.0f;
 
 	Patient();
 	~Patient();

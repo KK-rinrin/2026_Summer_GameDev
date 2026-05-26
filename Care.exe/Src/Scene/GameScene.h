@@ -45,8 +45,13 @@ public:
 private:
 	void InitLoad() override;
 	void ChangeStage(Stage nextStage);
+
+	// ステージごとの更新処理
 	void UpdatePR();
+	void DecidePR();
+
 	void UpdateNS();
+	void DecideNS();
 
 	Talk* talk_;
 

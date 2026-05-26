@@ -60,4 +60,14 @@ public:
 		return (point.x >= leftTop.x && point.x <= rightBottom.x &&
 			point.y >= leftTop.y && point.y <= rightBottom.y);
 	}
+
+	// ‰~‚ª‰~‚ÆÕ“Ë‚µ‚Ä‚¢‚é‚©
+    static bool CollisionCircle(const VECTOR& centerA, float radiusA, const VECTOR& centerB, float radiusB)
+    {
+        const float dx = centerA.x - centerB.x;
+        const float dy = centerA.y - centerB.y;
+        const float combinedRadius = radiusA + radiusB;
+        return (dx * dx + dy * dy) <= (combinedRadius * combinedRadius);
+	}
+
 };

@@ -59,6 +59,19 @@ void GameScene::Update(void)
 		UpdateNS();
 		break;
 	}
+
+	if (canMove_ && KeyConfig::IsNew(KeyConfig::ACTION::DECIDE, iptMng_))
+	{
+		switch (currentStage_)
+		{
+		case Stage::PAT_ROOM:
+			DecidePR();
+			break;
+		case Stage::NURSE_STATION:
+			DecideNS();
+			break;
+		}
+	}
 }
 
 void GameScene::Draw(void)
@@ -170,26 +183,6 @@ void GameScene::UpdatePR()
 			stage_->ApplyMovementBlocks(*player_);
 		}
 
-		const VECTOR pPos = player_->GetTransform().pos;
-		const VECTOR patPos = patient_->GetTransform().pos;
-
-		// 決定キーで会話開始判定：プレイヤー位置（点）と Patient の会話円で判定
-		if (KeyConfig::IsTrgDown(KeyConfig::ACTION::DECIDE, iptMng_))
-		{
-			if (Collision::IsPointInRect(pPos, PR_TO_NS_AREA1_0, PR_TO_NS_AREA1_1) && player_->IsFacingRight())
-			{
-				ChangeStage(Stage::NURSE_STATION);
-				player_->SetLocalPercent(NS_MOVE_POS.x, NS_MOVE_POS.y);
-				return;
-			}
-
-			
-
-			if (Collision::IsPointInCircle(pPos, patPos, Patient::TALK_RADIUS))
-			{
-				talk_->SetTalk(TalkDatas::TalkDataIndex::TALK_0);
-			}
-		}
 
 		if (player_->IsHitCircle(*patient_))
 		{
@@ -198,6 +191,26 @@ void GameScene::UpdatePR()
 	}
 
 	patient_->Update();
+}
+
+void GameScene::DecidePR()
+{
+	const VECTOR pPos = player_->GetTransform().pos;
+	const VECTOR patPos = patient_->GetTransform().pos;
+
+	// ドアの位置にプレイヤーがいて、かつ右を向いているときに遷移
+	if (Collision::IsPointInRect(pPos, PR_TO_NS_AREA1_0, PR_TO_NS_AREA1_1) && player_->IsFacingRight())
+	{
+		ChangeStage(Stage::NURSE_STATION);
+		player_->SetLocalPercent(NS_MOVE_POS.x, NS_MOVE_POS.y);
+		return;
+	}
+
+	// プレイヤーが患者の近くにいるときに会話開始
+	if (Collision::IsPointInCircle(pPos, patPos, Patient::TALK_RADIUS))
+	{
+		talk_->SetTalk(TalkDatas::TalkDataIndex::TALK_0);
+	}
 }
 
 void GameScene::UpdateNS()
@@ -214,20 +227,18 @@ void GameScene::UpdateNS()
 		{
 			stage_->ApplyMovementBlocks(*player_);
 		}
+	}
+}
 
-		// 決定キーで会話開始判定：プレイヤー位置（点）と Patient の会話円で判定
-		if (KeyConfig::IsTrgDown(KeyConfig::ACTION::DECIDE, iptMng_))
-		{
-			const VECTOR pPos = player_->GetTransform().pos;
+void GameScene::DecideNS()
+{
+	const VECTOR pPos = player_->GetTransform().pos;
 
-			if (Collision::IsPointInRect(pPos, NS_TO_PR_AREA1_0, NS_TO_PR_AREA1_1) && !player_->IsFacingRight())
-			{
-				ChangeStage(Stage::PAT_ROOM);
-				player_->SetLocalPercent(PR_MOVE_POS.x, PR_MOVE_POS.y);
-				return;
-			}
-
-			
-		}
+	// ドアの位置にプレイヤーがいて、かつ左を向いているときに遷移
+	if (Collision::IsPointInRect(pPos, NS_TO_PR_AREA1_0, NS_TO_PR_AREA1_1) && !player_->IsFacingRight())
+	{
+		ChangeStage(Stage::PAT_ROOM);
+		player_->SetLocalPercent(PR_MOVE_POS.x, PR_MOVE_POS.y);
+		return;
 	}
 }

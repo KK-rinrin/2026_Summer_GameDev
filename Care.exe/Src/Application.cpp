@@ -3,6 +3,7 @@
 #include "Manager/InputManager.h"
 #include "Manager/ResourceManager.h"
 #include "Manager/SceneManager.h"
+#include "Manager/ProgressManager.h"
 #include "Application.h"
 #include "FpsControl/FpsControl.h"
 #include "Manager/Live2DModelHub.h"
@@ -14,7 +15,7 @@ const std::string Application::PATH_IMAGE = "Data/Image/";
 const std::string Application::PATH_TITLE = "Data/Image/Title/";
 const std::string Application::PATH_SOUND = "Data/Sound/";
 const std::string Application::PATH_EFFECT = "Data/Effect/";
-const std::string Application::PATH_CHARA = "Data/Chara/";
+const std::string Application::PATH_CHARA = "Chara/";
 const std::string Application::PATH_MODEL = "Data/Model/";
 const std::string Application::PATH_FONT = "Data/Font/";
 
@@ -80,6 +81,9 @@ void Application::Init(void)
 	// リソース管理初期化
 	ResourceManager::CreateInstance();
 
+	// 進行度管理初期化
+	ProgressManager::CreateInstance();
+
 	// シーン管理初期化
 	SceneManager::CreateInstance();
 
@@ -128,6 +132,9 @@ void Application::Destroy(void)
 	// シーン管理解放
 	SceneManager::GetInstance().Destroy();
 
+	// 進行度管理解放
+	ProgressManager::GetInstance().Destroy();
+
 	// Effekseerを終了する。
 	Effkseer_End();
 
@@ -141,7 +148,6 @@ void Application::Destroy(void)
 
 	// インスタンスのメモリ解放
 	delete instance_;
-
 }
 
 bool Application::IsInitFail(void) const
