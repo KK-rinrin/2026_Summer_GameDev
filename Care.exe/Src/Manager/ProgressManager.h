@@ -11,6 +11,7 @@ public:
 		START_MINIGAME0,	// ゲーム開始後のイベント1
 
 		AFTER_MG,	// ミニゲーム後
+		AFTER_MG_TALKED,	// ミニゲーム後の会話後
 		END_PATIENT_LOST = 100,
 		END_NURCE_LOST,
 		END_BOTH_LOST,

@@ -183,9 +183,9 @@ void Application::InitEffekseer(void)
 void Application::InitLive2D(void)
 {
 #ifdef _WIN64
-	Live2D_SetCubism4CoreDLLPath("CubismSdkForNative-5-r.4.1/Core/dll/windows/x86_64/Live2DCubismCore.dll");
+	Live2D_SetCubism4CoreDLLPath("Data/CubismSdkForNative-5-r.4.1/Core/dll/windows/x86_64/Live2DCubismCore.dll");
 #else
-	Live2D_SetCubism4CoreDLLPath("CubismSdkForNative-5-r.4.1/Core/dll/windows/x86/Live2DCubismCore.dll");
+	Live2D_SetCubism4CoreDLLPath("Data/CubismSdkForNative-5-r.4.1/Core/dll/windows/x86/Live2DCubismCore.dll");
 #endif
 }
 

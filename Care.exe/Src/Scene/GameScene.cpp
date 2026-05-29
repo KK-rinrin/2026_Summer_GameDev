@@ -198,18 +198,15 @@ void GameScene::UpdateTalkProgress()
 
 	if (firstUpdate_)
 	{
-		const ProgressData& progressData = ProgressTable::Get(prgMng_.GetProgressEnum());
-		if (progressData.firstTalk != TDI::NONE)
-		{
-			talk_->SetTalk(progressData.firstTalk);
-		}
+		StartFirstTalkByProgress();
 	}
 
-	const ProgressData& progressData = ProgressTable::Get(prgMng_.GetProgressEnum());
+	const ProgressManager::STORY_PROGRESS progressBefore = prgMng_.GetProgressEnum();
+	const ProgressData& progressData = ProgressTable::Get(progressBefore);
 	if (progressData.talkEnd.talkId != TDI::NONE &&
 		talk_->ConsumeTalkEnd(progressData.talkEnd.talkId) &&
 		ProgressTable::ShouldAdvanceByTalkEnd(
-			prgMng_.GetProgressEnum(), progressData.talkEnd.talkId))
+			progressBefore, progressData.talkEnd.talkId))
 	{
 		prgMng_.AddProgress();
 	}
@@ -217,6 +214,20 @@ void GameScene::UpdateTalkProgress()
 	if (ProgressTable::ShouldAutoAdvance(prgMng_.GetProgressEnum()))
 	{
 		prgMng_.AddProgress();
+	}
+
+	if (progressBefore != prgMng_.GetProgressEnum())
+	{
+		StartFirstTalkByProgress();
+	}
+}
+
+void GameScene::StartFirstTalkByProgress()
+{
+	const ProgressData& progressData = ProgressTable::Get(prgMng_.GetProgressEnum());
+	if (progressData.firstTalk != TDI::NONE)
+	{
+		talk_->SetTalk(progressData.firstTalk);
 	}
 }
 

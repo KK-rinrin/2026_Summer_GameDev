@@ -60,6 +60,7 @@ private:
 	void ChangeStage(Stage nextStage);
 
 	void UpdateTalkProgress();
+	void StartFirstTalkByProgress();
 
 	// ステージごとの更新処理
 	void UpdatePR();

@@ -29,7 +29,16 @@ namespace
 			STORY_PROGRESS::AFTER_MG,
 			GameScene::Stage::PAT_ROOM,
 			{ 60.0f, 45.0f, 0.0f },
-			TDI::TALK_AFTERMG ,
+			TDI::TALK_AFTERMG,
+			TDI::NONE,
+			{ TDI::TALK_AFTERMG, true },
+			false
+		},
+		{
+			STORY_PROGRESS::AFTER_MG_TALKED,
+			GameScene::Stage::PAT_ROOM,
+			{ 60.0f, 45.0f, 0.0f },
+			TDI::NONE,
 			TDI::NONE,
 			{},
 			false
