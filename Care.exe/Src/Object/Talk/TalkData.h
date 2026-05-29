@@ -8,14 +8,14 @@ class TalkDatas
 public:
 	enum class Speaker
 	{
-		EOS, // 会話終了（話者なし）
 		Player,
 		Patient,
+		Narator,
 	};
 
 	struct TalkData
 	{
-		// 話者（デフォルトは Patient）
+		// 話者（デフォルトは Player）
 		Speaker speaker = Speaker::Player;
 
 		// トーク内容
@@ -25,7 +25,9 @@ public:
 	enum class TalkDataIndex
 	{
 		NONE = -1,
+		TALK_INIT,
 		TALK_0,
+		TALK_AFTERMG,
 		TALK_1,
 		TALK_2,
 		TALK_3,

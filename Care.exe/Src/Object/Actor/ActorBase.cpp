@@ -57,6 +57,8 @@ void ActorBase::UpdateSortKey()
 {
 }
 
+
+
 bool ActorBase::IsHitCircle(const ActorBase& other) const
 {
 	return AsoUtility::IsHitSpheres(transform_.pos, collider_.radius, other.transform_.pos, other.collider_.radius);

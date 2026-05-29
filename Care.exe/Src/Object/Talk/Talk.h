@@ -20,14 +20,13 @@ public:
 	~Talk();
 
 	void Load();
-	bool Update();
+	bool Update();	// 会話中なら true を返す
 	void Draw();
 	void Delete();
 
 	void SetTalk(TDI dataIndex);
-
-	void SetPatientVisible(bool visible) { PatientVisible_ = visible; }
-	void SetPlayerVisible(bool visible) { PlayerVisible_ = visible; }
+	TDI GetCurrentTDI() const { return currentDataIndex_; }
+	bool ConsumeTalkEnd(TDI dataIndex);
 
 private:
 	// Live2DTalkController をハブ経由で共有するため shared_ptr に変更

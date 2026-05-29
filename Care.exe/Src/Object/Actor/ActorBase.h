@@ -27,7 +27,7 @@ public:
 	// 解放
 	virtual void Release(void);
 
-	// 大きさ、回転、座標等の取得
+	// 変換情報取得
 	const Transform2D& GetTransform(void) const;
 
 	virtual void UpdateSortKey();
@@ -35,18 +35,21 @@ public:
 	float GetSortY() const { return transform_.GetWorldPos().y; }
 
 	void BlockCrossingWorldY(float wallY, float thickness) { transform_.BlockCrossingWorldY(wallY, thickness); }
-	
+
+	// ローカル百分率矩形による通過防止（leftTop / rightBottom は VECTOR、0..100）
+	void BlockCrossingLocalRect(const VECTOR& leftTopPercent, const VECTOR& rightBottomPercent) { transform_.BlockCrossingLocalRect(leftTopPercent, rightBottomPercent); }
+
 	bool IsHitCircle(const ActorBase& other) const;
-	
+
 	void MoveToBeforePos();
 
 protected:
 
-	// シングルトン参照
+	// リソース/シーン参照
 	ResourceManager& resMng_;
 	SceneManager& scnMng_;
 
-	// モデル制御の基本情報
+	// 位置等
 	Transform2D transform_;
 
 	AnimationController2D anim_;
@@ -54,19 +57,11 @@ protected:
 	CircleCollider collider_;
 	float radius_;
 
-	// リソースロード
+	// 初期化（継承側）
 	virtual void InitLoad(void) = 0;
-
-	// 大きさ、回転、座標の初期化
 	virtual void InitTransform(void) = 0;
-
-	// 衝突判定の初期化
 	virtual void InitCollider(void) = 0;
-
-	// アニメーションの初期化
 	virtual void InitAnimation(void) = 0;
-
-	// 初期化後の個別処理
 	virtual void InitPost(void) = 0;
 
 	virtual void UpdateAnimation(void) {}

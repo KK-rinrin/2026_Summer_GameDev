@@ -13,10 +13,9 @@ private:
 
 	static constexpr VECTOR TOILET_POS = { 80.0f,10.0f,0.0f };
 
-	void InitTransform() override;
 	void InitLoad() override;
-
-	void UpdateProcess() override;
+	void InitTransform() override;
+	void InitCollider() override;
 
 	int wallHandle_;
 	int toiletHandle_;

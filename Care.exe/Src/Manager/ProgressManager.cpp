@@ -69,6 +69,7 @@ void ProgressManager::AddProgress(void)
 	SaveProgress();
 }
 
+
 void ProgressManager::Destroy(void)
 {
 	delete instance_;

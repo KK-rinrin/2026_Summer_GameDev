@@ -34,18 +34,35 @@ protected:
 		float thickness;
 	};
 
+	// ローカル百分率基準の矩形（pos.x/pos.y が 0..100 の空間）
+	struct MovementRectPercent
+	{
+		VECTOR leftTop;    // 左上 (x=0..100, y=0..100)
+		VECTOR rightBottom;// 右下 (x=0..100, y=0..100)
+	};
+
+	struct TransformObject
+	{
+		Transform2D transform;
+		bool useSortY;
+		float sortY;
+	};
+
 	void AddScreenObject(int handle, float sortY, bool trans = true);
 	void AddTransformObject(const Transform2D& transform);
+	void AddTransformObject(const Transform2D& transform, float sortY);
 	void AddMovementBlock(float worldY, float thickness);
+	void AddMBRectPercent(const VECTOR& leftTopPercent, const VECTOR& rightBottomPercent);
 
-	virtual void InitTransform() {}
 	virtual void InitLoad() {}
-	virtual void UpdateProcess() {}
+	virtual void InitTransform() {}
+	virtual void InitCollider() {}
 
 	int BGhandle_;
-	std::vector<Transform2D> objects_;	// 障害物の位置
+	std::vector<TransformObject> objects_;	// 障害物の位置
 	std::vector<RenderObject> screenObjects_;
 	std::vector<MovementBlock> movementBlocks_;
+	std::vector<MovementRectPercent> movementRectPercents_;
 
 	ResourceManager& resMng_;
 };

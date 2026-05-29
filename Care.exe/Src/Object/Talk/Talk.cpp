@@ -43,6 +43,8 @@ bool Talk::Update()
 	if ((!patientController_ || !playerController_ || !talkWindow_) ||
 		(currentDataIndex_ == TDI::NONE)) return false;
 
+	const bool wasConversationActive = talkWindow_->IsConversationActive();
+
 	if (!talkWindow_->IsConversationActive())
 	{
 		alpha_ -= FADE_ALPHA;
@@ -63,6 +65,10 @@ bool Talk::Update()
 	playerController_->Update(TEXT("Idle"));
 
 	talkWindow_->Update();
+	if (wasConversationActive && !talkWindow_->IsConversationActive())
+	{
+		isTalkEnd_ = true;
+	}
 
 	return true;
 }
@@ -117,6 +123,34 @@ void Talk::Delete()
 void Talk::SetTalk(TDI dataIndex)
 {
 	currentDataIndex_ = dataIndex;
-	talkWindow_->StartConversation(TalkDatas::GetTalkData(currentDataIndex_));
+	const std::vector<TD>& talkData = TalkDatas::GetTalkData(currentDataIndex_);
+
+	PatientVisible_ = false;
+	PlayerVisible_ = false;
+	for (const TD& data : talkData)
+	{
+		if (data.speaker == TalkDatas::Speaker::Patient)
+		{
+			PatientVisible_ = true;
+		}
+		if (data.speaker == TalkDatas::Speaker::Player)
+		{
+			PlayerVisible_ = true;
+		}
+	}
+
+	talkWindow_->StartConversation(talkData);
+	isTalkEnd_ = false;
 	alpha_ = 255;
+}
+
+bool Talk::ConsumeTalkEnd(TDI dataIndex)
+{
+	if (currentDataIndex_ != dataIndex || !isTalkEnd_)
+	{
+		return false;
+	}
+
+	isTalkEnd_ = false;
+	return true;
 }

@@ -6,8 +6,8 @@ class Player : public ActorBase
 {
 public:
 	static constexpr float INIT_MOVE_SPEED_PER = 0.6f;
-	static constexpr float INIT_PER_X = 90.0f;
-	static constexpr float INIT_PER_Y = 90.0f;
+	static constexpr float INIT_PER_X = 50.0f;
+	static constexpr float INIT_PER_Y = 50.0f;
 
 	static constexpr float COL_RADIUS = 3.0f;
 

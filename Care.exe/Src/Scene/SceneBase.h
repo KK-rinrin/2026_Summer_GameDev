@@ -2,6 +2,7 @@
 class ResourceManager;
 class SceneManager;
 class InputManager;
+class ProgressManager;
 
 class SceneBase
 {
@@ -37,5 +38,7 @@ protected:
 
 	// “ü—ÍŠÇ—
 	InputManager& iptMng_;
+
+	ProgressManager& prgMng_;
 
 };

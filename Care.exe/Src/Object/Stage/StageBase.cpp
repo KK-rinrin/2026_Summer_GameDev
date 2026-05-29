@@ -15,18 +15,23 @@ StageBase::~StageBase()
 
 void StageBase::Init()
 {
+	objects_.clear();
+	screenObjects_.clear();
+	movementBlocks_.clear();
+	movementRectPercents_.clear();
+
 	InitLoad();
 
 	InitTransform();
+
+	InitCollider();
 }
 
 void StageBase::Update()
 {
-	UpdateProcess();
-
 	for (auto& obj : objects_)
 	{
-		obj.Update();
+		obj.transform.Update();
 	}
 }
 
@@ -44,7 +49,7 @@ void StageBase::Draw()
 
 	for (auto& obj : objects_)
 	{
-		obj.Draw();
+		obj.transform.Draw();
 	}
 }
 
@@ -52,7 +57,7 @@ void StageBase::Delete()
 {
 	for (auto& obj : objects_)
 	{
-		obj.Delete();
+		obj.transform.Delete();
 	}
 }
 
@@ -73,15 +78,30 @@ void StageBase::RegisterObjects(Renderer2D& renderer)
 
 	for (auto& obj : objects_)
 	{
-		renderer.AddTransform(&obj);
+		if (obj.useSortY)
+		{
+			Transform2D* transform = &obj.transform;
+			renderer.Add(obj.sortY, [transform]() { transform->Draw(); });
+		}
+		else
+		{
+			renderer.AddTransform(&obj.transform);
+		}
 	}
 }
 
 void StageBase::ApplyMovementBlocks(ActorBase& actor) const
 {
+	// 世界Yベースのブロック
 	for (const auto& block : movementBlocks_)
 	{
 		actor.BlockCrossingWorldY(block.worldY, block.thickness);
+	}
+
+	// ローカル百分率矩形ブロック（左上/右下指定）
+	for (const auto& rect : movementRectPercents_)
+	{
+		actor.BlockCrossingLocalRect(rect.leftTop, rect.rightBottom);
 	}
 }
 
@@ -92,10 +112,23 @@ void StageBase::AddScreenObject(int handle, float sortY, bool trans)
 
 void StageBase::AddTransformObject(const Transform2D& transform)
 {
-	objects_.push_back(transform);
+	objects_.push_back({ transform, false, 0.0f });
+}
+
+void StageBase::AddTransformObject(const Transform2D& transform, float sortY)
+{
+	objects_.push_back({ transform, true, sortY });
 }
 
 void StageBase::AddMovementBlock(float worldY, float thickness)
 {
 	movementBlocks_.push_back({ worldY, thickness });
+}
+
+void StageBase::AddMBRectPercent(const VECTOR& leftTopPercent, const VECTOR& rightBottomPercent)
+{
+	MovementRectPercent r;
+	r.leftTop = leftTopPercent;
+	r.rightBottom = rightBottomPercent;
+	movementRectPercents_.push_back(r);
 }

@@ -8,10 +8,9 @@ public:
 	enum STORY_PROGRESS
 	{
 		START = 0,	// ゲーム開始
-		START_1,	// ゲーム開始後のイベント1
-		
-		AFTER_MG,	// ミニゲーム後
+		START_MINIGAME0,	// ゲーム開始後のイベント1
 
+		AFTER_MG,	// ミニゲーム後
 		END_PATIENT_LOST = 100,
 		END_NURCE_LOST,
 		END_BOTH_LOST,
@@ -25,6 +24,7 @@ public:
 	void Init(void);
 
 	void AddProgress(void);
+
 
 	int GetProgress(void) const { return progress_; }
 

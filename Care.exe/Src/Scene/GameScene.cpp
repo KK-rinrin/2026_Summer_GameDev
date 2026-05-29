@@ -12,6 +12,8 @@
 #include "../Object/Stage/PatientRoom.h"
 #include "../Object/Stage/NurceStation.h"
 #include "../Debug/DebugCursorPosition.h"
+#include "../Manager/ProgressManager.h"
+#include "ProgressTable.h"
 
 GameScene::GameScene(void)
 	:
@@ -22,7 +24,8 @@ GameScene::GameScene(void)
 	render_(nullptr),
 	player_(nullptr),
 	patient_(nullptr),
-	debugCursorPosition_(nullptr)
+	debugCursorPosition_(nullptr),
+	currentStage_(INIT_STAGE)
 {
 	firstUpdate_ = true;
 }
@@ -33,9 +36,7 @@ GameScene::~GameScene(void)
 
 void GameScene::Update(void)
 {
-	// Talk の更新結果を使いまわす
-	const bool isTalking = talk_->Update();
-	canMove_ = !isTalking;
+	UpdateTalkProgress();
 
 	// シーン遷移
 	if (KeyConfig::IsTrgDown(KeyConfig::ACTION::CANCEL, iptMng_))
@@ -43,12 +44,10 @@ void GameScene::Update(void)
 		sceMng_.ChangeScene(SceneManager::SCENE_ID::TITLE);
 	}
 
-#ifdef _DEBUG
-	if (debugCursorPosition_ != nullptr)
+	if (stage_ != nullptr)
 	{
-		debugCursorPosition_->Update();
+		stage_->Update();
 	}
-#endif
 
 	switch (currentStage_)
 	{
@@ -60,7 +59,7 @@ void GameScene::Update(void)
 		break;
 	}
 
-	if (canMove_ && KeyConfig::IsNew(KeyConfig::ACTION::DECIDE, iptMng_))
+	if (canMove_ && KeyConfig::IsTrgDown(KeyConfig::ACTION::DECIDE, iptMng_))
 	{
 		switch (currentStage_)
 		{
@@ -72,6 +71,16 @@ void GameScene::Update(void)
 			break;
 		}
 	}
+
+#ifdef _DEBUG
+	if (debugCursorPosition_ != nullptr)
+	{
+		debugCursorPosition_->Update();
+	}
+
+#endif
+
+	firstUpdate_ = false;
 }
 
 void GameScene::Draw(void)
@@ -90,6 +99,9 @@ void GameScene::Draw(void)
 	{
 		debugCursorPosition_->Draw();
 	}
+
+	int a = ProgressManager::GetInstance().GetProgress();
+	DrawFormatString(0, 50, 0x000000, "Progress: %d", a);
 #endif
 }
 
@@ -123,7 +135,17 @@ void GameScene::InitLoad()
 
 	render_ = new Renderer2D();
 	debugCursorPosition_ = new DebugCursorPosition();
+
+	ApplyInitialProgressState();
 	ChangeStage(currentStage_);
+}
+
+void GameScene::ApplyInitialProgressState()
+{
+	const ProgressData& startData = ProgressTable::Get(prgMng_.GetProgressEnum());
+
+	currentStage_ = startData.initStage;
+	player_->SetLocalPercent(startData.playerInitPos.x, startData.playerInitPos.y);
 }
 
 void GameScene::ChangeStage(Stage nextStage)
@@ -168,13 +190,38 @@ void GameScene::ChangeStage(Stage nextStage)
 	}
 }
 
-void GameScene::UpdatePR()
+void GameScene::UpdateTalkProgress()
 {
-	if (stage_ != nullptr)
+	// Talk の更新結果を使いまわす
+	const bool isTalking = talk_->Update();
+	canMove_ = !isTalking;
+
+	if (firstUpdate_)
 	{
-		stage_->Update();
+		const ProgressData& progressData = ProgressTable::Get(prgMng_.GetProgressEnum());
+		if (progressData.firstTalk != TDI::NONE)
+		{
+			talk_->SetTalk(progressData.firstTalk);
+		}
 	}
 
+	const ProgressData& progressData = ProgressTable::Get(prgMng_.GetProgressEnum());
+	if (progressData.talkEnd.talkId != TDI::NONE &&
+		talk_->ConsumeTalkEnd(progressData.talkEnd.talkId) &&
+		ProgressTable::ShouldAdvanceByTalkEnd(
+			prgMng_.GetProgressEnum(), progressData.talkEnd.talkId))
+	{
+		prgMng_.AddProgress();
+	}
+
+	if (ProgressTable::ShouldAutoAdvance(prgMng_.GetProgressEnum()))
+	{
+		prgMng_.AddProgress();
+	}
+}
+
+void GameScene::UpdatePR()
+{
 	if (canMove_)
 	{
 		player_->Update();
@@ -202,24 +249,31 @@ void GameScene::DecidePR()
 	if (Collision::IsPointInRect(pPos, PR_TO_NS_AREA1_0, PR_TO_NS_AREA1_1) && player_->IsFacingRight())
 	{
 		ChangeStage(Stage::NURSE_STATION);
-		player_->SetLocalPercent(NS_MOVE_POS.x, NS_MOVE_POS.y);
+		player_->SetLocalPercent(NS_MOVE_POS1.x, NS_MOVE_POS1.y);
+		return;
+	}
+
+	// ドアの位置にプレイヤーがいて、かつ後ろを向いているときに遷移
+	if (Collision::IsPointInRect(pPos, PR_TO_NS_AREA2_0, PR_TO_NS_AREA2_1))
+	{
+		ChangeStage(Stage::NURSE_STATION);
+		player_->SetLocalPercent(NS_MOVE_POS2.x, NS_MOVE_POS2.y);
 		return;
 	}
 
 	// プレイヤーが患者の近くにいるときに会話開始
 	if (Collision::IsPointInCircle(pPos, patPos, Patient::TALK_RADIUS))
 	{
-		talk_->SetTalk(TalkDatas::TalkDataIndex::TALK_0);
+		const ProgressData& progressData = ProgressTable::Get(prgMng_.GetProgressEnum());
+		if (progressData.patientTalk != TDI::NONE)
+		{
+			talk_->SetTalk(progressData.patientTalk);
+		}
 	}
 }
 
 void GameScene::UpdateNS()
 {
-	if (stage_ != nullptr)
-	{
-		stage_->Update();
-	}
-
 	if (canMove_)
 	{
 		player_->Update();
@@ -238,7 +292,15 @@ void GameScene::DecideNS()
 	if (Collision::IsPointInRect(pPos, NS_TO_PR_AREA1_0, NS_TO_PR_AREA1_1) && !player_->IsFacingRight())
 	{
 		ChangeStage(Stage::PAT_ROOM);
-		player_->SetLocalPercent(PR_MOVE_POS.x, PR_MOVE_POS.y);
+		player_->SetLocalPercent(PR_MOVE_POS1.x, PR_MOVE_POS1.y);
+		return;
+	}
+
+	// ドアの位置にプレイヤーがいて、かつ後ろを向いているときに遷移
+	if (Collision::IsPointInRect(pPos, NS_TO_PR_AREA2_0, NS_TO_PR_AREA2_1))
+	{
+		ChangeStage(Stage::PAT_ROOM);
+		player_->SetLocalPercent(PR_MOVE_POS2.x, PR_MOVE_POS2.y);
 		return;
 	}
 }

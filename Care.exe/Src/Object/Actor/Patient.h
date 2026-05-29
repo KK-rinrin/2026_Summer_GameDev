@@ -4,13 +4,13 @@
 class Patient : public ActorBase
 {
 public:
-	static constexpr float INIT_PER_X = 40.0f;
-	static constexpr float INIT_PER_Y = 40.0f;
+	static constexpr float INIT_PER_X = 60.0f;
+	static constexpr float INIT_PER_Y = 32.0f;
 
 	static constexpr float COL_RADIUS = 3.0f;
 
 	// 会話反応範囲（Player の位置がこの円に入っていて決定キーを押せば会話開始）
-	static constexpr float TALK_RADIUS = 19.0f;
+	static constexpr float TALK_RADIUS = 15.0f;
 
 	Patient();
 	~Patient();

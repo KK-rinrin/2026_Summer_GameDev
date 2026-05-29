@@ -23,7 +23,7 @@ public:
 	int stillIndex;			// isAnim==0のときの静止時の画像
 	int stillIndex_back;	// isAnim==0のときの静止画像（後方）
 
-	VECTOR pos;		// 座標（xyz）※zは未使用
+	VECTOR pos;		// 座標（xyz）※zは未使用  <-- pos は 0..100 の百分率空間
 	VECTOR beforePos; // 前回の座標
 
 	int rotDir;		// 前:0 or 後ろ:1
@@ -42,7 +42,7 @@ public:
 	~Transform2D();
 
 	// 画像ハンドルと分割数を指定して初期化
-	Transform2D(const int handleId, VECTOR pos, bool applyScaling = true,int idxX = 1, int idxY = 1);
+	Transform2D(const int handleId, VECTOR pos, bool applyScaling = true, int idxX = 1, int idxY = 1);
 
 	// 外部配列を設定（コピーする）
 	void SetHandles(const std::vector<int>& handles, int idxX, int idxY);
@@ -56,6 +56,9 @@ public:
 	VECTOR GetWorldPos() const;
 	static VECTOR WorldToLocalPercent(const VECTOR& worldPos);
 	void BlockCrossingWorldY(float wallY, float thickness);
+
+	// 追加：ローカル百分率矩形での通過防止（leftTopPercent / rightBottomPercent は VECTOR、0..100）
+	void BlockCrossingLocalRect(const VECTOR& leftTopPercent, const VECTOR& rightBottomPercent);
 
 private:
 	void CalcDrawParams();
