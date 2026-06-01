@@ -5,6 +5,7 @@
 class Talk;
 class Player;
 class Patient;
+class ActorBase;
 class Renderer2D;
 class StageBase;
 class DebugCursorPosition;
@@ -79,6 +80,7 @@ private:
 	Renderer2D* render_;
 	Player* player_;
 	Patient* patient_;
+	ActorBase* controlActor_;
 
 	DebugCursorPosition* debugCursorPosition_;
 

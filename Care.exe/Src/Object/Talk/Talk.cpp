@@ -3,6 +3,7 @@
 #include "../../Manager/ResourceManager.h"
 #include "../../Application.h"
 #include "../../Manager/Live2DModelHub.h" // 追加
+#include "../../Manager/ProgressManager.h"
 #include <utility>
 
 Talk::Talk()
@@ -26,8 +27,14 @@ Talk::~Talk()
 void Talk::Load()
 {
 	// ハブから共有コントローラを取得（shared_ptr を受け取る）
-	patientController_ = Live2DModelHub::Instance().GetController(ResourceManager::SRC::PATIENT_MODEL);
-	playerController_ = Live2DModelHub::Instance().GetController(ResourceManager::SRC::PLAYER_MODEL);
+	if (ProgressManager::GetInstance().IsPatientCharExists())
+	{
+		patientController_ = Live2DModelHub::Instance().GetController(ResourceManager::SRC::PATIENT_MODEL);
+	}
+	if (ProgressManager::GetInstance().IsNurceCharExists())
+	{
+		playerController_ = Live2DModelHub::Instance().GetController(ResourceManager::SRC::PLAYER_MODEL);
+	}
 
 	// TalkWindow を作り、controller を渡す
 	talkWindow_ = std::make_unique<TalkWindow>();
@@ -40,8 +47,7 @@ void Talk::Load()
 bool Talk::Update()
 {
 	// 必要なオブジェクトが揃っていなければ無視
-	if ((!patientController_ || !playerController_ || !talkWindow_) ||
-		(currentDataIndex_ == TDI::NONE)) return false;
+	if (talkWindow_ == nullptr || currentDataIndex_ == TDI::NONE) return false;
 
 	const bool wasConversationActive = talkWindow_->IsConversationActive();
 
@@ -52,17 +58,23 @@ bool Talk::Update()
 	}
 
 	// モデル設定（位置・拡大）
-	patientController_->SetExtendRate(EXTEND_RATE, EXTEND_RATE);
-	patientController_->SetTranslate(PATIENT_POS_X, MODEL_POS_Y);
-	patientController_->SetAlpha(alpha_);
+	if (patientController_)
+	{
+		patientController_->SetExtendRate(EXTEND_RATE, EXTEND_RATE);
+		patientController_->SetTranslate(PATIENT_POS_X, MODEL_POS_Y);
+		patientController_->SetAlpha(alpha_);
+	}
 
-	playerController_->SetExtendRate(EXTEND_RATE, EXTEND_RATE);
-	playerController_->SetTranslate(PLAYER_POS_X, MODEL_POS_Y);
-	playerController_->SetAlpha(alpha_);
+	if (playerController_)
+	{
+		playerController_->SetExtendRate(EXTEND_RATE, EXTEND_RATE);
+		playerController_->SetTranslate(PLAYER_POS_X, MODEL_POS_Y);
+		playerController_->SetAlpha(alpha_);
+	}
 
 	// モーション更新
-	patientController_->Update(TEXT("Idle"));
-	playerController_->Update(TEXT("Idle"));
+	if (patientController_) patientController_->Update(TEXT("Idle"));
+	if (playerController_) playerController_->Update(TEXT("Idle"));
 
 	talkWindow_->Update();
 	if (wasConversationActive && !talkWindow_->IsConversationActive())
@@ -76,8 +88,7 @@ bool Talk::Update()
 void Talk::Draw()
 {
 	// 必要なオブジェクトが揃っていなければ描画しない
-	if ((!patientController_ || !playerController_ || !talkWindow_) ||
-		(currentDataIndex_ == TDI::NONE)) return;
+	if (talkWindow_ == nullptr || currentDataIndex_ == TDI::NONE) return;
 
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 30);
 	DrawBox(0, 0, Application::SCREEN_SIZE_X, Application::SCREEN_SIZE_Y, 0x000000, true);
@@ -87,14 +98,14 @@ void Talk::Draw()
 	else SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
 
 	// controller に描画を委譲
-	if (PatientVisible_)
+	if (PatientVisible_ && patientController_)
 	{
 		patientController_->DrawBegin();
 		patientController_->DrawModel();
 		patientController_->DrawEnd();
 	}
 
-	if (PlayerVisible_)
+	if (PlayerVisible_ && playerController_)
 	{
 		playerController_->DrawBegin();
 		playerController_->DrawModel();
@@ -127,13 +138,15 @@ void Talk::SetTalk(TDI dataIndex)
 
 	PatientVisible_ = false;
 	PlayerVisible_ = false;
+	const bool patientExists = ProgressManager::GetInstance().IsPatientCharExists();
+	const bool playerExists = ProgressManager::GetInstance().IsNurceCharExists();
 	for (const TD& data : talkData)
 	{
-		if (data.speaker == TalkDatas::Speaker::Patient)
+		if (data.speaker == TalkDatas::Speaker::Patient && patientExists)
 		{
 			PatientVisible_ = true;
 		}
-		if (data.speaker == TalkDatas::Speaker::Player)
+		if (data.speaker == TalkDatas::Speaker::Player && playerExists)
 		{
 			PlayerVisible_ = true;
 		}

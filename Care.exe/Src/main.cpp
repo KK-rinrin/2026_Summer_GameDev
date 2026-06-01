@@ -1,5 +1,6 @@
 #include <DxLib.h>
 #include "Application.h"
+#include "../resource.h"
 
 // WinMain関数
 //---------------------------------
@@ -7,6 +8,8 @@ int WINAPI WinMain(
 	_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 	_In_ LPSTR lpCmdLine, _In_ int nCmdShow)
 {
+	
+	SetWindowIconID(IDI_ICON1);
 
 	// インスタンスの生成
 	Application::CreateInstance();

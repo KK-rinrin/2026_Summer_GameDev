@@ -30,6 +30,9 @@ public:
 	// •ÏŠ·î•ñæ“¾
 	const Transform2D& GetTransform(void) const;
 
+	void SetLocalPercent(float x, float y);
+	bool IsFacingRight(void) const;
+
 	virtual void UpdateSortKey();
 
 	float GetSortY() const { return transform_.GetWorldPos().y; }

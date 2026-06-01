@@ -2,6 +2,8 @@
 #include "ActorBase.h"
 #include <DxLib.h>
 
+class ProcessMove;
+
 class Player : public ActorBase
 {
 public:
@@ -17,6 +19,9 @@ public:
 	void Update(void) override;
 	void SetLocalPercent(float x, float y);
 	bool IsFacingRight() const;
+	ProcessMove* GetProcessMove(void);
+
+	void Release(void) override;
 
 private:
 	void InitLoad() override;
@@ -27,5 +32,5 @@ private:
 
 	void UpdateAnimation() override;
 
-	float moveSpeedPercent; // フレームあたりの移動量（%）
+	ProcessMove* processMove_;
 };

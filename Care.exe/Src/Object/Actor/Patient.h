@@ -1,9 +1,11 @@
 #pragma once
 #include "ActorBase.h"
+class ProcessMove;
 
 class Patient : public ActorBase
 {
 public:
+	static constexpr float INIT_MOVE_SPEED_PER = 0.6f;
 	static constexpr float INIT_PER_X = 60.0f;
 	static constexpr float INIT_PER_Y = 32.0f;
 
@@ -17,6 +19,8 @@ public:
 
 	void Update(void) override;
 
+	void Release(void) override;
+
 private:
 	void InitLoad() override;
 	void InitTransform() override;
@@ -25,4 +29,6 @@ private:
 	void InitPost() override;
 
 	void UpdateAnimation() override;
+
+	ProcessMove* processMove_;
 };

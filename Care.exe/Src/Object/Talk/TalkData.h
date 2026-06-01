@@ -33,6 +33,10 @@ public:
 		TALK_3,
 		TALK_4,
 		TALK_5,
+
+		TALK_END_NURCE_LOST,
+		TALK_END_PATIENT_LOST,
+		TALK_END_BOTH_LOST,
 	};
 
 	static const std::vector<TalkData>& GetTalkData(TalkDataIndex dataIndex);

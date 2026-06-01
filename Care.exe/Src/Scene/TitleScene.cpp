@@ -6,6 +6,7 @@
 #include "../Manager/KeyConfig.h"
 #include "../Manager/SceneManager.h"
 #include "../Manager/ResourceManager.h"
+#include "../Manager/ProgressManager.h"
 #include "TitleScene.h"
 #include "../Application.h"
 #include "../Object/Talk/window/Live2DTalkController.h"
@@ -52,13 +53,16 @@ void TitleScene::Delete(void)
 
 void TitleScene::InitLoad()
 {
-	// ハブからコントローラ共有を取得
-	liveTalkController_ = Live2DModelHub::Instance().GetController(ResourceManager::SRC::PLAYER_MODEL);
-
 	imgTitle_ = resMng_.Load(ResourceManager::SRC::TITLE_IMG).handleId_;
 	font_ = resMng_.Load(ResourceManager::SRC::TITLE_FONT).handleId_;
-	liveTalkController_->SetExtendRate(PLAYER_MODEL_EXTEND_X, PLAYER_MODEL_EXTEND_Y);
-	liveTalkController_->SetTranslate(PLAYER_MODEL_POS_X, PLAYER_MODEL_POS_Y);
+
+	// ハブからコントローラ共有を取得
+	if (prgMng_.IsNurceCharExists())
+	{
+		liveTalkController_ = Live2DModelHub::Instance().GetController(ResourceManager::SRC::PLAYER_MODEL);
+		liveTalkController_->SetExtendRate(PLAYER_MODEL_EXTEND_X, PLAYER_MODEL_EXTEND_Y);
+		liveTalkController_->SetTranslate(PLAYER_MODEL_POS_X, PLAYER_MODEL_POS_Y);
+	}
 }
 
 void TitleScene::UpdateSelectMenu(void)
@@ -79,6 +83,11 @@ void TitleScene::UpdateSelectMenu(void)
 
 void TitleScene::UpdatePlayerModel(void)
 {
+	if (liveTalkController_ == nullptr)
+	{
+		return;
+	}
+
 	liveTalkController_->SetExtendRate(PLAYER_MODEL_EXTEND_X, PLAYER_MODEL_EXTEND_Y);
 	liveTalkController_->SetTranslate(PLAYER_MODEL_POS_X, PLAYER_MODEL_POS_Y);
 	// モーションと表情の更新を Live2DTalkController に任せる
@@ -91,6 +100,11 @@ void TitleScene::UpdatePlayerModel(void)
 
 void TitleScene::DrawPlayerModel(void)
 {
+	if (liveTalkController_ == nullptr)
+	{
+		return;
+	}
+
 	liveTalkController_->DrawBegin();
 	liveTalkController_->DrawModel();
 	liveTalkController_->DrawEnd();

@@ -28,7 +28,7 @@ namespace
 		{
 			STORY_PROGRESS::AFTER_MG,
 			GameScene::Stage::PAT_ROOM,
-			{ 60.0f, 45.0f, 0.0f },
+			{ 48.0f, 33.0f, 0.0f },
 			TDI::TALK_AFTERMG,
 			TDI::NONE,
 			{ TDI::TALK_AFTERMG, true },
@@ -37,8 +37,37 @@ namespace
 		{
 			STORY_PROGRESS::AFTER_MG_TALKED,
 			GameScene::Stage::PAT_ROOM,
-			{ 60.0f, 45.0f, 0.0f },
+			{ 48.0f, 33.0f, 0.0f },
 			TDI::NONE,
+			TDI::NONE,
+			{},
+			false
+		},
+
+		{
+			STORY_PROGRESS::END_NURCE_LOST,
+			GameScene::Stage::PAT_ROOM,
+			{ 50.0f, 50.0f, 0.0f },
+			TDI::TALK_END_NURCE_LOST,
+			TDI::NONE,
+			{},
+			false
+		},
+
+		{
+			STORY_PROGRESS::END_PATIENT_LOST,
+			GameScene::Stage::NURSE_STATION,
+			{ 50.0f, 50.0f, 0.0f },
+			TDI::TALK_END_PATIENT_LOST,
+			TDI::NONE,
+			{},
+			false
+		},
+		{
+			STORY_PROGRESS::END_BOTH_LOST,
+			GameScene::Stage::NURSE_STATION,
+			{ 50.0f, 50.0f, 0.0f },
+			TDI::TALK_END_BOTH_LOST,
 			TDI::NONE,
 			{},
 			false

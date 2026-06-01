@@ -1,35 +1,37 @@
 #include "Player.h"
+#include "ProcessMove.h"
 #include "../../Manager/ResourceManager.h"
-#include "../../Manager/InputManager.h"
-#include "../../Manager/KeyConfig.h"
+#include "../../Manager/ProgressManager.h"
 #include "../../Utility/AsoUtility.h"
 #include <algorithm>
 #include <cmath>
 
 Player::Player()
-	: moveSpeedPercent(INIT_MOVE_SPEED_PER) // 必要に応じて調整
 {
+    if (ProgressManager::GetInstance().IsNurceCharExists())
+    {
+        processMove_ = new ProcessMove();
+        processMove_->SetMoveSpeedPercent(INIT_MOVE_SPEED_PER);
+
+    }
+    else { processMove_ = nullptr; }
+
 }
 
 Player::~Player()
 {
+	if (processMove_ != nullptr)
+	{
+		delete processMove_;
+		processMove_ = nullptr;
+	}
 }
 
 void Player::Update(void)
 {
-	// キー入力による移動（矢印キー + WASD）
-	const InputManager& input = InputManager::GetInstance();
-	if (KeyConfig::IsNew(KeyConfig::ACTION::MOVE_RIGHT, input)) {
-		transform_.pos.x += moveSpeedPercent;
-	}
-	if (KeyConfig::IsNew(KeyConfig::ACTION::MOVE_LEFT, input)) {
-		transform_.pos.x -= moveSpeedPercent;
-	}
-	if (KeyConfig::IsNew(KeyConfig::ACTION::MOVE_UP, input)) {
-		transform_.pos.y -= moveSpeedPercent;
-	}
-	if (KeyConfig::IsNew(KeyConfig::ACTION::MOVE_DOWN, input)) {
-		transform_.pos.y += moveSpeedPercent;
+	if (processMove_ != nullptr)
+	{
+		processMove_->Update(transform_);
 	}
 
 	// transform2D 側でパーセンテージのクランプとワールド座標への収め込みを行う
@@ -42,15 +44,27 @@ void Player::Update(void)
 
 void Player::SetLocalPercent(float x, float y)
 {
-	transform_.pos.x = x;
-	transform_.pos.y = y;
-	transform_.beforePos = transform_.pos;
-	transform_.Update();
+	ActorBase::SetLocalPercent(x, y);
 }
 
 bool Player::IsFacingRight() const
 {
-	return !transform_.isLeft;
+	return ActorBase::IsFacingRight();
+}
+
+ProcessMove* Player::GetProcessMove(void)
+{
+	return processMove_;
+}
+
+void Player::Release(void)
+{
+    if (processMove_ != nullptr)
+    {
+        delete processMove_;
+        processMove_ = nullptr;
+    }
+	ActorBase::Release();
 }
 
 void Player::InitLoad()

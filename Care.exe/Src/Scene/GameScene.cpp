@@ -24,6 +24,7 @@ GameScene::GameScene(void)
 	render_(nullptr),
 	player_(nullptr),
 	patient_(nullptr),
+	controlActor_(nullptr),
 	debugCursorPosition_(nullptr),
 	currentStage_(INIT_STAGE)
 {
@@ -107,18 +108,36 @@ void GameScene::Draw(void)
 
 void GameScene::Delete(void)
 {
-	talk_->Delete();
-	delete talk_;
+	if (talk_ != nullptr)
+	{
+		talk_->Delete();
+		delete talk_;
+		talk_ = nullptr;
+	}
 
-	delete player_;
-	delete patient_;
+	if (player_ != nullptr)
+	{
+		player_->Release();
+		delete player_;
+		player_ = nullptr;
+	}
+	if (patient_ != nullptr)
+	{
+		patient_->Release();
+		delete patient_;
+		patient_ = nullptr;
+	}
+	controlActor_ = nullptr;
 	if (stage_ != nullptr)
 	{
 		stage_->Delete();
 		delete stage_;
+		stage_ = nullptr;
 	}
 	delete debugCursorPosition_;
+	debugCursorPosition_ = nullptr;
 	delete render_;
+	render_ = nullptr;
 }
 
 void GameScene::InitLoad()
@@ -127,11 +146,19 @@ void GameScene::InitLoad()
 	talk_->Load();
 	// talk_->SetTalk(TalkDatas::TalkDataIndex::TALK_0);
 
-	player_ = new Player();
-	player_->Init();
+	if (prgMng_.IsNurceCharExists())
+	{
+		player_ = new Player();
+		player_->Init();
+	}
 
-	patient_ = new Patient();
-	patient_->Init();
+	if (prgMng_.IsPatientCharExists())
+	{
+		patient_ = new Patient();
+		patient_->Init();
+	}
+
+	controlActor_ = (player_ != nullptr) ? static_cast<ActorBase*>(player_) : static_cast<ActorBase*>(patient_);
 
 	render_ = new Renderer2D();
 	debugCursorPosition_ = new DebugCursorPosition();
@@ -145,7 +172,10 @@ void GameScene::ApplyInitialProgressState()
 	const ProgressData& startData = ProgressTable::Get(prgMng_.GetProgressEnum());
 
 	currentStage_ = startData.initStage;
-	player_->SetLocalPercent(startData.playerInitPos.x, startData.playerInitPos.y);
+	if (controlActor_ != nullptr)
+	{
+		controlActor_->SetLocalPercent(startData.playerInitPos.x, startData.playerInitPos.y);
+	}
 }
 
 void GameScene::ChangeStage(Stage nextStage)
@@ -182,11 +212,14 @@ void GameScene::ChangeStage(Stage nextStage)
 			stage_->RegisterObjects(*render_);
 		}
 
-		if (currentStage_ == Stage::PAT_ROOM)
+		if (currentStage_ == Stage::PAT_ROOM && patient_ != nullptr)
 		{
 			render_->AddActor(patient_);
 		}
-		render_->AddActor(player_);
+		if (player_ != nullptr)
+		{
+			render_->AddActor(player_);
+		}
 	}
 }
 
@@ -233,34 +266,40 @@ void GameScene::StartFirstTalkByProgress()
 
 void GameScene::UpdatePR()
 {
-	if (canMove_)
+	if (canMove_ && controlActor_ != nullptr)
 	{
-		player_->Update();
+		controlActor_->Update();
 		if (stage_ != nullptr)
 		{
-			stage_->ApplyMovementBlocks(*player_);
+			stage_->ApplyMovementBlocks(*controlActor_);
 		}
 
-
-		if (player_->IsHitCircle(*patient_))
+		if (patient_ != nullptr && controlActor_ != patient_ && controlActor_->IsHitCircle(*patient_))
 		{
-			player_->MoveToBeforePos();
+			controlActor_->MoveToBeforePos();
 		}
 	}
 
-	patient_->Update();
+	if (patient_ != nullptr && controlActor_ != patient_)
+	{
+		patient_->Update();
+	}
 }
 
 void GameScene::DecidePR()
 {
-	const VECTOR pPos = player_->GetTransform().pos;
-	const VECTOR patPos = patient_->GetTransform().pos;
+	if (controlActor_ == nullptr)
+	{
+		return;
+	}
+
+	const VECTOR pPos = controlActor_->GetTransform().pos;
 
 	// ドアの位置にプレイヤーがいて、かつ右を向いているときに遷移
-	if (Collision::IsPointInRect(pPos, PR_TO_NS_AREA1_0, PR_TO_NS_AREA1_1) && player_->IsFacingRight())
+	if (Collision::IsPointInRect(pPos, PR_TO_NS_AREA1_0, PR_TO_NS_AREA1_1) && controlActor_->IsFacingRight())
 	{
 		ChangeStage(Stage::NURSE_STATION);
-		player_->SetLocalPercent(NS_MOVE_POS1.x, NS_MOVE_POS1.y);
+		controlActor_->SetLocalPercent(NS_MOVE_POS1.x, NS_MOVE_POS1.y);
 		return;
 	}
 
@@ -268,42 +307,51 @@ void GameScene::DecidePR()
 	if (Collision::IsPointInRect(pPos, PR_TO_NS_AREA2_0, PR_TO_NS_AREA2_1))
 	{
 		ChangeStage(Stage::NURSE_STATION);
-		player_->SetLocalPercent(NS_MOVE_POS2.x, NS_MOVE_POS2.y);
+		controlActor_->SetLocalPercent(NS_MOVE_POS2.x, NS_MOVE_POS2.y);
 		return;
 	}
 
 	// プレイヤーが患者の近くにいるときに会話開始
-	if (Collision::IsPointInCircle(pPos, patPos, Patient::TALK_RADIUS))
+	if (patient_ != nullptr && controlActor_ != patient_)
 	{
-		const ProgressData& progressData = ProgressTable::Get(prgMng_.GetProgressEnum());
-		if (progressData.patientTalk != TDI::NONE)
+		const VECTOR patPos = patient_->GetTransform().pos;
+		if (Collision::IsPointInCircle(pPos, patPos, Patient::TALK_RADIUS))
 		{
-			talk_->SetTalk(progressData.patientTalk);
+			const ProgressData& progressData = ProgressTable::Get(prgMng_.GetProgressEnum());
+			if (progressData.patientTalk != TDI::NONE)
+			{
+				talk_->SetTalk(progressData.patientTalk);
+			}
 		}
 	}
 }
 
 void GameScene::UpdateNS()
 {
-	if (canMove_)
+	if (canMove_ && controlActor_ != nullptr)
 	{
-		player_->Update();
+		controlActor_->Update();
 		if (stage_ != nullptr)
 		{
-			stage_->ApplyMovementBlocks(*player_);
+			stage_->ApplyMovementBlocks(*controlActor_);
 		}
 	}
 }
 
 void GameScene::DecideNS()
 {
-	const VECTOR pPos = player_->GetTransform().pos;
+	if (controlActor_ == nullptr)
+	{
+		return;
+	}
+
+	const VECTOR pPos = controlActor_->GetTransform().pos;
 
 	// ドアの位置にプレイヤーがいて、かつ左を向いているときに遷移
-	if (Collision::IsPointInRect(pPos, NS_TO_PR_AREA1_0, NS_TO_PR_AREA1_1) && !player_->IsFacingRight())
+	if (Collision::IsPointInRect(pPos, NS_TO_PR_AREA1_0, NS_TO_PR_AREA1_1) && !controlActor_->IsFacingRight())
 	{
 		ChangeStage(Stage::PAT_ROOM);
-		player_->SetLocalPercent(PR_MOVE_POS1.x, PR_MOVE_POS1.y);
+		controlActor_->SetLocalPercent(PR_MOVE_POS1.x, PR_MOVE_POS1.y);
 		return;
 	}
 
@@ -311,7 +359,7 @@ void GameScene::DecideNS()
 	if (Collision::IsPointInRect(pPos, NS_TO_PR_AREA2_0, NS_TO_PR_AREA2_1))
 	{
 		ChangeStage(Stage::PAT_ROOM);
-		player_->SetLocalPercent(PR_MOVE_POS2.x, PR_MOVE_POS2.y);
+		controlActor_->SetLocalPercent(PR_MOVE_POS2.x, PR_MOVE_POS2.y);
 		return;
 	}
 }

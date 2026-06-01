@@ -53,6 +53,18 @@ const Transform2D& ActorBase::GetTransform(void) const
 	return transform_;
 }
 
+void ActorBase::SetLocalPercent(float x, float y)
+{
+	transform_.pos.x = x;
+	transform_.pos.y = y;
+	transform_.beforePos = transform_.pos;
+	transform_.Update();
+}
+
+bool ActorBase::IsFacingRight(void) const
+{
+	return !transform_.isLeft;
+}
 void ActorBase::UpdateSortKey()
 {
 }

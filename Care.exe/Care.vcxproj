@@ -167,6 +167,7 @@
     <ClCompile Include="Src\Object\Actor\ActorBase.cpp" />
     <ClCompile Include="Src\Object\Actor\Patient.cpp" />
     <ClCompile Include="Src\Object\Actor\Player.cpp" />
+    <ClCompile Include="Src\Object\Actor\ProcessMove.cpp" />
     <ClCompile Include="Src\Object\Collider\Collider.cpp" />
     <ClCompile Include="Src\Object\Common\2DTransform.cpp" />
     <ClCompile Include="Src\Object\Common\AnimationController2D.cpp" />
@@ -188,6 +189,7 @@
     <ClCompile Include="Src\Object\Stage\PatientRoom.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Src\Application.h" />
     <ClInclude Include="Src\Common\Fader.h" />
     <ClInclude Include="Src\Common\FpsController.h" />
@@ -207,6 +209,7 @@
     <ClInclude Include="Src\Object\Actor\ActorBase.h" />
     <ClInclude Include="Src\Object\Actor\Patient.h" />
     <ClInclude Include="Src\Object\Actor\Player.h" />
+    <ClInclude Include="Src\Object\Actor\ProcessMove.h" />
     <ClInclude Include="Src\Object\Collider\Collider.h" />
     <ClInclude Include="Src\Object\Common\2DTransform.h" />
     <ClInclude Include="Src\Object\Common\AnimationController2D.h" />
@@ -226,6 +229,12 @@
     <ClInclude Include="Src\Utility\AsoUtility.h" />
     <ClInclude Include="Src\Utility\MatrixUtility.h" />
     <ClInclude Include="Src\Object\Stage\PatientRoom.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Care.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,22 +1,54 @@
 #include "Patient.h"
 #include "../../Manager/ResourceManager.h"
 #include "../../Utility/AsoUtility.h"
+#include "ProcessMove.h"
+#include "../../Manager/ProgressManager.h"
 
 Patient::Patient()
 {
+	// 看護師charファイルがなく患者charファイルがある場合はprocessMove_を生成する
+	if (!ProgressManager::GetInstance().IsNurceCharExists() && 
+		ProgressManager::GetInstance().IsPatientCharExists())
+	{
+		processMove_ = new ProcessMove();
+		processMove_->SetMoveSpeedPercent(INIT_MOVE_SPEED_PER);
+	}
+	else
+	{
+		processMove_ = nullptr;
+
+	}
 }
 
 Patient::~Patient()
 {
+	if (processMove_ != nullptr)
+	{
+		delete processMove_;
+		processMove_ = nullptr;
+	}
 }
 
 void Patient::Update(void)
 {
+	if (processMove_ != nullptr) processMove_->Update(transform_);
+
 	transform_.Update();
 
 	UpdateAnimation();
 
 	anim_.Update();
+}
+
+void Patient::Release(void)
+{
+	if (processMove_ != nullptr)
+	{
+		delete processMove_;
+		processMove_ = nullptr;
+	}
+
+	ActorBase::Release();
 }
 
 void Patient::InitLoad()
