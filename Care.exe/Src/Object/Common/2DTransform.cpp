@@ -220,24 +220,6 @@ VECTOR Transform2D::WorldToLocalPercent(const VECTOR& worldPos)
 	return local;
 }
 
-void Transform2D::BlockCrossingWorldY(float wallY, float thickness)
-{
-	const float halfThickness = thickness * 0.5f;
-	const float backLimitY = wallY - halfThickness;
-	const float frontLimitY = wallY + halfThickness;
-	const float beforeWorldY = PercentToY(beforePos.y);
-	const float currentWorldY = PercentToY(pos.y);
-
-	if (beforeWorldY < wallY && currentWorldY > backLimitY)
-	{
-		pos.y = WorldYToPercentY(backLimitY);
-	}
-	else if (beforeWorldY > wallY && currentWorldY < frontLimitY)
-	{
-		pos.y = WorldYToPercentY(frontLimitY);
-	}
-}
-
 void Transform2D::BlockCrossingLocalRect(const VECTOR& leftTopPercent, const VECTOR& rightBottomPercent)
 {
 	float left = leftTopPercent.x;

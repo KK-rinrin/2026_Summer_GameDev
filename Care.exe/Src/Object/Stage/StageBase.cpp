@@ -17,7 +17,6 @@ void StageBase::Init()
 {
 	objects_.clear();
 	screenObjects_.clear();
-	movementBlocks_.clear();
 	movementRectPercents_.clear();
 
 	InitLoad();
@@ -92,12 +91,6 @@ void StageBase::RegisterObjects(Renderer2D& renderer)
 
 void StageBase::ApplyMovementBlocks(ActorBase& actor) const
 {
-	// 世界Yベースのブロック
-	for (const auto& block : movementBlocks_)
-	{
-		actor.BlockCrossingWorldY(block.worldY, block.thickness);
-	}
-
 	// ローカル百分率矩形ブロック（左上/右下指定）
 	for (const auto& rect : movementRectPercents_)
 	{
@@ -118,11 +111,6 @@ void StageBase::AddTransformObject(const Transform2D& transform)
 void StageBase::AddTransformObject(const Transform2D& transform, float sortY)
 {
 	objects_.push_back({ transform, true, sortY });
-}
-
-void StageBase::AddMovementBlock(float worldY, float thickness)
-{
-	movementBlocks_.push_back({ worldY, thickness });
 }
 
 void StageBase::AddMBRectPercent(const VECTOR& leftTopPercent, const VECTOR& rightBottomPercent)

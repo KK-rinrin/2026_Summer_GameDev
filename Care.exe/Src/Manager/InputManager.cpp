@@ -2,6 +2,7 @@
 #include "../Application.h"
 #include "../Utility/AsoUtility.h"
 #include "InputManager.h"
+#include "KeyConfig.h"
 
 InputManager* InputManager::instance_ = nullptr;
 
@@ -46,6 +47,7 @@ void InputManager::Init(void)
 	InputManager::GetInstance().Add(KEY_INPUT_RSHIFT);
 
 	InputManager::GetInstance().Add(KEY_INPUT_BACKSLASH);
+	KeyConfig::RegisterDefaultKeys(*this);
 
 	InputManager::MouseInfo info;
 
@@ -117,9 +119,10 @@ void InputManager::Destroy(void)
 void InputManager::Add(int key)
 {
 	InputManager::Info info = InputManager::Info();
+	const bool isPressed = CheckHitKey(key) != 0;
 	info.key = key;
-	info.keyOld = false;
-	info.keyNew = false;
+	info.keyOld = isPressed;
+	info.keyNew = isPressed;
 	info.keyTrgDown = false;
 	info.keyTrgUp = false;
 	keyInfos_.emplace(key, info);
@@ -274,16 +277,19 @@ InputManager::JOYPAD_IN_STATE InputManager::GetJPadInputState(JOYPAD_NO no)
 	case InputManager::JOYPAD_TYPE::OTHER:
 		break;
 	case InputManager::JOYPAD_TYPE::XBOX_360:
-	{
-	}
-		break;
 	case InputManager::JOYPAD_TYPE::XBOX_ONE:
 	{
 
 		auto d = GetJPadDInputState(no);
 		auto x = GetJPadXInputState(no);
+		const int padInput = GetJoypadInputState(static_cast<int>(no));
 
 		int idx;
+
+		ret.ButtonsNew[static_cast<int>(JOYPAD_BTN::DPAD_UP)] = (padInput & PAD_INPUT_UP) != 0;
+		ret.ButtonsNew[static_cast<int>(JOYPAD_BTN::DPAD_DOWN)] = (padInput & PAD_INPUT_DOWN) != 0;
+		ret.ButtonsNew[static_cast<int>(JOYPAD_BTN::DPAD_LEFT)] = (padInput & PAD_INPUT_LEFT) != 0;
+		ret.ButtonsNew[static_cast<int>(JOYPAD_BTN::DPAD_RIGHT)] = (padInput & PAD_INPUT_RIGHT) != 0;
 
 		//   Y
 		// X   B
@@ -322,7 +328,13 @@ InputManager::JOYPAD_IN_STATE InputManager::GetJPadInputState(JOYPAD_NO no)
 	{
 		
 		auto d = GetJPadDInputState(no);
+		const int padInput = GetJoypadInputState(static_cast<int>(no));
 		int idx;
+
+		ret.ButtonsNew[static_cast<int>(JOYPAD_BTN::DPAD_UP)] = (padInput & PAD_INPUT_UP) != 0;
+		ret.ButtonsNew[static_cast<int>(JOYPAD_BTN::DPAD_DOWN)] = (padInput & PAD_INPUT_DOWN) != 0;
+		ret.ButtonsNew[static_cast<int>(JOYPAD_BTN::DPAD_LEFT)] = (padInput & PAD_INPUT_LEFT) != 0;
+		ret.ButtonsNew[static_cast<int>(JOYPAD_BTN::DPAD_RIGHT)] = (padInput & PAD_INPUT_RIGHT) != 0;
 
 		//   Å¢
 		// Å†  ÅZ
@@ -383,6 +395,39 @@ bool InputManager::IsPadBtnTrgDown(JOYPAD_NO no, JOYPAD_BTN btn) const
 bool InputManager::IsPadBtnTrgUp(JOYPAD_NO no, JOYPAD_BTN btn) const
 {
 	return padInfos_[static_cast<int>(no)].IsTrgUp[static_cast<int>(btn)];
+}
+
+bool InputManager::IsPadConnected(void) const
+{
+	if (GetJoypadNum() <= 0)
+	{
+		return false;
+	}
+
+	const auto type = GetJPadType(JOYPAD_NO::PAD1);
+	return type == JOYPAD_TYPE::XBOX_360 ||
+		type == JOYPAD_TYPE::XBOX_ONE ||
+		type == JOYPAD_TYPE::DUAL_SHOCK_4 ||
+		type == JOYPAD_TYPE::DUAL_SENSE;
+}
+
+VECTOR InputManager::GetLeftStickInput(JOYPAD_NO no) const
+{
+	const auto& state = padInfos_[static_cast<int>(no)];
+	float dirX = static_cast<float>(state.AKeyLX) / AKEY_VAL_MAX;
+	float dirY = static_cast<float>(state.AKeyLY) / AKEY_VAL_MAX;
+	const float len = sqrtf(dirX * dirX + dirY * dirY);
+
+	if (len < THRESHOLD)
+	{
+		return { 0.0f, 0.0f, 0.0f };
+	}
+
+	const float scale = (len - THRESHOLD) / (1.0f - THRESHOLD);
+	dirX = (dirX / len) * scale;
+	dirY = (dirY / len) * scale;
+
+	return { dirX, dirY, 0.0f };
 }
 
 VECTOR InputManager::GetDirectionXZAKey(int aKeyX, int aKeyY) const

@@ -55,7 +55,6 @@ public:
 
 	VECTOR GetWorldPos() const;
 	static VECTOR WorldToLocalPercent(const VECTOR& worldPos);
-	void BlockCrossingWorldY(float wallY, float thickness);
 
 	// 追加：ローカル百分率矩形での通過防止（leftTopPercent / rightBottomPercent は VECTOR、0..100）
 	void BlockCrossingLocalRect(const VECTOR& leftTopPercent, const VECTOR& rightBottomPercent);

@@ -51,6 +51,10 @@ public:
 		DOWN,
 		R_TRIGGER,
 		L_TRIGGER,
+		DPAD_UP,
+		DPAD_DOWN,
+		DPAD_LEFT,
+		DPAD_RIGHT,
 		MAX
 	};
 
@@ -124,6 +128,8 @@ public:
 	bool IsPadBtnNew(JOYPAD_NO no, JOYPAD_BTN btn) const;
 	bool IsPadBtnTrgDown(JOYPAD_NO no, JOYPAD_BTN btn) const;
 	bool IsPadBtnTrgUp(JOYPAD_NO no, JOYPAD_BTN btn) const;
+	bool IsPadConnected(void) const;
+	VECTOR GetLeftStickInput(JOYPAD_NO no) const;
 
 	// アナログキーの入力値から方向(正規化済み)を取得
 	VECTOR GetDirectionXZAKey(int aKeyX, int aKeyY) const;

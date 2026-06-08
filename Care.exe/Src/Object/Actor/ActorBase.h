@@ -37,8 +37,6 @@ public:
 
 	float GetSortY() const { return transform_.GetWorldPos().y; }
 
-	void BlockCrossingWorldY(float wallY, float thickness) { transform_.BlockCrossingWorldY(wallY, thickness); }
-
 	// ローカル百分率矩形による通過防止（leftTop / rightBottom は VECTOR、0..100）
 	void BlockCrossingLocalRect(const VECTOR& leftTopPercent, const VECTOR& rightBottomPercent) { transform_.BlockCrossingLocalRect(leftTopPercent, rightBottomPercent); }
 

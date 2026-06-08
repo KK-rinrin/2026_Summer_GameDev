@@ -16,10 +16,7 @@ PatientRoom::~PatientRoom()
 void PatientRoom::InitLoad()
 {
 	BGhandle_ = resMng_.Load(ResourceManager::SRC::BG_1).handleId_;
-
 	wallHandle_ = resMng_.Load(ResourceManager::SRC::BG_1_WALL).handleId_;
-
-
 	toiletHandle_ = resMng_.Load(ResourceManager::SRC::BG_1_TOILET).handleId_;
 
 }
@@ -32,6 +29,6 @@ void PatientRoom::InitTransform()
 
 void PatientRoom::InitCollider()
 {
-	AddMovementBlock(WALL_SORT_Y, WALL_THICKNESS);
-	AddMBRectPercent({ 78.0f, 5.0f, 0.0f }, { 85.0f, 10.0f, 0.0f });
+	AddMBRectPercent(WALL_BLOCK_LEFT_TOP, WALL_BLOCK_RIGHT_BOTTOM);
+	AddMBRectPercent({ 75.0f, 5.0f, 0.0f }, { 87.0f, 10.0f, 0.0f });
 }

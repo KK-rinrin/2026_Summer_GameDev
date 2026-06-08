@@ -28,12 +28,6 @@ protected:
 		bool trans;
 	};
 
-	struct MovementBlock
-	{
-		float worldY;
-		float thickness;
-	};
-
 	// ローカル百分率基準の矩形（pos.x/pos.y が 0..100 の空間）
 	struct MovementRectPercent
 	{
@@ -51,7 +45,6 @@ protected:
 	void AddScreenObject(int handle, float sortY, bool trans = true);
 	void AddTransformObject(const Transform2D& transform);
 	void AddTransformObject(const Transform2D& transform, float sortY);
-	void AddMovementBlock(float worldY, float thickness);
 	void AddMBRectPercent(const VECTOR& leftTopPercent, const VECTOR& rightBottomPercent);
 
 	virtual void InitLoad() {}
@@ -61,7 +54,6 @@ protected:
 	int BGhandle_;
 	std::vector<TransformObject> objects_;	// 障害物の位置
 	std::vector<RenderObject> screenObjects_;
-	std::vector<MovementBlock> movementBlocks_;
 	std::vector<MovementRectPercent> movementRectPercents_;
 
 	ResourceManager& resMng_;
