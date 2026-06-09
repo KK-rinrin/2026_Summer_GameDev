@@ -17,6 +17,7 @@ public:
 		EFFEKSEER,
 		LIVE2D,
 		FONT,
+		SOUND,
 	};
 
 	// コンストラクタ

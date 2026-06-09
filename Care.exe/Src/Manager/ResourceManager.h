@@ -28,6 +28,8 @@ public:
 		BG_2_CHAIR,				// パソコンデスクの椅子
 		BG_2_LOCKER,			// ナースステーションのロッカー
 
+		BGM_GAME,
+
 		// 会話画面
 		PLAYER_MODEL,			// プレイヤーLive2Dモデル
 		PATIENT_MODEL,			// ヌイLive2Dモデル
@@ -37,7 +39,7 @@ public:
 
 	};
 
-	// 明示的にインステンスを生成する
+	// 明示的にインスタンスを生成する
 	static void CreateInstance(void);
 
 	// 静的インスタンスの取得

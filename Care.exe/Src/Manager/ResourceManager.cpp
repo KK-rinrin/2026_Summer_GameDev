@@ -57,6 +57,10 @@ void ResourceManager::Init(void)
 	CreateResource(SRC::PATIENT_MODEL, RES_T::LIVE2D, PATH_MODEL + "patient/patient.model3.json");
 	CreateResource(SRC::PLAYER_MODEL, RES_T::LIVE2D, PATH_MODEL + "nurce/nurce.model3.json");
 
+	// 音楽
+	res = new Resource(RES_T::SOUND, PATH_SOUND + "Game.wav");
+	resourcesMap_.emplace(SRC::BGM_GAME, res);
+
 	// フォント
 	res = new Resource(RES_T::FONT, "コーポレート明朝 ver3 Medium", 30);
 	resourcesMap_.emplace(SRC::TALK_FONT, res);

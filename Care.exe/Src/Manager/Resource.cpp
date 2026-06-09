@@ -106,6 +106,10 @@ void Resource::Load(void)
 	case Resource::TYPE::FONT:
 		handleId_ = CreateFontToHandle(path_.c_str(), fontSize_, thick_, DX_FONTTYPE_ANTIALIASING);
 		break;
+
+	case Resource::TYPE::SOUND:
+		handleId_ = LoadSoundMem(path_.c_str());
+		break;
 	}
 
 }
@@ -180,6 +184,14 @@ void Resource::Release(void)
 		if (handleId_ != -1)
 		{
 			DeleteFontToHandle(handleId_);
+			handleId_ = -1;
+		}
+		break;
+
+	case Resource::TYPE::SOUND:
+		if (handleId_ != -1)
+		{
+			DeleteSoundMem(handleId_);
 			handleId_ = -1;
 		}
 		break;

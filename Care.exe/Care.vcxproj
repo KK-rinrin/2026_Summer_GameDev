@@ -164,6 +164,7 @@
     <ClCompile Include="Src\Manager\Resource.cpp" />
     <ClCompile Include="Src\Manager\ResourceManager.cpp" />
     <ClCompile Include="Src\Manager\SceneManager.cpp" />
+    <ClCompile Include="Src\Sound\SoundManager.cpp" />
     <ClCompile Include="Src\Object\Actor\ActorBase.cpp" />
     <ClCompile Include="Src\Object\Actor\Patient.cpp" />
     <ClCompile Include="Src\Object\Actor\Player.cpp" />
@@ -226,6 +227,7 @@
     <ClInclude Include="Src\Scene\SceneBase.h" />
     <ClInclude Include="Src\Scene\SettingScene.h" />
     <ClInclude Include="Src\Scene\TitleScene.h" />
+    <ClInclude Include="Src\Sound\SoundManager.h" />
     <ClInclude Include="Src\Utility\AsoUtility.h" />
     <ClInclude Include="Src\Utility\MatrixUtility.h" />
     <ClInclude Include="Src\Object\Stage\PatientRoom.h" />
