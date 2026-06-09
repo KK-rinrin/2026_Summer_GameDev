@@ -7,6 +7,7 @@
 #include "Application.h"
 #include "FpsControl/FpsControl.h"
 #include "Manager/Live2DModelHub.h"
+#include "Sound/SoundManager.h"
 
 Application* Application::instance_ = nullptr;
 
@@ -81,6 +82,9 @@ void Application::Init(void)
 	// リソース管理初期化
 	ResourceManager::CreateInstance();
 
+	// サウンド管理初期化
+	SoundManager::CreateInstance();
+
 	// 進行度管理初期化
 	ProgressManager::CreateInstance();
 
@@ -125,6 +129,9 @@ void Application::Destroy(void)
 
 	// Live2D モデルをハブから明示的に解放しておく
 	Live2DModelHub::Instance().ReleaseAll();
+
+	// サウンド管理開放
+	SoundManager::GetInstance().Destroy();
 
 	// リソース管理開放
 	ResourceManager::GetInstance().Destroy();

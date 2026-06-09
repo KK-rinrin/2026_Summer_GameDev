@@ -2,8 +2,6 @@
 #include "../Manager/ResourceManager.h"
 #include <DxLib.h>
 
-using namespace SoundManager;
-
 SoundManager* SoundManager::instance_ = nullptr;
 
 void SoundManager::CreateInstance(void)
@@ -29,9 +27,26 @@ void SoundManager::Destroy(void)
 	instance_ = nullptr;
 }
 
+SoundManager::SoundManager()
+{
+	resHandles_.fill(-1);
+}
+
 bool SoundManager::Load(BGM bgm)
 {
-	return;
+	ResourceManager::SRC res;
+	switch (bgm)
+	{
+	case BGM::GAME0:
+		res = ResourceManager::SRC::BGM_GAME;
+		break;
+
+	default:
+		return false;
+	}
+
+	resHandles_[static_cast<int>(bgm)] = resMng_->GetInstance().Load(res).handleId_;
+	return true;
 }
 
 bool SoundManager::PlayBGM(BGM bgm)

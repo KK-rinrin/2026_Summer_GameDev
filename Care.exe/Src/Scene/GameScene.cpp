@@ -13,6 +13,7 @@
 #include "../Object/Stage/NurceStation.h"
 #include "../Debug/DebugCursorPosition.h"
 #include "../Manager/ProgressManager.h"
+#include "../Sound/SoundManager.h"
 #include "ProgressTable.h"
 
 GameScene::GameScene(void)
@@ -37,6 +38,11 @@ GameScene::~GameScene(void)
 
 void GameScene::Update(void)
 {
+	if (firstUpdate_)
+	{
+		SoundManager::GetInstance().PlayBGM(SoundManager::BGM::GAME0);
+	}
+
 	UpdateTalkProgress();
 
 	// ƒV[ƒ“‘JˆÚ

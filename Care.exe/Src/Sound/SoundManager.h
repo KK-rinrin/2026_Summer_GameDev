@@ -27,7 +27,7 @@ public:
 
 private:
 	// ƒRƒs[‘ã“ü–h~
-	SoundManager(void) = default;
+	SoundManager(void);
 	SoundManager(const SoundManager& instance) = delete;
 	SoundManager& operator=(const SoundManager& instance) = delete;
 	~SoundManager(void) = default;
