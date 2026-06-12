@@ -2,6 +2,7 @@
 #include "../Manager/SceneManager.h"
 #include "../Manager/InputManager.h"
 #include "../Manager/ProgressManager.h"
+#include "../Sound/SoundManager.h"
 #include "SceneBase.h"
 
 SceneBase::SceneBase(void) 
@@ -9,7 +10,8 @@ SceneBase::SceneBase(void)
 	resMng_(ResourceManager::GetInstance()),
 	sceMng_(SceneManager::GetInstance()),
 	iptMng_(InputManager::GetInstance()),
-	prgMng_(ProgressManager::GetInstance())
+	prgMng_(ProgressManager::GetInstance()),
+	sndMng_(SoundManager::GetInstance())
 {
 }
 

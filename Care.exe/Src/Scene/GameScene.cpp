@@ -40,7 +40,7 @@ void GameScene::Update(void)
 {
 	if (firstUpdate_)
 	{
-		SoundManager::GetInstance().PlayBGM(SoundManager::BGM::GAME0);
+		sndMng_.PlayBGM(SoundManager::BGM::GAME0);
 	}
 
 	UpdateTalkProgress();

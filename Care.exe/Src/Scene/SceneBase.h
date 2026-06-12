@@ -3,6 +3,7 @@ class ResourceManager;
 class SceneManager;
 class InputManager;
 class ProgressManager;
+class SoundManager;
 
 class SceneBase
 {
@@ -40,5 +41,7 @@ protected:
 	InputManager& iptMng_;
 
 	ProgressManager& prgMng_;
+
+	SoundManager& sndMng_;
 
 };

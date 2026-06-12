@@ -5,20 +5,19 @@
 #include "../Manager/KeyConfig.h"
 #include "../Manager/ResourceManager.h"
 #include "../Manager/SceneManager.h"
+#include "../Sound/SoundManager.h"
 #include "SettingScene.h"
-
-int SettingScene::savedBgmVolume_ = SettingScene::INITIAL_VOLUME;
-int SettingScene::savedSeVolume_ = SettingScene::INITIAL_VOLUME;
 
 SettingScene::SettingScene(void)
 	:
 	SceneBase(),
 	fontTitle_(INVALID_FONT_HANDLE),
 	font_(INVALID_FONT_HANDLE),
+	sndMng_(SoundManager::GetInstance()),
 	selectItem_(INITIAL_SELECT_ITEM),
-	bgmVolume_(savedBgmVolume_),
-	seVolume_(savedSeVolume_),
-	previousVolume_(INITIAL_VOLUME),
+	bgmVolume_(sndMng_.GetVolumeBGM()),
+	seVolume_(sndMng_.GetVolumeSE()),
+	previousVolume_(VOLUME_MIN),
 	selectAction_(0),
 	isWaitingKeyInput_(false),
 	isKeyInputReady_(false)
@@ -171,19 +170,21 @@ void SettingScene::UpdateItemBGMVol()
 	if (KeyConfig::IsTrgDown(KeyConfig::ACTION::MOVE_LEFT, iptMng_))
 	{
 		bgmVolume_ = (std::max)(VOLUME_MIN, bgmVolume_ - VOLUME_STEP);
+		sndMng_.SetVolumeBGM(bgmVolume_);
 	}
 	if (KeyConfig::IsTrgDown(KeyConfig::ACTION::MOVE_RIGHT, iptMng_))
 	{
 		bgmVolume_ = (std::min)(VOLUME_MAX, bgmVolume_ + VOLUME_STEP);
+		sndMng_.SetVolumeBGM(bgmVolume_);
 	}
 	if (KeyConfig::IsTrgDown(KeyConfig::ACTION::DECIDE, iptMng_))
 	{
-		savedBgmVolume_ = bgmVolume_;
 		FinishItemUpdate();
 	}
 	if (KeyConfig::IsTrgDown(KeyConfig::ACTION::CANCEL, iptMng_))
 	{
 		bgmVolume_ = previousVolume_;
+		sndMng_.SetVolumeBGM(bgmVolume_);
 		FinishItemUpdate();
 	}
 }
@@ -193,19 +194,21 @@ void SettingScene::UpdateItemSEVol()
 	if (KeyConfig::IsTrgDown(KeyConfig::ACTION::MOVE_LEFT, iptMng_))
 	{
 		seVolume_ = (std::max)(VOLUME_MIN, seVolume_ - VOLUME_STEP);
+		sndMng_.SetVolumeSE(seVolume_);
 	}
 	if (KeyConfig::IsTrgDown(KeyConfig::ACTION::MOVE_RIGHT, iptMng_))
 	{
 		seVolume_ = (std::min)(VOLUME_MAX, seVolume_ + VOLUME_STEP);
+		sndMng_.SetVolumeSE(seVolume_);
 	}
 	if (KeyConfig::IsTrgDown(KeyConfig::ACTION::DECIDE, iptMng_))
 	{
-		savedSeVolume_ = seVolume_;
 		FinishItemUpdate();
 	}
 	if (KeyConfig::IsTrgDown(KeyConfig::ACTION::CANCEL, iptMng_))
 	{
 		seVolume_ = previousVolume_;
+		sndMng_.SetVolumeSE(seVolume_);
 		FinishItemUpdate();
 	}
 }

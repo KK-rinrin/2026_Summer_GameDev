@@ -3,6 +3,8 @@
 #include <functional>
 #include "SceneBase.h"
 
+class SoundManager;
+
 class SettingScene : public SceneBase
 {
 
@@ -33,7 +35,6 @@ public:
 	static constexpr int VOLUME_MIN = 0;
 	static constexpr int VOLUME_MAX = 100;
 	static constexpr int VOLUME_STEP = 10;
-	static constexpr int INITIAL_VOLUME = 100;
 	static constexpr int DETAIL_POS_X = 390;
 	static constexpr int DETAIL_POS_Y = 210;
 	static constexpr int DETAIL_INTERVAL_Y = 45;
@@ -79,6 +80,7 @@ private:
 
 	int fontTitle_;
 	int font_;
+	SoundManager& sndMng_;
 	int selectItem_;
 	int bgmVolume_;
 	int seVolume_;
@@ -87,6 +89,4 @@ private:
 	bool isWaitingKeyInput_;
 	bool isKeyInputReady_;
 
-	static int savedBgmVolume_;
-	static int savedSeVolume_;
 };
