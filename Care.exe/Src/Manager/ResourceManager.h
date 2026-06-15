@@ -28,11 +28,14 @@ public:
 		BG_2_CHAIR,				// パソコンデスクの椅子
 		BG_2_LOCKER,			// ナースステーションのロッカー
 
-		BGM_GAME,	// ゲーム中BGM（アドベンチャーモード）
+		BGM_GAME,				// ゲーム中BGM（アドベンチャーモード）
 
-		SE_DECIDE,	// 決定音
-		SE_CANCEL,	// キャンセル音
-		SE_DOOR,	// ドアの音
+		SE_DECIDE,				// システム決定音
+		SE_CANCEL,				// システムキャンセル音
+		SE_CURSOR_MOVE,			// システムカーソル移動音
+		SE_BEEP,				// システムエラー音
+
+		SE_DOOR,				// ドアの音
 
 		// 会話画面
 		PLAYER_MODEL,			// プレイヤーLive2Dモデル

@@ -1,5 +1,6 @@
 #include "SoundManager.h"
 #include "../Manager/ResourceManager.h"
+#include "../Utility/AsoUtility.h"
 
 #include <DxLib.h>
 
@@ -31,70 +32,100 @@ void SoundManager::Destroy(void)
 SoundManager::SoundManager()
 	:
 	resMng_(ResourceManager::GetInstance()),
-	BGMvol_(INITIAL_VOLUME),
-	SEvol_(INITIAL_VOLUME)
+	BGMvol_(DXLIB_VOLUME_MAX),
+	SEvol_(DXLIB_VOLUME_MAX),
+	BGMvolPercent_(INITIAL_VOLUME),
+	SEvolPercent_(INITIAL_VOLUME)
 {
+	// -1で初期化
 	resHandlesBGM_.fill(-1);
 	resHandlesSE_.fill(-1);
 }
 
 bool SoundManager::Load(BGM bgm)
 {
+	// SRCと対応付け
 	ResourceManager::SRC res;
 	switch (bgm)
 	{
+	case BGM::GAME0: res = ResourceManager::SRC::BGM_GAME; break;
 	default: return false;
-	case BGM::GAME0: res = ResourceManager::SRC::BGM_GAME;
 	}
 
+	// ロードしてハンドルを格納
 	resHandlesBGM_[static_cast<int>(bgm)] = resMng_.Load(res).handleId_;
+
+	// 音量変更を適用
 	ChangeVolumeSoundMem(BGMvol_, resHandlesBGM_[static_cast<int>(bgm)]);
+
 	return true;
 }
 
 bool SoundManager::Load(SE se)
 {
+	// SRCと対応付け
 	ResourceManager::SRC res;
 	switch (se)
 	{
-	default: return false;
 	case SE::DECIDE: res = ResourceManager::SRC::SE_DECIDE; break;
 	case SE::CANCEL: res = ResourceManager::SRC::SE_CANCEL; break;
+	case SE::MOVE: res = ResourceManager::SRC::SE_CURSOR_MOVE; break;
+	case SE::BEEP: res = ResourceManager::SRC::SE_BEEP; break;
 	case SE::DOOR: res = ResourceManager::SRC::SE_DOOR; break;
+	default: return false;
 	}
 
+	// ロードしてハンドルを格納
 	resHandlesSE_[static_cast<int>(se)] = resMng_.Load(res).handleId_;
+
+	// 音量変更を適用
 	ChangeVolumeSoundMem(SEvol_, resHandlesSE_[static_cast<int>(se)]);
 	return true;
 }
 
 bool SoundManager::PlayBGM(BGM bgm)
 {
-	if (resHandlesBGM_[static_cast<int>(bgm)] == -1)
+	int& handle = resHandlesBGM_[static_cast<int>(bgm)];
+
+	// ハンドルが有効かチェック
+	if (handle == -1 || CheckSoundMem(handle) == -1)
 	{
+		// ロード試行
 		if (Load(bgm) == false) return false;
 	}
-	int success = PlaySoundMem(resHandlesBGM_[static_cast<int>(bgm)], DX_PLAYTYPE_LOOP, true);
+
+	// 再生
+	int success = PlaySoundMem(handle, DX_PLAYTYPE_LOOP, true);
+
 	if (success == 0) return true;
 	else return false;
 }
 
 bool SoundManager::PlaySE(SE se)
 {
-	if (resHandlesSE_[static_cast<int>(se)] == -1)
+	int& handle = resHandlesSE_[static_cast<int>(se)];
+
+	// ハンドルが有効かチェック
+	if (handle == -1 || CheckSoundMem(handle) == -1)
 	{
+		// ロード試行
 		if (Load(se) == false) return false;
 	}
-	int success = PlaySoundMem(resHandlesSE_[static_cast<int>(se)], DX_PLAYTYPE_BACK, true);
+
+	// 再生
+	int success = PlaySoundMem(handle, DX_PLAYTYPE_BACK, true);
+
+
 	if (success == 0) return true;
 	else return false;
 }
 
 void SoundManager::StopBGM()
 {
+	// すべてのBGMを停止
 	for (auto& bgm : resHandlesBGM_)
 	{
-		if (CheckSoundMem(bgm))
+		if (CheckSoundMem(bgm) == 1)
 		{
 			StopSoundMem(bgm);
 		}
@@ -103,7 +134,14 @@ void SoundManager::StopBGM()
 
 void SoundManager::SetVolumeBGM(int vol)
 {
-	BGMvol_ = vol;
+	// 0～100の設定値を保存し、DxLib用の0～255へ変換
+	BGMvolPercent_ = static_cast<int>(AsoUtility::Clamp(
+		static_cast<float>(vol), VOLUME_PERCENT_MIN, VOLUME_PERCENT_MAX));
+	BGMvol_ = AsoUtility::Lerp(
+		DXLIB_VOLUME_MIN, DXLIB_VOLUME_MAX,
+		static_cast<float>(BGMvolPercent_) / VOLUME_PERCENT_MAX);
+
+	// すべてのBGMに適用
 	for (auto& bgm : resHandlesBGM_)
 	{
 		if (bgm != -1)
@@ -115,7 +153,14 @@ void SoundManager::SetVolumeBGM(int vol)
 
 void SoundManager::SetVolumeSE(int vol)
 {
-	SEvol_ = vol;
+	// 0～100の設定値を保存し、DxLib用の0～255へ変換
+	SEvolPercent_ = static_cast<int>(AsoUtility::Clamp(
+		static_cast<float>(vol), VOLUME_PERCENT_MIN, VOLUME_PERCENT_MAX));
+	SEvol_ = AsoUtility::Lerp(
+		DXLIB_VOLUME_MIN, DXLIB_VOLUME_MAX,
+		static_cast<float>(SEvolPercent_) / VOLUME_PERCENT_MAX);
+
+	// すべてのSEに適用
 	for (auto& se : resHandlesSE_)
 	{
 		if (se != -1)

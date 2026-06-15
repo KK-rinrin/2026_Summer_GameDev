@@ -7,6 +7,7 @@
 #include "../Manager/SceneManager.h"
 #include "../Manager/ResourceManager.h"
 #include "../Manager/ProgressManager.h"
+#include "../Manager/SoundManager.h"
 #include "TitleScene.h"
 #include "../Application.h"
 #include "../Object/Talk/window/Live2DTalkController.h"
@@ -123,11 +124,15 @@ void TitleScene::DrawSelectMenu(void)
 
 void TitleScene::MoveSelectMenu(int move)
 {
+	sndMng_.PlaySE(SE::MOVE);
+
 	selectMenu_ = (selectMenu_ + move + MENU_ITEM_NUM) % MENU_ITEM_NUM;
 }
 
 void TitleScene::DecideSelectMenu(void)
 {
+	sndMng_.PlaySE(SE::DECIDE);
+
 	switch (static_cast<Menu>(selectMenu_))
 	{
 	case Menu::START:

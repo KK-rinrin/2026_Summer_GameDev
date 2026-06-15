@@ -5,7 +5,7 @@
 #include "../Manager/KeyConfig.h"
 #include "../Manager/ResourceManager.h"
 #include "../Manager/SceneManager.h"
-#include "../Sound/SoundManager.h"
+#include "../Manager/SoundManager.h"
 #include "SettingScene.h"
 
 SettingScene::SettingScene(void)
@@ -45,17 +45,25 @@ void SettingScene::Update(void)
 	if (KeyConfig::IsTrgDown(KeyConfig::ACTION::MOVE_UP, iptMng_))
 	{
 		MoveSelectItem(MENU_MOVE_PREV);
+
+		sndMng_.PlaySE(SE::MOVE);
 	}
 	if (KeyConfig::IsTrgDown(KeyConfig::ACTION::MOVE_DOWN, iptMng_))
 	{
 		MoveSelectItem(MENU_MOVE_NEXT);
+
+		sndMng_.PlaySE(SE::MOVE);
 	}
 	if (KeyConfig::IsTrgDown(KeyConfig::ACTION::DECIDE, iptMng_))
 	{
+		sndMng_.PlaySE(SE::DECIDE);
+
 		DecideSelectItem();
 	}
 	if (KeyConfig::IsTrgDown(KeyConfig::ACTION::CANCEL, iptMng_))
 	{
+		sndMng_.PlaySE(SE::CANCEL);
+
 		sceMng_.ChangeScene(SceneManager::SCENE_ID::TITLE);
 	}
 }
@@ -171,21 +179,29 @@ void SettingScene::UpdateItemBGMVol()
 	{
 		bgmVolume_ = (std::max)(VOLUME_MIN, bgmVolume_ - VOLUME_STEP);
 		sndMng_.SetVolumeBGM(bgmVolume_);
+
+		sndMng_.PlaySE(SE::MOVE);
 	}
 	if (KeyConfig::IsTrgDown(KeyConfig::ACTION::MOVE_RIGHT, iptMng_))
 	{
 		bgmVolume_ = (std::min)(VOLUME_MAX, bgmVolume_ + VOLUME_STEP);
 		sndMng_.SetVolumeBGM(bgmVolume_);
+
+		sndMng_.PlaySE(SE::MOVE);
 	}
 	if (KeyConfig::IsTrgDown(KeyConfig::ACTION::DECIDE, iptMng_))
 	{
 		FinishItemUpdate();
+
+		sndMng_.PlaySE(SE::DECIDE);
 	}
 	if (KeyConfig::IsTrgDown(KeyConfig::ACTION::CANCEL, iptMng_))
 	{
 		bgmVolume_ = previousVolume_;
 		sndMng_.SetVolumeBGM(bgmVolume_);
 		FinishItemUpdate();
+
+		sndMng_.PlaySE(SE::CANCEL);
 	}
 }
 
@@ -195,21 +211,29 @@ void SettingScene::UpdateItemSEVol()
 	{
 		seVolume_ = (std::max)(VOLUME_MIN, seVolume_ - VOLUME_STEP);
 		sndMng_.SetVolumeSE(seVolume_);
+
+		sndMng_.PlaySE(SE::MOVE);
 	}
 	if (KeyConfig::IsTrgDown(KeyConfig::ACTION::MOVE_RIGHT, iptMng_))
 	{
 		seVolume_ = (std::min)(VOLUME_MAX, seVolume_ + VOLUME_STEP);
 		sndMng_.SetVolumeSE(seVolume_);
+
+		sndMng_.PlaySE(SE::MOVE);
 	}
 	if (KeyConfig::IsTrgDown(KeyConfig::ACTION::DECIDE, iptMng_))
 	{
 		FinishItemUpdate();
+
+		sndMng_.PlaySE(SE::DECIDE);
 	}
 	if (KeyConfig::IsTrgDown(KeyConfig::ACTION::CANCEL, iptMng_))
 	{
 		seVolume_ = previousVolume_;
 		sndMng_.SetVolumeSE(seVolume_);
 		FinishItemUpdate();
+
+		sndMng_.PlaySE(SE::CANCEL);
 	}
 }
 
@@ -221,20 +245,28 @@ void SettingScene::UpdateItemKeyCon()
 		{
 			const int actionNum = static_cast<int>(KeyConfig::ACTION::MAX);
 			selectAction_ = (selectAction_ + MENU_MOVE_PREV + actionNum) % actionNum;
+
+			sndMng_.PlaySE(SE::MOVE);
 		}
 		if (KeyConfig::IsTrgDown(KeyConfig::ACTION::MOVE_DOWN, iptMng_))
 		{
 			const int actionNum = static_cast<int>(KeyConfig::ACTION::MAX);
 			selectAction_ = (selectAction_ + MENU_MOVE_NEXT) % actionNum;
+
+			sndMng_.PlaySE(SE::MOVE);
 		}
 		if (KeyConfig::IsTrgDown(KeyConfig::ACTION::DECIDE, iptMng_))
 		{
 			isWaitingKeyInput_ = true;
 			isKeyInputReady_ = false;
+
+			sndMng_.PlaySE(SE::DECIDE);
 		}
 		if (KeyConfig::IsTrgDown(KeyConfig::ACTION::CANCEL, iptMng_))
 		{
 			FinishItemUpdate();
+
+			sndMng_.PlaySE(SE::CANCEL);
 		}
 		return;
 	}
@@ -260,6 +292,12 @@ void SettingScene::UpdateItemKeyCon()
 		{
 			isWaitingKeyInput_ = false;
 			isKeyInputReady_ = false;
+
+			sndMng_.PlaySE(SE::DECIDE);
+		}
+		else
+		{
+			sndMng_.PlaySE(SE::BEEP);
 		}
 		return;
 	}

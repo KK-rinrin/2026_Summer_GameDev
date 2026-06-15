@@ -2,7 +2,7 @@
 #include "../Manager/SceneManager.h"
 #include "../Manager/InputManager.h"
 #include "../Manager/ProgressManager.h"
-#include "../Sound/SoundManager.h"
+#include "../Manager/SoundManager.h"
 #include "SceneBase.h"
 
 SceneBase::SceneBase(void) 

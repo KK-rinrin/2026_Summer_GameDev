@@ -7,7 +7,7 @@
 #include "Application.h"
 #include "FpsControl/FpsControl.h"
 #include "Manager/Live2DModelHub.h"
-#include "Sound/SoundManager.h"
+#include "Manager/SoundManager.h"
 
 Application* Application::instance_ = nullptr;
 

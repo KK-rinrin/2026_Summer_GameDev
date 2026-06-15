@@ -13,7 +13,7 @@
 #include "../Object/Stage/NurceStation.h"
 #include "../Debug/DebugCursorPosition.h"
 #include "../Manager/ProgressManager.h"
-#include "../Sound/SoundManager.h"
+#include "../Manager/SoundManager.h"
 #include "ProgressTable.h"
 
 GameScene::GameScene(void)
@@ -50,7 +50,7 @@ void GameScene::Update(void)
 	{
 		sceMng_.ChangeScene(SceneManager::SCENE_ID::TITLE);
 	}
-
+	
 	if (stage_ != nullptr)
 	{
 		stage_->Update();
@@ -306,6 +306,7 @@ void GameScene::DecidePR()
 	{
 		ChangeStage(Stage::NURSE_STATION);
 		controlActor_->SetLocalPercent(NS_MOVE_POS1.x, NS_MOVE_POS1.y);
+		sndMng_.PlaySE(SE::DOOR);
 		return;
 	}
 
@@ -314,6 +315,7 @@ void GameScene::DecidePR()
 	{
 		ChangeStage(Stage::NURSE_STATION);
 		controlActor_->SetLocalPercent(NS_MOVE_POS2.x, NS_MOVE_POS2.y);
+		sndMng_.PlaySE(SE::DOOR);
 		return;
 	}
 
@@ -358,6 +360,7 @@ void GameScene::DecideNS()
 	{
 		ChangeStage(Stage::PAT_ROOM);
 		controlActor_->SetLocalPercent(PR_MOVE_POS1.x, PR_MOVE_POS1.y);
+		sndMng_.PlaySE(SE::DOOR);
 		return;
 	}
 
@@ -366,6 +369,7 @@ void GameScene::DecideNS()
 	{
 		ChangeStage(Stage::PAT_ROOM);
 		controlActor_->SetLocalPercent(PR_MOVE_POS2.x, PR_MOVE_POS2.y);
+		sndMng_.PlaySE(SE::DOOR);
 		return;
 	}
 }

@@ -58,8 +58,25 @@ void ResourceManager::Init(void)
 	CreateResource(SRC::PLAYER_MODEL, RES_T::LIVE2D, PATH_MODEL + "nurce/nurce.model3.json");
 
 	// 音楽
-	res = new Resource(RES_T::SOUND, PATH_SOUND + "Game.wav");
+	res = new Resource(RES_T::SOUND, PATH_SOUND + "BGM/Game.wav");
 	resourcesMap_.emplace(SRC::BGM_GAME, res);
+
+	// SE
+	res = new Resource(RES_T::SOUND, PATH_SOUND + "SE/system_decide.mp3");
+	resourcesMap_.emplace(SRC::SE_DECIDE, res);
+	
+	res = new Resource(RES_T::SOUND, PATH_SOUND + "SE/system_cancel.mp3");
+	resourcesMap_.emplace(SRC::SE_CANCEL, res);
+
+	res = new Resource(RES_T::SOUND, PATH_SOUND + "SE/system_cursor_move.mp3");
+	resourcesMap_.emplace(SRC::SE_CURSOR_MOVE, res);
+
+	res = new Resource(RES_T::SOUND, PATH_SOUND + "SE/system_beep.mp3");
+	resourcesMap_.emplace(SRC::SE_BEEP, res);
+
+	// ドアSE
+	res = new Resource(RES_T::SOUND, PATH_SOUND + "SE/door.mp3");
+	resourcesMap_.emplace(SRC::SE_DOOR, res);
 
 	// フォント
 	res = new Resource(RES_T::FONT, "コーポレート明朝 ver3 Medium", 30);

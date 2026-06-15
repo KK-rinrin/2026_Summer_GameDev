@@ -21,6 +21,8 @@ public:
 	{
 		DECIDE,
 		CANCEL,
+		MOVE,
+		BEEP,
 		DOOR,
 		MAX
 	};
@@ -42,10 +44,14 @@ public:
 	void SetVolumeSE(int vol);
 
 	// âπó ÇéÊìæ
-	const int GetVolumeBGM() { return BGMvol_; }
-	const int GetVolumeSE() { return SEvol_; }
+	const int GetVolumeBGM() const { return BGMvolPercent_; }
+	const int GetVolumeSE() const { return SEvolPercent_; }
 
 	static constexpr int INITIAL_VOLUME = 100;
+	static constexpr int VOLUME_PERCENT_MIN = 0;
+	static constexpr int VOLUME_PERCENT_MAX = 100;
+	static constexpr int DXLIB_VOLUME_MIN = 0;
+	static constexpr int DXLIB_VOLUME_MAX = 255;
 
 private:
 	// ÉRÉsÅ[ë„ì¸ñhé~
@@ -67,4 +73,8 @@ private:
 
 	int BGMvol_;
 	int SEvol_;
+	int BGMvolPercent_;
+	int SEvolPercent_;
 };
+
+using SE = SoundManager::SE;
