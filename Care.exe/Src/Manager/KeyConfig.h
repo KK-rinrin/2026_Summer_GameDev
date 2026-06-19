@@ -18,7 +18,7 @@ public:
 	};
 
 	static constexpr int INVALID_KEY = -1;
-	static constexpr int FIXED_KEY_MAX = 2;
+	static constexpr int FIXED_KEY_MAX = 3;
 
 	struct KeyBinding
 	{

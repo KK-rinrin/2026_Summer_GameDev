@@ -23,7 +23,8 @@ public:
 		NONE,
 		TITLE,
 		GAME,
-		SETTING
+		SETTING,
+		BLOOD_PRESSURE_MINIGAME
 	};
 	
 	// インスタンスの生成

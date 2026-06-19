@@ -9,6 +9,9 @@ public:
 	static constexpr VECTOR LOCKER_POS = { 92.2f,99.9f,0.0f };
 	static constexpr float LOCKER_BUFFER_Y = 370.0f;
 
+	static constexpr VECTOR PC_LEFTUP = { 25.0f,15.0f,0.0f };		// PC‹N“®”»’è”ÍˆÍ¶ã
+	static constexpr VECTOR PC_RIGHTDOWN = { 50.0f,30.0f,0.0f };	// PC‹N“®”»’è”ÍˆÍ‰E‰º
+
 	NurceStation();
 	~NurceStation();
 

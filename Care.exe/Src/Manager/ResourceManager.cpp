@@ -53,6 +53,13 @@ void ResourceManager::Init(void)
 	CreateResource(SRC::BG_2_CHAIR, RES_T::IMG, PATH_IMG + "Game/BG/NS_Chair.png");
 	CreateResource(SRC::BG_2_LOCKER, RES_T::IMG, PATH_IMG + "Game/BG/NS_locker.png");
 
+	// ミニゲーム画像
+	CreateResource(SRC::BPMG_BG_IMG, RES_T::IMG, PATH_IMG + "MiniGame/bp_BG.png");
+	CreateResource(SRC::BPMG_MONITOR_IMG, RES_T::IMG, PATH_IMG + "MiniGame/bp_monitor.png");
+	CreateResource(SRC::BPMG_PULSE_IMG, RES_T::IMG, PATH_IMG + "MiniGame/bp_pulse.png");
+	CreateResource(SRC::BPMG_FAILED_IMG, RES_T::IMG, PATH_IMG + "MiniGame/bp_failed.png");
+	CreateResource(SRC::BPMG_INTRUCT_IMG, RES_T::IMG, PATH_IMG + "MiniGame/how_to_operation.png");
+
 	// Live2Dモデル
 	CreateResource(SRC::PATIENT_MODEL, RES_T::LIVE2D, PATH_MODEL + "patient/patient.model3.json");
 	CreateResource(SRC::PLAYER_MODEL, RES_T::LIVE2D, PATH_MODEL + "nurce/nurce.model3.json");
@@ -85,7 +92,10 @@ void ResourceManager::Init(void)
 	resourcesMap_.emplace(SRC::TITLE_FONT, res);
 	res = new Resource(RES_T::FONT, "コーポレート明朝 ver3 Medium", 30);
 	resourcesMap_.emplace(SRC::SETTING_FONT, res);
-	
+	res = new Resource(RES_T::FONT, "コーポレート明朝 ver3 Medium", 24, 3);
+	resourcesMap_.emplace(SRC::BPMG_FONT, res);
+	res = new Resource(RES_T::FONT, "コーポレート明朝 ver3 Medium", 42, 5);
+	resourcesMap_.emplace(SRC::BPMG_LARGE_FONT, res);
 }
 
 void ResourceManager::Release(void)

@@ -12,6 +12,10 @@ public:
 	static constexpr int SCREEN_SIZE_X = 800;
 	static constexpr int SCREEN_SIZE_Y = 600;
 
+	// UI共通文字
+	static constexpr const char* SELECT_MARK = "> ";
+	static constexpr const char* MENU_MARK_SPACE = "  ";
+
 	// データパス関連
 	//-------------------------------------------
 	static const std::string PATH_DATA;

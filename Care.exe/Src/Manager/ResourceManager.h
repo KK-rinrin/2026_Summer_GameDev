@@ -44,6 +44,15 @@ public:
 		TALK_WINDOW_IMG,		// 会話ウィンドウ画像
 		TALK_WINDOW_NEXT_IMG,	// 会話ウィンドウ▼画像
 
+		// ミニゲーム画面
+		BPMG_BG_IMG,		// 背景
+		BPMG_MONITOR_IMG,	// モニター
+		BPMG_PULSE_IMG,		// 脈
+		BPMG_FAILED_IMG,	// 失敗画像
+		BPMG_INTRUCT_IMG,	// 操作説明
+		BPMG_FONT,			// フォント
+		BPMG_LARGE_FONT,	// デカフォント
+
 	};
 
 	// 明示的にインスタンスを生成する

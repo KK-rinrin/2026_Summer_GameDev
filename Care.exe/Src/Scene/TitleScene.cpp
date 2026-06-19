@@ -12,9 +12,11 @@
 #include "../Application.h"
 #include "../Object/Talk/window/Live2DTalkController.h"
 
-static constexpr int TITLE_IMAGE_POS_X = Application::SCREEN_SIZE_X / 2;
 static constexpr int TITLE_IMAGE_BOTTOM_OFFSET = 500;
-static constexpr int TITLE_IMAGE_POS_Y = Application::SCREEN_SIZE_Y - TITLE_IMAGE_BOTTOM_OFFSET;
+static constexpr Vector2 TITLE_IMAGE_POS = { Application::SCREEN_SIZE_X / 2,
+	Application::SCREEN_SIZE_Y - TITLE_IMAGE_BOTTOM_OFFSET };
+
+constexpr Vector2 TitleScene::MENU_POS;
 
 TitleScene::TitleScene(void)
 	:
@@ -39,7 +41,7 @@ void TitleScene::Update(void)
 
 void TitleScene::Draw(void)
 {
-	DrawRotaGraph(TITLE_IMAGE_POS_X, TITLE_IMAGE_POS_Y, 1.0, 0.0, imgTitle_, TRUE);
+	DrawRotaGraph(TITLE_IMAGE_POS.x, TITLE_IMAGE_POS.y, 1.0, 0.0, imgTitle_, TRUE);
 	DrawPlayerModel();
 	DrawSelectMenu();
 }
@@ -61,8 +63,8 @@ void TitleScene::InitLoad()
 	if (prgMng_.IsNurceCharExists())
 	{
 		liveTalkController_ = Live2DModelHub::Instance().GetController(ResourceManager::SRC::PLAYER_MODEL);
-		liveTalkController_->SetExtendRate(PLAYER_MODEL_EXTEND_X, PLAYER_MODEL_EXTEND_Y);
-		liveTalkController_->SetTranslate(PLAYER_MODEL_POS_X, PLAYER_MODEL_POS_Y);
+		liveTalkController_->SetExtendRate(PLAYER_MODEL_EXTEND.x, PLAYER_MODEL_EXTEND.y);
+		liveTalkController_->SetTranslate(PLAYER_MODEL_POS.x, PLAYER_MODEL_POS.y);
 	}
 }
 
@@ -89,8 +91,8 @@ void TitleScene::UpdatePlayerModel(void)
 		return;
 	}
 
-	liveTalkController_->SetExtendRate(PLAYER_MODEL_EXTEND_X, PLAYER_MODEL_EXTEND_Y);
-	liveTalkController_->SetTranslate(PLAYER_MODEL_POS_X, PLAYER_MODEL_POS_Y);
+	liveTalkController_->SetExtendRate(PLAYER_MODEL_EXTEND.x, PLAYER_MODEL_EXTEND.y);
+	liveTalkController_->SetTranslate(PLAYER_MODEL_POS.x, PLAYER_MODEL_POS.y);
 	// モーションと表情の更新を Live2DTalkController に任せる
 	// タイトル画面ではメニューに応じてモーションを変えて再生する
 	if (selectMenu_ == static_cast<int>(Menu::START)) liveTalkController_->Update(TEXT("Pose_Start"));
@@ -115,10 +117,10 @@ void TitleScene::DrawSelectMenu(void)
 {
 	for (int i = 0; i < MENU_ITEM_NUM; ++i)
 	{
-		const int drawY = MENU_POS_Y + MENU_INTERVAL_Y * i;
+		const int drawY = MENU_POS.y + MENU_INTERVAL_Y * i;
 		const int color = (i == selectMenu_) ? MENU_SELECTED_COLOR : MENU_COLOR;
-		const char* mark = (i == selectMenu_) ? SELECT_MARK : MENU_MARK_SPACE;
-		DrawFormatStringToHandle(MENU_POS_X, drawY, color, font_, "%s%s", mark, MENU_TEXTS[i]);
+		const char* mark = (i == selectMenu_) ? Application::SELECT_MARK : Application::MENU_MARK_SPACE;
+		DrawFormatStringToHandle(MENU_POS.x, drawY, color, font_, "%s%s", mark, MENU_TEXTS[i]);
 	}
 }
 

@@ -5,6 +5,7 @@
 #include "../Scene/TitleScene.h"
 #include "../Scene/GameScene.h"
 #include "../Scene/SettingScene.h"
+#include "../Scene/MiniGame/BPMiniGameScene.h"
 #include "ResourceManager.h"
 #include "SceneManager.h"
 
@@ -192,6 +193,9 @@ void SceneManager::DoChangeScene(SCENE_ID sceneId)
 		break;
 	case SCENE_ID::SETTING:
 		scene_ = new SettingScene();
+		break;
+	case SCENE_ID::BLOOD_PRESSURE_MINIGAME:
+		scene_ = new BPMiniGameScene();
 		break;
 	}
 

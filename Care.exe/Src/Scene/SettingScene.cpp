@@ -1,12 +1,38 @@
 #include <DxLib.h>
 #include <algorithm>
 #include <string>
+#include "../Application.h"
 #include "../Manager/InputManager.h"
 #include "../Manager/KeyConfig.h"
 #include "../Manager/ResourceManager.h"
 #include "../Manager/SceneManager.h"
 #include "../Manager/SoundManager.h"
+#include "../Manager/ProgressManager.h"
 #include "SettingScene.h"
+
+namespace
+{
+	constexpr std::array<int, 10> HIDDEN_RESET_COMMAND =
+	{
+		KEY_INPUT_UP,
+		KEY_INPUT_UP,
+		KEY_INPUT_DOWN,
+		KEY_INPUT_DOWN,
+		KEY_INPUT_LEFT,
+		KEY_INPUT_RIGHT,
+		KEY_INPUT_LEFT,
+		KEY_INPUT_RIGHT,
+		KEY_INPUT_B,
+		KEY_INPUT_A,
+	};
+}
+
+constexpr Vector2 SettingScene::ITEM_POS;
+constexpr Vector2 SettingScene::TITLE_POS;
+constexpr Vector2 SettingScene::DETAIL_POS;
+constexpr Vector2 SettingScene::RESET_CONFIRM_WINDOW_POS;
+constexpr Vector2 SettingScene::RESET_CONFIRM_WINDOW_SIZE;
+constexpr Vector2 SettingScene::RESET_CONFIRM_TEXT_OFFSET;
 
 SettingScene::SettingScene(void)
 	:
@@ -20,7 +46,12 @@ SettingScene::SettingScene(void)
 	previousVolume_(VOLUME_MIN),
 	selectAction_(0),
 	isWaitingKeyInput_(false),
-	isKeyInputReady_(false)
+	isKeyInputReady_(false),
+	hiddenResetCommandIndex_(0),
+	isProgressResetConfirmOpen_(false),
+	isProgressResetResultOpen_(false),
+	isProgressResetYesSelected_(false),
+	isProgressResetSucceeded_(false)
 {
 }
 
@@ -31,6 +62,12 @@ SettingScene::~SettingScene(void)
 
 void SettingScene::Update(void)
 {
+	if (isProgressResetConfirmOpen_)
+	{
+		UpdateProgressResetConfirm();
+		return;
+	}
+
 	if (!iptMng_.IsPadConnected() && static_cast<Item>(selectItem_) == Item::PAD_CONFIG)
 	{
 		MoveSelectItem(MENU_MOVE_NEXT);
@@ -39,6 +76,11 @@ void SettingScene::Update(void)
 	if (ItemUpdate_)
 	{
 		ItemUpdate_();
+		return;
+	}
+
+	if (UpdateHiddenResetCommand())
+	{
 		return;
 	}
 
@@ -71,10 +113,10 @@ void SettingScene::Update(void)
 void SettingScene::Draw(void)
 {
 	// タイトルの描画
-	DrawStringToHandle(TITLE_POS_X, TITLE_POS_Y, TITLE_TEXT, TITLE_COLOR, fontTitle_);
+	DrawStringToHandle(TITLE_POS.x, TITLE_POS.y, TITLE_TEXT, TITLE_COLOR, fontTitle_);
 	
 	// キャンセルキーでタイトルに戻る旨の描画
-	DrawStringToHandle(TITLE_POS_X, TITLE_POS_Y + ITEM_INTERVAL_Y,
+	DrawStringToHandle(TITLE_POS.x, TITLE_POS.y + ITEM_INTERVAL_Y,
 		"キャンセルキーでタイトルに戻る", ITEM_COLOR, fontTitle_);
 
 	// 項目の描画
@@ -96,6 +138,11 @@ void SettingScene::Draw(void)
 		break;
 	default:
 		break;
+	}
+
+	if (isProgressResetConfirmOpen_)
+	{
+		DrawProgressResetConfirm();
 	}
 }
 
@@ -165,14 +212,140 @@ void SettingScene::DrawItems(void)
 			continue;
 		}
 
-		const int drawY = ITEM_POS_Y + ITEM_INTERVAL_Y * drawIndex;
+		const int drawY = ITEM_POS.y + ITEM_INTERVAL_Y * drawIndex;
 		const int color = (i == selectItem_) ? ITEM_SELECTED_COLOR : ITEM_COLOR;
-		const char* mark = (i == selectItem_) ? SELECT_MARK : MENU_MARK_SPACE;
-		DrawFormatStringToHandle(ITEM_POS_X, drawY, color, font_, "%s%s", mark, ITEM_TEXTS[i]);
+		const char* mark = (i == selectItem_) ? Application::SELECT_MARK : Application::MENU_MARK_SPACE;
+		DrawFormatStringToHandle(ITEM_POS.x, drawY, color, font_, "%s%s", mark, ITEM_TEXTS[i]);
 		++drawIndex;
 	}
 }
 
+bool SettingScene::UpdateHiddenResetCommand(void)
+{
+	for (const int keyCode : HIDDEN_RESET_COMMAND)
+	{
+		if (!iptMng_.IsTrgDown(keyCode))
+		{
+			continue;
+		}
+
+		return CheckHiddenResetCommandKey(keyCode);
+	}
+
+	return false;
+}
+
+bool SettingScene::CheckHiddenResetCommandKey(int keyCode)
+{
+	if (keyCode == HIDDEN_RESET_COMMAND[hiddenResetCommandIndex_])
+	{
+		++hiddenResetCommandIndex_;
+		if (hiddenResetCommandIndex_ >= static_cast<int>(HIDDEN_RESET_COMMAND.size()))
+		{
+			OpenProgressResetConfirm();
+			return true;
+		}
+
+		return false;
+	}
+
+	hiddenResetCommandIndex_ = (keyCode == HIDDEN_RESET_COMMAND[0]) ? 1 : 0;
+	return false;
+}
+
+void SettingScene::OpenProgressResetConfirm(void)
+{
+	hiddenResetCommandIndex_ = 0;
+	isProgressResetConfirmOpen_ = true;
+	isProgressResetResultOpen_ = false;
+	isProgressResetYesSelected_ = false;
+	isProgressResetSucceeded_ = false;
+	sndMng_.PlaySE(SE::DECIDE);
+}
+
+void SettingScene::UpdateProgressResetConfirm(void)
+{
+	if (isProgressResetResultOpen_)
+	{
+		if (KeyConfig::IsTrgDown(KeyConfig::ACTION::DECIDE, iptMng_) ||
+			KeyConfig::IsTrgDown(KeyConfig::ACTION::CANCEL, iptMng_))
+		{
+			isProgressResetConfirmOpen_ = false;
+			isProgressResetResultOpen_ = false;
+			sndMng_.PlaySE(SE::DECIDE);
+		}
+		return;
+	}
+
+	if (KeyConfig::IsTrgDown(KeyConfig::ACTION::MOVE_LEFT, iptMng_) ||
+		KeyConfig::IsTrgDown(KeyConfig::ACTION::MOVE_RIGHT, iptMng_))
+	{
+		isProgressResetYesSelected_ = !isProgressResetYesSelected_;
+		sndMng_.PlaySE(SE::MOVE);
+	}
+
+	if (KeyConfig::IsTrgDown(KeyConfig::ACTION::CANCEL, iptMng_))
+	{
+		isProgressResetConfirmOpen_ = false;
+		sndMng_.PlaySE(SE::CANCEL);
+		return;
+	}
+
+	if (KeyConfig::IsTrgDown(KeyConfig::ACTION::DECIDE, iptMng_))
+	{
+		if (isProgressResetYesSelected_)
+		{
+			isProgressResetSucceeded_ = prgMng_.ResetProgressCache();
+			isProgressResetResultOpen_ = true;
+		}
+		else
+		{
+			isProgressResetConfirmOpen_ = false;
+		}
+		sndMng_.PlaySE(SE::DECIDE);
+	}
+}
+
+void SettingScene::DrawProgressResetConfirm(void)
+{
+	const Vector2 windowEnd = {
+		RESET_CONFIRM_WINDOW_POS.x + RESET_CONFIRM_WINDOW_SIZE.x,
+		RESET_CONFIRM_WINDOW_POS.y + RESET_CONFIRM_WINDOW_SIZE.y
+	};
+	const Vector2 textPos = {
+		RESET_CONFIRM_WINDOW_POS.x + RESET_CONFIRM_TEXT_OFFSET.x,
+		RESET_CONFIRM_WINDOW_POS.y + RESET_CONFIRM_TEXT_OFFSET.y
+	};
+
+	DrawBox(RESET_CONFIRM_WINDOW_POS.x, RESET_CONFIRM_WINDOW_POS.y,
+		windowEnd.x, windowEnd.y, RESET_CONFIRM_BG_COLOR, TRUE);
+	DrawBox(RESET_CONFIRM_WINDOW_POS.x, RESET_CONFIRM_WINDOW_POS.y,
+		windowEnd.x, windowEnd.y, RESET_CONFIRM_FRAME_COLOR, FALSE);
+
+	if (isProgressResetResultOpen_)
+	{
+		const char* message = isProgressResetSucceeded_ ?
+			"ゲーム進捗をリセットしました" :
+			"ゲーム進捗のリセットに失敗しました";
+		DrawStringToHandle(textPos.x, textPos.y,
+			message, ITEM_SELECTED_COLOR, font_);
+		DrawStringToHandle(textPos.x,
+			textPos.y + RESET_CONFIRM_TEXT_LINE_INTERVAL_Y,
+			"決定キーで閉じる", ITEM_COLOR, font_);
+		return;
+	}
+
+	DrawStringToHandle(textPos.x, textPos.y,
+		"ゲーム進捗をリセットしますか？", ITEM_SELECTED_COLOR, font_);
+	DrawStringToHandle(textPos.x,
+		textPos.y + RESET_CONFIRM_TEXT_LINE_INTERVAL_Y,
+		"キャラクターファイルはそのまま再起動でリセットします", ITEM_COLOR, font_);
+	DrawFormatStringToHandle(textPos.x,
+		textPos.y + RESET_CONFIRM_TEXT_LINE_INTERVAL_Y * 2,
+		ITEM_SELECTED_COLOR, font_, "%sはい    %sいいえ",
+		isProgressResetYesSelected_ ? Application::SELECT_MARK : Application::MENU_MARK_SPACE,
+		isProgressResetYesSelected_ ? Application::MENU_MARK_SPACE : Application::SELECT_MARK);
+}
 void SettingScene::UpdateItemBGMVol()
 {
 	if (KeyConfig::IsTrgDown(KeyConfig::ACTION::MOVE_LEFT, iptMng_))
@@ -382,16 +555,16 @@ void SettingScene::DrawItemKeyCon()
 		const int key = (binding == nullptr) ? KeyConfig::INVALID_KEY : binding->configurableKey;
 		const bool isSelected = ItemUpdate_ && i == selectAction_;
 		const int color = isSelected ? ITEM_SELECTED_COLOR : ITEM_COLOR;
-		const char* mark = isSelected ? SELECT_MARK : MENU_MARK_SPACE;
+		const char* mark = isSelected ? Application::SELECT_MARK : Application::MENU_MARK_SPACE;
 
-		DrawFormatStringToHandle(DETAIL_POS_X, DETAIL_POS_Y + DETAIL_INTERVAL_Y * i,
+		DrawFormatStringToHandle(DETAIL_POS.x, DETAIL_POS.y + DETAIL_INTERVAL_Y * i,
 			color, font_, "%s%s : %s", mark,
 			KeyConfig::GetActionText(static_cast<KeyConfig::ACTION>(i)), KeyConfig::GetKeyText(key));
 	}
 
 	if (isWaitingKeyInput_)
 	{
-		DrawStringToHandle(DETAIL_POS_X, DETAIL_POS_Y + DETAIL_INTERVAL_Y * static_cast<int>(KeyConfig::ACTION::MAX),
+		DrawStringToHandle(DETAIL_POS.x, DETAIL_POS.y + DETAIL_INTERVAL_Y * static_cast<int>(KeyConfig::ACTION::MAX),
 			"割り当てるキーを押してください", ITEM_SELECTED_COLOR, font_);
 	}
 }
@@ -405,16 +578,16 @@ void SettingScene::DrawItemPadCon()
 		const auto button = (binding == nullptr) ? InputManager::JOYPAD_BTN::MAX : binding->configurableButton;
 		const bool isSelected = ItemUpdate_ && i == selectAction_;
 		const int color = isSelected ? ITEM_SELECTED_COLOR : ITEM_COLOR;
-		const char* mark = isSelected ? SELECT_MARK : MENU_MARK_SPACE;
+		const char* mark = isSelected ? Application::SELECT_MARK : Application::MENU_MARK_SPACE;
 
-		DrawFormatStringToHandle(DETAIL_POS_X, DETAIL_POS_Y + DETAIL_INTERVAL_Y * i,
+		DrawFormatStringToHandle(DETAIL_POS.x, DETAIL_POS.y + DETAIL_INTERVAL_Y * i,
 			color, font_, "%s%s : %s", mark, KeyConfig::GetActionText(action),
 			KeyConfig::GetPadButtonText(button));
 	}
 
 	if (isWaitingKeyInput_)
 	{
-		DrawStringToHandle(DETAIL_POS_X, DETAIL_POS_Y + DETAIL_INTERVAL_Y * PAD_CONFIG_ACTION_NUM,
+		DrawStringToHandle(DETAIL_POS.x, DETAIL_POS.y + DETAIL_INTERVAL_Y * PAD_CONFIG_ACTION_NUM,
 			"割り当てるパッドボタンを押してください", ITEM_SELECTED_COLOR, font_);
 	}
 }
@@ -432,12 +605,12 @@ void SettingScene::DrawVolume(int volume, const char* label)
 	const int filledLength = volume / VOLUME_STEP;
 	std::fill_n(bar.begin(), filledLength, '#');
 
-	DrawFormatStringToHandle(DETAIL_POS_X, DETAIL_POS_Y, ITEM_SELECTED_COLOR, font_,
+	DrawFormatStringToHandle(DETAIL_POS.x, DETAIL_POS.y, ITEM_SELECTED_COLOR, font_,
 		"%s [%s] %d", label, bar.c_str(), volume);
 
 	if (ItemUpdate_)
 	{
-		DrawStringToHandle(DETAIL_POS_X, DETAIL_POS_Y + DETAIL_INTERVAL_Y,
+		DrawStringToHandle(DETAIL_POS.x, DETAIL_POS.y + DETAIL_INTERVAL_Y,
 			"左右:変更  決定:確定  キャンセル:戻す", ITEM_COLOR, font_);
 	}
 }

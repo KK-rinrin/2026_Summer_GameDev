@@ -6,6 +6,25 @@
 #include <DxLib.h>
 #include "AsoUtility.h"
 
+int AsoUtility::Clamp(int v, int min, int max)
+{
+	if (v > max)
+	{
+		v = max;
+	}
+	if (v < min)
+	{
+		v = min;
+	}
+
+	return v;
+}
+
+float AsoUtility::Clamp(float v, int min, int max)
+{
+	return Clamp(v, static_cast<float>(min), static_cast<float>(max));
+}
+
 float AsoUtility::Clamp(float v, float min, float max)
 {
 

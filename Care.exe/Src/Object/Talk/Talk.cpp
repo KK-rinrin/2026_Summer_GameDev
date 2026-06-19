@@ -61,14 +61,14 @@ bool Talk::Update()
 	if (patientController_)
 	{
 		patientController_->SetExtendRate(EXTEND_RATE, EXTEND_RATE);
-		patientController_->SetTranslate(PATIENT_POS_X, MODEL_POS_Y);
+		patientController_->SetTranslate(PATIENT_POS.x, PATIENT_POS.y);
 		patientController_->SetAlpha(alpha_);
 	}
 
 	if (playerController_)
 	{
 		playerController_->SetExtendRate(EXTEND_RATE, EXTEND_RATE);
-		playerController_->SetTranslate(PLAYER_POS_X, MODEL_POS_Y);
+		playerController_->SetTranslate(PLAYER_POS.x, PLAYER_POS.y);
 		playerController_->SetAlpha(alpha_);
 	}
 

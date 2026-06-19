@@ -11,6 +11,7 @@
 #include "../Object/Stage/StageBase.h"
 #include "../Object/Stage/PatientRoom.h"
 #include "../Object/Stage/NurceStation.h"
+#include "../Object/Menu/GameMenu.h"
 #include "../Debug/DebugCursorPosition.h"
 #include "../Manager/ProgressManager.h"
 #include "../Manager/SoundManager.h"
@@ -20,6 +21,7 @@ GameScene::GameScene(void)
 	:
 	SceneBase(),
 	talk_(nullptr),
+	gameMenu_(nullptr),
 	canMove_(false),
 	stage_(nullptr),
 	render_(nullptr),
@@ -43,12 +45,20 @@ void GameScene::Update(void)
 		sndMng_.PlayBGM(SoundManager::BGM::GAME0);
 	}
 
+	if (gameMenu_ != nullptr && gameMenu_->IsOpen())
+	{
+		UpdateGameMenu();
+		firstUpdate_ = false;
+		return;
+	}
+
 	UpdateTalkProgress();
 
-	// シーン遷移
 	if (KeyConfig::IsTrgDown(KeyConfig::ACTION::CANCEL, iptMng_))
 	{
-		sceMng_.ChangeScene(SceneManager::SCENE_ID::TITLE);
+		OpenGameMenu();
+		firstUpdate_ = false;
+		return;
 	}
 	
 	if (stage_ != nullptr)
@@ -101,6 +111,11 @@ void GameScene::Draw(void)
 
 	talk_->Draw();
 
+	if (gameMenu_ != nullptr)
+	{
+		gameMenu_->Draw();
+	}
+
 #ifdef _DEBUG
 	if (debugCursorPosition_ != nullptr)
 	{
@@ -119,6 +134,13 @@ void GameScene::Delete(void)
 		talk_->Delete();
 		delete talk_;
 		talk_ = nullptr;
+	}
+
+	if (gameMenu_ != nullptr)
+	{
+		gameMenu_->Delete();
+		delete gameMenu_;
+		gameMenu_ = nullptr;
 	}
 
 	if (player_ != nullptr)
@@ -151,6 +173,9 @@ void GameScene::InitLoad()
 	talk_ = new Talk();
 	talk_->Load();
 	// talk_->SetTalk(TalkDatas::TalkDataIndex::TALK_0);
+
+	gameMenu_ = new GameMenu();
+	gameMenu_->Load();
 
 	if (prgMng_.IsNurceCharExists())
 	{
@@ -242,12 +267,18 @@ void GameScene::UpdateTalkProgress()
 
 	const ProgressManager::STORY_PROGRESS progressBefore = prgMng_.GetProgressEnum();
 	const ProgressData& progressData = ProgressTable::Get(progressBefore);
-	if (progressData.talkEnd.talkId != TDI::NONE &&
-		talk_->ConsumeTalkEnd(progressData.talkEnd.talkId) &&
+	if (progressData.talkEnd != TDI::NONE &&
+		talk_->ConsumeTalkEnd(progressData.talkEnd) &&
 		ProgressTable::ShouldAdvanceByTalkEnd(
-			progressBefore, progressData.talkEnd.talkId))
+			progressBefore, progressData.talkEnd))
 	{
 		prgMng_.AddProgress();
+	}
+
+	if (prgMng_.GetProgressEnum() == ProgressManager::START_MINIGAME0)
+	{
+		sceMng_.ChangeScene(SceneManager::SCENE_ID::BLOOD_PRESSURE_MINIGAME);
+		return;
 	}
 
 	if (ProgressTable::ShouldAutoAdvance(prgMng_.GetProgressEnum()))
@@ -268,6 +299,33 @@ void GameScene::StartFirstTalkByProgress()
 	{
 		talk_->SetTalk(progressData.firstTalk);
 	}
+}
+
+void GameScene::UpdateGameMenu()
+{
+	gameMenu_->Update(iptMng_);
+
+	switch (gameMenu_->ConsumeResult())
+	{
+	case GameMenu::Result::BACK_TO_TITLE:
+		sceMng_.ChangeScene(SceneManager::SCENE_ID::TITLE);
+		break;
+	default:
+		break;
+	}
+}
+
+void GameScene::OpenGameMenu()
+{
+	if (gameMenu_ == nullptr)
+	{
+		return;
+	}
+
+	const bool isTalkActive = (talk_ != nullptr && talk_->IsActive());
+	const GameMenu::Mode mode = isTalkActive ? GameMenu::Mode::PAUSE : GameMenu::Mode::NORMAL;
+	gameMenu_->Open(mode);
+	sndMng_.PlaySE(SE::CANCEL);
 }
 
 void GameScene::UpdatePR()
@@ -370,6 +428,15 @@ void GameScene::DecideNS()
 		ChangeStage(Stage::PAT_ROOM);
 		controlActor_->SetLocalPercent(PR_MOVE_POS2.x, PR_MOVE_POS2.y);
 		sndMng_.PlaySE(SE::DOOR);
+		return;
+	}
+
+	// PC机の近くにプレイヤーがいる
+	// PC起動判定範囲にプレイヤーがいる
+	if (Collision::IsPointInRect(pPos, NurceStation::PC_LEFTUP, NurceStation::PC_RIGHTDOWN) &&
+		prgMng_.GetProgressEnum() == ProgressManager::STORY_PROGRESS::AFTER_MG_TALKED)
+	{
+		talk_->SetTalk(TDI::TALK_PC);
 		return;
 	}
 }

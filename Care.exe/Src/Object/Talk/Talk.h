@@ -1,6 +1,7 @@
 #pragma once
 
 #include "TalkData.h"
+#include <DxLib.h>
 #include "window/Live2DTalkController.h"
 #include <memory>
 
@@ -9,9 +10,8 @@ class TalkWindow;
 class Talk
 {
 	static constexpr float EXTEND_RATE = 2.0f;
-	static constexpr float PATIENT_POS_X = 230.0f;
-	static constexpr float PLAYER_POS_X = -230.0f;
-	static constexpr float MODEL_POS_Y = -100.0f;
+	static constexpr VECTOR PATIENT_POS = { 230.0f, -100.0f, 0.0f };
+	static constexpr VECTOR PLAYER_POS = { -230.0f, -100.0f, 0.0f };
 
 	static constexpr int FADE_ALPHA = 10;
 
@@ -26,6 +26,7 @@ public:
 
 	void SetTalk(TDI dataIndex);
 	TDI GetCurrentTDI() const { return currentDataIndex_; }
+	bool IsActive() const { return currentDataIndex_ != TDI::NONE; }
 	bool ConsumeTalkEnd(TDI dataIndex);
 
 private:

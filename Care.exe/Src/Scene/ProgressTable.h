@@ -5,12 +5,6 @@
 #include "../Object/Talk/TalkData.h"
 #include "GameScene.h"
 
-struct ProgressTalkEndData
-{
-	TDI talkId = TDI::NONE;			// 会話ID
-	bool advancesProgress = false;	// この会話が終わったときに進行状況を進めるか
-};
-
 struct ProgressData
 {
 	ProgressManager::STORY_PROGRESS progress;	// 進行状況
@@ -18,7 +12,7 @@ struct ProgressData
 	VECTOR playerInitPos;						// ロード時操作キャラ初期位置
 	TDI firstTalk;								// 進行状況開始時の会話
 	TDI patientTalk;							// その進行状況時患者に話しかけたときの会話
-	ProgressTalkEndData talkEnd;				// 進行する条件となる会話
+	TDI talkEnd;				// 進行する条件となる会話
 	bool autoAdvanceProgress = false;			// 進行状況開始時に自動で進めるか（デバッグ用）
 };
 

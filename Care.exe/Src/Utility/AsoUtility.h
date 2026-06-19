@@ -31,6 +31,8 @@ public:
 	static constexpr float kEpsilonNormalSqrt = 1e-15F;
 
 	// ’l‚ð”ÍˆÍ‚ÉŽû‚ß‚é
+	static int Clamp(int v, int min, int max);
+	static float Clamp(float v, int min, int max);
 	static float Clamp(float v, float min, float max);
 
 	// ŽlŽÌŒÜ“ü

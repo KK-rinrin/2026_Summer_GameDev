@@ -172,6 +172,7 @@
     <ClCompile Include="Src\Object\Collider\Collider.cpp" />
     <ClCompile Include="Src\Object\Common\2DTransform.cpp" />
     <ClCompile Include="Src\Object\Common\AnimationController2D.cpp" />
+    <ClCompile Include="Src\Object\Menu\GameMenu.cpp" />
     <ClCompile Include="Src\Object\Renderer2D.cpp" />
     <ClCompile Include="Src\Object\Stage\NurceStation.cpp" />
     <ClCompile Include="Src\Object\Stage\StageBase.cpp" />
@@ -181,6 +182,7 @@
     <ClCompile Include="Src\Object\Talk\window\TalkWindow.cpp" />
     <ClCompile Include="Src\Object\Talk\window\Text\Text\TalkScriptParser.cpp" />
     <ClCompile Include="Src\Scene\GameScene.cpp" />
+    <ClCompile Include="Src\Scene\MiniGame\BPMiniGameScene.cpp" />
     <ClCompile Include="Src\Scene\ProgressTable.cpp" />
     <ClCompile Include="Src\Scene\SceneBase.cpp" />
     <ClCompile Include="Src\Scene\SettingScene.cpp" />
@@ -215,6 +217,7 @@
     <ClInclude Include="Src\Object\Collider\Collider.h" />
     <ClInclude Include="Src\Object\Common\2DTransform.h" />
     <ClInclude Include="Src\Object\Common\AnimationController2D.h" />
+    <ClInclude Include="Src\Object\Menu\GameMenu.h" />
     <ClInclude Include="Src\Object\Renderer2D.h" />
     <ClInclude Include="Src\Object\Stage\NurceStation.h" />
     <ClInclude Include="Src\Object\Stage\StageBase.h" />
@@ -224,6 +227,7 @@
     <ClInclude Include="Src\Object\Talk\window\TalkWindow.h" />
     <ClInclude Include="Src\Object\Talk\window\Text\Text\TalkScriptParser.h" />
     <ClInclude Include="Src\Scene\GameScene.h" />
+    <ClInclude Include="Src\Scene\MiniGame\BPMiniGameScene.h" />
     <ClInclude Include="Src\Scene\ProgressTable.h" />
     <ClInclude Include="Src\Scene\SceneBase.h" />
     <ClInclude Include="Src\Scene\SettingScene.h" />

@@ -32,6 +32,13 @@
 					"FadeInTime": 0.3,
 					"FadeOutTime": 0
 				}
+			],
+			"Pose_Menu": [
+				{
+					"File": "motions/Pose_menu.motion3.json",
+					"FadeInTime": 0.3,
+					"FadeOutTime": 0
+				}
 			]
 		}
 	},

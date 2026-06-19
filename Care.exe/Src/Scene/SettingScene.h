@@ -1,6 +1,7 @@
 #pragma once
 #include <array>
 #include <functional>
+#include "../Common/Vector2.h"
 #include "SceneBase.h"
 
 class SoundManager;
@@ -20,13 +21,11 @@ public:
 		MAX
 	};
 
-	static constexpr int ITEM_POS_X = 100;
-	static constexpr int ITEM_POS_Y = 210;
+	static constexpr Vector2 ITEM_POS = { 100, 210 };
 	static constexpr int ITEM_INTERVAL_Y = 60;
 	static constexpr int ITEM_COLOR = 0x666666;
 	static constexpr int ITEM_SELECTED_COLOR = 0x222222;
-	static constexpr int TITLE_POS_X = 50;
-	static constexpr int TITLE_POS_Y = 50;
+	static constexpr Vector2 TITLE_POS = { 50, 50 };
 	static constexpr int TITLE_COLOR = 0x333333;
 	static constexpr int INVALID_FONT_HANDLE = -1;
 	static constexpr int INITIAL_SELECT_ITEM = 0;
@@ -35,14 +34,20 @@ public:
 	static constexpr int VOLUME_MIN = 0;
 	static constexpr int VOLUME_MAX = 100;
 	static constexpr int VOLUME_STEP = 10;
-	static constexpr int DETAIL_POS_X = 390;
-	static constexpr int DETAIL_POS_Y = 210;
+	static constexpr Vector2 DETAIL_POS = { 390, 210 };
 	static constexpr int DETAIL_INTERVAL_Y = 45;
 	static constexpr int VOLUME_BAR_LENGTH = 10;
 	static constexpr int KEY_STATE_NUM = 256;
 	static constexpr int PAD_CONFIG_ACTION_NUM = 2;
-	static constexpr const char* SELECT_MARK = "> ";
-	static constexpr const char* MENU_MARK_SPACE = "  ";
+
+	// 隠しウィンドウ座標
+	static constexpr Vector2 RESET_CONFIRM_WINDOW_POS = { 50, 150 };
+	static constexpr Vector2 RESET_CONFIRM_WINDOW_SIZE = { 700, 220 };
+	static constexpr Vector2 RESET_CONFIRM_TEXT_OFFSET = { 50, 45 };
+
+	static constexpr int RESET_CONFIRM_TEXT_LINE_INTERVAL_Y = 45;
+	static constexpr int RESET_CONFIRM_BG_COLOR = 0xffffff;
+	static constexpr int RESET_CONFIRM_FRAME_COLOR = 0x222222;
 	static constexpr const char* TITLE_TEXT = "Setting";
 
 	// 項目テキスト(余裕あれば4番目に"テキストサイズ（倍率）"を追加)
@@ -62,6 +67,11 @@ private:
 	bool IsItemVisible(Item item) const;
 	void DecideSelectItem(void);
 	void DrawItems(void);
+	bool UpdateHiddenResetCommand(void);
+	bool CheckHiddenResetCommandKey(int keyCode);
+	void OpenProgressResetConfirm(void);
+	void UpdateProgressResetConfirm(void);
+	void DrawProgressResetConfirm(void);
 
 	std::function<void(void)> ItemUpdate_;
 
@@ -88,5 +98,10 @@ private:
 	int selectAction_;
 	bool isWaitingKeyInput_;
 	bool isKeyInputReady_;
+	int hiddenResetCommandIndex_;
+	bool isProgressResetConfirmOpen_;
+	bool isProgressResetResultOpen_;
+	bool isProgressResetYesSelected_;
+	bool isProgressResetSucceeded_;
 
 };

@@ -9,6 +9,7 @@ class ActorBase;
 class Renderer2D;
 class StageBase;
 class DebugCursorPosition;
+class GameMenu;
 
 class GameScene : public SceneBase
 {
@@ -62,6 +63,8 @@ private:
 
 	void UpdateTalkProgress();
 	void StartFirstTalkByProgress();
+	void UpdateGameMenu();
+	void OpenGameMenu();
 
 	// ステージごとの更新処理
 	void UpdatePR();
@@ -71,6 +74,7 @@ private:
 	void DecideNS();
 
 	Talk* talk_;
+	GameMenu* gameMenu_;
 
 	Stage currentStage_;
 

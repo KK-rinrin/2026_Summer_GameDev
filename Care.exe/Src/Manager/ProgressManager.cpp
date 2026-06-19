@@ -1,4 +1,5 @@
 #include <direct.h>
+#include <cstdio>
 #include <fstream>
 
 #include "ProgressManager.h"
@@ -67,6 +68,21 @@ void ProgressManager::AddProgress(void)
 {
 	progress_++;
 	SaveProgress();
+}
+
+
+bool ProgressManager::ResetProgressCache(void)
+{
+	progress_ = START;
+	isPatientCharExists_ = IsFileExists(PATIENT_CHAR_PATH);
+	isNurceCharExists_ = IsFileExists(NURCE_CHAR_PATH);
+
+	if (!IsFileExists(PROGRESS_SAVE_PATH))
+	{
+		return true;
+	}
+
+	return std::remove(PROGRESS_SAVE_PATH) == 0;
 }
 
 

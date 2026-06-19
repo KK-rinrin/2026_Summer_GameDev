@@ -75,8 +75,8 @@ void Patient::InitLoad()
 void Patient::InitTransform()
 {
 	// èâä˙à íu
-	transform_.pos.x = INIT_PER_X;
-	transform_.pos.y = INIT_PER_Y;
+	transform_.pos.x = INIT_PER.x;
+	transform_.pos.y = INIT_PER.y;
 	transform_.beforePos = transform_.pos;
 
 

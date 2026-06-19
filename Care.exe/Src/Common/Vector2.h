@@ -3,16 +3,21 @@ class Vector2
 {
 public:
 
-	int x;
-	int y;
+	int x = 0;
+	int y = 0;
 
 	// コンストラクタ
-	Vector2(void);
+	constexpr Vector2(void) = default;
 
 	// コンストラクタ
-	Vector2(int vX, int vY);
+	constexpr Vector2(int vX, int vY)
+		:
+		x(vX),
+		y(vY)
+	{
+	}
 
 	// デストラクタ
-	~Vector2(void);
+	~Vector2(void) = default;
 
 };
