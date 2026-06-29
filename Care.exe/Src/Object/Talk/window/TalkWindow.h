@@ -3,7 +3,6 @@
 #include <string>
 #include <vector>
 #include <DxLib.h>
-#include <memory>
 
 #include "Text/Text/TalkScriptParser.h"
 #include "../../../Application.h"
@@ -16,13 +15,16 @@ public:
 	static constexpr int IMG_X = Application::SCREEN_SIZE_X / 2;
 	static constexpr int IMG_Y = 450;
 
-	static constexpr int INVISIBLE_Y = 280;
-	static constexpr int MOVEY_ = 10;
-
 	static constexpr int TEXT_X = 50;
 	static constexpr int TEXT_Y = 370;
 
 	static constexpr float LINE_ADVANCE_TIME = 90.0f;
+
+	static constexpr int NEXT_ICON_X = 735;
+	static constexpr int NEXT_ICON_Y = 525;
+
+	// ▼が上下に動く範囲
+	static constexpr int NI_MOVEY_RANGE = 2;
 
 public:
 	TalkWindow();
@@ -35,14 +37,13 @@ public:
 	void Draw();
 	void Delete();
 	
-	// 単行表示（既存）
-	void Speak(const std::string& talk, float advanceTime = 1.0f);
+	void StartSpeak(TalkDatas::Speaker speaker, const std::string& talk, float advanceTime = 1.0f);
+	void CompleteSpeak();
+	void FinishSpeak();
 
-	// 会話（複数行）制御
-	void StartConversation(const std::vector<TD>& data); // 会話開始（外部からデータを渡す）
-	bool IsConversationActive() const { return conversationActive_; }
-
-	bool IsSpeaking() const { return unitPos_ < units_.size(); }
+	bool IsSpeakActive() const { return speakActive_; }
+	bool IsSpeaking() const { return speakActive_ && unitPos_ < units_.size(); }
+	bool IsWaitingForClick() const { return speakActive_ && waitingForClick_; }
 	bool IsVisible() const { return isVisible_; }
 
 	// Live2D コントローラ受け取り（非所有）
@@ -50,9 +51,15 @@ public:
 	void AttachPlayerController(Live2DTalkController* controller) { playerController_ = controller; }
 
 private:
+	void Speak(const std::string& talk, float advanceTime = 1.0f);
 	void UpdateVisibleWindow();
 	void UpdateLineAdvance();
+	void ResetMouths();
+	void CloseMouthForCurrentSpeaker();
 	std::string GetVisibleText() const;
+
+	void UpdateNextIcon();
+	void DrawNextIcon();
 
 private:
 	// ------------------------------
@@ -65,8 +72,10 @@ private:
 	// 描画
 	// ------------------------------
 	int handle_ = -1;
-	int imgX_ = 0;
-	int imgY_ = 0;
+	int imgX_,imgY_ = 0;
+
+	int nextHandle_ = -1;	// 右下の▼
+	int nextIconX_ = NEXT_ICON_X, nextIconY_ = NEXT_ICON_Y;
 
 	// テキスト表示位置（Resource のフォント情報で調整）
 	int textX_ = TEXT_X;
@@ -82,15 +91,13 @@ private:
 	size_t unitPos_ = 0;
 
 	// ------------------------------
-	// 会話データ（複数行）
+	// 単行発話制御
 	// ------------------------------
-	std::vector<TD> convData_;
-	size_t convPos_ = 0;
+	bool speakActive_ = false;
 	bool waitingForClick_ = false;
-	bool conversationActive_ = false;
 
 	// 現在の話者
-	TalkDatas::Speaker currentSpeaker_ = TalkDatas::Speaker::Patient;
+	TalkDatas::Speaker currentSpeaker_ = TalkDatas::Speaker::NONE;
 
 	// ------------------------------
 	// 表示制御
@@ -111,11 +118,6 @@ private:
 	// その他
 	// ------------------------------
 	int enableB_ = 0;
-
-	// マウス＆キーのエッジ検出
-	bool prevMouseLeftDown_ = false;
-	bool prevKeySpaceDown_ = false;
-	bool prevKeyReturnDown_ = false;
 
 	// Live2D コントローラ参照（非所有）
 	Live2DTalkController* patientController_ = nullptr;

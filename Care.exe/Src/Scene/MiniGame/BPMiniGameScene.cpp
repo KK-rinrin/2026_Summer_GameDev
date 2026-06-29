@@ -180,7 +180,7 @@ void BPMiniGameScene::UpdateFailed(void)
 	if (KeyConfig::IsTrgDown(KeyConfig::ACTION::DECIDE, iptMng_))
 	{
 		sndMng_.PlaySE(SE::DECIDE);
-		sceMng_.ChangeScene(SceneManager::SCENE_ID::BLOOD_PRESSURE_MINIGAME);
+		sceMng_.ChangeScene(SceneManager::SCENE_ID::BP_MINIGAME);
 	}
 }
 

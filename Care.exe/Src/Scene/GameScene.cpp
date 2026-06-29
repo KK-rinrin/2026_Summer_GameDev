@@ -76,19 +76,11 @@ void GameScene::Update(void)
 		break;
 	}
 
-	if (canMove_ && KeyConfig::IsTrgDown(KeyConfig::ACTION::DECIDE, iptMng_))
+	if (canMove_ && stage_ != nullptr && controlActor_ != nullptr &&
+		KeyConfig::IsTrgDown(KeyConfig::ACTION::DECIDE, iptMng_))
 	{
-		switch (currentStage_)
-		{
-		case Stage::PAT_ROOM:
-			DecidePR();
-			break;
-		case Stage::NURSE_STATION:
-			DecideNS();
-			break;
-		}
+		HandleStageDecideResult(stage_->Decide(*controlActor_, patient_));
 	}
-
 #ifdef _DEBUG
 	if (debugCursorPosition_ != nullptr)
 	{
@@ -200,6 +192,20 @@ void GameScene::InitLoad()
 
 void GameScene::ApplyInitialProgressState()
 {
+	if (sceMng_.HasSettingReturnGameState())
+	{
+		const VECTOR returnPos = sceMng_.GetSettingReturnActorPos();
+
+		// SettingSceneから戻った時は、開いた時点のステージと操作キャラ座標を復元する。
+		currentStage_ = static_cast<Stage>(sceMng_.GetSettingReturnGameStage());
+		if (controlActor_ != nullptr)
+		{
+			controlActor_->SetLocalPercent(returnPos.x, returnPos.y);
+		}
+		sceMng_.ClearSettingReturnGameState();
+		return;
+	}
+
 	const ProgressData& startData = ProgressTable::Get(prgMng_.GetProgressEnum());
 
 	currentStage_ = startData.initStage;
@@ -277,7 +283,7 @@ void GameScene::UpdateTalkProgress()
 
 	if (prgMng_.GetProgressEnum() == ProgressManager::START_MINIGAME0)
 	{
-		sceMng_.ChangeScene(SceneManager::SCENE_ID::BLOOD_PRESSURE_MINIGAME);
+		sceMng_.ChangeScene(SceneManager::SCENE_ID::BP_MINIGAME);
 		return;
 	}
 
@@ -307,7 +313,11 @@ void GameScene::UpdateGameMenu()
 
 	switch (gameMenu_->ConsumeResult())
 	{
+	case GameMenu::Result::OPEN_SETTING:
+		OpenSettingFromGameMenu();
+		break;
 	case GameMenu::Result::BACK_TO_TITLE:
+		sceMng_.SetSettingReturnScene(SceneManager::SCENE_ID::TITLE);
 		sceMng_.ChangeScene(SceneManager::SCENE_ID::TITLE);
 		break;
 	default:
@@ -328,6 +338,62 @@ void GameScene::OpenGameMenu()
 	sndMng_.PlaySE(SE::CANCEL);
 }
 
+void GameScene::OpenSettingFromGameMenu()
+{
+	if (controlActor_ != nullptr)
+	{
+		// SettingSceneから戻った時に、今いるステージと操作キャラ座標を再現できるようにする。
+		sceMng_.SetSettingReturnGameState(static_cast<int>(currentStage_), controlActor_->GetTransform().pos);
+	}
+	else
+	{
+		// 念のため、操作キャラがいない場合でもBACK先だけはGameSceneにしておく。
+		sceMng_.SetSettingReturnScene(SceneManager::SCENE_ID::GAME);
+	}
+
+	sceMng_.ChangeScene(SceneManager::SCENE_ID::SETTING);
+}
+
+void GameScene::HandleStageDecideResult(const StageBase::DecideResult& result)
+{
+	switch (result.type)
+	{
+	case StageBase::DecideType::CHANGE_STAGE:
+	{
+		const Stage nextStage = (result.nextStage == StageBase::StageId::PAT_ROOM) ?
+			Stage::PAT_ROOM : Stage::NURSE_STATION;
+		ChangeStage(nextStage);
+		if (controlActor_ != nullptr)
+		{
+			controlActor_->SetLocalPercent(result.movePos.x, result.movePos.y);
+		}
+		sndMng_.PlaySE(SE::DOOR);
+		break;
+	}
+	case StageBase::DecideType::PATIENT_TALK:
+	{
+		const ProgressData& progressData = ProgressTable::Get(prgMng_.GetProgressEnum());
+		if (progressData.patientTalk != TDI::NONE)
+		{
+			talk_->SetTalk(progressData.patientTalk);
+		}
+		break;
+	}
+	case StageBase::DecideType::PC:
+		if (prgMng_.GetProgressEnum() == ProgressManager::STORY_PROGRESS::AFTER_MG_TALKED)
+		{
+			talk_->SetTalk(TDI::TALK_PC);
+		}
+		else
+		{
+			talk_->SetTemporaryTalk("PCだ。\n患者の電子カルテなどが確認できる。\n{WAIT:300}今は触る必要はない。");
+		}
+		break;
+	case StageBase::DecideType::NONE:
+	default:
+		break;
+	}
+}
 void GameScene::UpdatePR()
 {
 	if (canMove_ && controlActor_ != nullptr)
@@ -350,48 +416,6 @@ void GameScene::UpdatePR()
 	}
 }
 
-void GameScene::DecidePR()
-{
-	if (controlActor_ == nullptr)
-	{
-		return;
-	}
-
-	const VECTOR pPos = controlActor_->GetTransform().pos;
-
-	// ドアの位置にプレイヤーがいて、かつ右を向いているときに遷移
-	if (Collision::IsPointInRect(pPos, PR_TO_NS_AREA1_0, PR_TO_NS_AREA1_1) && controlActor_->IsFacingRight())
-	{
-		ChangeStage(Stage::NURSE_STATION);
-		controlActor_->SetLocalPercent(NS_MOVE_POS1.x, NS_MOVE_POS1.y);
-		sndMng_.PlaySE(SE::DOOR);
-		return;
-	}
-
-	// ドアの位置にプレイヤーがいて、かつ後ろを向いているときに遷移
-	if (Collision::IsPointInRect(pPos, PR_TO_NS_AREA2_0, PR_TO_NS_AREA2_1))
-	{
-		ChangeStage(Stage::NURSE_STATION);
-		controlActor_->SetLocalPercent(NS_MOVE_POS2.x, NS_MOVE_POS2.y);
-		sndMng_.PlaySE(SE::DOOR);
-		return;
-	}
-
-	// プレイヤーが患者の近くにいるときに会話開始
-	if (patient_ != nullptr && controlActor_ != patient_)
-	{
-		const VECTOR patPos = patient_->GetTransform().pos;
-		if (Collision::IsPointInCircle(pPos, patPos, Patient::TALK_RADIUS))
-		{
-			const ProgressData& progressData = ProgressTable::Get(prgMng_.GetProgressEnum());
-			if (progressData.patientTalk != TDI::NONE)
-			{
-				talk_->SetTalk(progressData.patientTalk);
-			}
-		}
-	}
-}
-
 void GameScene::UpdateNS()
 {
 	if (canMove_ && controlActor_ != nullptr)
@@ -401,42 +425,5 @@ void GameScene::UpdateNS()
 		{
 			stage_->ApplyMovementBlocks(*controlActor_);
 		}
-	}
-}
-
-void GameScene::DecideNS()
-{
-	if (controlActor_ == nullptr)
-	{
-		return;
-	}
-
-	const VECTOR pPos = controlActor_->GetTransform().pos;
-
-	// ドアの位置にプレイヤーがいて、かつ左を向いているときに遷移
-	if (Collision::IsPointInRect(pPos, NS_TO_PR_AREA1_0, NS_TO_PR_AREA1_1) && !controlActor_->IsFacingRight())
-	{
-		ChangeStage(Stage::PAT_ROOM);
-		controlActor_->SetLocalPercent(PR_MOVE_POS1.x, PR_MOVE_POS1.y);
-		sndMng_.PlaySE(SE::DOOR);
-		return;
-	}
-
-	// ドアの位置にプレイヤーがいて、かつ後ろを向いているときに遷移
-	if (Collision::IsPointInRect(pPos, NS_TO_PR_AREA2_0, NS_TO_PR_AREA2_1))
-	{
-		ChangeStage(Stage::PAT_ROOM);
-		controlActor_->SetLocalPercent(PR_MOVE_POS2.x, PR_MOVE_POS2.y);
-		sndMng_.PlaySE(SE::DOOR);
-		return;
-	}
-
-	// PC机の近くにプレイヤーがいる
-	// PC起動判定範囲にプレイヤーがいる
-	if (Collision::IsPointInRect(pPos, NurceStation::PC_LEFTUP, NurceStation::PC_RIGHTDOWN) &&
-		prgMng_.GetProgressEnum() == ProgressManager::STORY_PROGRESS::AFTER_MG_TALKED)
-	{
-		talk_->SetTalk(TDI::TALK_PC);
-		return;
 	}
 }

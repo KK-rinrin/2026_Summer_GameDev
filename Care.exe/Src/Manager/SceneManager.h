@@ -14,9 +14,6 @@ public:
 	static constexpr int BACKGROUND_COLOR_G = 226;
 	static constexpr int BACKGROUND_COLOR_B = 226;
 
-	// ディレクショナルライトの方向
-	static constexpr VECTOR LIGHT_DIRECTION = { 0.3f, -0.7f, 0.8f };
-
 	// シーン管理用
 	enum class SCENE_ID
 	{
@@ -24,7 +21,8 @@ public:
 		TITLE,
 		GAME,
 		SETTING,
-		BLOOD_PRESSURE_MINIGAME
+		BP_MINIGAME,
+		DEBUG,
 	};
 	
 	// インスタンスの生成
@@ -51,6 +49,27 @@ public:
 	// 状態遷移
 	void ChangeScene(SCENE_ID nextId);
 
+	// SettingSceneから戻る先を設定する
+	void SetSettingReturnScene(SCENE_ID sceneId);
+
+	// GameSceneからSettingSceneを開くときの復帰情報を保存する
+	void SetSettingReturnGameState(int stage, const VECTOR& actorPos);
+
+	// SettingSceneのBACKで戻る先を取得する
+	SCENE_ID GetSettingReturnScene(void) const;
+
+	// GameScene復帰情報の有無を取得する
+	bool HasSettingReturnGameState(void) const;
+
+	// GameScene復帰時のステージを取得する
+	int GetSettingReturnGameStage(void) const;
+
+	// GameScene復帰時の操作キャラ座標を取得する
+	VECTOR GetSettingReturnActorPos(void) const;
+
+	// GameScene復帰情報を破棄する
+	void ClearSettingReturnGameState(void);
+
 	// シーンIDの取得
 	SCENE_ID GetSceneID(void);
 
@@ -64,6 +83,14 @@ private:
 
 	SCENE_ID sceneId_;
 	SCENE_ID waitSceneId_;
+
+	// SettingSceneのBACKで戻る先。通常はタイトルに戻る
+	SCENE_ID settingReturnSceneId_;
+
+	// GameSceneからSettingSceneを開いた時だけ使う復帰情報
+	bool hasSettingReturnGameState_;
+	int settingReturnGameStage_;
+	VECTOR settingReturnActorPos_;
 
 	// フェード
 	Fader* fader_;

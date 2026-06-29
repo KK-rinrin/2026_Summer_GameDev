@@ -98,6 +98,13 @@ void StageBase::ApplyMovementBlocks(ActorBase& actor) const
 	}
 }
 
+
+StageBase::DecideResult StageBase::Decide(const ActorBase& controlActor, const ActorBase* patientActor) const
+{
+	(void)controlActor;
+	(void)patientActor;
+	return DecideResult{};
+}
 void StageBase::AddScreenObject(int handle, float sortY, bool trans)
 {
 	screenObjects_.push_back({ handle, sortY, trans });

@@ -141,6 +141,7 @@ void TitleScene::DecideSelectMenu(void)
 		sceMng_.ChangeScene(SceneManager::SCENE_ID::GAME);
 		break;
 	case Menu::SETTING:
+		sceMng_.SetSettingReturnScene(SceneManager::SCENE_ID::TITLE);
 		sceMng_.ChangeScene(SceneManager::SCENE_ID::SETTING);
 		break;
 	case Menu::CLOSE:

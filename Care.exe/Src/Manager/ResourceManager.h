@@ -43,6 +43,7 @@ public:
 		TALK_FONT,				// 会話用フォント
 		TALK_WINDOW_IMG,		// 会話ウィンドウ画像
 		TALK_WINDOW_NEXT_IMG,	// 会話ウィンドウ▼画像
+		TALK_IMAGE_0,			// 会話用一枚絵
 
 		// ミニゲーム画面
 		BPMG_BG_IMG,		// 背景
@@ -50,8 +51,8 @@ public:
 		BPMG_PULSE_IMG,		// 脈
 		BPMG_FAILED_IMG,	// 失敗画像
 		BPMG_INTRUCT_IMG,	// 操作説明
-		BPMG_FONT,			// フォント
-		BPMG_LARGE_FONT,	// デカフォント
+		BPMG_FONT,			// ﾐﾆｹﾞｰﾑフォント
+		BPMG_LARGE_FONT,	// ﾐﾆｹﾞｰﾑデカフォント
 
 	};
 

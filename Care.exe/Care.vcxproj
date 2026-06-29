@@ -91,6 +91,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(DXLIB_DIR)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -108,6 +109,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(DXLIB_DIR)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -123,6 +125,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(DXLIB_DIR)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -140,6 +143,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(DXLIB_DIR)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -154,6 +158,7 @@
     <ClCompile Include="Src\Debug\DebugCursorPosition.cpp" />
     <ClCompile Include="Src\Common\Quaternion.cpp" />
     <ClCompile Include="Src\Common\Vector2.cpp" />
+    <ClCompile Include="Src\Debug\DebugPerspective.cpp" />
     <ClCompile Include="Src\FpsControl\FpsControl.cpp" />
     <ClCompile Include="Src\main.cpp" />
     <ClCompile Include="Src\Manager\InputManager.cpp" />
@@ -181,6 +186,7 @@
     <ClCompile Include="Src\Object\Talk\window\Live2DTalkController.cpp" />
     <ClCompile Include="Src\Object\Talk\window\TalkWindow.cpp" />
     <ClCompile Include="Src\Object\Talk\window\Text\Text\TalkScriptParser.cpp" />
+    <ClCompile Include="Src\Scene\Debug\DebugScene.cpp" />
     <ClCompile Include="Src\Scene\GameScene.cpp" />
     <ClCompile Include="Src\Scene\MiniGame\BPMiniGameScene.cpp" />
     <ClCompile Include="Src\Scene\ProgressTable.cpp" />
@@ -200,6 +206,7 @@
     <ClInclude Include="Src\Debug\DebugCursorPosition.h" />
     <ClInclude Include="Src\Common\Quaternion.h" />
     <ClInclude Include="Src\Common\Vector2.h" />
+    <ClInclude Include="Src\Debug\DebugPerspective.h" />
     <ClInclude Include="Src\FpsControl\FpsControl.h" />
     <ClInclude Include="Src\main.h" />
     <ClInclude Include="Src\Manager\InputManager.h" />
@@ -226,6 +233,7 @@
     <ClInclude Include="Src\Object\Talk\window\Live2DTalkController.h" />
     <ClInclude Include="Src\Object\Talk\window\TalkWindow.h" />
     <ClInclude Include="Src\Object\Talk\window\Text\Text\TalkScriptParser.h" />
+    <ClInclude Include="Src\Scene\Debug\DebugScene.h" />
     <ClInclude Include="Src\Scene\GameScene.h" />
     <ClInclude Include="Src\Scene\MiniGame\BPMiniGameScene.h" />
     <ClInclude Include="Src\Scene\ProgressTable.h" />

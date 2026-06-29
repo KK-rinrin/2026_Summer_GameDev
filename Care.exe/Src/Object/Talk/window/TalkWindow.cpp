@@ -1,7 +1,5 @@
 #include "TalkWindow.h"
 #include "../../../Manager/ResourceManager.h"
-#include "../../../Manager/InputManager.h"
-#include "../../../Manager/KeyConfig.h"
 #include "../../../Manager/Live2D.h"
 #include "Live2DTalkController.h"
 #include <algorithm>
@@ -80,16 +78,10 @@ void TalkWindow::Init()
 	prevTime_ = GetNowHiPerformanceCount();
 	deltaTime_ = 0.0f;
 
-	convData_.clear();
-	convPos_ = 0;
+	speakActive_ = false;
 	waitingForClick_ = false;
-	conversationActive_ = false;
 
-	prevMouseLeftDown_ = false;
-	prevKeySpaceDown_ = false;
-	prevKeyReturnDown_ = false;
-
-	currentSpeaker_ = TalkDatas::Speaker::Patient;
+	currentSpeaker_ = TalkDatas::Speaker::NONE;
 
 	// デフォルトのテキスト位置
 	textX_ = TEXT_X;
@@ -105,6 +97,9 @@ void TalkWindow::Load()
 
 	// ウィンドウ画像
 	handle_ = rss.Load(ResourceManager::SRC::TALK_WINDOW_IMG).handleId_;
+
+	// ▼の画像
+	nextHandle_ = rss.Load(ResourceManager::SRC::TALK_WINDOW_NEXT_IMG).handleId_;
 
 	// フォントは ResourceManager に登録されたフォントハンドルを使う
 	const Resource& fontRes = rss.Load(ResourceManager::SRC::TALK_FONT);
@@ -122,20 +117,40 @@ void TalkWindow::LoadEnd()
 }
 
 // ==============================
-// 会話開始
+// 発話開始
 // ==============================
-void TalkWindow::StartConversation(const std::vector<TD>& data)
+void TalkWindow::StartSpeak(TalkDatas::Speaker speaker, const std::string& talk, float advanceTime)
 {
-	convData_ = data;
-	convPos_ = 0;
-	conversationActive_ = !convData_.empty();
+	currentSpeaker_ = speaker;
+	speakActive_ = true;
 	waitingForClick_ = false;
+	Speak(talk, advanceTime);
+}
 
-	if (conversationActive_)
+void TalkWindow::CompleteSpeak()
+{
+	if (!speakActive_)
 	{
-		currentSpeaker_ = convData_[convPos_].speaker;
-		Speak(convData_[convPos_].talk, 1.0f);
+		return;
 	}
+
+	unitPos_ = units_.size();
+	visCharaTime_ = 0.0f;
+	waitTimer_ = 0.0f;
+	waitingForClick_ = true;
+	CloseMouthForCurrentSpeaker();
+}
+
+void TalkWindow::FinishSpeak()
+{
+	speakActive_ = false;
+	waitingForClick_ = false;
+	talkScript_.clear();
+	units_.clear();
+	unitPos_ = 0;
+	visCharaTime_ = 0.0f;
+	waitTimer_ = 0.0f;
+	ResetMouths();
 }
 
 // ==============================
@@ -151,63 +166,15 @@ void TalkWindow::Update()
 
 	UpdateVisibleWindow();
 	UpdateLineAdvance();
+	UpdateNextIcon();
+}
 
-	// 入力取得（マウス・キー）
-	int mouseState = GetMouseInput();
-	bool leftDown = (mouseState & MOUSE_INPUT_LEFT) != 0;
-
-	const bool decideDown = KeyConfig::IsTrgDown(KeyConfig::ACTION::DECIDE, InputManager::GetInstance());
-
-	bool edgeTriggered =
-		(leftDown && !prevMouseLeftDown_) ||
-		decideDown;
-
-	// 会話処理：エッジ入力に応じて挙動を変える
-	if (edgeTriggered && conversationActive_)
+void TalkWindow::UpdateNextIcon()
+{
+	if (nextIconY_ <= NEXT_ICON_Y + NI_MOVEY_RANGE)
 	{
-		// まだ行の読み上げ中 -> 即時表示
-		if (!waitingForClick_ && unitPos_ < units_.size())
-		{
-			unitPos_ = units_.size(); // 一気に表示
-			visCharaTime_ = 0.0f;
-			waitTimer_ = 0.0f;
-
-			// 発話が終了扱いになるので待ち状態にする（次の入力で次行）
-			waitingForClick_ = true;
-
-			// 口を閉じる（アクティブ話者のみ）
-			if (currentSpeaker_ == TalkDatas::Speaker::Patient)
-			{
-				if (patientController_) patientController_->CloseMouth();
-			}
-			else if (currentSpeaker_ == TalkDatas::Speaker::Player)
-			{
-				if (playerController_) playerController_->CloseMouth();
-			}
-		}
-		// 行の読み上げが終わって待機中 -> 次の行へ
-		else if (waitingForClick_)
-		{
-			convPos_++;
-			if (convPos_ < convData_.size())
-			{
-				currentSpeaker_ = convData_[convPos_].speaker;
-				Speak(convData_[convPos_].talk, 1.0f);
-				waitingForClick_ = false;
-			}
-			else
-			{
-				// 会話終了
-				convData_.clear();
-				convPos_ = 0;
-				conversationActive_ = false;
-				waitingForClick_ = false;
-			}
-		}
+		
 	}
-
-	// エッジ状態を更新
-	prevMouseLeftDown_ = leftDown;
 }
 
 // ==============================
@@ -215,6 +182,11 @@ void TalkWindow::Update()
 // ==============================
 void TalkWindow::Draw()
 {
+	if (!speakActive_)
+	{
+		return;
+	}
+
 	if (handle_ >= 0)
 		DrawRotaGraph(imgX_, imgY_ + y_, 1.0, 0.0, handle_, true);
 
@@ -223,6 +195,18 @@ void TalkWindow::Draw()
 		TEXT_X, TEXT_Y + y_,
 		vis.c_str(), GetColor(255, 255, 255),
 		font_);
+
+	DrawNextIcon();
+}
+
+void TalkWindow::DrawNextIcon()
+{
+	if (!waitingForClick_ || nextHandle_ < 0)
+	{
+		return;
+	}
+
+	DrawRotaGraph(nextIconX_, nextIconY_, 1.0, 0.0, nextHandle_, true);
 }
 
 // ==============================
@@ -246,18 +230,7 @@ void TalkWindow::Speak(const std::string& talk, float advanceTime)
 	visCharaTime_ = 0.0f;
 	waitTimer_ = 0.0f;
 	prevTime_ = GetNowHiPerformanceCount();
-
-	// 発話開始時に口パラメータをリセット（片方のみ）
-	if (currentSpeaker_ == TalkDatas::Speaker::Patient)
-	{
-		if (patientController_) patientController_->ResetMouth();
-		if (playerController_) playerController_->ResetMouth();
-	}
-	else if (currentSpeaker_ == TalkDatas::Speaker::Player)
-	{
-		if (patientController_) patientController_->ResetMouth();
-		if (playerController_) playerController_->ResetMouth();
-	}
+	ResetMouths();
 }
 
 // ==============================
@@ -273,28 +246,17 @@ void TalkWindow::UpdateVisibleWindow()
 // ==============================
 void TalkWindow::UpdateLineAdvance()
 {
+	if (!speakActive_)
+	{
+		return;
+	}
+
 	if (unitPos_ >= units_.size())
 	{
-		// 発話終了なら口を閉じる（両方ではなくアクティブ話者を閉じる）
-		if (conversationActive_)
-		{
-			if (currentSpeaker_ == TalkDatas::Speaker::Patient)
-			{
-				if (patientController_) patientController_->CloseMouth();
-			}
-			else if (currentSpeaker_ == TalkDatas::Speaker::Player)
-			{
-				if (playerController_) playerController_->CloseMouth();
-			}
-		}
-		else
-		{
-			if (patientController_) patientController_->CloseMouth();
-			if (playerController_) playerController_->CloseMouth();
-		}
+		CloseMouthForCurrentSpeaker();
 
-		// 会話モードなら、読み上げ完了を待ち状態として扱う
-		if (conversationActive_ && !waitingForClick_)
+		// 発話完了後は外側の Talk が入力を見て次イベントへ進める
+		if (!waitingForClick_)
 		{
 			waitingForClick_ = true;
 		}
@@ -376,8 +338,7 @@ void TalkWindow::UpdateLineAdvance()
 		// noMouth が true の場合は口パラメータを更新せずリセットする
 		if (cu.noMouth)
 		{
-			if (patientController_) patientController_->ResetMouth();
-			if (playerController_) playerController_->ResetMouth();
+			ResetMouths();
 		}
 		else
 		{
@@ -391,6 +352,10 @@ void TalkWindow::UpdateLineAdvance()
 				if (patientController_) patientController_->ResetMouth();
 				if (playerController_) playerController_->SetMouthProgress(t);
 			}
+			else
+			{
+				ResetMouths();
+			}
 		}
 
 		if (visCharaTime_ >= denom)
@@ -400,6 +365,29 @@ void TalkWindow::UpdateLineAdvance()
 		}
 	}
 }
+
+void TalkWindow::ResetMouths()
+{
+	if (patientController_) patientController_->ResetMouth();
+	if (playerController_) playerController_->ResetMouth();
+}
+
+void TalkWindow::CloseMouthForCurrentSpeaker()
+{
+	if (currentSpeaker_ == TalkDatas::Speaker::Patient)
+	{
+		if (patientController_) patientController_->CloseMouth();
+	}
+	else if (currentSpeaker_ == TalkDatas::Speaker::Player)
+	{
+		if (playerController_) playerController_->CloseMouth();
+	}
+	else
+	{
+		ResetMouths();
+	}
+}
+
 // ==============================
 // 表示文字列生成
 // ==============================

@@ -8,6 +8,7 @@
 #include "../Scene/MiniGame/BPMiniGameScene.h"
 #include "ResourceManager.h"
 #include "SceneManager.h"
+#include "../Scene/Debug/DebugScene.h"
 
 SceneManager* SceneManager::instance_ = nullptr;
 
@@ -27,9 +28,12 @@ SceneManager& SceneManager::GetInstance(void)
 
 void SceneManager::Init(void)
 {
-
 	sceneId_ = SCENE_ID::TITLE;
 	waitSceneId_ = SCENE_ID::NONE;
+	settingReturnSceneId_ = SCENE_ID::TITLE;
+	hasSettingReturnGameState_ = false;
+	settingReturnGameStage_ = 0;
+	settingReturnActorPos_ = VGet(0.0f, 0.0f, 0.0f);
 
 	// フェード機能の初期化
 	fader_ = new Fader();
@@ -135,6 +139,53 @@ void SceneManager::ChangeScene(SCENE_ID nextId)
 
 }
 
+void SceneManager::SetSettingReturnScene(SCENE_ID sceneId)
+{
+	settingReturnSceneId_ = sceneId;
+
+	// GameScene以外へ戻る時は、古い座標復帰情報を残さないようにする。
+	if (sceneId != SCENE_ID::GAME)
+	{
+		ClearSettingReturnGameState();
+	}
+}
+
+void SceneManager::SetSettingReturnGameState(int stage, const VECTOR& actorPos)
+{
+	// SettingSceneのBACKでGameSceneへ戻るために、開いた時点の状態を保存する。
+	settingReturnSceneId_ = SCENE_ID::GAME;
+	hasSettingReturnGameState_ = true;
+	settingReturnGameStage_ = stage;
+	settingReturnActorPos_ = actorPos;
+}
+
+SceneManager::SCENE_ID SceneManager::GetSettingReturnScene(void) const
+{
+	return settingReturnSceneId_;
+}
+
+bool SceneManager::HasSettingReturnGameState(void) const
+{
+	return hasSettingReturnGameState_;
+}
+
+int SceneManager::GetSettingReturnGameStage(void) const
+{
+	return settingReturnGameStage_;
+}
+
+VECTOR SceneManager::GetSettingReturnActorPos(void) const
+{
+	return settingReturnActorPos_;
+}
+
+void SceneManager::ClearSettingReturnGameState(void)
+{
+	hasSettingReturnGameState_ = false;
+	settingReturnGameStage_ = 0;
+	settingReturnActorPos_ = VGet(0.0f, 0.0f, 0.0f);
+}
+
 SceneManager::SCENE_ID SceneManager::GetSceneID(void)
 {
 	return sceneId_;
@@ -151,6 +202,10 @@ SceneManager::SceneManager(void)
 
 	sceneId_ = SCENE_ID::NONE;
 	waitSceneId_ = SCENE_ID::NONE;
+	settingReturnSceneId_ = SCENE_ID::TITLE;
+	hasSettingReturnGameState_ = false;
+	settingReturnGameStage_ = 0;
+	settingReturnActorPos_ = VGet(0.0f, 0.0f, 0.0f);
 
 	scene_ = nullptr;
 	fader_ = nullptr;
@@ -194,8 +249,11 @@ void SceneManager::DoChangeScene(SCENE_ID sceneId)
 	case SCENE_ID::SETTING:
 		scene_ = new SettingScene();
 		break;
-	case SCENE_ID::BLOOD_PRESSURE_MINIGAME:
+	case SCENE_ID::BP_MINIGAME:
 		scene_ = new BPMiniGameScene();
+		break;
+	case SCENE_ID::DEBUG:
+		scene_ = new DebugScene();
 		break;
 	}
 
@@ -236,5 +294,3 @@ void SceneManager::Fade(void)
 	}
 
 }
-
-

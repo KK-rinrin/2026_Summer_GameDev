@@ -214,6 +214,10 @@ void GameMenu::DecideSelectItem()
 		isOpen_ = false;
 		result_ = Result::RESUME;
 		break;
+	case Item::SETTING:
+		isOpen_ = false;
+		result_ = Result::OPEN_SETTING;
+		break;
 	case Item::BACK_TO_TITLE:
 		isOpen_ = false;
 		result_ = Result::BACK_TO_TITLE;
@@ -240,6 +244,8 @@ const char* GameMenu::GetItemText(Item item) const
 	{
 	case Item::RESUME:
 		return "Resume";
+	case Item::SETTING:
+		return "Setting";
 	case Item::BACK_TO_TITLE:
 		return "Back to Title";
 	default:

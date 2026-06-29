@@ -106,7 +106,7 @@ void SettingScene::Update(void)
 	{
 		sndMng_.PlaySE(SE::CANCEL);
 
-		sceMng_.ChangeScene(SceneManager::SCENE_ID::TITLE);
+		BackToReturnScene();
 	}
 }
 
@@ -115,9 +115,9 @@ void SettingScene::Draw(void)
 	// タイトルの描画
 	DrawStringToHandle(TITLE_POS.x, TITLE_POS.y, TITLE_TEXT, TITLE_COLOR, fontTitle_);
 	
-	// キャンセルキーでタイトルに戻る旨の描画
+	// キャンセルキーで戻る旨の描画
 	DrawStringToHandle(TITLE_POS.x, TITLE_POS.y + ITEM_INTERVAL_Y,
-		"キャンセルキーでタイトルに戻る", ITEM_COLOR, fontTitle_);
+		"キャンセルキーで戻る", ITEM_COLOR, fontTitle_);
 
 	// 項目の描画
 	DrawItems();
@@ -194,12 +194,18 @@ void SettingScene::DecideSelectItem(void)
 		isKeyInputReady_ = false;
 		ItemUpdate_ = std::bind(&SettingScene::UpdateItemPadCon, this);
 		break;
-	case Item::TITLE:
-		sceMng_.ChangeScene(SceneManager::SCENE_ID::TITLE);
+	case Item::BACK:
+		BackToReturnScene();
 		break;
 	default:
 		break;
 	}
+}
+
+void SettingScene::BackToReturnScene(void)
+{
+	// TITLEから開いた時はTITLEへ、GameMenuから開いた時は保存されたGameSceneへ戻る。
+	sceMng_.ChangeScene(sceMng_.GetSettingReturnScene());
 }
 
 void SettingScene::DrawItems(void)
@@ -296,6 +302,11 @@ void SettingScene::UpdateProgressResetConfirm(void)
 		if (isProgressResetYesSelected_)
 		{
 			isProgressResetSucceeded_ = prgMng_.ResetProgressCache();
+			if (isProgressResetSucceeded_)
+			{
+				// GameMenuから開いていた場合は、保存済みの座標復帰情報もリセットする。
+				sceMng_.ClearSettingReturnGameState();
+			}
 			isProgressResetResultOpen_ = true;
 		}
 		else

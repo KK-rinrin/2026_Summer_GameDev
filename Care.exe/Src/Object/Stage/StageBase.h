@@ -8,6 +8,29 @@ class ActorBase;
 class StageBase
 {
 public:
+	// 決定キーで起きたステージ内イベントの種類
+	enum class DecideType
+	{
+		NONE,
+		CHANGE_STAGE,
+		PATIENT_TALK,
+		PC,
+	};
+
+	// GameSceneに依存せず遷移先ステージを伝えるためのID
+	enum class StageId
+	{
+		PAT_ROOM,
+		NURSE_STATION,
+	};
+
+	struct DecideResult
+	{
+		DecideType type = DecideType::NONE;
+		StageId nextStage = StageId::PAT_ROOM;
+		VECTOR movePos = { 0.0f, 0.0f, 0.0f };
+	};
+
 	StageBase();
 	virtual ~StageBase();
 
@@ -19,6 +42,7 @@ public:
 	void DrawBackground() const;
 	void RegisterObjects(Renderer2D& renderer);
 	void ApplyMovementBlocks(ActorBase& actor) const;
+	virtual DecideResult Decide(const ActorBase& controlActor, const ActorBase* patientActor) const;
 
 protected:
 	struct RenderObject

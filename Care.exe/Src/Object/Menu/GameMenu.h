@@ -21,6 +21,7 @@ public:
 	{
 		NONE,
 		RESUME,
+		OPEN_SETTING,
 		BACK_TO_TITLE,
 	};
 
@@ -40,6 +41,7 @@ private:
 	enum class Item
 	{
 		RESUME,
+		SETTING,
 		BACK_TO_TITLE,
 		MAX
 	};

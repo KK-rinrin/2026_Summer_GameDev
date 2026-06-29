@@ -1,12 +1,12 @@
 #include "2DTransform.h"
 #include "../../Utility/AsoUtility.h"
 
-static constexpr int MOVE_MAX_Y = 570;
-static constexpr int MOVE_MIN_Y = 210;
-static constexpr int MOVE_MINY_MAX_X = 665;
-static constexpr int MOVE_MINY_MIN_X = 135;
-static constexpr int MOVE_MAXY_MAX_X = 750;
-static constexpr int MOVE_MAXY_MIN_X = 50;
+static constexpr int MOVE_MAX_Y = 570;		// 移動可能Y座標の最大値
+static constexpr int MOVE_MIN_Y = 210;		// 移動可能Y座標の最小値
+static constexpr int MOVE_MINY_MAX_X = 665;	// 最小Yでの最大X座標
+static constexpr int MOVE_MINY_MIN_X = 135;	// 最小Yでの最小X座標
+static constexpr int MOVE_MAXY_MAX_X = 750;	// 最大Yでの最大X座標
+static constexpr int MOVE_MAXY_MIN_X = 50;	// 最大Yでの最小X座標
 
 // 遠近での最小スケール（遠方でこの値になる）
 static constexpr float MOVE_PERSPECTIVE_MIN_SCALE = 0.7f;
@@ -320,12 +320,17 @@ void Transform2D::BlockCrossingLocalRect(const VECTOR& leftTopPercent, const VEC
 
 VECTOR Transform2D::GetWorldPos() const
 {
+	return GetWorldPos(pos);
+}
+
+VECTOR Transform2D::GetWorldPos(const VECTOR& localPos)
+{
 	VECTOR v = AsoUtility::VECTOR_ZERO;
 
-	const float actualY = PercentToY(pos.y);
+	const float actualY = PercentToY(localPos.y);
 	const float xmin = CalcXMinForY(actualY);
 	const float xmax = CalcXMaxForY(actualY);
-	const float worldX = xmin + (pos.x / 100.0f) * (xmax - xmin);
+	const float worldX = xmin + (localPos.x / 100.0f) * (xmax - xmin);
 
 	v.x = worldX;
 	v.y = actualY;

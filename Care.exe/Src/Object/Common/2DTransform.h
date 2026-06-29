@@ -53,7 +53,11 @@ public:
 
 	void Delete();
 
+	// ワールド座標の取得
 	VECTOR GetWorldPos() const;
+	static VECTOR GetWorldPos(const VECTOR& localPos);
+
+	// ワールド座標をローカル百分率座標に変換
 	static VECTOR WorldToLocalPercent(const VECTOR& worldPos);
 
 	// 追加：ローカル百分率矩形での通過防止（leftTopPercent / rightBottomPercent は VECTOR、0..100）

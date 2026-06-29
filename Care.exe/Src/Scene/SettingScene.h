@@ -17,7 +17,7 @@ public:
 		KEY_CONFIG,
 		PAD_CONFIG,
 		// TEXT_SIZE,	// 余裕あれば実装
-		TITLE,
+		BACK,
 		MAX
 	};
 
@@ -52,7 +52,7 @@ public:
 
 	// 項目テキスト(余裕あれば4番目に"テキストサイズ（倍率）"を追加)
 	static constexpr std::array<const char*, static_cast<int>(Item::MAX)> 
-		ITEM_TEXTS = { "BGM音量", "SE音量", "キーコンフィグ", "パッドコンフィグ", "タイトルへ"};
+		ITEM_TEXTS = { "BGM音量", "SE音量", "キーコンフィグ", "パッドコンフィグ", "BACK"};
 
 	SettingScene(void);
 	~SettingScene(void) override;
@@ -66,6 +66,7 @@ private:
 	void MoveSelectItem(int move);
 	bool IsItemVisible(Item item) const;
 	void DecideSelectItem(void);
+	void BackToReturnScene(void);
 	void DrawItems(void);
 	bool UpdateHiddenResetCommand(void);
 	bool CheckHiddenResetCommandKey(int keyCode);

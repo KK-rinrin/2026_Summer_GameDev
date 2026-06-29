@@ -29,6 +29,7 @@ void ResourceManager::Init(void)
 	static std::string PATH_TITLE = Application::PATH_TITLE;
 	static std::string PATH_EFF = Application::PATH_EFFECT;
 	static std::string PATH_MODEL = Application::PATH_MODEL;
+	static std::string PATH_FONT = Application::PATH_FONT;
 
 	// タイトル画像
 	CreateResource(SRC::TITLE_IMG, RES_T::IMG, PATH_TITLE + "Title.png");
@@ -36,6 +37,7 @@ void ResourceManager::Init(void)
 	// 会話ウィンドウ画像
 	CreateResource(SRC::TALK_WINDOW_IMG, RES_T::IMG, PATH_IMG + "window.png");
 	CreateResource(SRC::TALK_WINDOW_NEXT_IMG, RES_T::IMG, PATH_IMG + "window_next.png");
+	CreateResource(SRC::TALK_IMAGE_0, RES_T::IMG, PATH_IMG + "Talk/talk_image_0.png");
 
 	// キャラクターグラフィック
 	Resource* res = new Resource(RES_T::IMGS, PATH_IMG + "Game/Player.png", 3, 2, 120, 300);
@@ -86,6 +88,9 @@ void ResourceManager::Init(void)
 	resourcesMap_.emplace(SRC::SE_DOOR, res);
 
 	// フォント
+	// 一時登録
+	AddFontResourceExA((PATH_FONT + "Corporate-Mincho-ver3.otf").c_str(), FR_PRIVATE, NULL);
+	
 	res = new Resource(RES_T::FONT, "コーポレート明朝 ver3 Medium", 30);
 	resourcesMap_.emplace(SRC::TALK_FONT, res);
 	res = new Resource(RES_T::FONT, "コーポレート明朝 ver3 Medium", 38);
@@ -117,6 +122,8 @@ void ResourceManager::Destroy(void)
 		delete res.second;
 	}
 	resourcesMap_.clear();
+
+	RemoveFontResourceExA((Application::PATH_FONT + "Corporate-Mincho-ver3.otf").c_str(), FR_PRIVATE, NULL);
 	delete instance_;
 }
 
