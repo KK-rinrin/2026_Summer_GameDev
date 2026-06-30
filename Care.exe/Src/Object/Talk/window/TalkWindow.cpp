@@ -86,6 +86,8 @@ void TalkWindow::Init()
 	// デフォルトのテキスト位置
 	textX_ = TEXT_X;
 	textY_ = TEXT_Y;
+
+
 }
 
 // ==============================
@@ -158,6 +160,7 @@ void TalkWindow::FinishSpeak()
 // ==============================
 void TalkWindow::Update()
 {
+
 	// deltaTime
 	long long now = GetNowHiPerformanceCount();
 	deltaTime_ = (now - prevTime_) / 1000000.0f;
@@ -165,16 +168,33 @@ void TalkWindow::Update()
 	if (deltaTime_ > 0.1f) deltaTime_ = 0.1f;
 
 	UpdateVisibleWindow();
-	UpdateLineAdvance();
+	if (!waitingForClick_)
+		UpdateLineAdvance();
 	UpdateNextIcon();
 }
 
 void TalkWindow::UpdateNextIcon()
 {
-	if (nextIconY_ <= NEXT_ICON_Y + NI_MOVEY_RANGE)
+	// ▼が上下に動く範囲内で移動
+	if (isMoveUp_)
 	{
-		
+		nextIconYf_ += NI_MOVE_TIME * deltaTime_;
+		if (nextIconYf_ >= NI_MOVE_MAX)
+		{
+			nextIconYf_ = NI_MOVE_MAX;
+			isMoveUp_ = false;
+		}
 	}
+	else
+	{
+		nextIconYf_ -= NI_MOVE_TIME * deltaTime_;
+		if (nextIconYf_ <= NI_MOVE_MIN)
+		{
+			nextIconYf_ = NI_MOVE_MIN;
+			isMoveUp_ = true;
+		}
+	}
+	nextIconY_ = static_cast<int>(nextIconYf_);
 }
 
 // ==============================
@@ -288,6 +308,12 @@ void TalkWindow::UpdateLineAdvance()
 				Live2DTalkController::Param p = StringToParam(cu.tagParam);
 				ctrl->SetParamValue(p, cu.floatValue);
 			}
+		}
+		else if (cu.tagType == "WAIT_C")
+		{
+			// 決定待ち有効化
+			waitingForClick_ = true;
+
 		}
 		else
 		{

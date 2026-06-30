@@ -26,6 +26,12 @@ public:
 	// ▼が上下に動く範囲
 	static constexpr int NI_MOVEY_RANGE = 2;
 
+	static constexpr int NI_MOVE_MIN = NEXT_ICON_Y - NI_MOVEY_RANGE;
+	static constexpr int NI_MOVE_MAX = NEXT_ICON_Y + NI_MOVEY_RANGE;
+
+	// ▼が動く速さ（秒/フレーム？）
+	static constexpr float NI_MOVE_TIME = 10.0f;
+
 public:
 	TalkWindow();
 	~TalkWindow();
@@ -43,7 +49,7 @@ public:
 
 	bool IsSpeakActive() const { return speakActive_; }
 	bool IsSpeaking() const { return speakActive_ && unitPos_ < units_.size(); }
-	bool IsWaitingForClick() const { return speakActive_ && waitingForClick_; }
+	bool IsWaitingForClick() const { return waitingForClick_; }
 	bool IsVisible() const { return isVisible_; }
 
 	// Live2D コントローラ受け取り（非所有）
@@ -75,7 +81,10 @@ private:
 	int imgX_,imgY_ = 0;
 
 	int nextHandle_ = -1;	// 右下の▼
-	int nextIconX_ = NEXT_ICON_X, nextIconY_ = NEXT_ICON_Y;
+	int nextIconX_ = NEXT_ICON_X; 
+	int nextIconY_ = NEXT_ICON_Y;
+	float nextIconYf_ = static_cast<float>(NEXT_ICON_Y);
+	bool isMoveUp_ = false;
 
 	// テキスト表示位置（Resource のフォント情報で調整）
 	int textX_ = TEXT_X;

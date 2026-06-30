@@ -60,7 +60,7 @@ const std::vector<TD>& TalkDatas::GetTalkData(TalkDataIndex dataIndex)
 		Speak(患者, "はい") }},
 
 		{ TDI::TALK_AFTERMG, {
-		Speak(看護師, "...はい、終わり。\n正常範囲。\n{WAIT:300}...本当に静かな人。\n(かなり落ち着いているように見える)"),
+		Speak(看護師, "...はい、終わり。\n正常範囲。\n{WAIT_C}...本当に静かな人。\n(かなり落ち着いているように見える)"),
 		Speak(患者, "...どうも。"),
 		Speak(看護師, "じゃ、戻るからね"),
 		Speak(患者, "また。") }},

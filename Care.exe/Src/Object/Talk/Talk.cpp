@@ -264,15 +264,15 @@ void Talk::UpdateEvent()
 	}
 
 	const bool decideTriggered = IsDecideTriggered();
-
+	const bool waitClick = talkWindow_->IsWaitingForClick();
 	switch (eventState_)
 	{
 	case EventState::SPEAK:
-		if (decideTriggered && talkWindow_->IsSpeaking())
+		if (decideTriggered && !waitClick && talkWindow_->IsSpeaking())
 		{
 			talkWindow_->CompleteSpeak();
 		}
-		else if (decideTriggered && talkWindow_->IsWaitingForClick())
+		else if (decideTriggered && waitClick && !talkWindow_->IsSpeakActive())
 		{
 			talkWindow_->FinishSpeak();
 			AdvanceEvent();
