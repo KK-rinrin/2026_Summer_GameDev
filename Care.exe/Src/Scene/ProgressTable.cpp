@@ -12,6 +12,7 @@ namespace
 			GameScene::Stage::NURSE_STATION,
 			Player::INIT_PER,
 			TDI::TALK_INIT, TDI::TALK_0, TDI::TALK_0,
+			STORY_PROGRESS::START,
 			false
 		},
 		{
@@ -19,6 +20,7 @@ namespace
 			GameScene::Stage::PAT_ROOM,
 			{ 17.0f, 10.0f, 0.0f },
 			TDI::NONE, TDI::NONE, TDI::NONE,
+			STORY_PROGRESS::START_MINIGAME0,
 			true
 		},
 		{
@@ -26,6 +28,7 @@ namespace
 			GameScene::Stage::PAT_ROOM,
 			{ 48.0f, 33.0f, 0.0f },
 			TDI::TALK_AFTERMG, TDI::NONE, TDI::TALK_AFTERMG,
+			STORY_PROGRESS::AFTER_MG,
 			false
 		},
 		{
@@ -33,6 +36,7 @@ namespace
 			GameScene::Stage::PAT_ROOM,
 			{ 48.0f, 33.0f, 0.0f },
 			TDI::NONE, TDI::NONE, TDI::TALK_PC,
+			STORY_PROGRESS::AFTER_MG_TALKED,
 			false
 		},
 
@@ -41,6 +45,7 @@ namespace
 			GameScene::Stage::NURSE_STATION,
 			{ 36.0f, 21.0f, 0.0f },
 			TDI::NONE, TDI::NONE, TDI::NONE,
+			STORY_PROGRESS::AFTER_PC,
 			false
 		},
 
@@ -48,7 +53,8 @@ namespace
 			STORY_PROGRESS::END_NURCE_LOST,
 			GameScene::Stage::PAT_ROOM,
 			{ 50.0f, 50.0f, 0.0f },
-			TDI::TALK_END_NURCE_LOST, TDI::NONE, TDI::NONE,
+			TDI::TALK_END_NURCE_LOST, TDI::NONE, TDI::TALK_END_NURCE_LOST,
+			STORY_PROGRESS::END_NURCE_LOCKED,
 			false
 		},
 
@@ -56,14 +62,40 @@ namespace
 			STORY_PROGRESS::END_PATIENT_LOST,
 			GameScene::Stage::NURSE_STATION,
 			{ 50.0f, 50.0f, 0.0f },
-			TDI::TALK_END_PATIENT_LOST, TDI::NONE, TDI::NONE,
+			TDI::TALK_END_PATIENT_LOST, TDI::NONE, TDI::TALK_END_PATIENT_LOST,
+			STORY_PROGRESS::END_PATIENT_LOCKED,
 			false
 		},
 		{
 			STORY_PROGRESS::END_BOTH_LOST,
 			GameScene::Stage::NURSE_STATION,
 			{ 50.0f, 50.0f, 0.0f },
-			TDI::TALK_END_BOTH_LOST, TDI::NONE, TDI::NONE,
+			TDI::TALK_END_BOTH_LOST, TDI::NONE, TDI::TALK_END_BOTH_LOST,
+			STORY_PROGRESS::END_BOTH_LOCKED,
+			false
+		},
+		{
+			STORY_PROGRESS::END_NURCE_LOCKED,
+			GameScene::Stage::PAT_ROOM,
+			{ 50.0f, 50.0f, 0.0f },
+			TDI::NONE, TDI::NONE, TDI::NONE,
+			STORY_PROGRESS::END_NURCE_LOCKED,
+			false
+		},
+		{
+			STORY_PROGRESS::END_PATIENT_LOCKED,
+			GameScene::Stage::NURSE_STATION,
+			{ 50.0f, 50.0f, 0.0f },
+			TDI::NONE, TDI::NONE, TDI::NONE,
+			STORY_PROGRESS::END_PATIENT_LOCKED,
+			false
+		},
+		{
+			STORY_PROGRESS::END_BOTH_LOCKED,
+			GameScene::Stage::NURSE_STATION,
+			{ 50.0f, 50.0f, 0.0f },
+			TDI::NONE, TDI::NONE, TDI::NONE,
+			STORY_PROGRESS::END_BOTH_LOCKED,
 			false
 		},
 	};
@@ -73,9 +105,10 @@ namespace
 		STORY_PROGRESS::START,
 		GameScene::Stage::NURSE_STATION,
 		Player::INIT_PER,
-		{},
-		{},
-		{},
+		TDI::NONE,
+		TDI::NONE,
+		TDI::NONE,
+		STORY_PROGRESS::START,
 		false
 	};
 }
@@ -106,9 +139,14 @@ bool ProgressTable::ShouldAdvanceByTalkEnd(
 	return true;
 }
 
+ProgressTable::STORY_PROGRESS ProgressTable::GetEndLockedProgress(STORY_PROGRESS progress)
+{
+	const ProgressData& data = Get(progress);
+	return data.endLockedProgress;
+}
+
 bool ProgressTable::ShouldAutoAdvance(STORY_PROGRESS progress)
 {
 	const ProgressData& data = Get(progress);
 	return data.autoAdvanceProgress;
 }
-

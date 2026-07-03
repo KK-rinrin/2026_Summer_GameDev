@@ -62,6 +62,14 @@ void ResourceManager::Init(void)
 	CreateResource(SRC::BPMG_FAILED_IMG, RES_T::IMG, PATH_IMG + "MiniGame/bp_failed.png");
 	CreateResource(SRC::BPMG_INTRUCT_IMG, RES_T::IMG, PATH_IMG + "MiniGame/how_to_operation.png");
 
+	// PC‰æ–Ê‰æ‘œ
+
+	// ˆê–‡ŠG
+	CreateResource(SRC::STILL_END_NUR, RES_T::IMG, PATH_IMG + "Still/END_T.png");
+	CreateResource(SRC::STILL_END_NUI, RES_T::IMG, PATH_IMG + "Still/END_D.png");
+	CreateResource(SRC::STILL_END_BOTH, RES_T::IMG, PATH_IMG + "Still/END_NULL.png");
+	CreateResource(SRC::STILL_END_RUIN, RES_T::IMG, PATH_IMG + "Still/END_F.png");
+
 	// Live2Dƒ‚ƒfƒ‹
 	CreateResource(SRC::PATIENT_MODEL, RES_T::LIVE2D, PATH_MODEL + "patient/patient.model3.json");
 	CreateResource(SRC::PLAYER_MODEL, RES_T::LIVE2D, PATH_MODEL + "nurce/nurce.model3.json");

@@ -31,6 +31,8 @@ public:
 	void Delete(void) override;
 
 private:
+	
+
 	void InitLoad() override;
 
 	int currentBG_ = 0;

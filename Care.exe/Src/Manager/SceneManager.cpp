@@ -6,7 +6,9 @@
 #include "../Scene/GameScene.h"
 #include "../Scene/SettingScene.h"
 #include "../Scene/MiniGame/BPMiniGameScene.h"
+#include "../Scene/ClearScene.h"
 #include "ResourceManager.h"
+#include "ProgressManager.h"
 #include "SceneManager.h"
 #include "../Scene/Debug/DebugScene.h"
 
@@ -52,7 +54,8 @@ void SceneManager::Init(void)
 	preTime_ = std::chrono::system_clock::now();
 
 	// 初期シーンの設定
-	DoChangeScene(SCENE_ID::TITLE);
+	DoChangeScene(ProgressManager::GetInstance().IsEndLockedProgress() ?
+		SCENE_ID::CLEAR : SCENE_ID::DEBUG);
 
 }
 
@@ -128,10 +131,18 @@ void SceneManager::Destroy(void)
 
 void SceneManager::ChangeScene(SCENE_ID nextId)
 {
-
 	// フェード処理が終わってからシーンを変える場合もあるため、
 	// 遷移先シーンをメンバ変数に保持
 	waitSceneId_ = nextId;
+
+#ifdef _DEBUG
+#else
+	if (waitSceneId_ == SCENE_ID::DEBUG)
+	{
+		// デバッグシーンはリリース版では使用不可
+		waitSceneId_ = SCENE_ID::TITLE;
+	}
+#endif // _DEBUG
 
 	// フェードアウト(暗転)を開始する
 	fader_->SetFade(Fader::STATE::FADE_OUT);
@@ -252,6 +263,9 @@ void SceneManager::DoChangeScene(SCENE_ID sceneId)
 	case SCENE_ID::BP_MINIGAME:
 		scene_ = new BPMiniGameScene();
 		break;
+	case SCENE_ID::CLEAR:
+		scene_ = new ClearScene();
+		break;
 	case SCENE_ID::DEBUG:
 		scene_ = new DebugScene();
 		break;
@@ -268,7 +282,6 @@ void SceneManager::DoChangeScene(SCENE_ID sceneId)
 
 void SceneManager::Fade(void)
 {
-
 	Fader::STATE fState = fader_->GetState();
 	switch (fState)
 	{

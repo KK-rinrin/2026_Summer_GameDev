@@ -3,6 +3,7 @@
 #include "../../Manager/InputManager.h"
 #include "../../Debug/DebugPerspective.h"
 #include "../../Debug/DebugCursorPosition.h"
+#include "../../Manager/SceneManager.h"
 #include "DxLib.h"
 
 DebugScene::DebugScene(void)
@@ -15,6 +16,12 @@ DebugScene::~DebugScene(void)
 
 void DebugScene::Update(void)
 {
+	// escキーでタイトルに戻る
+	if (iptMng_.IsTrgDown(KEY_INPUT_ESCAPE))
+	{
+		sceMng_.ChangeScene(SceneManager::SCENE_ID::TITLE);
+	}
+
 	// 上下キーでY分割数を変更
 	if (iptMng_.IsTrgDown(KEY_INPUT_UP))
 	{

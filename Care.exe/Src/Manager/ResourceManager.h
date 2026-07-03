@@ -28,6 +28,9 @@ public:
 		BG_2_CHAIR,				// パソコンデスクの椅子
 		BG_2_LOCKER,			// ナースステーションのロッカー
 
+		PC_BG,					// パソコン画面背景
+		PC_FRAME,				// パソコン画面フレーム
+
 		BGM_GAME,				// ゲーム中BGM（アドベンチャーモード）
 
 		SE_DECIDE,				// システム決定音
@@ -54,6 +57,15 @@ public:
 		BPMG_FONT,			// ﾐﾆｹﾞｰﾑフォント
 		BPMG_LARGE_FONT,	// ﾐﾆｹﾞｰﾑデカフォント
 
+		// キャラクター一枚絵
+		STILL_1,			
+
+
+		// ゲームクリア一枚絵
+		STILL_END_NUR,		// ヌイ削除
+		STILL_END_NUI,		// 看護師削除
+		STILL_END_BOTH,		// 両方削除
+		STILL_END_RUIN		// 削除しないまま破滅
 	};
 
 	// 明示的にインスタンスを生成する

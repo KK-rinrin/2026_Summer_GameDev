@@ -21,27 +21,27 @@ static std::basic_string<TCHAR> ToTString(const std::string& s)
 // ヘルパー：文字列から Param 列挙への変換（名前 or 数値）
 static Live2DTalkController::Param StringToParam(const std::string& s)
 {
-    std::string u = s;
-    std::transform(u.begin(), u.end(), u.begin(), [](unsigned char c) { return static_cast<char>(std::toupper(c)); });
+	std::string u = s;
+	std::transform(u.begin(), u.end(), u.begin(), [](unsigned char c) { return static_cast<char>(std::toupper(c)); });
 
-    if (u == "MOUTH") return Live2DTalkController::Param::MOUTH;
-    if (u == "EYE_BLINK_R") return Live2DTalkController::Param::EYE_BLINK_R;
+	if (u == "MOUTH") return Live2DTalkController::Param::MOUTH;
+	if (u == "EYE_BLINK_R") return Live2DTalkController::Param::EYE_BLINK_R;
 	if (u == "EYE_BLINK_L") return Live2DTalkController::Param::EYE_BLINK_L;
-    if (u == "BROW_RY") return Live2DTalkController::Param::BROW_RY;
-    if (u == "BROW_LY") return Live2DTalkController::Param::BROW_LY;
-    if (u == "CUSTOM") return Live2DTalkController::Param::CUSTOM;
-    if (u == "EYE_BLACK") return Live2DTalkController::Param::PAT_EYE_BLACK;
+	if (u == "BROW_RY") return Live2DTalkController::Param::BROW_RY;
+	if (u == "BROW_LY") return Live2DTalkController::Param::BROW_LY;
+	if (u == "CUSTOM") return Live2DTalkController::Param::CUSTOM;
+	if (u == "EYE_BLACK") return Live2DTalkController::Param::PAT_EYE_BLACK;
 
-    // 数値なら enum 値として扱う
-    try
-    {
-        int v = std::stoi(s);
-        return static_cast<Live2DTalkController::Param>(v);
-    }
-    catch (...)
-    {
-        return Live2DTalkController::Param::CUSTOM;
-    }
+	// 数値なら enum 値として扱う
+	try
+	{
+		int v = std::stoi(s);
+		return static_cast<Live2DTalkController::Param>(v);
+	}
+	catch (...)
+	{
+		return Live2DTalkController::Param::CUSTOM;
+	}
 }
 
 // ==============================
@@ -136,12 +136,69 @@ void TalkWindow::CompleteSpeak()
 		return;
 	}
 
-	unitPos_ = units_.size();
+	// 次の WAIT_C タグまで表示して待つ
+	size_t pos = unitPos_;
+	Live2DTalkController* ctrl = (currentSpeaker_ == TalkDatas::Speaker::Patient) ? patientController_ : playerController_;
+	bool foundWaitC = false;
+
+	while (pos < units_.size())
+	{
+		const CharUnit& cu = units_[pos];
+		if (cu.type == CharUnit::Type::TAG)
+		{
+			// WAIT_C に出会ったらそこで止める（タグは消費せず待ち状態に）
+			if (cu.tagType == "WAIT_C")
+			{
+				foundWaitC = true;
+				break;
+			}
+
+			// 他のタグは即時適用してから先へ進める
+			if (cu.tagType == "WAIT")
+			{
+				// 行内短い一時待ちタグ。CompleteSpeak では無視して次へ（waitTimer をキープしない）
+			}
+			else if (cu.tagType == "FBF")
+			{
+				lineAdTimeMulti_ = (cu.floatValue > 0.0f) ? cu.floatValue : 1.0f;
+			}
+			else if (cu.tagType == "PARAM")
+			{
+				if (ctrl)
+				{
+					Live2DTalkController::Param p = StringToParam(cu.tagParam);
+					ctrl->SetParamValue(p, cu.floatValue);
+				}
+			}
+			else
+			{
+				// その他のタグは表情タグ / 直接パラメータ名として扱う
+				if (ctrl && ctrl->GetModel())
+				{
+					std::basic_string<TCHAR> tid = ToTString(cu.tagType);
+					ctrl->GetModel()->SetParamerterValue(tid.c_str(), cu.floatValue);
+				}
+			}
+
+			pos++;
+			continue;
+		}
+
+		// NORMAL / PUNCT は表示対象なので単純に進める
+		pos++;
+	}
+
+	// pos は表示すべき最終ユニット位置（WAIT_C の位置または末尾）
+	unitPos_ = pos;
 	visCharaTime_ = 0.0f;
 	waitTimer_ = 0.0f;
+
+	// ここで待ち状態に入る（行末でも途中でも同様に待ち表示）
 	waitingForClick_ = true;
+	// WAIT_C 到達時は口を閉じる
 	CloseMouthForCurrentSpeaker();
 }
+
 
 void TalkWindow::FinishSpeak()
 {
@@ -152,6 +209,31 @@ void TalkWindow::FinishSpeak()
 	unitPos_ = 0;
 	visCharaTime_ = 0.0f;
 	waitTimer_ = 0.0f;
+	ResetMouths();
+}
+
+// 追加: WAIT_C を消費して表示を再開する
+void TalkWindow::ContinueSpeak()
+{
+	if (!speakActive_ || !waitingForClick_)
+	{
+		return;
+	}
+
+	// 現在の位置が WAIT_C タグにある場合はそれを消費して次から再開する
+	if (unitPos_ < units_.size())
+	{
+		const CharUnit& cu = units_[unitPos_];
+		if (cu.type == CharUnit::Type::TAG && cu.tagType == "WAIT_C")
+		{
+			unitPos_++; // WAIT_C タグを消費
+		}
+	}
+
+	waitingForClick_ = false;
+	visCharaTime_ = 0.0f;
+	prevTime_ = GetNowHiPerformanceCount();
+	// 再開時に口パラメータの初期化を行う
 	ResetMouths();
 }
 
@@ -295,38 +377,47 @@ void TalkWindow::UpdateLineAdvance()
 	// TAG
 	if (cu.type == CharUnit::Type::TAG)
 	{
+		Live2DTalkController* ctrl = (currentSpeaker_ == TalkDatas::Speaker::Patient) ? patientController_ : playerController_;
+
 		if (cu.tagType == "WAIT")
+		{
 			waitTimer_ = static_cast<float>(cu.waitMs);
+			unitPos_++;
+		}
 		else if (cu.tagType == "FBF")
+		{
 			lineAdTimeMulti_ = (cu.floatValue > 0.0f) ? cu.floatValue : 1.0f;
+			unitPos_++;
+		}
 		else if (cu.tagType == "PARAM")
 		{
 			// PARAM: パラ名（または数値）: 値
-			Live2DTalkController* ctrl = (currentSpeaker_ == TalkDatas::Speaker::Patient) ? patientController_ : playerController_;
 			if (ctrl)
 			{
 				Live2DTalkController::Param p = StringToParam(cu.tagParam);
 				ctrl->SetParamValue(p, cu.floatValue);
 			}
+			unitPos_++;
 		}
 		else if (cu.tagType == "WAIT_C")
 		{
-			// 決定待ち有効化
+			// 決定待ち有効化（途中待ち）
+			// タグはここでは消費せず、表示を止めて口を閉じる
 			waitingForClick_ = true;
-
+			CloseMouthForCurrentSpeaker();
+			// do NOT increment unitPos_ here; ContinueSpeak() will consume the tag
 		}
 		else
 		{
 			// その他のタグを「表情タグ / 直接パラメータ名」として扱う
-			Live2DTalkController* ctrl = (currentSpeaker_ == TalkDatas::Speaker::Patient) ? patientController_ : playerController_;
 			if (ctrl && ctrl->GetModel())
 			{
 				std::basic_string<TCHAR> tid = ToTString(cu.tagType);
 				ctrl->GetModel()->SetParamerterValue(tid.c_str(), cu.floatValue);
 			}
+			unitPos_++;
 		}
 
-		unitPos_++;
 		return;
 	}
 

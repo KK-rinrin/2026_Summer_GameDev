@@ -22,6 +22,7 @@ public:
 		GAME,
 		SETTING,
 		BP_MINIGAME,
+		CLEAR,
 		DEBUG,
 	};
 	

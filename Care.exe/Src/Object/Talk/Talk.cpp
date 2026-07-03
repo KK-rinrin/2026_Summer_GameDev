@@ -268,14 +268,32 @@ void Talk::UpdateEvent()
 	switch (eventState_)
 	{
 	case EventState::SPEAK:
-		if (decideTriggered && !waitClick && talkWindow_->IsSpeaking())
+		// クリックの挙動を調整:
+		// - 発話中でクリック: 次の WAIT_C までを一気に表示（CompleteSpeak）
+		// - 途中待ち(行内 WAIT_C) 中でクリック: WAIT_C を消費して表示を再開（ContinueSpeak）
+		// - 行末待ち(表示完了) 中でクリック: 発話終了 -> 次イベント（FinishSpeak + AdvanceEvent）
+		if (decideTriggered)
 		{
-			talkWindow_->CompleteSpeak();
-		}
-		else if (decideTriggered && waitClick && !talkWindow_->IsSpeakActive())
-		{
-			talkWindow_->FinishSpeak();
-			AdvanceEvent();
+			if (talkWindow_->IsSpeaking() && !waitClick)
+			{
+				// 文字表示途中でクリック => 次の途中待ちまで表示して待つ
+				talkWindow_->CompleteSpeak();
+			}
+			else if (waitClick)
+			{
+				// 既に待ち状態
+				if (talkWindow_->IsSpeaking())
+				{
+					// 途中待ち（WAIT_C）：クリックで続きの表示を再開
+					talkWindow_->ContinueSpeak();
+				}
+				else
+				{
+					// 行末待ち：クリックで発話終了して次イベントへ
+					talkWindow_->FinishSpeak();
+					AdvanceEvent();
+				}
+			}
 		}
 		break;
 

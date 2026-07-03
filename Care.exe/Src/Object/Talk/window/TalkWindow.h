@@ -42,10 +42,13 @@ public:
 	void Update();
 	void Draw();
 	void Delete();
-	
+
 	void StartSpeak(TalkDatas::Speaker speaker, const std::string& talk, float advanceTime = 1.0f);
 	void CompleteSpeak();
 	void FinishSpeak();
+
+	// 途中待ちから続ける（WAIT_C を消費して表示再開）
+	void ContinueSpeak();
 
 	bool IsSpeakActive() const { return speakActive_; }
 	bool IsSpeaking() const { return speakActive_ && unitPos_ < units_.size(); }
@@ -73,15 +76,15 @@ private:
 	// ------------------------------
 	bool isVisible_ = true;
 	int y_ = 0;
-
+	
 	// ------------------------------
 	// 描画
 	// ------------------------------
 	int handle_ = -1;
-	int imgX_,imgY_ = 0;
+	int imgX_, imgY_ = 0;
 
 	int nextHandle_ = -1;	// 右下の▼
-	int nextIconX_ = NEXT_ICON_X; 
+	int nextIconX_ = NEXT_ICON_X;
 	int nextIconY_ = NEXT_ICON_Y;
 	float nextIconYf_ = static_cast<float>(NEXT_ICON_Y);
 	bool isMoveUp_ = false;
@@ -104,6 +107,7 @@ private:
 	// ------------------------------
 	bool speakActive_ = false;
 	bool waitingForClick_ = false;
+
 
 	// 現在の話者
 	TalkDatas::Speaker currentSpeaker_ = TalkDatas::Speaker::NONE;

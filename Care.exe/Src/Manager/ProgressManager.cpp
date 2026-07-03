@@ -69,6 +69,11 @@ void ProgressManager::AddProgress(void)
 	progress_++;
 	SaveProgress();
 }
+void ProgressManager::SetProgress(STORY_PROGRESS progress)
+{
+	progress_ = progress;
+	SaveProgress();
+}
 
 
 bool ProgressManager::ResetProgressCache(void)
@@ -85,6 +90,31 @@ bool ProgressManager::ResetProgressCache(void)
 	return std::remove(PROGRESS_SAVE_PATH) == 0;
 }
 
+
+bool ProgressManager::IsEndTalkProgress(void) const
+{
+	switch (GetProgressEnum())
+	{
+	case END_PATIENT_LOST:
+	case END_NURCE_LOST:
+	case END_BOTH_LOST:
+		return true;
+	default:
+		return false;
+	}
+}
+bool ProgressManager::IsEndLockedProgress(void) const
+{
+	switch (GetProgressEnum())
+	{
+	case END_PATIENT_LOCKED:
+	case END_NURCE_LOCKED:
+	case END_BOTH_LOCKED:
+		return true;
+	default:
+		return false;
+	}
+}
 
 void ProgressManager::Destroy(void)
 {
@@ -150,6 +180,11 @@ void ProgressManager::CheckCharaFiles(bool isFirstLaunch)
 
 void ProgressManager::ApplyEndProgressByCharaFiles(void)
 {
+	if (IsEndLockedProgress())
+	{
+		return;
+	}
+
 	if (isPatientCharExists_ && isNurceCharExists_)
 	{
 		return;

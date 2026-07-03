@@ -23,6 +23,9 @@ public:
 		END_PATIENT_LOST = 100,
 		END_NURCE_LOST,
 		END_BOTH_LOST,
+		END_PATIENT_LOCKED,
+		END_NURCE_LOCKED,
+		END_BOTH_LOCKED,
 
 	};
 
@@ -35,6 +38,8 @@ public:
 
 	// 進行度増加
 	void AddProgress(void);
+
+	void SetProgress(STORY_PROGRESS progress);
 
 	// 進行度キャッシュを削除
 	bool ResetProgressCache(void);
@@ -50,6 +55,10 @@ public:
 
 	// 看護師charファイル存在取得
 	bool IsNurceCharExists(void) const { return isNurceCharExists_; }
+
+	bool IsEndTalkProgress(void) const;
+
+	bool IsEndLockedProgress(void) const;
 
 	// 削除
 	void Destroy(void);

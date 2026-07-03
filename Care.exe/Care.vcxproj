@@ -186,6 +186,7 @@
     <ClCompile Include="Src\Object\Talk\window\Live2DTalkController.cpp" />
     <ClCompile Include="Src\Object\Talk\window\TalkWindow.cpp" />
     <ClCompile Include="Src\Object\Talk\window\Text\Text\TalkScriptParser.cpp" />
+    <ClCompile Include="Src\Scene\ClearScene.cpp" />
     <ClCompile Include="Src\Scene\Debug\DebugScene.cpp" />
     <ClCompile Include="Src\Scene\GameScene.cpp" />
     <ClCompile Include="Src\Scene\MiniGame\BPMiniGameScene.cpp" />
@@ -233,6 +234,7 @@
     <ClInclude Include="Src\Object\Talk\window\Live2DTalkController.h" />
     <ClInclude Include="Src\Object\Talk\window\TalkWindow.h" />
     <ClInclude Include="Src\Object\Talk\window\Text\Text\TalkScriptParser.h" />
+    <ClInclude Include="Src\Scene\ClearScene.h" />
     <ClInclude Include="Src\Scene\Debug\DebugScene.h" />
     <ClInclude Include="Src\Scene\GameScene.h" />
     <ClInclude Include="Src\Scene\MiniGame\BPMiniGameScene.h" />

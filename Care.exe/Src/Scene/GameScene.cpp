@@ -278,6 +278,15 @@ void GameScene::UpdateTalkProgress()
 		ProgressTable::ShouldAdvanceByTalkEnd(
 			progressBefore, progressData.talkEnd))
 	{
+		const ProgressManager::STORY_PROGRESS endLockedProgress =
+			ProgressTable::GetEndLockedProgress(progressBefore);
+		if (endLockedProgress != progressBefore)
+		{
+			prgMng_.SetProgress(endLockedProgress);
+			sceMng_.ChangeScene(SceneManager::SCENE_ID::CLEAR);
+			return;
+		}
+
 		prgMng_.AddProgress();
 	}
 
@@ -386,7 +395,9 @@ void GameScene::HandleStageDecideResult(const StageBase::DecideResult& result)
 		}
 		else
 		{
+			// PC起動（実装していないためTemporaryTalkで代用）
 			talk_->SetTemporaryTalk("PCだ。\n患者の電子カルテなどが確認できる。\n{WAIT:300}今は触る必要はない。");
+
 		}
 		break;
 	case StageBase::DecideType::NONE:
