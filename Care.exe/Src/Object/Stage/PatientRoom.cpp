@@ -1,5 +1,9 @@
 #include "PatientRoom.h"
 #include "../../Manager/ResourceManager.h"
+#include "../../Manager/ProgressManager.h"
+#include "../../Manager/SoundManager.h"
+#include "../../Object/Talk/Talk.h"
+#include "../../Scene/ProgressTable.h"
 #include "../Actor/ActorBase.h"
 #include "../Actor/Patient.h"
 #include "../Collider/Collider.h"
@@ -16,32 +20,58 @@ PatientRoom::~PatientRoom()
 
 }
 
-StageBase::DecideResult PatientRoom::Decide(const ActorBase& controlActor, const ActorBase* patientActor) const
+void PatientRoom::DrawGuide(const ActorBase& controlActor) const
 {
 	const VECTOR actorPos = controlActor.GetTransform().pos;
 
-	// 前ドアの位置にいて右を向いている時は、ナースステーション前ドアへ移動する
 	if (Collision::IsPointInRect(actorPos, TO_NURSE_STATION_AREA1_LEFT_TOP, TO_NURSE_STATION_AREA1_RIGHT_BOTTOM) &&
 		controlActor.IsFacingRight())
 	{
-		return { DecideType::CHANGE_STAGE, StageId::NURSE_STATION, NURSE_STATION_MOVE_POS1 };
+		DrawMoveGuide(GUIDE_TO_NURSE_STATION_RIGHT_POS);
+		return;
+	}
+
+	if (Collision::IsPointInRect(actorPos, TO_NURSE_STATION_AREA2_LEFT_TOP, TO_NURSE_STATION_AREA2_RIGHT_BOTTOM))
+	{
+		DrawMoveGuide(GUIDE_TO_NURSE_STATION_TOP_POS);
+		return;
+	}
+}
+void PatientRoom::Decide(DecideContext& context) const
+{
+	const VECTOR actorPos = context.controlActor.GetTransform().pos;
+
+	// 前ドアの位置にいて右を向いている時は、ナースステーション前ドアへ移動する
+	if (Collision::IsPointInRect(actorPos, TO_NURSE_STATION_AREA1_LEFT_TOP, TO_NURSE_STATION_AREA1_RIGHT_BOTTOM) &&
+		context.controlActor.IsFacingRight())
+	{
+		context.soundManager.PlaySE(SE::DOOR);
+		context.ChangeStage(StageId::NURSE_STATION, NURSE_STATION_MOVE_POS1);
+		return;
 	}
 
 	// 後ろ側のドアは向きに関係なく、ナースステーション後ろ側へ移動する
 	if (Collision::IsPointInRect(actorPos, TO_NURSE_STATION_AREA2_LEFT_TOP, TO_NURSE_STATION_AREA2_RIGHT_BOTTOM))
 	{
-		return { DecideType::CHANGE_STAGE, StageId::NURSE_STATION, NURSE_STATION_MOVE_POS2 };
+		context.soundManager.PlaySE(SE::DOOR);
+		context.ChangeStage(StageId::NURSE_STATION, NURSE_STATION_MOVE_POS2);
+		return;
 	}
 
-	// 患者の近くなら、現在進行度に対応した患者会話をGameScene側で選んでもらう
-	if (patientActor != nullptr && &controlActor != patientActor &&
-		Collision::IsPointInCircle(actorPos, patientActor->GetTransform().pos, Patient::TALK_RADIUS))
+	// 患者の近くなら、現在進行度に対応した患者会話を開始する
+	if (context.patientActor != nullptr && &context.controlActor != context.patientActor &&
+		Collision::IsPointInCircle(actorPos, context.patientActor->GetTransform().pos, Patient::TALK_RADIUS))
 	{
-		return { DecideType::PATIENT_TALK, StageId::PAT_ROOM, { 0.0f, 0.0f, 0.0f } };
+		const ProgressData& progressData = ProgressTable::Get(context.progressManager.GetProgressEnum());
+		if (progressData.patientTalk != TDI::NONE)
+		{
+			context.talk.SetTalk(progressData.patientTalk);
+			return;
+		}
 	}
 
-	return DecideResult{};
 }
+
 void PatientRoom::InitLoad()
 {
 	BGhandle_ = resMng_.Load(ResourceManager::SRC::BG_1).handleId_;

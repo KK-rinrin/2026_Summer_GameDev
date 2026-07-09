@@ -19,6 +19,7 @@ public:
 	// データパス関連
 	//-------------------------------------------
 	static const std::string PATH_DATA;
+	static const std::string PATH_CSV;
 	static const std::string PATH_CHARA;
 	static const std::string PATH_IMAGE;
 	static const std::string PATH_TITLE;

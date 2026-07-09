@@ -1,6 +1,6 @@
 #pragma once
 #include <array>
-class ResourceManager;
+#include "ResourceManager.h"
 
 class SoundManager
 {
@@ -24,6 +24,7 @@ public:
 		MOVE,
 		BEEP,
 		DOOR,
+		RINGTONE,
 		MAX
 	};
 
@@ -35,6 +36,7 @@ public:
 	// サウンドを再生
 	bool PlayBGM(BGM bgm);	// 返り値:再生できたかどうか
 	bool PlaySE(SE se);		// 返り値:再生できたかどうか
+	bool PlaySE(ResourceManager::SRC src);		// 返り値:再生できたかどうか
 
 	// サウンドを停止
 	void StopBGM();

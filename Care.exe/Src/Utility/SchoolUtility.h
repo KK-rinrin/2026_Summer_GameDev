@@ -1,9 +1,10 @@
 #pragma once
 #include <vector>
+#include <string>
 #include <DxLib.h>
 #include "../Common/Vector2.h"
 #include "../Common/Quaternion.h"
-class AsoUtility
+class SchoolUtility
 {
 
 public:
@@ -116,5 +117,7 @@ public:
 	static void DrawLineXYZ(const VECTOR& pos, const MATRIX& rot, float len = 50.0f);
 	static void DrawLineXYZ(const VECTOR& pos, const Quaternion& rot, float len = 50.0f);
 
+	// •¶Žš—ñ‚Ì•ªŠ„
+	static std::vector <std::string> Split(std::string& line, char delimiter);
 };
 

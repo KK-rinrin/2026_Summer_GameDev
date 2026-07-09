@@ -30,6 +30,7 @@ public:
 
 protected:
 	virtual void InitLoad() = 0;
+	virtual void InitPost(void) {}
 
 	// ƒŠƒ\[ƒXŠÇ—
 	ResourceManager& resMng_;

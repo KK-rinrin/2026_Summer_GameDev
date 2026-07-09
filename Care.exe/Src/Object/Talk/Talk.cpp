@@ -7,6 +7,7 @@
 #include "../../Application.h"
 #include "../../Manager/Live2DModelHub.h" // 追加
 #include "../../Manager/ProgressManager.h"
+#include "../../Manager/SoundManager.h"
 #include <utility>
 
 Talk::Talk()
@@ -24,12 +25,15 @@ Talk::Talk()
 	, isTemporaryTalk_(false)
 	, isTalkEnd_(false)
 	, isFinishing_(false)
+	, isFinalFadeIn_(false)
 	, imageHandle_(-1)
 	, imageAlpha_(255)
 	, clearImageStartTime_(0)
 	, clearImageFadeMs_(300)
 	, fadeOutEndTime_(0)
 	, fadeInWaitMs_(0)
+	, finalFadeInStartTime_(0)
+	, finalFadeInAlpha_(255)
 	, prevMouseLeftDown_(false)
 	, alpha_(255)
 {
@@ -81,16 +85,27 @@ bool Talk::Update()
 	fader_->Update();
 	talkWindow_->Update();
 
+	if (isFinalFadeIn_)
+	{
+		const long long elapsedMs = GetElapsedMs(finalFadeInStartTime_);
+		if (elapsedMs >= FINAL_FADE_IN_MS)
+		{
+			finalFadeInAlpha_ = 0;
+			CompleteTalkEnd();
+		}
+		else
+		{
+			finalFadeInAlpha_ = 255 - static_cast<int>(255 * elapsedMs / FINAL_FADE_IN_MS);
+		}
+		return true;
+	}
+
 	if (isFinishing_)
 	{
 		alpha_ -= FADE_ALPHA;
 		if (alpha_ <= 0)
 		{
-			currentDataIndex_ = TDI::NONE;
-			talkData_ = nullptr;
-			imageHandle_ = -1;
-			imageAlpha_ = 255;
-			isFinishing_ = false;
+			CompleteTalkEnd();
 		}
 		return true;
 	}
@@ -108,6 +123,12 @@ void Talk::Draw()
 	if (isTemporaryTalk_)
 	{
 		talkWindow_->Draw();
+		return;
+	}
+
+	if (isFinalFadeIn_)
+	{
+		DrawFinalFadeIn();
 		return;
 	}
 
@@ -156,12 +177,15 @@ void Talk::SetTalk(TDI dataIndex)
 	isTemporaryTalk_ = false;
 	isTalkEnd_ = false;
 	isFinishing_ = false;
+	isFinalFadeIn_ = false;
 	imageHandle_ = -1;
 	imageAlpha_ = 255;
 	clearImageStartTime_ = 0;
 	clearImageFadeMs_ = 300;
 	fadeOutEndTime_ = 0;
 	fadeInWaitMs_ = 0;
+	finalFadeInStartTime_ = 0;
+	finalFadeInAlpha_ = 255;
 	prevMouseLeftDown_ = false;
 	alpha_ = 255;
 
@@ -189,12 +213,15 @@ void Talk::SetTemporaryTalk(TalkDatas::Speaker speaker, const std::string& talk,
 	isTemporaryTalk_ = true;
 	isTalkEnd_ = false;
 	isFinishing_ = false;
+	isFinalFadeIn_ = false;
 	imageHandle_ = -1;
 	imageAlpha_ = 255;
 	clearImageStartTime_ = 0;
 	clearImageFadeMs_ = 300;
 	fadeOutEndTime_ = 0;
 	fadeInWaitMs_ = 0;
+	finalFadeInStartTime_ = 0;
+	finalFadeInAlpha_ = 255;
 	prevMouseLeftDown_ = false;
 	alpha_ = 255;
 
@@ -214,6 +241,7 @@ bool Talk::ConsumeTalkEnd(TDI dataIndex)
 	}
 
 	isTalkEnd_ = false;
+	currentDataIndex_ = TDI::NONE;
 	return true;
 }
 
@@ -369,12 +397,25 @@ void Talk::StartEvent(const TalkDatas::SpeakEvent& eventData)
 	eventState_ = EventState::SPEAK;
 }
 
-void Talk::StartEvent(const TalkDatas::ImageEvent& eventData)
+void Talk::StartEvent(const TalkDatas::AssetEvent& eventData)
 {
-	imageHandle_ = ResourceManager::GetInstance().Load(eventData.src).handleId_;
-	imageAlpha_ = 255;
-	talkWindow_->FinishSpeak();
-	eventState_ = EventState::IMAGE_WAIT;
+	const Resource& resource = ResourceManager::GetInstance().Load(eventData.src);
+	switch (resource.type_)
+	{
+	case Resource::TYPE::IMG:
+		imageHandle_ = resource.handleId_;
+		imageAlpha_ = 255;
+		talkWindow_->FinishSpeak();
+		eventState_ = EventState::IMAGE_WAIT;
+		break;
+	case Resource::TYPE::SOUND:
+		SoundManager::GetInstance().PlaySE(eventData.src);
+		AdvanceEvent();
+		break;
+	default:
+		AdvanceEvent();
+		break;
+	}
 }
 
 void Talk::StartEvent(const TalkDatas::ClearImageEvent& eventData)
@@ -424,8 +465,53 @@ void Talk::FinishTalkEvents()
 	eventState_ = EventState::NONE;
 	isEventStarted_ = false;
 	isTemporaryTalk_ = false;
-	isTalkEnd_ = true;
+
+	if (IsLastEventFadeOut())
+	{
+		StartFinalFadeIn();
+		return;
+	}
+
 	isFinishing_ = true;
+}
+
+void Talk::StartFinalFadeIn()
+{
+	alpha_ = 0;
+	imageHandle_ = -1;
+	imageAlpha_ = 255;
+	isFinishing_ = false;
+	isFinalFadeIn_ = true;
+	finalFadeInStartTime_ = GetNowHiPerformanceCount();
+	finalFadeInAlpha_ = 255;
+}
+
+void Talk::CompleteTalkEnd()
+{
+	talkData_ = nullptr;
+	imageHandle_ = -1;
+	imageAlpha_ = 255;
+	isFinishing_ = false;
+	isFinalFadeIn_ = false;
+	finalFadeInStartTime_ = 0;
+	finalFadeInAlpha_ = 255;
+	isTalkEnd_ = true;
+	if (fader_)
+	{
+		// 終端FadeOut後の黒いFader状態を次の会話に持ち越さない。
+		fader_ = std::make_unique<Fader>();
+		fader_->Init();
+	}
+}
+
+bool Talk::IsLastEventFadeOut() const
+{
+	if (talkData_ == nullptr || talkData_->empty())
+	{
+		return false;
+	}
+
+	return std::holds_alternative<TalkDatas::FadeOutEvent>(talkData_->back());
 }
 
 void Talk::RefreshVisibleSpeakers(const std::vector<TD>& talkData)
@@ -499,4 +585,11 @@ void Talk::DrawImage()
 		Application::SCREEN_SIZE_X,
 		Application::SCREEN_SIZE_Y,
 		imageHandle_, true);
+}
+
+void Talk::DrawFinalFadeIn()
+{
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, finalFadeInAlpha_);
+	DrawBox(0, 0, Application::SCREEN_SIZE_X, Application::SCREEN_SIZE_Y, 0x000000, true);
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
 }

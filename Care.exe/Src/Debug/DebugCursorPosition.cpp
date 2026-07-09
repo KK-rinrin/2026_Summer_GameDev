@@ -1,10 +1,10 @@
 #include "DebugCursorPosition.h"
 #include "../Object/Common/2DTransform.h"
-#include "../Utility/AsoUtility.h"
+#include "../Utility/SchoolUtility.h"
 
 DebugCursorPosition::DebugCursorPosition()
-	: worldPos_(AsoUtility::VECTOR_ZERO)
-	, localPercent_(AsoUtility::VECTOR_ZERO)
+	: worldPos_(SchoolUtility::VECTOR_ZERO)
+	, localPercent_(SchoolUtility::VECTOR_ZERO)
 {
 }
 

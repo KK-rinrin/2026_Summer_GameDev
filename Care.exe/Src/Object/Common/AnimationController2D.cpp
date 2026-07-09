@@ -1,5 +1,5 @@
 #include "AnimationController2D.h"
-#include "../../Utility/AsoUtility.h"
+#include "../../Utility/SchoolUtility.h"
 
 AnimationController2D::AnimationController2D()
     : frames_(1)
@@ -52,7 +52,7 @@ void AnimationController2D::Play()
 void AnimationController2D::Stop()
 {
     playing_ = false;
-    currentFrame_ = AsoUtility::Clamp(stillIndex_, 0, frames_ - 1);
+    currentFrame_ = SchoolUtility::Clamp(stillIndex_, 0, frames_ - 1);
     direction_ = 1;
 }
 

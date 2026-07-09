@@ -22,6 +22,9 @@ SceneBase::~SceneBase(void)
 void SceneBase::Init(void)
 {
 	InitLoad();
+
+	// Init“à‚ÌÅŒã‚ÉŒÄ‚ÔŒãˆ—
+	InitPost();
 }
 
 void SceneBase::Update(void)

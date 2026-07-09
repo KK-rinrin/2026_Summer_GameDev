@@ -12,6 +12,7 @@
 Application* Application::instance_ = nullptr;
 
 const std::string Application::PATH_DATA = "Data/";
+const std::string Application::PATH_CSV = "Data/Csv/";
 const std::string Application::PATH_IMAGE = "Data/Image/";
 const std::string Application::PATH_TITLE = "Data/Image/Title/";
 const std::string Application::PATH_SOUND = "Data/Sound/";

@@ -22,6 +22,8 @@ public:
 	};
 
 	static constexpr Stage INIT_STAGE = Stage::NURSE_STATION;
+	static constexpr float LUNCH_MOVE_DELAY_SECONDS = 0.2f;
+	static constexpr float GAME_FPS = 60.0f;
 
 	
 	// コンストラクタ
@@ -41,15 +43,16 @@ public:
 
 private:
 	void InitLoad() override;
+	void InitPost(void) override;
 	void ApplyInitialProgressState();
 	void ChangeStage(Stage nextStage);
 
 	void UpdateTalkProgress();
 	void StartFirstTalkByProgress();
+	void ApplyControlMoveDelay();
 	void UpdateGameMenu();
 	void OpenGameMenu();
 	void OpenSettingFromGameMenu();
-	void HandleStageDecideResult(const StageBase::DecideResult& result);
 
 	// ステージごとの更新処理
 	void UpdatePR();
@@ -71,5 +74,5 @@ private:
 
 	DebugCursorPosition* debugCursorPosition_;
 
-	bool firstUpdate_;
+	bool isReturningFromSetting_;
 };

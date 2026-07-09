@@ -1,6 +1,6 @@
 #include "SoundManager.h"
 #include "../Manager/ResourceManager.h"
-#include "../Utility/AsoUtility.h"
+#include "../Utility/SchoolUtility.h"
 
 #include <DxLib.h>
 
@@ -72,6 +72,7 @@ bool SoundManager::Load(SE se)
 	case SE::MOVE: res = ResourceManager::SRC::SE_CURSOR_MOVE; break;
 	case SE::BEEP: res = ResourceManager::SRC::SE_BEEP; break;
 	case SE::DOOR: res = ResourceManager::SRC::SE_DOOR; break;
+	case SE::RINGTONE: res = ResourceManager::SRC::SE_RINGTONE; break;
 	default: return false;
 	}
 
@@ -120,6 +121,21 @@ bool SoundManager::PlaySE(SE se)
 	else return false;
 }
 
+
+bool SoundManager::PlaySE(ResourceManager::SRC src)
+{
+	const Resource& res = resMng_.Load(src);
+	if (res.type_ != Resource::TYPE::SOUND || res.handleId_ == -1)
+	{
+		return false;
+	}
+
+	ChangeVolumeSoundMem(SEvol_, res.handleId_);
+	int success = PlaySoundMem(res.handleId_, DX_PLAYTYPE_BACK, true);
+
+	return success == 0;
+}
+
 void SoundManager::StopBGM()
 {
 	// Ç∑Ç◊ÇƒÇÃBGMÇí‚é~
@@ -135,9 +151,9 @@ void SoundManager::StopBGM()
 void SoundManager::SetVolumeBGM(int vol)
 {
 	// 0Å`100ÇÃê›íËílÇï€ë∂ÇµÅADxLibópÇÃ0Å`255Ç÷ïœä∑
-	BGMvolPercent_ = static_cast<int>(AsoUtility::Clamp(
+	BGMvolPercent_ = static_cast<int>(SchoolUtility::Clamp(
 		static_cast<float>(vol), VOLUME_PERCENT_MIN, VOLUME_PERCENT_MAX));
-	BGMvol_ = AsoUtility::Lerp(
+	BGMvol_ = SchoolUtility::Lerp(
 		DXLIB_VOLUME_MIN, DXLIB_VOLUME_MAX,
 		static_cast<float>(BGMvolPercent_) / VOLUME_PERCENT_MAX);
 
@@ -154,9 +170,9 @@ void SoundManager::SetVolumeBGM(int vol)
 void SoundManager::SetVolumeSE(int vol)
 {
 	// 0Å`100ÇÃê›íËílÇï€ë∂ÇµÅADxLibópÇÃ0Å`255Ç÷ïœä∑
-	SEvolPercent_ = static_cast<int>(AsoUtility::Clamp(
+	SEvolPercent_ = static_cast<int>(SchoolUtility::Clamp(
 		static_cast<float>(vol), VOLUME_PERCENT_MIN, VOLUME_PERCENT_MAX));
-	SEvol_ = AsoUtility::Lerp(
+	SEvol_ = SchoolUtility::Lerp(
 		DXLIB_VOLUME_MIN, DXLIB_VOLUME_MAX,
 		static_cast<float>(SEvolPercent_) / VOLUME_PERCENT_MAX);
 

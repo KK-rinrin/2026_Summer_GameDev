@@ -1,104 +1,17 @@
 #include "ProgressTable.h"
+#include "../Application.h"
 #include "../Object/Actor/Player.h"
+#include "../Utility/SchoolUtility.h"
+#include <fstream>
+#include <string>
+#include <vector>
 
 namespace
 {
 	using STORY_PROGRESS = ProgressManager::STORY_PROGRESS;
 
-	const ProgressData PROGRESS_DATAS[] =
-	{
-		{
-			STORY_PROGRESS::START,
-			GameScene::Stage::NURSE_STATION,
-			Player::INIT_PER,
-			TDI::TALK_INIT, TDI::TALK_0, TDI::TALK_0,
-			STORY_PROGRESS::START,
-			false
-		},
-		{
-			STORY_PROGRESS::START_MINIGAME0,
-			GameScene::Stage::PAT_ROOM,
-			{ 17.0f, 10.0f, 0.0f },
-			TDI::NONE, TDI::NONE, TDI::NONE,
-			STORY_PROGRESS::START_MINIGAME0,
-			true
-		},
-		{
-			STORY_PROGRESS::AFTER_MG,
-			GameScene::Stage::PAT_ROOM,
-			{ 48.0f, 33.0f, 0.0f },
-			TDI::TALK_AFTERMG, TDI::NONE, TDI::TALK_AFTERMG,
-			STORY_PROGRESS::AFTER_MG,
-			false
-		},
-		{
-			STORY_PROGRESS::AFTER_MG_TALKED,
-			GameScene::Stage::PAT_ROOM,
-			{ 48.0f, 33.0f, 0.0f },
-			TDI::NONE, TDI::NONE, TDI::TALK_PC,
-			STORY_PROGRESS::AFTER_MG_TALKED,
-			false
-		},
-
-		{
-			STORY_PROGRESS::AFTER_PC,
-			GameScene::Stage::NURSE_STATION,
-			{ 36.0f, 21.0f, 0.0f },
-			TDI::NONE, TDI::NONE, TDI::NONE,
-			STORY_PROGRESS::AFTER_PC,
-			false
-		},
-
-		{
-			STORY_PROGRESS::END_NURCE_LOST,
-			GameScene::Stage::PAT_ROOM,
-			{ 50.0f, 50.0f, 0.0f },
-			TDI::TALK_END_NURCE_LOST, TDI::NONE, TDI::TALK_END_NURCE_LOST,
-			STORY_PROGRESS::END_NURCE_LOCKED,
-			false
-		},
-
-		{
-			STORY_PROGRESS::END_PATIENT_LOST,
-			GameScene::Stage::NURSE_STATION,
-			{ 50.0f, 50.0f, 0.0f },
-			TDI::TALK_END_PATIENT_LOST, TDI::NONE, TDI::TALK_END_PATIENT_LOST,
-			STORY_PROGRESS::END_PATIENT_LOCKED,
-			false
-		},
-		{
-			STORY_PROGRESS::END_BOTH_LOST,
-			GameScene::Stage::NURSE_STATION,
-			{ 50.0f, 50.0f, 0.0f },
-			TDI::TALK_END_BOTH_LOST, TDI::NONE, TDI::TALK_END_BOTH_LOST,
-			STORY_PROGRESS::END_BOTH_LOCKED,
-			false
-		},
-		{
-			STORY_PROGRESS::END_NURCE_LOCKED,
-			GameScene::Stage::PAT_ROOM,
-			{ 50.0f, 50.0f, 0.0f },
-			TDI::NONE, TDI::NONE, TDI::NONE,
-			STORY_PROGRESS::END_NURCE_LOCKED,
-			false
-		},
-		{
-			STORY_PROGRESS::END_PATIENT_LOCKED,
-			GameScene::Stage::NURSE_STATION,
-			{ 50.0f, 50.0f, 0.0f },
-			TDI::NONE, TDI::NONE, TDI::NONE,
-			STORY_PROGRESS::END_PATIENT_LOCKED,
-			false
-		},
-		{
-			STORY_PROGRESS::END_BOTH_LOCKED,
-			GameScene::Stage::NURSE_STATION,
-			{ 50.0f, 50.0f, 0.0f },
-			TDI::NONE, TDI::NONE, TDI::NONE,
-			STORY_PROGRESS::END_BOTH_LOCKED,
-			false
-		},
-	};
+	std::vector<ProgressData> progressDatas;
+	bool isCsvLoaded = false;
 
 	const ProgressData DEFAULT_PROGRESS_DATA =
 	{
@@ -115,7 +28,8 @@ namespace
 
 const ProgressData& ProgressTable::Get(STORY_PROGRESS progress)
 {
-	for (const ProgressData& data : PROGRESS_DATAS)
+	LoadCsvData();
+	for (const ProgressData& data : progressDatas)
 	{
 		if (data.progress == progress)
 		{
@@ -149,4 +63,95 @@ bool ProgressTable::ShouldAutoAdvance(STORY_PROGRESS progress)
 {
 	const ProgressData& data = Get(progress);
 	return data.autoAdvanceProgress;
+}
+
+void ProgressTable::LoadCsvData()
+{
+	// 何度もCSVを読み直さないように初回だけ処理する
+	if (isCsvLoaded)
+	{
+		return;
+	}
+	isCsvLoaded = true;
+
+	// ProgressTable専用CSVを開く
+	std::ifstream ifs(Application::PATH_CSV + "ProgressTable.csv");
+	if (!ifs)
+	{
+		// ファイルが無い場合はDEFAULT_PROGRESS_DATAだけで進める
+		return;
+	}
+
+	// CSVを1行ずつ読み込むための文字列
+	std::string line;
+
+	// 1行目は日本語ヘッダーなのでデータとして扱わない
+	bool isHeader = true;
+	while (std::getline(ifs, line))
+	{
+		// 空行はデータ不足として読み飛ばす
+		if (line.empty())
+		{
+			continue;
+		}
+
+		// ヘッダー行は列名確認ではなく単純にスキップする
+		if (isHeader)
+		{
+			isHeader = false;
+			continue;
+		}
+
+		// カンマ区切りで各列に分割する
+		std::vector<std::string> strSplit = SchoolUtility::Split(line, ',');
+		if (strSplit.size() < 10)
+		{
+			// 必要な列が足りない行は無視する
+			continue;
+		}
+
+		try
+		{
+			// 1行分のCSVをProgressDataへ詰め替える
+			ProgressData data = ProgressData();
+			int idx = 0;
+
+			// 進行度ID
+			data.progress = static_cast<STORY_PROGRESS>(std::stoi(strSplit[idx++]));
+
+			// ロード時の初期ステージID
+			data.initStage = static_cast<GameScene::Stage>(std::stoi(strSplit[idx++]));
+
+			// ロード時の操作キャラ初期座標
+			data.playerInitPos =
+			{
+				std::stof(strSplit[idx++]),
+				std::stof(strSplit[idx++]),
+				std::stof(strSplit[idx++])
+			};
+
+			// 進行開始時に自動再生する会話ID
+			data.firstTalk = static_cast<TDI>(std::stoi(strSplit[idx++]));
+
+			// 患者に話しかけた時の会話ID
+			data.patientTalk = static_cast<TDI>(std::stoi(strSplit[idx++]));
+
+			// この会話が終わったら進行するという条件ID
+			data.talkEnd = static_cast<TDI>(std::stoi(strSplit[idx++]));
+
+			// エンディング会話後に固定する進行度ID
+			data.endLockedProgress = static_cast<STORY_PROGRESS>(std::stoi(strSplit[idx++]));
+
+			// 進行開始時に即AddProgressするかどうか
+			data.autoAdvanceProgress = (std::stoi(strSplit[idx++]) != 0);
+
+			// 正常に読めた行だけテーブルに追加する
+			progressDatas.emplace_back(data);
+		}
+		catch (...)
+		{
+			// 数値変換に失敗した行は読み飛ばして次の行へ進む
+			continue;
+		}
+	}
 }

@@ -1,22 +1,18 @@
 #pragma once
+#include <functional>
 #include <vector>
+#include "../../Common/Vector2.h"
 #include "../Common/2DTransform.h"
 class ResourceManager;
 class Renderer2D;
 class ActorBase;
+class ProgressManager;
+class SoundManager;
+class Talk;
 
 class StageBase
 {
 public:
-	// 決定キーで起きたステージ内イベントの種類
-	enum class DecideType
-	{
-		NONE,
-		CHANGE_STAGE,
-		PATIENT_TALK,
-		PC,
-	};
-
 	// GameSceneに依存せず遷移先ステージを伝えるためのID
 	enum class StageId
 	{
@@ -24,11 +20,15 @@ public:
 		NURSE_STATION,
 	};
 
-	struct DecideResult
+	// ステージ内イベント実行時にGameScene側の所有物へアクセスするための窓口
+	struct DecideContext
 	{
-		DecideType type = DecideType::NONE;
-		StageId nextStage = StageId::PAT_ROOM;
-		VECTOR movePos = { 0.0f, 0.0f, 0.0f };
+		ActorBase& controlActor;
+		const ActorBase* patientActor;
+		ProgressManager& progressManager;
+		Talk& talk;
+		SoundManager& soundManager;
+		std::function<void(StageId, const VECTOR&)> ChangeStage;
 	};
 
 	StageBase();
@@ -42,7 +42,8 @@ public:
 	void DrawBackground() const;
 	void RegisterObjects(Renderer2D& renderer);
 	void ApplyMovementBlocks(ActorBase& actor) const;
-	virtual DecideResult Decide(const ActorBase& controlActor, const ActorBase* patientActor) const;
+	virtual void DrawGuide(const ActorBase& controlActor) const;
+	virtual void Decide(DecideContext& context) const;
 
 protected:
 	struct RenderObject
@@ -70,12 +71,14 @@ protected:
 	void AddTransformObject(const Transform2D& transform);
 	void AddTransformObject(const Transform2D& transform, float sortY);
 	void AddMBRectPercent(const VECTOR& leftTopPercent, const VECTOR& rightBottomPercent);
+	void DrawMoveGuide(const Vector2& pos) const;
 
 	virtual void InitLoad() {}
 	virtual void InitTransform() {}
 	virtual void InitCollider() {}
 
 	int BGhandle_;
+	int guideMoveHandle_;
 	std::vector<TransformObject> objects_;	// 障害物の位置
 	std::vector<RenderObject> screenObjects_;
 	std::vector<MovementRectPercent> movementRectPercents_;

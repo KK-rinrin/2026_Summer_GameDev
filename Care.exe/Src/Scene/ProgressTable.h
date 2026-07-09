@@ -1,5 +1,4 @@
 #pragma once
-
 #include <DxLib.h>
 #include "../Manager/ProgressManager.h"
 #include "../Object/Talk/TalkData.h"
@@ -12,7 +11,7 @@ struct ProgressData
 	VECTOR playerInitPos;						// ロード時操作キャラ初期位置
 	TDI firstTalk;								// 進行状況開始時の会話
 	TDI patientTalk;							// その進行状況時患者に話しかけたときの会話
-	TDI talkEnd;				// 進行する条件となる会話
+	TDI talkEnd;								// 進行する条件となる会話
 	ProgressManager::STORY_PROGRESS endLockedProgress;
 	bool autoAdvanceProgress = false;			// 進行状況開始時に自動で進めるか（デバッグ用）
 };
@@ -28,4 +27,7 @@ public:
 		TDI talkId);
 	static STORY_PROGRESS GetEndLockedProgress(STORY_PROGRESS progress);
 	static bool ShouldAutoAdvance(STORY_PROGRESS progress);
+
+private:
+	static void LoadCsvData();
 };

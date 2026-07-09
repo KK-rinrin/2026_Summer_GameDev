@@ -194,7 +194,7 @@
     <ClCompile Include="Src\Scene\SceneBase.cpp" />
     <ClCompile Include="Src\Scene\SettingScene.cpp" />
     <ClCompile Include="Src\Scene\TitleScene.cpp" />
-    <ClCompile Include="Src\Utility\AsoUtility.cpp" />
+    <ClCompile Include="Src\Utility\SchoolUtility.cpp" />
     <ClCompile Include="Src\Effect\ScreenEffect.cpp" />
     <ClCompile Include="Src\Utility\MatrixUtility.cpp" />
     <ClCompile Include="Src\Object\Stage\PatientRoom.cpp" />
@@ -243,7 +243,7 @@
     <ClInclude Include="Src\Scene\SettingScene.h" />
     <ClInclude Include="Src\Scene\TitleScene.h" />
     <ClInclude Include="Src\Manager\SoundManager.h" />
-    <ClInclude Include="Src\Utility\AsoUtility.h" />
+    <ClInclude Include="Src\Utility\SchoolUtility.h" />
     <ClInclude Include="Src\Effect\ScreenEffect.h" />
     <ClInclude Include="Src\Utility\MatrixUtility.h" />
     <ClInclude Include="Src\Object\Stage\PatientRoom.h" />

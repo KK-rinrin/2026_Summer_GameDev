@@ -1,5 +1,5 @@
 #include "2DTransform.h"
-#include "../../Utility/AsoUtility.h"
+#include "../../Utility/SchoolUtility.h"
 
 static constexpr int MOVE_MAX_Y = 570;		// 移動可能Y座標の最大値
 static constexpr int MOVE_MIN_Y = 210;		// 移動可能Y座標の最小値
@@ -14,12 +14,12 @@ static constexpr float MOVE_PERSPECTIVE_MIN_SCALE = 0.7f;
 namespace {
 	// pos: 0..100 圧縮されたパーセンテージを実座標に変換
 	inline float PercentToY(float percentY) {
-		const float t = AsoUtility::Clamp(percentY, 0.0f, 100.0f) / 100.0f;
+		const float t = SchoolUtility::Clamp(percentY, 0.0f, 100.0f) / 100.0f;
 		return MOVE_MIN_Y + t * (MOVE_MAX_Y - MOVE_MIN_Y);
 	}
 	inline float WorldYToPercentY(float worldY) {
 		const float t = (worldY - MOVE_MIN_Y) / static_cast<float>(MOVE_MAX_Y - MOVE_MIN_Y);
-		return AsoUtility::Clamp(t * 100.0f, 0.0f, 100.0f);
+		return SchoolUtility::Clamp(t * 100.0f, 0.0f, 100.0f);
 	}
 	// y実座標に応じた許容する x の最小値
 	inline float CalcXMinForY(float y) {
@@ -36,7 +36,7 @@ namespace {
 		const float xmin = CalcXMinForY(y);
 		const float xmax = CalcXMaxForY(y);
 		if (xmax - xmin == 0.0f) return 50.0f;
-		const float clamped = AsoUtility::Clamp(worldX, xmin, xmax);
+		const float clamped = SchoolUtility::Clamp(worldX, xmin, xmax);
 		return (clamped - xmin) / (xmax - xmin) * 100.0f;
 	}
 }
@@ -45,14 +45,14 @@ Transform2D::Transform2D()
 	: currentHandleIndex(0)
 	, indexX(1)
 	, indexY(1)
-	, pos(AsoUtility::VECTOR_ZERO)
+	, pos(SchoolUtility::VECTOR_ZERO)
 	, rotDir(0)
 {
 	handleIds.clear();
 
 	scaleX = 1.0f;
 	scaleY = 1.0f;
-	beforePos = AsoUtility::VECTOR_ZERO;
+	beforePos = SchoolUtility::VECTOR_ZERO;
 	isLeft = false;
 	enableImageScaling = true;
 
@@ -61,9 +61,9 @@ Transform2D::Transform2D()
 	animController.SetStillIndex(stillIndex);
 	animController.SetLoop(true);
 
-	direction = AsoUtility::VECTOR_ZERO;
+	direction = SchoolUtility::VECTOR_ZERO;
 	imageWidth = 0; imageHeight = 0;
-	drawPos1 = AsoUtility::VECTOR_ZERO; drawPos2 = AsoUtility::VECTOR_ZERO;
+	drawPos1 = SchoolUtility::VECTOR_ZERO; drawPos2 = SchoolUtility::VECTOR_ZERO;
 	perspectiveScale = 1.0f;
 }
 
@@ -73,7 +73,7 @@ Transform2D::Transform2D()
 //	, indexX(idxX > 0 ? idxX : 1)
 //	, indexY(idxY > 0 ? idxY : 1)
 //	, totalFrames(static_cast<int>(handles.size()))
-//	, pos(AsoUtility::VECTOR_ZERO)
+//	, pos(SchoolUtility::VECTOR_ZERO)
 //	, rotDir(0)
 //	, enableImageScaling(scaling)
 //{
@@ -81,7 +81,7 @@ Transform2D::Transform2D()
 //	scaleY = 1.0f;
 //	AnimSpeed = 0.1f;
 //	stillIndex = 0;
-//	beforePos = AsoUtility::VECTOR_ZERO;
+//	beforePos = SchoolUtility::VECTOR_ZERO;
 //	isLeft = false;
 //
 //	animController.SetFrames(indexX > 0 ? indexX : 1);
@@ -131,8 +131,8 @@ void Transform2D::Update()
 	}
 
 	// pos は 0..100 のパーセンテージで管理する
-	pos.x = AsoUtility::Clamp(pos.x, 0.0f, 100.0f);
-	pos.y = AsoUtility::Clamp(pos.y, 0.0f, 100.0f);
+	pos.x = SchoolUtility::Clamp(pos.x, 0.0f, 100.0f);
+	pos.y = SchoolUtility::Clamp(pos.y, 0.0f, 100.0f);
 
 	// pos.y に対応する実座標 y を算出
 	const float actualY = PercentToY(pos.y);
@@ -143,7 +143,7 @@ void Transform2D::Update()
 	// 現在の pos.x -> worldX
 	const float worldX = xmin + (pos.x / 100.0f) * (xmax - xmin);
 	// worldX を範囲内にクランプし、pos.x を再算出
-	const float clampedWorldX = AsoUtility::Clamp(worldX, xmin, xmax);
+	const float clampedWorldX = SchoolUtility::Clamp(worldX, xmin, xmax);
 	pos.x = WorldXToPercentX(clampedWorldX, actualY);
 	// pos.y, pos.x はここで 0..100 の有効値に調整済み
 
@@ -157,7 +157,7 @@ void Transform2D::Draw()
 
 	int handle = -1;
 	if (!handleIds.empty()) {
-		int idx = AsoUtility::Clamp(currentHandleIndex, 0, static_cast<int>(handleIds.size()) - 1);
+		int idx = SchoolUtility::Clamp(currentHandleIndex, 0, static_cast<int>(handleIds.size()) - 1);
 		handle = handleIds[idx];
 	}
 	if (handle != -1)
@@ -213,7 +213,7 @@ void Transform2D::CalcDrawParams()
 
 VECTOR Transform2D::WorldToLocalPercent(const VECTOR& worldPos)
 {
-	VECTOR local = AsoUtility::VECTOR_ZERO;
+	VECTOR local = SchoolUtility::VECTOR_ZERO;
 	local.x = WorldXToPercentX(worldPos.x, worldPos.y);
 	local.y = WorldYToPercentY(worldPos.y);
 	local.z = 0.0f;
@@ -230,10 +230,10 @@ void Transform2D::BlockCrossingLocalRect(const VECTOR& leftTopPercent, const VEC
 	if (right < left) std::swap(left, right);
 	if (bottom < top) std::swap(top, bottom);
 
-	left = AsoUtility::Clamp(left, 0.0f, 100.0f);
-	top = AsoUtility::Clamp(top, 0.0f, 100.0f);
-	right = AsoUtility::Clamp(right, 0.0f, 100.0f);
-	bottom = AsoUtility::Clamp(bottom, 0.0f, 100.0f);
+	left = SchoolUtility::Clamp(left, 0.0f, 100.0f);
+	top = SchoolUtility::Clamp(top, 0.0f, 100.0f);
+	right = SchoolUtility::Clamp(right, 0.0f, 100.0f);
+	bottom = SchoolUtility::Clamp(bottom, 0.0f, 100.0f);
 
 	const float bx = beforePos.x;
 	const float by = beforePos.y;
@@ -306,7 +306,7 @@ void Transform2D::BlockCrossingLocalRect(const VECTOR& leftTopPercent, const VEC
 	{
 		const float moveLen = fabsf(dx) + fabsf(dy);
 		const float backT = (moveLen > EPS) ? (OUTSIDE_MARGIN / moveLen) : 1.0f;
-		const float stopT = AsoUtility::Clamp(hitT - backT, 0.0f, 1.0f);
+		const float stopT = SchoolUtility::Clamp(hitT - backT, 0.0f, 1.0f);
 		pos.x = bx + dx * stopT;
 		pos.y = by + dy * stopT;
 		return;
@@ -325,7 +325,7 @@ VECTOR Transform2D::GetWorldPos() const
 
 VECTOR Transform2D::GetWorldPos(const VECTOR& localPos)
 {
-	VECTOR v = AsoUtility::VECTOR_ZERO;
+	VECTOR v = SchoolUtility::VECTOR_ZERO;
 
 	const float actualY = PercentToY(localPos.y);
 	const float xmin = CalcXMinForY(actualY);

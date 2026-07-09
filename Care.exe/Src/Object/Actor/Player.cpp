@@ -3,7 +3,7 @@
 #include "../../Application.h"
 #include "../../Manager/ResourceManager.h"
 #include "../../Manager/ProgressManager.h"
-#include "../../Utility/AsoUtility.h"
+#include "../../Utility/SchoolUtility.h"
 #include <algorithm>
 #include <cmath>
 
@@ -129,15 +129,15 @@ void Player::UpdateAnimation()
 	// スプライト分割が無ければ静止判定のみ
 	if (t.indexX <= 1)
 	{
-		if (AsoUtility::Equals(t.beforePos, t.pos))
+		if (SchoolUtility::Equals(t.beforePos, t.pos))
 		{
-			t.currentHandleIndex = AsoUtility::Clamp(t.stillIndex, 0, static_cast<int>(t.handleIds.size()) - 1);
+			t.currentHandleIndex = SchoolUtility::Clamp(t.stillIndex, 0, static_cast<int>(t.handleIds.size()) - 1);
 			t.animController.Stop();
 		}
 		else
 		{
 			t.animController.Stop();
-			t.currentHandleIndex = AsoUtility::Clamp(t.stillIndex, 0, static_cast<int>(t.handleIds.size()) - 1);
+			t.currentHandleIndex = SchoolUtility::Clamp(t.stillIndex, 0, static_cast<int>(t.handleIds.size()) - 1);
 		}
 		return;
 	}
@@ -157,7 +157,7 @@ void Player::UpdateAnimation()
 		t.animController.Stop();
 
 		int still = t.stillIndex;
-		t.currentHandleIndex = AsoUtility::Clamp(still, 0, static_cast<int>(t.handleIds.size()) - 1);
+		t.currentHandleIndex = SchoolUtility::Clamp(still, 0, static_cast<int>(t.handleIds.size()) - 1);
 		return;
 	}
 
@@ -231,5 +231,5 @@ void Player::UpdateAnimation()
 
 	int frameOffset = t.animController.GetFrame();
 	int target = baseIndex + frameOffset;
-	t.currentHandleIndex = AsoUtility::Clamp(target, 0, total - 1);
+	t.currentHandleIndex = SchoolUtility::Clamp(target, 0, total - 1);
 }

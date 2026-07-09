@@ -1,6 +1,6 @@
 #include "Patient.h"
 #include "../../Manager/ResourceManager.h"
-#include "../../Utility/AsoUtility.h"
+#include "../../Utility/SchoolUtility.h"
 #include "ProcessMove.h"
 #include "../../Manager/ProgressManager.h"
 

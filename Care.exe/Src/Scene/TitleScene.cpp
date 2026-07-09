@@ -1,7 +1,7 @@
 #include <array>
 #include <DxLib.h>
 #include <Windows.h>
-#include "../Utility/AsoUtility.h"
+#include "../Utility/SchoolUtility.h"
 #include "../Manager/InputManager.h"
 #include "../Manager/KeyConfig.h"
 #include "../Manager/SceneManager.h"

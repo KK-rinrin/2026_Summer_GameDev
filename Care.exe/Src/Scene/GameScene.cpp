@@ -7,6 +7,7 @@
 #include "../Object/Talk/Talk.h"
 #include "../Object/Actor/Player.h"
 #include "../Object/Actor/Patient.h"
+#include "../Object/Actor/ProcessMove.h"
 #include "../Object/Renderer2D.h"
 #include "../Object/Stage/StageBase.h"
 #include "../Object/Stage/PatientRoom.h"
@@ -31,7 +32,7 @@ GameScene::GameScene(void)
 	debugCursorPosition_(nullptr),
 	currentStage_(INIT_STAGE)
 {
-	firstUpdate_ = true;
+	isReturningFromSetting_ = false;
 }
 
 GameScene::~GameScene(void)
@@ -40,15 +41,9 @@ GameScene::~GameScene(void)
 
 void GameScene::Update(void)
 {
-	if (firstUpdate_)
-	{
-		sndMng_.PlayBGM(SoundManager::BGM::GAME0);
-	}
-
 	if (gameMenu_ != nullptr && gameMenu_->IsOpen())
 	{
 		UpdateGameMenu();
-		firstUpdate_ = false;
 		return;
 	}
 
@@ -57,7 +52,6 @@ void GameScene::Update(void)
 	if (KeyConfig::IsTrgDown(KeyConfig::ACTION::CANCEL, iptMng_))
 	{
 		OpenGameMenu();
-		firstUpdate_ = false;
 		return;
 	}
 	
@@ -76,10 +70,28 @@ void GameScene::Update(void)
 		break;
 	}
 
-	if (canMove_ && stage_ != nullptr && controlActor_ != nullptr &&
+	if (canMove_ && stage_ != nullptr && controlActor_ != nullptr && talk_ != nullptr &&
 		KeyConfig::IsTrgDown(KeyConfig::ACTION::DECIDE, iptMng_))
 	{
-		HandleStageDecideResult(stage_->Decide(*controlActor_, patient_));
+		StageBase::DecideContext context =
+		{
+			*controlActor_,
+			patient_,
+			prgMng_,
+			*talk_,
+			sndMng_,
+			[this](StageBase::StageId nextStage, const VECTOR& movePos)
+			{
+				const Stage stage = (nextStage == StageBase::StageId::PAT_ROOM) ?
+					Stage::PAT_ROOM : Stage::NURSE_STATION;
+				ChangeStage(stage);
+				if (controlActor_ != nullptr)
+				{
+					controlActor_->SetLocalPercent(movePos.x, movePos.y);
+				}
+			}
+		};
+		stage_->Decide(context);
 	}
 #ifdef _DEBUG
 	if (debugCursorPosition_ != nullptr)
@@ -89,7 +101,6 @@ void GameScene::Update(void)
 
 #endif
 
-	firstUpdate_ = false;
 }
 
 void GameScene::Draw(void)
@@ -100,6 +111,12 @@ void GameScene::Draw(void)
 	}
 
 	render_->Render();
+
+	if (canMove_ && stage_ != nullptr && controlActor_ != nullptr &&
+		(gameMenu_ == nullptr || !gameMenu_->IsOpen()))
+	{
+		stage_->DrawGuide(*controlActor_);
+	}
 
 	talk_->Draw();
 
@@ -187,7 +204,17 @@ void GameScene::InitLoad()
 	debugCursorPosition_ = new DebugCursorPosition();
 
 	ApplyInitialProgressState();
+	ApplyControlMoveDelay();
 	ChangeStage(currentStage_);
+}
+
+void GameScene::InitPost(void)
+{
+	sndMng_.PlayBGM(SoundManager::BGM::GAME0);
+	if (!isReturningFromSetting_)
+	{
+		StartFirstTalkByProgress();
+	}
 }
 
 void GameScene::ApplyInitialProgressState()
@@ -202,6 +229,7 @@ void GameScene::ApplyInitialProgressState()
 		{
 			controlActor_->SetLocalPercent(returnPos.x, returnPos.y);
 		}
+		isReturningFromSetting_ = true;
 		sceMng_.ClearSettingReturnGameState();
 		return;
 	}
@@ -262,14 +290,12 @@ void GameScene::ChangeStage(Stage nextStage)
 
 void GameScene::UpdateTalkProgress()
 {
+	const bool suppressProgressTalkThisUpdate = isReturningFromSetting_;
+	isReturningFromSetting_ = false;
+
 	// Talk の更新結果を使いまわす
 	const bool isTalking = talk_->Update();
 	canMove_ = !isTalking;
-
-	if (firstUpdate_)
-	{
-		StartFirstTalkByProgress();
-	}
 
 	const ProgressManager::STORY_PROGRESS progressBefore = prgMng_.GetProgressEnum();
 	const ProgressData& progressData = ProgressTable::Get(progressBefore);
@@ -303,10 +329,34 @@ void GameScene::UpdateTalkProgress()
 
 	if (progressBefore != prgMng_.GetProgressEnum())
 	{
+		ApplyControlMoveDelay();
+	}
+
+	if (progressBefore != prgMng_.GetProgressEnum() && !suppressProgressTalkThisUpdate)
+	{
 		StartFirstTalkByProgress();
 	}
 }
 
+
+void GameScene::ApplyControlMoveDelay()
+{
+	if (player_ == nullptr || player_->GetProcessMove() == nullptr)
+	{
+		return;
+	}
+
+	ProcessMove* processMove = player_->GetProcessMove();
+	if (static_cast<int>(prgMng_.GetProgressEnum()) >= static_cast<int>(ProgressManager::STORY_PROGRESS::LUNCH))
+	{
+		const int delayFrame = static_cast<int>(LUNCH_MOVE_DELAY_SECONDS * GAME_FPS);
+		processMove->SetDelayFrameRange(delayFrame, delayFrame);
+		processMove->Reset();
+		return;
+	}
+
+	processMove->ClearDelay();
+}
 void GameScene::StartFirstTalkByProgress()
 {
 	const ProgressData& progressData = ProgressTable::Get(prgMng_.GetProgressEnum());
@@ -363,48 +413,6 @@ void GameScene::OpenSettingFromGameMenu()
 	sceMng_.ChangeScene(SceneManager::SCENE_ID::SETTING);
 }
 
-void GameScene::HandleStageDecideResult(const StageBase::DecideResult& result)
-{
-	switch (result.type)
-	{
-	case StageBase::DecideType::CHANGE_STAGE:
-	{
-		const Stage nextStage = (result.nextStage == StageBase::StageId::PAT_ROOM) ?
-			Stage::PAT_ROOM : Stage::NURSE_STATION;
-		ChangeStage(nextStage);
-		if (controlActor_ != nullptr)
-		{
-			controlActor_->SetLocalPercent(result.movePos.x, result.movePos.y);
-		}
-		sndMng_.PlaySE(SE::DOOR);
-		break;
-	}
-	case StageBase::DecideType::PATIENT_TALK:
-	{
-		const ProgressData& progressData = ProgressTable::Get(prgMng_.GetProgressEnum());
-		if (progressData.patientTalk != TDI::NONE)
-		{
-			talk_->SetTalk(progressData.patientTalk);
-		}
-		break;
-	}
-	case StageBase::DecideType::PC:
-		if (prgMng_.GetProgressEnum() == ProgressManager::STORY_PROGRESS::AFTER_MG_TALKED)
-		{
-			talk_->SetTalk(TDI::TALK_PC);
-		}
-		else
-		{
-			// PC起動（実装していないためTemporaryTalkで代用）
-			talk_->SetTemporaryTalk("PCだ。\n患者の電子カルテなどが確認できる。\n{WAIT:300}今は触る必要はない。");
-
-		}
-		break;
-	case StageBase::DecideType::NONE:
-	default:
-		break;
-	}
-}
 void GameScene::UpdatePR()
 {
 	if (canMove_ && controlActor_ != nullptr)

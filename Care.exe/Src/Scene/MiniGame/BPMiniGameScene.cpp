@@ -5,7 +5,7 @@
 #include "../../Manager/ResourceManager.h"
 #include "../../Manager/SceneManager.h"
 #include "../../Manager/SoundManager.h"
-#include "../../Utility/AsoUtility.h"
+#include "../../Utility/SchoolUtility.h"
 #include "BPMiniGameScene.h"
 
 BPMiniGameScene::BPMiniGameScene(void)
@@ -113,7 +113,7 @@ void BPMiniGameScene::UpdateInflate(float deltaTime)
 	if (KeyConfig::IsNew(KeyConfig::ACTION::DECIDE, iptMng_))
 	{
 		pressure_ += INFLATE_SPEED * deltaTime;
-		pressure_ = AsoUtility::Clamp(pressure_, PRESSURE_MIN, PRESSURE_MAX);
+		pressure_ = SchoolUtility::Clamp(pressure_, PRESSURE_MIN, PRESSURE_MAX);
 	}
 
 	if (KeyConfig::IsTrgUp(KeyConfig::ACTION::DECIDE, iptMng_) || pressure_ >= PRESSURE_MAX)
@@ -148,7 +148,7 @@ void BPMiniGameScene::UpdateDeflate(float deltaTime)
 		return;
 	}
 
-	pressure_ = AsoUtility::Clamp(pressure_ - DEFLATE_SPEED * deltaTime, PRESSURE_MIN, PRESSURE_MAX);
+	pressure_ = SchoolUtility::Clamp(pressure_ - DEFLATE_SPEED * deltaTime, PRESSURE_MIN, PRESSURE_MAX);
 
 	if (IsPulseMissed())
 	{
@@ -382,7 +382,7 @@ void BPMiniGameScene::DrawPressureGauge(void) const
 {
 	const Vector2 gaugePos = { MONITOR_POS.x + MONITOR_SIZE.x - 42, DISPLAY_POS.y + 18 };
 	const Vector2 gaugeSize = { 10, DISPLAY_SIZE.y - 36 };
-	const float rate = AsoUtility::Clamp(pressure_ / PRESSURE_MAX, 0.0f, 1.0f);
+	const float rate = SchoolUtility::Clamp(pressure_ / PRESSURE_MAX, 0.0f, 1.0f);
 	const int fillTop = gaugePos.y + gaugeSize.y - static_cast<int>(gaugeSize.y * rate);
 
 	DrawBox(gaugePos.x, gaugePos.y, gaugePos.x + gaugeSize.x, gaugePos.y + gaugeSize.y, GetColor(18, 58, 52), TRUE);

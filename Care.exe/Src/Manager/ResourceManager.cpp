@@ -55,14 +55,15 @@ void ResourceManager::Init(void)
 	CreateResource(SRC::BG_2_CHAIR, RES_T::IMG, PATH_IMG + "Game/BG/NS_Chair.png");
 	CreateResource(SRC::BG_2_LOCKER, RES_T::IMG, PATH_IMG + "Game/BG/NS_locker.png");
 
+	// ガイド画像
+	CreateResource(SRC::GUIDE_MOVE, RES_T::IMG, PATH_IMG + "Game/DecideToMove.png");
+
 	// ミニゲーム画像
 	CreateResource(SRC::BPMG_BG_IMG, RES_T::IMG, PATH_IMG + "MiniGame/bp_BG.png");
 	CreateResource(SRC::BPMG_MONITOR_IMG, RES_T::IMG, PATH_IMG + "MiniGame/bp_monitor.png");
 	CreateResource(SRC::BPMG_PULSE_IMG, RES_T::IMG, PATH_IMG + "MiniGame/bp_pulse.png");
 	CreateResource(SRC::BPMG_FAILED_IMG, RES_T::IMG, PATH_IMG + "MiniGame/bp_failed.png");
 	CreateResource(SRC::BPMG_INTRUCT_IMG, RES_T::IMG, PATH_IMG + "MiniGame/how_to_operation.png");
-
-	// PC画面画像
 
 	// 一枚絵
 	CreateResource(SRC::STILL_END_NUR, RES_T::IMG, PATH_IMG + "Still/END_T.png");
@@ -90,6 +91,9 @@ void ResourceManager::Init(void)
 
 	res = new Resource(RES_T::SOUND, PATH_SOUND + "SE/system_beep.mp3");
 	resourcesMap_.emplace(SRC::SE_BEEP, res);
+
+	res = new Resource(RES_T::SOUND, PATH_SOUND + "SE/ringtone.mp3");
+	resourcesMap_.emplace(SRC::SE_RINGTONE, res);
 
 	// ドアSE
 	res = new Resource(RES_T::SOUND, PATH_SOUND + "SE/door.mp3");

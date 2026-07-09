@@ -1,6 +1,6 @@
 #include <math.h>
 #include <DxLib.h>
-#include "../Utility/AsoUtility.h"
+#include "../Utility/SchoolUtility.h"
 #include "Quaternion.h"
 
 Quaternion::Quaternion(void)
@@ -40,9 +40,9 @@ Quaternion Quaternion::Euler(double radX, double radY, double radZ)
 
     Quaternion ret = Quaternion();
 
-    radX = AsoUtility::RadIn2PI(radX);
-    radY = AsoUtility::RadIn2PI(radY);
-    radZ = AsoUtility::RadIn2PI(radZ);
+    radX = SchoolUtility::RadIn2PI(radX);
+    radY = SchoolUtility::RadIn2PI(radY);
+    radZ = SchoolUtility::RadIn2PI(radZ);
 
     double cosZ = cos(radZ / 2.0f);
     double sinZ = sin(radZ / 2.0f);
@@ -258,8 +258,8 @@ Quaternion Quaternion::LookRotation(const VECTOR& dir)
 Quaternion Quaternion::LookRotation(const VECTOR& dir, const VECTOR& up)
 {
 
-    VECTOR norDir = AsoUtility::VNormalize(dir);
-    VECTOR right = AsoUtility::VNormalize(VCross(up, norDir));
+    VECTOR norDir = SchoolUtility::VNormalize(dir);
+    VECTOR right = SchoolUtility::VNormalize(VCross(up, norDir));
     VECTOR crossUp = VCross(norDir, right);
     auto m00 = right.x;
     auto m01 = right.y;
@@ -441,32 +441,32 @@ VECTOR Quaternion::GetDir(VECTOR dir) const
 
 VECTOR Quaternion::GetForward(void) const
 {
-    return GetDir(AsoUtility::DIR_F);
+    return GetDir(SchoolUtility::DIR_F);
 }
 
 VECTOR Quaternion::GetBack(void) const
 {
-    return GetDir(AsoUtility::DIR_B);
+    return GetDir(SchoolUtility::DIR_B);
 }
 
 VECTOR Quaternion::GetRight(void) const
 {
-    return GetDir(AsoUtility::DIR_R);
+    return GetDir(SchoolUtility::DIR_R);
 }
 
 VECTOR Quaternion::GetLeft(void) const
 {
-    return GetDir(AsoUtility::DIR_L);
+    return GetDir(SchoolUtility::DIR_L);
 }
 
 VECTOR Quaternion::GetUp(void) const
 {
-    return GetDir(AsoUtility::DIR_U);
+    return GetDir(SchoolUtility::DIR_U);
 }
 
 VECTOR Quaternion::GetDown(void) const
 {
-    return GetDir(AsoUtility::DIR_D);
+    return GetDir(SchoolUtility::DIR_D);
 }
 
 double Quaternion::Dot(const Quaternion& q1, const Quaternion& q2)
@@ -536,21 +536,21 @@ Quaternion Quaternion::FromToRotation(const VECTOR& fromDir, const VECTOR& toDir
 {
 
 	VECTOR axis = VCross(fromDir, toDir);
-	double angle = AsoUtility::AngleDeg(fromDir, toDir);
+	double angle = SchoolUtility::AngleDeg(fromDir, toDir);
 	if (angle >= 179.9196)
 	{
-		auto r = VCross(fromDir, AsoUtility::DIR_R);
+		auto r = VCross(fromDir, SchoolUtility::DIR_R);
 		axis = VCross(r, fromDir);
 		//if (axis.sqrMagnitude < 0.000001f)
 		float len = axis.x * axis.x + axis.y * axis.y + axis.z * axis.z;
 		if (len < 0.000001f)
 		{
-			axis = AsoUtility::DIR_U;
+			axis = SchoolUtility::DIR_U;
 		}
 	}
 
-	axis = AsoUtility::VNormalize(axis);
-	return Quaternion::AngleAxis(AsoUtility::Deg2RadD(angle), axis);
+	axis = SchoolUtility::VNormalize(axis);
+	return Quaternion::AngleAxis(SchoolUtility::Deg2RadD(angle), axis);
 
 }
 

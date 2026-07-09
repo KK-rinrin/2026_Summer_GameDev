@@ -5,6 +5,7 @@
 
 StageBase::StageBase()
 	: BGhandle_(-1)
+	, guideMoveHandle_(-1)
 	, resMng_(ResourceManager::GetInstance())
 {
 }
@@ -18,6 +19,8 @@ void StageBase::Init()
 	objects_.clear();
 	screenObjects_.clear();
 	movementRectPercents_.clear();
+
+	guideMoveHandle_ = resMng_.Load(ResourceManager::SRC::GUIDE_MOVE).handleId_;
 
 	InitLoad();
 
@@ -99,12 +102,16 @@ void StageBase::ApplyMovementBlocks(ActorBase& actor) const
 }
 
 
-StageBase::DecideResult StageBase::Decide(const ActorBase& controlActor, const ActorBase* patientActor) const
+void StageBase::DrawGuide(const ActorBase& controlActor) const
 {
 	(void)controlActor;
-	(void)patientActor;
-	return DecideResult{};
 }
+
+void StageBase::Decide(DecideContext& context) const
+{
+	(void)context;
+}
+
 void StageBase::AddScreenObject(int handle, float sortY, bool trans)
 {
 	screenObjects_.push_back({ handle, sortY, trans });
@@ -118,6 +125,14 @@ void StageBase::AddTransformObject(const Transform2D& transform)
 void StageBase::AddTransformObject(const Transform2D& transform, float sortY)
 {
 	objects_.push_back({ transform, true, sortY });
+}
+
+void StageBase::DrawMoveGuide(const Vector2& pos) const
+{
+	if (guideMoveHandle_ != -1)
+	{
+		DrawGraph(pos.x, pos.y, guideMoveHandle_, true);
+	}
 }
 
 void StageBase::AddMBRectPercent(const VECTOR& leftTopPercent, const VECTOR& rightBottomPercent)

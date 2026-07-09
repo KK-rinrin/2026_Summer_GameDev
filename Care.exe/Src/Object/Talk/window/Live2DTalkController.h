@@ -6,7 +6,7 @@
 #include "../../../Manager/Live2D.h"
 #include "../../../Manager/Live2DModelHub.h"
 #include "../../../Manager/ResourceManager.h"
-#include "../../../Utility/AsoUtility.h"
+#include "../../../Utility/SchoolUtility.h"
 
 class Live2DTalkController
 {

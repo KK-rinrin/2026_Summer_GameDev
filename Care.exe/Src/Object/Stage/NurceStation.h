@@ -21,10 +21,14 @@ public:
 	static constexpr VECTOR PC_LEFTUP = { 25.0f,15.0f,0.0f };		// PC‹N“®”»’è”ÍˆÍ¶ã
 	static constexpr VECTOR PC_RIGHTDOWN = { 50.0f,30.0f,0.0f };	// PC‹N“®”»’è”ÍˆÍ‰E‰º
 
+	static constexpr Vector2 GUIDE_TO_PATIENT_ROOM_TOP_POS = { 590, 0 };
+	static constexpr Vector2 GUIDE_TO_PATIENT_ROOM_LEFT_POS = { 28, 168 };
+
 	NurceStation();
 	~NurceStation();
 
-	DecideResult Decide(const ActorBase& controlActor, const ActorBase* patientActor) const override;
+	void DrawGuide(const ActorBase& controlActor) const override;
+	void Decide(DecideContext& context) const override;
 
 private:
 	void InitLoad() override;

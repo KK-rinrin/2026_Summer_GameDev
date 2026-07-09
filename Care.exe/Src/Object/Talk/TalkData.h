@@ -24,8 +24,8 @@ public:
 		float advanceTime = 1.0f;
 	};
 
-	// 一枚絵を表示する。画像はLive2Dより手前、会話ウィンドウより奥に描画する。
-	struct ImageEvent
+	// 素材イベント。画像なら表示、音なら再生する
+	struct AssetEvent
 	{
 		ResourceManager::SRC src;
 	};
@@ -47,9 +47,9 @@ public:
 		int waitMs = 0;
 	};
 
-	// 会話は発話・一枚絵・フェードを同じ列に並べたイベント列として扱う。
-	using TalkEvent = std::variant<SpeakEvent, ImageEvent, ClearImageEvent, FadeOutEvent, FadeInEvent>;
-	
+	// 会話は発話・素材・フェードを同じ列に並べたイベント列として扱う。
+	using TalkEvent = std::variant<SpeakEvent, AssetEvent, ClearImageEvent, FadeOutEvent, FadeInEvent>;
+
 	enum class TalkDataIndex
 	{
 		NONE = -1,
@@ -58,6 +58,8 @@ public:
 		TALK_AFTERMG,
 		TALK_PC,
 		TALK_1,
+		TALK_PC2,
+
 
 		TALK_END_NURCE_LOST,
 		TALK_END_PATIENT_LOST,
@@ -67,11 +69,16 @@ public:
 
 	};
 
-	// TalkData.cpp を読みやすくするためのイベント生成ヘルパー。
+	// 可読性のためのイベント生成ヘルパー
+	// 会話
 	static TalkEvent Speak(Speaker speaker, const std::string& talk, float advanceTime = 1.0f);
-	static TalkEvent Image(ResourceManager::SRC src);
+	// 一枚絵
+	static TalkEvent Asset(ResourceManager::SRC src);
+	// 一枚絵を消す
 	static TalkEvent ClearImage(int fadeMs = 300);
+	// 暗転
 	static TalkEvent FadeOut();
+	// 明転
 	static TalkEvent FadeIn(int waitMs = 0);
 
 	static const std::vector<TalkEvent>& GetTalkData(TalkDataIndex dataIndex);

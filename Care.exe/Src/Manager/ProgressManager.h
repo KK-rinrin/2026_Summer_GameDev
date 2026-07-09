@@ -16,15 +16,16 @@ public:
 		LUNCH,		// 昼食
 
 		AFTER_PC2,	// PC作業再び
+
 		START_MINIGAME1,	// 2回目のミニゲーム前
 
 		AFTER_MG2,	// ミニゲーム２後
 
-		END_PATIENT_LOST = 100,
-		END_NURCE_LOST,
-		END_BOTH_LOST,
+		END_PATIENT_LOST = 100,	// 患者削除END
 		END_PATIENT_LOCKED,
+		END_NURCE_LOST = 110,	// 看護師削除END
 		END_NURCE_LOCKED,
+		END_BOTH_LOST = 120,	// 両方削除END
 		END_BOTH_LOCKED,
 
 	};

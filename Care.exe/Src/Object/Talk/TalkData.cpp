@@ -5,9 +5,9 @@ TalkDatas::TalkEvent TalkDatas::Speak(Speaker speaker, const std::string& talk, 
 	return SpeakEvent{ speaker, talk, advanceTime };
 }
 
-TalkDatas::TalkEvent TalkDatas::Image(ResourceManager::SRC src)
+TalkDatas::TalkEvent TalkDatas::Asset(ResourceManager::SRC src)
 {
-	return ImageEvent{ src };
+	return AssetEvent{ src };
 }
 
 TalkDatas::TalkEvent TalkDatas::ClearImage(int fadeMs)
@@ -80,14 +80,32 @@ const std::vector<TD>& TalkDatas::GetTalkData(TalkDataIndex dataIndex)
 
 		{ TDI::TALK_1, {
 		Speak(看護師, "こんにちは。"),
-		Speak(患者, "...あの。"),
+		Speak(看護師, "...はい、これ。食べてね。食べ終わったら教えて。"),
+		Speak(患者, "...どうも。{WAIT_C}\n...この茄子、好きじゃないんですけど。"),
+		Speak(看護師,"...食べたくないなら残していいよ"),
+		Speak(患者, "そうですか。\n...{WAIT:400}あと..."),
 		Speak(看護師, "何か？"),
-		Speak(患者, "あなたって..."),
-		Speak(患者, "誰かに操られてません？"),
+		Speak(患者, "あなたって...\n\n{WAIT_C}{FBF:2.0}誰かに操られてません？"),
 		Speak(看護師, "何...急に。"),
 		Speak(看護師, "(...でもなんだろう...。\n{WAIT:50}たしかに、そんな気がしてくる。)"),
 		Speak(患者, "{PARAM:EYE_BLINK_R:0.7f}{PARAM:EYE_BLINK_L:0.6f}{PARAM:BROW_RY:0.3f}"
-		"......。") }},
+		"......。"),
+		FadeOut(),
+		}},
+
+		{ TDI::TALK_PC2, {
+		Speak(看護師,"...。\n{WAIT_C}......。"),
+		Speak(看護師, "...そうかもしれない。\n\n{WAIT_C}たぶん、ヌイは正しい。"),
+		Speak(看護師, "...(患者の言うことを信じるなんて、看護師としてどうなのか...\n{WAIT_C}...でも、なんとなく、そう思えてくる)"),
+		FadeOut(),
+		FadeIn(1000),
+		Speak(ナレ, "―15分後。"),
+		Asset(ResourceManager::SRC::SE_RINGTONE),
+		Speak(ナレ, "呼び出し音が鳴る。"),
+		Speak(看護師, "(...食べ終わったみたい。{WAIT:200}...片付けに行こう)"),
+		}},
+
+
 
 		{ TDI::TALK_END_NURCE_LOST, {
 		Speak(患者, "...へぇ。"),
@@ -107,7 +125,7 @@ const std::vector<TD>& TalkDatas::GetTalkData(TalkDataIndex dataIndex)
 		Speak(看護師, "...いない、よね。"),
 		Speak(看護師, "（あの後、部屋に行ったけど誰もいなかった。）"),
 		Speak(看護師, "（私は開放されたんだ。）"),
-		
+
 		}},
 
 		{ TDI::TALK_END_BOTH_LOST, {

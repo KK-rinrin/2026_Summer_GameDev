@@ -17,6 +17,7 @@ class Talk
 	static constexpr VECTOR PLAYER_POS = { -230.0f, -100.0f, 0.0f };
 
 	static constexpr int FADE_ALPHA = 10;
+	static constexpr int FINAL_FADE_IN_MS = 1000;
 
 	// TalkEventの進行状態。入力待ちと自動進行をここで切り分ける。
 	enum class EventState
@@ -54,17 +55,21 @@ private:
 	void UpdateEvent();
 	void StartCurrentEvent();
 	void StartEvent(const TalkDatas::SpeakEvent& eventData);
-	void StartEvent(const TalkDatas::ImageEvent& eventData);
+	void StartEvent(const TalkDatas::AssetEvent& eventData);
 	void StartEvent(const TalkDatas::ClearImageEvent& eventData);
 	void StartEvent(const TalkDatas::FadeOutEvent& eventData);
 	void StartEvent(const TalkDatas::FadeInEvent& eventData);
 	void AdvanceEvent();
 	void FinishTalkEvents();
+	void StartFinalFadeIn();
+	void CompleteTalkEnd();
+	bool IsLastEventFadeOut() const;
 	void RefreshVisibleSpeakers(const std::vector<TD>& talkData);
 	bool IsDecideTriggered();
 	long long GetElapsedMs(long long startTime) const;
 	void DrawCharacters();
 	void DrawImage();
+	void DrawFinalFadeIn();
 
 private:
 	// Live2DTalkController をハブ経由で共有するため shared_ptr に変更
@@ -88,6 +93,7 @@ private:
 	bool isTemporaryTalk_ = false;
 	bool isTalkEnd_ = false;
 	bool isFinishing_ = false;
+	bool isFinalFadeIn_ = false;
 
 	// 一枚絵レイヤー。Live2Dの上、会話ウィンドウの下に描画する。
 	int imageHandle_ = -1;
@@ -98,6 +104,8 @@ private:
 	// FadeInは直前のFadeOut完了時刻から待ち時間を数える。
 	long long fadeOutEndTime_ = 0;
 	int fadeInWaitMs_ = 0;
+	long long finalFadeInStartTime_ = 0;
+	int finalFadeInAlpha_ = 255;
 
 	// TalkWindowから移した入力エッジ検出と、会話終了時の薄いフェード用透明度。
 	bool prevMouseLeftDown_ = false;

@@ -2,7 +2,7 @@
 #include "../../Manager/SceneManager.h"
 #include "ActorBase.h"
 #include "../../Common/Vector2.h"
-#include "../../Utility/AsoUtility.h"
+#include "../../Utility/SchoolUtility.h"
 
 ActorBase::ActorBase(void)
 	:
@@ -73,7 +73,7 @@ void ActorBase::UpdateSortKey()
 
 bool ActorBase::IsHitCircle(const ActorBase& other) const
 {
-	return AsoUtility::IsHitSpheres(transform_.pos, collider_.radius, other.transform_.pos, other.collider_.radius);
+	return SchoolUtility::IsHitSpheres(transform_.pos, collider_.radius, other.transform_.pos, other.collider_.radius);
 }
 
 void ActorBase::MoveToBeforePos()
