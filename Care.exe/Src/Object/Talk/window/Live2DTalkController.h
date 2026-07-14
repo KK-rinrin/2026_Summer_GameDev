@@ -49,8 +49,10 @@ public:
 	// ----- パラメータ操作 -----
 	void RegisterParam(Param p, const TCHAR* parameterId);
 	void SetParamValue(Param p, float value);
+	void SetTalkParamValue(Param p, float value);
+	void SetTalkParamValue(const TCHAR* parameterId, float value);
+	void ResetTalkParams();
 	void ResetParam(Param p);
-	void ResetAllParams();
 
 	void SetMouthParameterId(const TCHAR* id) { RegisterParam(Param::MOUTH, id); }
 	void ResetMouth();
@@ -67,7 +69,10 @@ private:
 	// ハブが所有するモデルへの参照（非所有）
 	Live2D* model_;
 	std::unordered_map<int, std::basic_string<TCHAR>> paramMap_;
+	std::unordered_map<std::basic_string<TCHAR>, bool> talkParamIds_;
 	void InitDefaultParamMap();
+	float GetDefaultParamValue(Param p) const;
+	float GetDefaultParamValue(const TCHAR* parameterId) const;
 
 	// ポーズ用マップ: menuIndex -> motion name
 	std::unordered_map<int, std::basic_string<TCHAR>> poseMap_;

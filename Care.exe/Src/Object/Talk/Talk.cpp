@@ -448,6 +448,12 @@ void Talk::StartEvent(const TalkDatas::FadeInEvent& eventData)
 	eventState_ = EventState::FADE_IN_WAIT;
 }
 
+void Talk::StartEvent(const TalkDatas::BgmEvent& eventData)
+{
+	SoundManager::GetInstance().ChangeBGM(eventData.bgm);
+	AdvanceEvent();
+}
+
 void Talk::AdvanceEvent()
 {
 	eventIndex_++;
@@ -496,6 +502,10 @@ void Talk::CompleteTalkEnd()
 	finalFadeInStartTime_ = 0;
 	finalFadeInAlpha_ = 255;
 	isTalkEnd_ = true;
+
+	if (patientController_) patientController_->ResetTalkParams();
+	if (playerController_) playerController_->ResetTalkParams();
+
 	if (fader_)
 	{
 		// 終端FadeOut後の黒いFader状態を次の会話に持ち越さない。

@@ -347,9 +347,16 @@ void GameScene::ApplyControlMoveDelay()
 	}
 
 	ProcessMove* processMove = player_->GetProcessMove();
-	if (static_cast<int>(prgMng_.GetProgressEnum()) >= static_cast<int>(ProgressManager::STORY_PROGRESS::LUNCH))
+	if (static_cast<int>(prgMng_.GetProgressEnum()) >= static_cast<int>(ProgressManager::STORY_PROGRESS::AFTER_TALK3))
 	{
-		const int delayFrame = static_cast<int>(LUNCH_MOVE_DELAY_SECONDS * GAME_FPS);
+		const int delayFrame = static_cast<int>(INPUT_MOVE_DELAY_SECONDS_1 * GAME_FPS);
+		processMove->SetDelayFrameRange(delayFrame, delayFrame);
+		processMove->Reset();
+		return;
+	}
+	else if (static_cast<int>(prgMng_.GetProgressEnum()) >= static_cast<int>(ProgressManager::STORY_PROGRESS::LUNCH))
+	{
+		const int delayFrame = static_cast<int>(INPUT_MOVE_DELAY_SECONDS_0 * GAME_FPS);
 		processMove->SetDelayFrameRange(delayFrame, delayFrame);
 		processMove->Reset();
 		return;

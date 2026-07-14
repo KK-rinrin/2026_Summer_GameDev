@@ -14,12 +14,10 @@ public:
 		AFTER_MG_TALKED,	// ミニゲーム後の会話後
 		AFTER_PC,	// PC作業後
 		LUNCH,		// 昼食
-
 		AFTER_PC2,	// PC作業再び
-
-		START_MINIGAME1,	// 2回目のミニゲーム前
-
-		AFTER_MG2,	// ミニゲーム２後
+		AFTER_LUNCH,	// 昼食後
+		AFTER_PC3,		// カルテ記入
+		AFTER_TALK3,	// 削除直前
 
 		END_PATIENT_LOST = 100,	// 患者削除END
 		END_PATIENT_LOCKED,

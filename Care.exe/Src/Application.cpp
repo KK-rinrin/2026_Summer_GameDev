@@ -107,6 +107,7 @@ void Application::Run(void)
 			continue;
 
 		inputManager.Update();
+		SoundManager::GetInstance().Update();
 		sceneManager.Update();
 
 		sceneManager.Draw();

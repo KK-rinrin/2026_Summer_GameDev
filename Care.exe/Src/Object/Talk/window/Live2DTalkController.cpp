@@ -28,6 +28,30 @@ void Live2DTalkController::InitDefaultParamMap()
 	paramMap_[static_cast<int>(Param::PAT_EYE_BLACK)] = TEXT("Param");
 }
 
+float Live2DTalkController::GetDefaultParamValue(Param p) const
+{
+	switch (p)
+	{
+	case Param::EYE_BLINK_R:
+	case Param::EYE_BLINK_L:
+		return 1.0f;
+	case Param::ALPHA:
+		return 255.0f;
+	default:
+		return 0.0f;
+	}
+}
+
+float Live2DTalkController::GetDefaultParamValue(const TCHAR* parameterId) const
+{
+	if (parameterId == nullptr) return 0.0f;
+
+	const std::basic_string<TCHAR> id(parameterId);
+	if (id == TEXT("ParamEyeROpen") || id == TEXT("ParamEyeLOpen")) return 1.0f;
+	if (id == TEXT("ParamAlpha")) return 255.0f;
+	return 0.0f;
+}
+
 void Live2DTalkController::Load(ResourceManager::SRC src)
 {
 	// ハブから共有モデルを取得（存在しなければハブが生成して Load する）
@@ -97,18 +121,39 @@ void Live2DTalkController::SetParamValue(Param p, float value)
 	model_->SetParamerterValue(id.c_str(), value);
 }
 
-void Live2DTalkController::ResetParam(Param p)
+void Live2DTalkController::SetTalkParamValue(Param p, float value)
 {
-	SetParamValue(p, 0.0f);
+	auto it = paramMap_.find(static_cast<int>(p));
+	if (it == paramMap_.end()) return;
+	SetTalkParamValue(it->second.c_str(), value);
 }
 
-void Live2DTalkController::ResetAllParams()
+void Live2DTalkController::SetTalkParamValue(const TCHAR* parameterId, float value)
 {
-	if (!model_) return;
-	for (auto& kv : paramMap_)
+	if (!model_ || parameterId == nullptr) return;
+	const std::basic_string<TCHAR> id(parameterId);
+	talkParamIds_[id] = true;
+	model_->SetParamerterValue(id.c_str(), value);
+}
+
+void Live2DTalkController::ResetTalkParams()
+{
+	if (!model_)
 	{
-		model_->SetParamerterValue(kv.second.c_str(), 0.0f);
+		talkParamIds_.clear();
+		return;
 	}
+
+	for (const auto& kv : talkParamIds_)
+	{
+		model_->SetParamerterValue(kv.first.c_str(), GetDefaultParamValue(kv.first.c_str()));
+	}
+	talkParamIds_.clear();
+}
+
+void Live2DTalkController::ResetParam(Param p)
+{
+	SetParamValue(p, GetDefaultParamValue(p));
 }
 
 void Live2DTalkController::ResetMouth()
@@ -162,6 +207,8 @@ void Live2DTalkController::ResetForScene()
 {
 	// 次のメニューは強制再生させる
 	lastMenuIndex_ = -1;
+
+	ResetTalkParams();
 
 	// 口のパラメータだけリセット（目など自動制御されるパラメータは触らない）
 	ResetMouth();

@@ -22,9 +22,9 @@ public:
 	};
 
 	static constexpr Stage INIT_STAGE = Stage::NURSE_STATION;
-	static constexpr float LUNCH_MOVE_DELAY_SECONDS = 0.2f;
+	static constexpr float INPUT_MOVE_DELAY_SECONDS_0 = 0.2f;
+	static constexpr float INPUT_MOVE_DELAY_SECONDS_1 = 0.4f;
 	static constexpr float GAME_FPS = 60.0f;
-
 	
 	// コンストラクタ
 	GameScene(void);

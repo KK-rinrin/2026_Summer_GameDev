@@ -167,7 +167,7 @@ void TalkWindow::CompleteSpeak()
 				if (ctrl)
 				{
 					Live2DTalkController::Param p = StringToParam(cu.tagParam);
-					ctrl->SetParamValue(p, cu.floatValue);
+					ctrl->SetTalkParamValue(p, cu.floatValue);
 				}
 			}
 			else
@@ -176,7 +176,7 @@ void TalkWindow::CompleteSpeak()
 				if (ctrl && ctrl->GetModel())
 				{
 					std::basic_string<TCHAR> tid = ToTString(cu.tagType);
-					ctrl->GetModel()->SetParamerterValue(tid.c_str(), cu.floatValue);
+					ctrl->SetTalkParamValue(tid.c_str(), cu.floatValue);
 				}
 			}
 
@@ -395,7 +395,7 @@ void TalkWindow::UpdateLineAdvance()
 			if (ctrl)
 			{
 				Live2DTalkController::Param p = StringToParam(cu.tagParam);
-				ctrl->SetParamValue(p, cu.floatValue);
+				ctrl->SetTalkParamValue(p, cu.floatValue);
 			}
 			unitPos_++;
 		}
@@ -413,7 +413,7 @@ void TalkWindow::UpdateLineAdvance()
 			if (ctrl && ctrl->GetModel())
 			{
 				std::basic_string<TCHAR> tid = ToTString(cu.tagType);
-				ctrl->GetModel()->SetParamerterValue(tid.c_str(), cu.floatValue);
+				ctrl->SetTalkParamValue(tid.c_str(), cu.floatValue);
 			}
 			unitPos_++;
 		}

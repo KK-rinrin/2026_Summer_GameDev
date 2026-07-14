@@ -66,6 +66,10 @@ void NurceStation::Decide(DecideContext& context) const
 		{
 			context.talk.SetTalk(TDI::TALK_PC2);
 		}
+		else if (context.progressManager.GetProgressEnum() == ProgressManager::STORY_PROGRESS::AFTER_LUNCH)
+		{
+			context.talk.SetTalk(TDI::TALK_PC3);
+		}
 		else
 		{
 			context.talk.SetTemporaryTalk("PCだ。\n患者の電子カルテなどが確認できる。\n{WAIT:300}今は触る必要はない。");

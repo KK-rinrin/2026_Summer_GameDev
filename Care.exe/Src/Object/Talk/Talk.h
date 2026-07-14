@@ -59,6 +59,7 @@ private:
 	void StartEvent(const TalkDatas::ClearImageEvent& eventData);
 	void StartEvent(const TalkDatas::FadeOutEvent& eventData);
 	void StartEvent(const TalkDatas::FadeInEvent& eventData);
+	void StartEvent(const TalkDatas::BgmEvent& eventData);
 	void AdvanceEvent();
 	void FinishTalkEvents();
 	void StartFinalFadeIn();

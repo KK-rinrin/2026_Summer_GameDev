@@ -33,7 +33,9 @@ public:
 
 		GUIDE_MOVE,				// 移動可能ドアガイド画像
 
+		BGM_TITLE,				// Title BGM
 		BGM_GAME,				// ゲーム中BGM（アドベンチャーモード）
+		BGM_GAME_2,				// Game BGM 2
 
 		SE_DECIDE,				// システム決定音
 		SE_CANCEL,				// システムキャンセル音
@@ -61,8 +63,8 @@ public:
 		BPMG_LARGE_FONT,	// ﾐﾆｹﾞｰﾑデカフォント
 
 		// キャラクター一枚絵
-		STILL_1,			
-
+		STILL_1,			// 不気味な笑顔をうかべるヌイ
+		STILL_2,			// 看護師
 
 		// ゲームクリア一枚絵
 		STILL_END_NUR,		// ヌイ削除

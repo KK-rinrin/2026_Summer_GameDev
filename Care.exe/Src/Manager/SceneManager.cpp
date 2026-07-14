@@ -54,8 +54,18 @@ void SceneManager::Init(void)
 	preTime_ = std::chrono::system_clock::now();
 
 	// èâä˙ÉVÅ[ÉìÇÃê›íË
-	DoChangeScene(ProgressManager::GetInstance().IsEndLockedProgress() ?
-		SCENE_ID::CLEAR : SCENE_ID::DEBUG);
+	if (ProgressManager::GetInstance().IsEndLockedProgress())
+	{
+		DoChangeScene(SCENE_ID::CLEAR);
+	}
+	else
+	{
+#ifdef _DEBUG
+		DoChangeScene(SCENE_ID::DEBUG);
+#else
+		DoChangeScene(SCENE_ID::TITLE);
+#endif
+	}
 
 }
 

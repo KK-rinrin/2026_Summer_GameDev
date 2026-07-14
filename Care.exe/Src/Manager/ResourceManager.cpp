@@ -65,7 +65,11 @@ void ResourceManager::Init(void)
 	CreateResource(SRC::BPMG_FAILED_IMG, RES_T::IMG, PATH_IMG + "MiniGame/bp_failed.png");
 	CreateResource(SRC::BPMG_INTRUCT_IMG, RES_T::IMG, PATH_IMG + "MiniGame/how_to_operation.png");
 
-	// ˆê–‡ŠG
+	// •¨Œê’†ˆê–‡ŠG
+	CreateResource(SRC::STILL_1, RES_T::IMG, PATH_IMG + "Still/nui0.png");
+	CreateResource(SRC::STILL_2, RES_T::IMG, PATH_IMG + "Still/neit0.png");
+
+	// ƒGƒ“ƒhˆê–‡ŠG
 	CreateResource(SRC::STILL_END_NUR, RES_T::IMG, PATH_IMG + "Still/END_T.png");
 	CreateResource(SRC::STILL_END_NUI, RES_T::IMG, PATH_IMG + "Still/END_D.png");
 	CreateResource(SRC::STILL_END_BOTH, RES_T::IMG, PATH_IMG + "Still/END_NULL.png");
@@ -76,8 +80,14 @@ void ResourceManager::Init(void)
 	CreateResource(SRC::PLAYER_MODEL, RES_T::LIVE2D, PATH_MODEL + "nurce/nurce.model3.json");
 
 	// ‰¹Šy
+	res = new Resource(RES_T::SOUND, PATH_SOUND + "BGM/Title.wav");
+	resourcesMap_.emplace(SRC::BGM_TITLE, res);
+
 	res = new Resource(RES_T::SOUND, PATH_SOUND + "BGM/Game.wav");
 	resourcesMap_.emplace(SRC::BGM_GAME, res);
+
+	res = new Resource(RES_T::SOUND, PATH_SOUND + "BGM/Game_2.wav");
+	resourcesMap_.emplace(SRC::BGM_GAME_2, res);
 
 	// SE
 	res = new Resource(RES_T::SOUND, PATH_SOUND + "SE/system_decide.mp3");

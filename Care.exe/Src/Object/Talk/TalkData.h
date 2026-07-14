@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../../Manager/ResourceManager.h"
+#include "../../Manager/SoundManager.h"
 #include <string>
 #include <variant>
 #include <vector>
@@ -47,33 +48,42 @@ public:
 		int waitMs = 0;
 	};
 
+	struct BgmEvent
+	{
+		SoundManager::BGM bgm = SoundManager::BGM::GAME0;
+	};
+
 	// 会話は発話・素材・フェードを同じ列に並べたイベント列として扱う。
-	using TalkEvent = std::variant<SpeakEvent, AssetEvent, ClearImageEvent, FadeOutEvent, FadeInEvent>;
+	using TalkEvent = std::variant<SpeakEvent, AssetEvent, ClearImageEvent, FadeOutEvent, FadeInEvent, BgmEvent>;
 
 	enum class TalkDataIndex
 	{
 		NONE = -1,
-		TALK_INIT,
-		TALK_0,
-		TALK_AFTERMG,
-		TALK_PC,
-		TALK_1,
-		TALK_PC2,
+		TALK_INIT,		// 一番最初
+		TALK_0,			// 血圧測定前の会話
+		TALK_AFTERMG,	// ミニゲーム後の会話
+		TALK_PC,		// パソコンでの会話
+		TALK_1,			// 昼食前の会話
+		TALK_PC2,		// パソコンでの会話2
+		TALK_2,			// 昼食後の会話
+		TALK_PC3,		// カルテ記入
 
+		TALK_3,			// ヌイとの会話（変更するかも）
 
 		TALK_END_NURCE_LOST,
 		TALK_END_PATIENT_LOST,
 		TALK_END_BOTH_LOST,
 
-		CHECK_PC,	// イベント進行時以外でPCを調べたとき
 
 	};
 
 	// 可読性のためのイベント生成ヘルパー
 	// 会話
 	static TalkEvent Speak(Speaker speaker, const std::string& talk, float advanceTime = 1.0f);
-	// 一枚絵
+	// 素材を表示・再生
 	static TalkEvent Asset(ResourceManager::SRC src);
+	// BGMを再生
+	static TalkEvent Bgm(SoundManager::BGM bgm);
 	// 一枚絵を消す
 	static TalkEvent ClearImage(int fadeMs = 300);
 	// 暗転
