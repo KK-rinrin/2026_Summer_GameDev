@@ -30,6 +30,9 @@ public:
 
 		PC_BG,					// パソコン画面背景
 		PC_FRAME,				// パソコン画面フレーム
+		PC_MANUAL_FOLDER,		// ミニゲームマニュアルフォルダ
+		PC_BP_MANUAL,			// 血圧測定ミニゲームマニュアル
+		PC_CURSOR,				// パソコンカーソル
 
 		GUIDE_MOVE,				// 移動可能ドアガイド画像
 
@@ -44,6 +47,7 @@ public:
 
 		SE_DOOR,				// ドアの音
 		SE_RINGTONE,			// 呼び出し音
+		SE_TYPING,				// タイピング音
 
 		// 会話画面
 		PLAYER_MODEL,			// プレイヤーLive2Dモデル

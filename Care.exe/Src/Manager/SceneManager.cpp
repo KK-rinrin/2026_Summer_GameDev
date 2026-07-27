@@ -54,10 +54,18 @@ void SceneManager::Init(void)
 	preTime_ = std::chrono::system_clock::now();
 
 	// 初期シーンの設定
-	if (ProgressManager::GetInstance().IsEndLockedProgress())
+	ProgressManager& progressManager = ProgressManager::GetInstance();
+	const bool isCharaFileMissing =
+		!progressManager.IsPatientCharExists() || !progressManager.IsNurceCharExists();
+
+	// 進行度が不十分でファイルが消されていたらエンドに直行
+	// エンドロックされている場合もエンドに直行
+	if ((isCharaFileMissing && !progressManager.IsCanDeleteProgress())
+		|| progressManager.IsEndLockedProgress())
 	{
 		DoChangeScene(SCENE_ID::CLEAR);
 	}
+	// そうでなければタイトルへ（デバッグビルドはデバッグシーンへ）
 	else
 	{
 #ifdef _DEBUG
@@ -125,14 +133,17 @@ void SceneManager::Draw(void)
 void SceneManager::Destroy(void)
 {
 
-	// シーンの解放
+	// シーンが所有するオブジェクトを解放してからシーンを破棄する
 	if (scene_ != nullptr)
 	{
+		scene_->Delete();
 		delete scene_;
+		scene_ = nullptr;
 	}
 
 	// フェード機能の解放
 	delete fader_;
+	fader_ = nullptr;
 
 	// インスタンスのメモリ解放
 	delete instance_;
@@ -247,17 +258,19 @@ void SceneManager::ResetDeltaTime(void)
 void SceneManager::DoChangeScene(SCENE_ID sceneId)
 {
 
-	// リソースの解放
+	// 現在のシーンが所有するオブジェクトを先に解放する
+	if (scene_ != nullptr)
+	{
+		scene_->Delete();
+		delete scene_;
+		scene_ = nullptr;
+	}
+
+	// シーン内オブジェクトが参照し終えてからリソースを解放する
 	ResourceManager::GetInstance().Release();
 
 	// シーンを変更する
 	sceneId_ = sceneId;
-
-	// 現在のシーンを解放
-	if (scene_ != nullptr)
-	{
-		delete scene_;
-	}
 
 	switch (sceneId_)
 	{

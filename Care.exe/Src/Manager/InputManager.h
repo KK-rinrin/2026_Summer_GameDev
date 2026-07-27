@@ -51,6 +51,7 @@ public:
 		DOWN,
 		R_TRIGGER,
 		L_TRIGGER,
+		START,
 		DPAD_UP,
 		DPAD_DOWN,
 		DPAD_LEFT,

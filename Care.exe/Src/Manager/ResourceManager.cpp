@@ -55,6 +55,13 @@ void ResourceManager::Init(void)
 	CreateResource(SRC::BG_2_CHAIR, RES_T::IMG, PATH_IMG + "Game/BG/NS_Chair.png");
 	CreateResource(SRC::BG_2_LOCKER, RES_T::IMG, PATH_IMG + "Game/BG/NS_locker.png");
 
+	// PC画像
+	CreateResource(SRC::PC_BG, RES_T::IMG, PATH_IMG + "Game/PC/PCscreenBG.png");
+	CreateResource(SRC::PC_FRAME, RES_T::IMG, PATH_IMG + "Game/PC/PC_frame.png");
+	CreateResource(SRC::PC_MANUAL_FOLDER, RES_T::IMG, PATH_IMG + "Game/PC/manual_folder.png");
+	CreateResource(SRC::PC_BP_MANUAL, RES_T::IMG, PATH_IMG + "Game/PC/BPmanual.png");
+	CreateResource(SRC::PC_CURSOR, RES_T::IMG, PATH_IMG + "Game/PC/arrow.png");
+
 	// ガイド画像
 	CreateResource(SRC::GUIDE_MOVE, RES_T::IMG, PATH_IMG + "Game/DecideToMove.png");
 
@@ -104,6 +111,9 @@ void ResourceManager::Init(void)
 
 	res = new Resource(RES_T::SOUND, PATH_SOUND + "SE/ringtone.mp3");
 	resourcesMap_.emplace(SRC::SE_RINGTONE, res);
+
+	res = new Resource(RES_T::SOUND, PATH_SOUND + "SE/typing.mp3");
+	resourcesMap_.emplace(SRC::SE_TYPING, res);
 
 	// ドアSE
 	res = new Resource(RES_T::SOUND, PATH_SOUND + "SE/door.mp3");

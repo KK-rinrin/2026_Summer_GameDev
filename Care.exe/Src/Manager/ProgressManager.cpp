@@ -90,6 +90,22 @@ bool ProgressManager::ResetProgressCache(void)
 	return std::remove(PROGRESS_SAVE_PATH) == 0;
 }
 
+bool ProgressManager::IsPatientCharExists(void) const
+{
+	return IsFileExists(PATIENT_CHAR_PATH);
+}
+
+bool ProgressManager::IsNurceCharExists(void) const
+{
+	return IsFileExists(NURCE_CHAR_PATH);
+}
+
+bool ProgressManager::IsCharaFileDeletedDuringRun(void) const
+{
+	return (isPatientCharExists_ && !IsPatientCharExists()) ||
+		(isNurceCharExists_ && !IsNurceCharExists());
+}
+
 
 bool ProgressManager::IsEndTalkProgress(void) const
 {
@@ -180,6 +196,11 @@ void ProgressManager::CheckCharaFiles(bool isFirstLaunch)
 
 void ProgressManager::ApplyEndProgressByCharaFiles(void)
 {
+	if (!IsCanDeleteProgress())
+	{
+		return;
+	}
+
 	if (IsEndLockedProgress())
 	{
 		return;

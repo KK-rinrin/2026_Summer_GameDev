@@ -170,7 +170,7 @@ void BPMiniGameScene::UpdateSuccess(float deltaTime)
 
 	if (prgMng_.GetProgressEnum() == ProgressManager::START_MINIGAME0)
 	{
-		prgMng_.AddProgress();
+		prgMng_.SetProgress(ProgressManager::AFTER_MG);
 	}
 	sceMng_.ChangeScene(SceneManager::SCENE_ID::GAME);
 }
@@ -180,7 +180,8 @@ void BPMiniGameScene::UpdateFailed(void)
 	if (KeyConfig::IsTrgDown(KeyConfig::ACTION::DECIDE, iptMng_))
 	{
 		sndMng_.PlaySE(SE::DECIDE);
-		sceMng_.ChangeScene(SceneManager::SCENE_ID::BP_MINIGAME);
+		prgMng_.SetProgress(ProgressManager::MINIGAME_RETRY);
+		sceMng_.ChangeScene(SceneManager::SCENE_ID::GAME);
 	}
 }
 
@@ -371,7 +372,7 @@ void BPMiniGameScene::DrawMonitor(void) const
 
 	if (state_ == State::SUCCESS)
 	{
-		DrawStringToHandle(DISPLAY_POS.x + 178, DISPLAY_POS.y + 68, "OK", GetColor(120, 235, 130), largeFont_);
+		DrawStringToHandle(DISPLAY_POS.x + OK_RELATIVE_POS.x, DISPLAY_POS.y + OK_RELATIVE_POS.y, "OK", GetColor(120, 235, 130), largeFont_);
 	}
 
 	DrawPressureGauge();
@@ -414,7 +415,7 @@ void BPMiniGameScene::DrawPulseMarker(void) const
 
 void BPMiniGameScene::DrawPulseWave(void) const
 {
-	const Vector2 waveStart = { DISPLAY_POS.x + 154, DISPLAY_POS.y + 96 };
+	const Vector2 waveStart = { DISPLAY_POS.x + PULSE_WAVE_RELATIVE_POS.x, DISPLAY_POS.y + PULSE_WAVE_RELATIVE_POS.y };
 	const bool detectable = IsPulseMoving();
 	Vector2 prevPos = waveStart;
 

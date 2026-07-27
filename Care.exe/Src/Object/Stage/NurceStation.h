@@ -1,6 +1,8 @@
 #pragma once
 #include "StageBase.h"
 
+class PCScene;
+
 class NurceStation : public StageBase
 {
 public:
@@ -27,6 +29,10 @@ public:
 	NurceStation();
 	~NurceStation();
 
+	void Update() override;
+	void DrawForeground() const override;
+	void Delete() override;
+	bool IsInputBlocked() const override;
 	void DrawGuide(const ActorBase& controlActor) const override;
 	void Decide(DecideContext& context) const override;
 
@@ -38,4 +44,5 @@ private:
 	int pcHandle_;
 	int chairHandle_;
 	int lockerHandle_;
+	PCScene* pcScene_;
 };

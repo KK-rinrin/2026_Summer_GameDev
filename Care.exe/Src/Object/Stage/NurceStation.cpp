@@ -1,20 +1,56 @@
 #include "NurceStation.h"
 #include "../../Manager/ResourceManager.h"
+#include "../../Manager/InputManager.h"
 #include "../../Manager/ProgressManager.h"
 #include "../../Manager/SoundManager.h"
 #include "../../Object/Talk/Talk.h"
 #include "../Actor/ActorBase.h"
 #include "../Collider/Collider.h"
+#include "../../Scene/PCScene.h"
 
 NurceStation::NurceStation()
 	: pcHandle_(-1)
 	, chairHandle_(-1)
 	, lockerHandle_(-1)
+	, pcScene_(nullptr)
 {
 }
 
 NurceStation::~NurceStation()
 {
+}
+
+void NurceStation::Update()
+{
+	StageBase::Update();
+	if (pcScene_ != nullptr)
+	{
+		pcScene_->Update(InputManager::GetInstance());
+	}
+}
+
+void NurceStation::DrawForeground() const
+{
+	if (pcScene_ != nullptr)
+	{
+		pcScene_->Draw();
+	}
+}
+
+void NurceStation::Delete()
+{
+	if (pcScene_ != nullptr)
+	{
+		pcScene_->Delete();
+		delete pcScene_;
+		pcScene_ = nullptr;
+	}
+	StageBase::Delete();
+}
+
+bool NurceStation::IsInputBlocked() const
+{
+	return pcScene_ != nullptr && pcScene_->IsOpen();
 }
 
 void NurceStation::DrawGuide(const ActorBase& controlActor) const
@@ -70,9 +106,9 @@ void NurceStation::Decide(DecideContext& context) const
 		{
 			context.talk.SetTalk(TDI::TALK_PC3);
 		}
-		else
+		else if (pcScene_ != nullptr)
 		{
-			context.talk.SetTemporaryTalk("PCだ。\n患者の電子カルテなどが確認できる。\n{WAIT:300}今は触る必要はない。");
+			pcScene_->Open();
 		}
 		return;
 	}
@@ -81,6 +117,9 @@ void NurceStation::Decide(DecideContext& context) const
 
 void NurceStation::InitLoad()
 {
+	pcScene_ = new PCScene();
+	pcScene_->Load();
+
 	BGhandle_ = resMng_.Load(ResourceManager::SRC::BG_2).handleId_;
 
 	pcHandle_ = resMng_.Load(ResourceManager::SRC::BG_2_PC).handleId_;

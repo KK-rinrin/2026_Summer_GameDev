@@ -9,6 +9,7 @@ public:
 	{
 		START = 0,	// ゲーム開始
 		START_MINIGAME0,	// ゲーム開始後のイベント1
+		MINIGAME_RETRY,	// ミニゲーム再挑戦待ち
 
 		AFTER_MG,	// ミニゲーム後
 		AFTER_MG_TALKED,	// ミニゲーム後の会話後
@@ -50,14 +51,18 @@ public:
 	STORY_PROGRESS GetProgressEnum(void) const { return static_cast<STORY_PROGRESS>(progress_); }
 
 	// 患者charファイル存在取得
-	bool IsPatientCharExists(void) const { return isPatientCharExists_; }
+	bool IsPatientCharExists(void) const;
 
 	// 看護師charファイル存在取得
-	bool IsNurceCharExists(void) const { return isNurceCharExists_; }
+	bool IsNurceCharExists(void) const;
+
+	bool IsCharaFileDeletedDuringRun(void) const;
 
 	bool IsEndTalkProgress(void) const;
 
 	bool IsEndLockedProgress(void) const;
+
+	bool IsCanDeleteProgress(void) const { return progress_ >= AFTER_LUNCH;  }
 
 	// 削除
 	void Destroy(void);

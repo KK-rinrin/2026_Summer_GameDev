@@ -316,8 +316,10 @@ void TalkWindow::DrawNextIcon()
 // ==============================
 void TalkWindow::Delete()
 {
-	if (handle_ >= 0) DeleteGraph(handle_);
+	// 画像とフォントの実体はResourceManagerが所有するため、ここでは参照だけを破棄する
 	handle_ = -1;
+	nextHandle_ = -1;
+	font_ = -1;
 }
 
 // ==============================

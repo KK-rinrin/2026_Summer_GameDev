@@ -55,12 +55,21 @@ void StageBase::Draw()
 	}
 }
 
+void StageBase::DrawForeground() const
+{
+}
+
 void StageBase::Delete()
 {
 	for (auto& obj : objects_)
 	{
 		obj.transform.Delete();
 	}
+}
+
+bool StageBase::IsInputBlocked() const
+{
+	return false;
 }
 
 void StageBase::DrawBackground() const

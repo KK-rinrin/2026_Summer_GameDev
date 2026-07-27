@@ -43,6 +43,16 @@ void Player::Update(void)
 	anim_.Update();
 }
 
+void Player::Draw(void)
+{
+	if (!ProgressManager::GetInstance().IsNurceCharExists())
+	{
+		return;
+	}
+
+	ActorBase::Draw();
+}
+
 void Player::SetLocalPercent(float x, float y)
 {
 	ActorBase::SetLocalPercent(x, y);

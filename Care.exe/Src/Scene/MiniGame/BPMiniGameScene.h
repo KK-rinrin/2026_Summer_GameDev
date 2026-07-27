@@ -12,6 +12,8 @@ public:
 	void Update(void) override;
 	void Draw(void) override;
 	void Delete(void) override;
+	static constexpr Vector2 OK_RELATIVE_POS = { 178, 18 };
+	static constexpr Vector2 PULSE_WAVE_RELATIVE_POS = { 154, 46 };
 
 private:
 	enum class State

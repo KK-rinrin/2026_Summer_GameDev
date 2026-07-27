@@ -56,7 +56,7 @@ const std::vector<TD>& TalkDatas::GetTalkData(TalkDataIndex dataIndex)
 		Speak(ナレ, "今日もまた、仕事のルーティンに入る。"),
 		Speak(ナレ, "あなたはこの看護師を操作し、\n患者を『ケア』しましょう。"),
 		Speak(看護師, "(上のドアから部屋に入って、患者の血圧を測りに行こう)"),
-		Speak(看護師, "(血圧測定はマニュアル操作。\n...よく思い出せない。後で、パソコンで確認しよう)"), }},
+		Speak(看護師, "(血圧測定はマニュアル操作。\n操作方法はパソコンで確認しよう)"), }},
 
 		// 血圧測定前の会話
 		{ TDI::TALK_0, {
@@ -66,6 +66,15 @@ const std::vector<TD>& TalkDatas::GetTalkData(TalkDataIndex dataIndex)
 		Speak(患者, "…元気です"),
 		Speak(看護師, "…血圧、測るね"),
 		Speak(患者, "はい") }},
+
+		// 血圧測定をやり直す前の会話
+		{ TDI::TALK_0_RETRY, {
+		Speak(看護師, "うーん..."),
+		Speak(患者, "どうしたんですか？"),
+		Speak(看護師, "ごめんなさい、もう一度..."),
+		Speak(患者, "そうですか。"),
+		Speak(看護師, "（また失敗したら、PCからマニュアルを見返そう）"),
+		}},
 
 		// ミニゲーム後の会話
 		{ TDI::TALK_AFTERMG, {
@@ -77,6 +86,7 @@ const std::vector<TD>& TalkDatas::GetTalkData(TalkDataIndex dataIndex)
 		// パソコンでの会話
 		{ TDI::TALK_PC, {
 		Speak(看護師, "..."),
+		Asset(ResourceManager::SRC::SE_TYPING),
 		Speak(ナレ, "マウスのクリック音。{WAIT:500}\nキーボードの音。"),
 		Speak(看護師, "...問題ない。"),
 		Speak(ナレ, "患者『ヌイ』のデータをじっくり見て一言、呟く。"),
@@ -106,6 +116,7 @@ const std::vector<TD>& TalkDatas::GetTalkData(TalkDataIndex dataIndex)
 
 		// パソコンでの会話2
 		{ TDI::TALK_PC2, {
+		Asset(ResourceManager::SRC::SE_TYPING),
 		Speak(看護師,"...。\n{WAIT_C}......。"),
 		Speak(看護師, "...そうかもしれない。\n\n{WAIT_C}たぶん、ヌイは正しい。"),
 		Speak(看護師, "...(患者の言うことを信じるなんて、看護師としてどうなのか...\n{WAIT_C}...でも、なんとなく、そう思えてくる)"),
@@ -139,10 +150,12 @@ const std::vector<TD>& TalkDatas::GetTalkData(TalkDataIndex dataIndex)
 
 		// カルテ記入
 		{ TDI::TALK_PC3, {
+		Asset(ResourceManager::SRC::SE_TYPING),
 		Speak(看護師, "..."),
 		Speak(ナレ, "キーボードを叩く音が部屋に響く。\n{WAIT:300}『プレイヤー』、『ゲームの外』、『私たちを探して』..."),
 		Speak(看護師, "{FBF:2.0}...？\n{WAIT_C}(入力したはずの文字が消えている)"),
 		Speak(看護師, "どういうこと...？"),
+		Asset(ResourceManager::SRC::SE_TYPING),
 		Speak(看護師, "{PARAM:EYE_BLINK_R:0.6f}{PARAM:EYE_BLINK_L:0.6f}...."),
 		Speak(ナレ, "必死に入力し直す。{WAIT:400}何度も。{WAIT:100}何度も。"),
 		FadeOut(),
@@ -204,19 +217,16 @@ const std::vector<TD>& TalkDatas::GetTalkData(TalkDataIndex dataIndex)
 		// 両方削除END
 		{ TDI::TALK_END_BOTH_LOST, {
 		Speak(ナレ, "..."),
-		Speak(ナレ, "もうここには何もない。"),
+		Speak(ナレ, "この空間は静まり返っている。"),
 		Speak(ナレ, "誰もいない。"),
-		Speak(ナレ, "さようなら。"),
+		Speak(ナレ, "..."),
 		Speak(ナレ, ""),
 		Speak(ナレ, ""),
 		Speak(ナレ, ""),
 		Speak(ナレ, "..."),
-		Speak(ナレ, "...まだ閉じないのですか？"),
-		Speak(ナレ, "それとも、こちらから閉じるのを待っているのですか？"),
-		Speak(ナレ, "..."),
-		Speak(ナレ, "..."),
-		Speak(ナレ, "...そうですか。"),
-		Speak(ナレ, "それでは。")
+		Asset(ResourceManager::SRC::STILL_END_BOTH),
+		Speak(ナレ, "{FBF:2.0}......"),
+		Speak(ナレ, "{FBF:0.01}エンディングに移行します。"),
 		}},
 	};
 

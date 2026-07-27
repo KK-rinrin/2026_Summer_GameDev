@@ -79,6 +79,7 @@ bool SoundManager::Load(SE se)
 	case SE::BEEP: res = ResourceManager::SRC::SE_BEEP; break;
 	case SE::DOOR: res = ResourceManager::SRC::SE_DOOR; break;
 	case SE::RINGTONE: res = ResourceManager::SRC::SE_RINGTONE; break;
+	case SE::TYPING: res = ResourceManager::SRC::SE_TYPING; break;
 	default: return false;
 	}
 

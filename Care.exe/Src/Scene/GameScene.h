@@ -25,6 +25,10 @@ public:
 	static constexpr float INPUT_MOVE_DELAY_SECONDS_0 = 0.2f;
 	static constexpr float INPUT_MOVE_DELAY_SECONDS_1 = 0.4f;
 	static constexpr float GAME_FPS = 60.0f;
+	static constexpr float AFTER_TALK3_COLOR_SHIFT_X = 4.0f;
+	static constexpr float AFTER_TALK3_COLOR_SHIFT_Y = 0.0f;
+	static constexpr int AFTER_TALK3_COLOR_SHIFT_RECT_COUNT = 4;
+	static constexpr float AFTER_TALK3_COLOR_SHIFT_RECT_CHANGE_SECONDS = 0.05f;
 	
 	// コンストラクタ
 	GameScene(void);
@@ -73,6 +77,7 @@ private:
 	ActorBase* controlActor_;
 
 	DebugCursorPosition* debugCursorPosition_;
+	int colorShiftScreenHandle_ = -1;
 
 	bool isReturningFromSetting_;
 };

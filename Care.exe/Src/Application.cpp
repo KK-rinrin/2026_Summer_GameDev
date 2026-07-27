@@ -57,6 +57,8 @@ void Application::Init(void)
 		return;
 	}
 
+	SetMouseDispFlag(FALSE);
+
 	
 
 	// Effekseerの初期化
@@ -106,6 +108,11 @@ void Application::Run(void)
 		if (!fpsControl_->UpdateFrameRate())
 			continue;
 
+		if (ProgressManager::GetInstance().IsCharaFileDeletedDuringRun())
+		{
+			break;
+		}
+
 		inputManager.Update();
 		SoundManager::GetInstance().Update();
 		sceneManager.Update();
@@ -126,6 +133,9 @@ void Application::Run(void)
 
 void Application::Destroy(void)
 {
+	// シーン内オブジェクトが各管理クラスを参照できるうちに先に解放する
+	SceneManager::GetInstance().Destroy();
+
 	// 入力管理解放
 	InputManager::GetInstance().Destroy();
 
@@ -137,9 +147,6 @@ void Application::Destroy(void)
 
 	// リソース管理開放
 	ResourceManager::GetInstance().Destroy();
-	
-	// シーン管理解放
-	SceneManager::GetInstance().Destroy();
 
 	// 進行度管理解放
 	ProgressManager::GetInstance().Destroy();

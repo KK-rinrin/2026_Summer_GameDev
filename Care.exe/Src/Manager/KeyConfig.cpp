@@ -18,7 +18,7 @@ std::array<KeyConfig::KeyBinding, static_cast<int>(KeyConfig::ACTION::MAX)> KeyC
 const std::array<KeyConfig::PadBinding, static_cast<int>(KeyConfig::ACTION::MAX)> KeyConfig::DEFAULT_PAD_BINDINGS =
 { {
 	{ InputManager::JOYPAD_BTN::MAX, InputManager::JOYPAD_BTN::DOWN },
-	{ InputManager::JOYPAD_BTN::MAX, InputManager::JOYPAD_BTN::RIGHT },
+	{ InputManager::JOYPAD_BTN::START, InputManager::JOYPAD_BTN::RIGHT },
 	{ InputManager::JOYPAD_BTN::DPAD_UP, InputManager::JOYPAD_BTN::MAX },
 	{ InputManager::JOYPAD_BTN::DPAD_DOWN, InputManager::JOYPAD_BTN::MAX },
 	{ InputManager::JOYPAD_BTN::DPAD_LEFT, InputManager::JOYPAD_BTN::MAX },
@@ -329,6 +329,7 @@ const char* KeyConfig::GetPadButtonText(InputManager::JOYPAD_BTN button)
 	case InputManager::JOYPAD_BTN::DOWN: return "下ボタン";
 	case InputManager::JOYPAD_BTN::R_TRIGGER: return "Rトリガー";
 	case InputManager::JOYPAD_BTN::L_TRIGGER: return "Lトリガー";
+	case InputManager::JOYPAD_BTN::START: return "STARTボタン";
 	case InputManager::JOYPAD_BTN::DPAD_UP: return "十字キー上";
 	case InputManager::JOYPAD_BTN::DPAD_DOWN: return "十字キー下";
 	case InputManager::JOYPAD_BTN::DPAD_LEFT: return "十字キー左";

@@ -38,7 +38,6 @@ float SchoolUtility::Clamp(float v, float min, float max)
     }
 
     return v;
-
 }
 
 int SchoolUtility::Round(float v)

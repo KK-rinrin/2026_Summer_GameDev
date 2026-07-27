@@ -16,6 +16,7 @@ public:
 	~Player();
 
 	void Update(void) override;
+	void Draw(void) override;
 	void SetLocalPercent(float x, float y);
 	bool IsFacingRight() const;
 	ProcessMove* GetProcessMove(void);

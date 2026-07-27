@@ -25,6 +25,7 @@ public:
 		BEEP,
 		DOOR,
 		RINGTONE,
+		TYPING,
 		MAX
 	};
 

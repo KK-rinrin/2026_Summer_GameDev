@@ -44,4 +44,10 @@ private:
 
 	int gridDivisionX_ = 5;	// グリッドX分割数
 	int gridDivisionY_ = 3;	// グリッドY分割数
+
+	static constexpr float COLOR_SHIFT_STEP_PIXELS = 1.0f;
+	static constexpr float COLOR_SHIFT_MAX_PIXELS = 10.0f;
+	static constexpr int COLOR_SHIFT_RECT_COUNT = 6;
+	static constexpr float COLOR_SHIFT_RECT_CHANGE_SECONDS = 0.15f;
+	float colorShiftPixels_ = 0.0f;
 };

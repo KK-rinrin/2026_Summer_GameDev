@@ -61,6 +61,8 @@ public:
 		NONE = -1,
 		TALK_INIT,		// 一番最初
 		TALK_0,			// 血圧測定前の会話
+		TALK_0_RETRY,	// 血圧測定しなおし
+
 		TALK_AFTERMG,	// ミニゲーム後の会話
 		TALK_PC,		// パソコンでの会話
 		TALK_1,			// 昼食前の会話

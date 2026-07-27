@@ -190,6 +190,7 @@
     <ClCompile Include="Src\Scene\Debug\DebugScene.cpp" />
     <ClCompile Include="Src\Scene\GameScene.cpp" />
     <ClCompile Include="Src\Scene\MiniGame\BPMiniGameScene.cpp" />
+    <ClCompile Include="Src\Scene\PCScene.cpp" />
     <ClCompile Include="Src\Scene\ProgressTable.cpp" />
     <ClCompile Include="Src\Scene\SceneBase.cpp" />
     <ClCompile Include="Src\Scene\SettingScene.cpp" />
@@ -238,6 +239,7 @@
     <ClInclude Include="Src\Scene\Debug\DebugScene.h" />
     <ClInclude Include="Src\Scene\GameScene.h" />
     <ClInclude Include="Src\Scene\MiniGame\BPMiniGameScene.h" />
+    <ClInclude Include="Src\Scene\PCScene.h" />
     <ClInclude Include="Src\Scene\ProgressTable.h" />
     <ClInclude Include="Src\Scene\SceneBase.h" />
     <ClInclude Include="Src\Scene\SettingScene.h" />
@@ -250,6 +252,9 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Src\Effect\Shader\ColorShiftPS.fx" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Care.rc" />

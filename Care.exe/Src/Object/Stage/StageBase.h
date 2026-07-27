@@ -37,7 +37,9 @@ public:
 	void Init();
 	virtual void Update();
 	virtual void Draw();
+	virtual void DrawForeground() const;
 	virtual void Delete();
+	virtual bool IsInputBlocked() const;
 
 	void DrawBackground() const;
 	void RegisterObjects(Renderer2D& renderer);

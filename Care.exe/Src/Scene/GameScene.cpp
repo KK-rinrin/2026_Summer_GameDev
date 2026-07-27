@@ -16,6 +16,8 @@
 #include "../Debug/DebugCursorPosition.h"
 #include "../Manager/ProgressManager.h"
 #include "../Manager/SoundManager.h"
+#include "../Effect/ScreenEffect.h"
+#include "../Application.h"
 #include "ProgressTable.h"
 
 GameScene::GameScene(void)
@@ -41,6 +43,12 @@ GameScene::~GameScene(void)
 
 void GameScene::Update(void)
 {
+	if (stage_ != nullptr && stage_->IsInputBlocked())
+	{
+		stage_->Update();
+		return;
+	}
+
 	if (gameMenu_ != nullptr && gameMenu_->IsOpen())
 	{
 		UpdateGameMenu();
@@ -105,6 +113,16 @@ void GameScene::Update(void)
 
 void GameScene::Draw(void)
 {
+	const bool useAfterTalk3ColorShift =
+		prgMng_.GetProgressEnum() == ProgressManager::STORY_PROGRESS::AFTER_TALK3 &&
+		colorShiftScreenHandle_ != -1;
+	const int previousDrawScreen = GetDrawScreen();
+	if (useAfterTalk3ColorShift)
+	{
+		SetDrawScreen(colorShiftScreenHandle_);
+		ClearDrawScreen();
+	}
+
 	if (stage_ != nullptr)
 	{
 		stage_->DrawBackground();
@@ -113,6 +131,7 @@ void GameScene::Draw(void)
 	render_->Render();
 
 	if (canMove_ && stage_ != nullptr && controlActor_ != nullptr &&
+		!stage_->IsInputBlocked() &&
 		(gameMenu_ == nullptr || !gameMenu_->IsOpen()))
 	{
 		stage_->DrawGuide(*controlActor_);
@@ -123,6 +142,25 @@ void GameScene::Draw(void)
 	if (gameMenu_ != nullptr)
 	{
 		gameMenu_->Draw();
+	}
+
+	if (stage_ != nullptr)
+	{
+		stage_->DrawForeground();
+	}
+
+	if (useAfterTalk3ColorShift)
+	{
+		SetDrawScreen(previousDrawScreen);
+		ScreenEffect::DrawColorShift(
+			colorShiftScreenHandle_,
+			0.0f,
+			0.0f,
+			AFTER_TALK3_COLOR_SHIFT_X,
+			AFTER_TALK3_COLOR_SHIFT_Y,
+			AFTER_TALK3_COLOR_SHIFT_RECT_COUNT,
+			AFTER_TALK3_COLOR_SHIFT_RECT_CHANGE_SECONDS
+		);
 	}
 
 #ifdef _DEBUG
@@ -171,6 +209,12 @@ void GameScene::Delete(void)
 		delete stage_;
 		stage_ = nullptr;
 	}
+	if (colorShiftScreenHandle_ != -1)
+	{
+		DeleteGraph(colorShiftScreenHandle_);
+		colorShiftScreenHandle_ = -1;
+	}
+
 	delete debugCursorPosition_;
 	debugCursorPosition_ = nullptr;
 	delete render_;
@@ -179,6 +223,12 @@ void GameScene::Delete(void)
 
 void GameScene::InitLoad()
 {
+	colorShiftScreenHandle_ = MakeScreen(
+		Application::SCREEN_SIZE_X,
+		Application::SCREEN_SIZE_Y,
+		FALSE
+	);
+
 	talk_ = new Talk();
 	talk_->Load();
 	// talk_->SetTalk(TalkDatas::TalkDataIndex::TALK_0);
@@ -313,7 +363,14 @@ void GameScene::UpdateTalkProgress()
 			return;
 		}
 
-		prgMng_.AddProgress();
+		if (progressBefore == ProgressManager::MINIGAME_RETRY)
+		{
+			prgMng_.SetProgress(ProgressManager::START_MINIGAME0);
+		}
+		else
+		{
+			prgMng_.AddProgress();
+		}
 	}
 
 	if (prgMng_.GetProgressEnum() == ProgressManager::START_MINIGAME0)

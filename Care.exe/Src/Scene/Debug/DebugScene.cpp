@@ -4,6 +4,7 @@
 #include "../../Debug/DebugPerspective.h"
 #include "../../Debug/DebugCursorPosition.h"
 #include "../../Manager/SceneManager.h"
+#include "../../Effect/ScreenEffect.h"
 #include "DxLib.h"
 
 DebugScene::DebugScene(void)
@@ -48,12 +49,43 @@ void DebugScene::Update(void)
 		currentBG_ = (currentBG_ + 1) % BG_.size();
 	}
 
+	if (iptMng_.IsTrgDown(KEY_INPUT_H) && colorShiftPixels_ < COLOR_SHIFT_MAX_PIXELS)
+	{
+		colorShiftPixels_ += COLOR_SHIFT_STEP_PIXELS;
+	}
+	if (iptMng_.IsTrgDown(KEY_INPUT_G))
+	{
+		if (colorShiftPixels_ <= COLOR_SHIFT_STEP_PIXELS)
+		{
+			colorShiftPixels_ = 0.0f;
+		}
+		else
+		{
+			colorShiftPixels_ -= COLOR_SHIFT_STEP_PIXELS;
+		}
+	}
+
 	cursorPos_->Update();
 }
 
 void DebugScene::Draw(void)
 {
-	DrawGraph(0, 0, BG_[currentBG_], true);
+	if (colorShiftPixels_ > 0.0f)
+	{
+		ScreenEffect::DrawColorShift(
+			BG_[currentBG_],
+			0.0f,
+			0.0f,
+			colorShiftPixels_,
+			0.0f,
+			COLOR_SHIFT_RECT_COUNT,
+			COLOR_SHIFT_RECT_CHANGE_SECONDS
+		);
+	}
+	else
+	{
+		DrawGraph(0, 0, BG_[currentBG_], true);
+	}
 
 	// ŠiŽq‚ð•`‰æ
 	float stepX = 100.0f / gridDivisionX_;
