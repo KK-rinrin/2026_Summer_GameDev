@@ -25,7 +25,7 @@ namespace
 }
 
 ProgressManager* ProgressManager::instance_ = nullptr;
-
+	
 void ProgressManager::CreateInstance(void)
 {
 	if (instance_ == nullptr)
@@ -78,9 +78,6 @@ void ProgressManager::SetProgress(STORY_PROGRESS progress)
 
 bool ProgressManager::ResetProgressCache(void)
 {
-	progress_ = START;
-	++resetCount_;
-
 	isPatientCharExists_ = IsFileExists(PATIENT_CHAR_PATH);
 	isNurceCharExists_ = IsFileExists(NURCE_CHAR_PATH);
 
@@ -94,6 +91,15 @@ bool ProgressManager::ResetProgressCache(void)
 		CreateEmptyFile(NURCE_CHAR_PATH);
 		isNurceCharExists_ = IsFileExists(NURCE_CHAR_PATH);
 	}
+
+	progress_ = START;
+
+#ifndef _DEMO
+	++resetCount_;
+#else
+	// 体験版ではリセット回数を記録しない（常に0）
+	resetCount_ = 0;
+#endif
 
 	return isPatientCharExists_ && isNurceCharExists_ && SaveProgress();
 }
@@ -161,6 +167,7 @@ void ProgressManager::LoadProgress(void)
 	if (!file)
 	{
 		progress_ = START;
+		resetCount_ = 0;
 		return;
 	}
 
@@ -172,11 +179,16 @@ void ProgressManager::LoadProgress(void)
 		return;
 	}
 
+#ifndef _DEMO
 	file >> resetCount_;
 	if (!file || resetCount_ < 0)
 	{
 		resetCount_ = 0;
 	}
+#else
+	// 体験版ではファイルからリセット回数を読み込まず常に0とする
+	resetCount_ = 0;
+#endif
 }
 
 bool ProgressManager::SaveProgress(void) const
@@ -187,7 +199,12 @@ bool ProgressManager::SaveProgress(void) const
 		return false;
 	}
 
+#ifndef _DEMO
 	file << progress_ << ' ' << resetCount_;
+#else
+	// 体験版ではリセット回数を常に0で保存する
+	file << progress_ << ' ' << 0;
+#endif
 	return file.good();
 }
 

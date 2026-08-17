@@ -146,6 +146,12 @@ void ClearScene::Draw(void)
 
 void ClearScene::Delete(void)
 {
+	// 進行度がクリア済みかどうかを確認し、クリア済みであれば進行度をリセット完了に設定する
+	int prgres = prgMng_.GetProgress();
+	if (prgres == 101 || prgres == 111 || prgres == 121)
+		prgMng_.SetProgress(ProgressManager::CLEAR_COMPLETE);
+
+	// 開放処理
 	stillHandle_ = -1;
 	titleFontHandle_ = -1;
 	resetFontHandle_ = -1;
@@ -172,6 +178,8 @@ void ClearScene::InitLoad(void)
 	isExitRequested_ = false;
 	isResetCompleteOpen_ = false;
 	isGameOver_ = !prgMng_.IsCanDeleteProgress();
+
+	// ゲームオーバーなら、ゲームオーバー処理を初期化して以降の処理を行わない
 	if (isGameOver_)
 	{
 		InitGameOver();
@@ -192,6 +200,7 @@ void ClearScene::InitPost(void)
 
 void ClearScene::InitGameOver(void)
 {
+	// ゲームオーバー時の初期化処理
 	gameOverState_ = GameOverState::INITIAL_CONFIRM;
 	gameOverLineCount_ = 0;
 	if (!prgMng_.IsNurceCharExists())
@@ -531,7 +540,7 @@ const ClearScene::EndInfo& ClearScene::GetEndInfo(void) const
 	{
 		ProgressManager::STORY_PROGRESS::END_BOTH_LOCKED,
 		ResourceManager::SRC::STILL_END_BOTH,
-		"そして誰もいなくなった"
+		"そしていなくなった"
 	};
 
 	for (const EndInfo& endInfo : END_INFOS)

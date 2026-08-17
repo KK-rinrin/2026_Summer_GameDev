@@ -72,10 +72,12 @@ public:
 
 		TALK_3,			// ヌイとの会話
 		TALK_PC4,		// パソコンでの会話4
+		TALK_DINNER,	// 夕食前の会話
 
-		TALK_END_NURCE_LOST,
-		TALK_END_PATIENT_LOST,
-		TALK_END_BOTH_LOST,
+		TALK_END_NURCE_LOST = 901,		// 看護師削除、患者生存
+		TALK_END_PATIENT_LOST = 902,	// 患者削除、看護師生存
+		TALK_END_BOTH_LOST = 903,		// 両方削除
+		TALK_END_RUINED = 904,			// 崩壊END
 
 		TALK_0_FAIL = 102,	// 血圧測定失敗時の会話
 

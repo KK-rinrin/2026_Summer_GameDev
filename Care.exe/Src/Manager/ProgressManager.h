@@ -18,7 +18,8 @@ public:
 		AFTER_PC2,	// PC作業再び
 		AFTER_LUNCH,	// 昼食後
 		AFTER_PC3,		// カルテ記入
-		AFTER_TALK3,	// 削除直前
+		AFTER_TALK3,	// バグり始める
+		DINNER,			// 夕食？
 
 		END_PATIENT_LOST = 100,	// 患者削除END
 		END_PATIENT_LOCKED,
@@ -26,9 +27,10 @@ public:
 		END_NURCE_LOCKED,
 		END_BOTH_LOST = 120,	// 両方削除END
 		END_BOTH_LOCKED,
+		END_RUINED = 200,		// 崩壊END
+		END_RUINED_LOCKED,// ※崩壊ENDはゲームオーバー扱い、スタッフロールを流さない
 
-		CLEAR_COMPLETE = 500,	// スタッフロール完走後
-
+		CLEAR_COMPLETE = 500,	// スタッフロール後リセット要求
 	};
 
 	static void CreateInstance(void);

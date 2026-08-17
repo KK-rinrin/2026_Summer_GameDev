@@ -114,7 +114,7 @@ void GameScene::Update(void)
 void GameScene::Draw(void)
 {
 	const bool useAfterTalk3ColorShift =
-		prgMng_.GetProgressEnum() == ProgressManager::STORY_PROGRESS::AFTER_TALK3 &&
+		prgMng_.GetProgressEnum() >= ProgressManager::STORY_PROGRESS::AFTER_TALK3 &&
 		colorShiftScreenHandle_ != -1;
 	const int previousDrawScreen = GetDrawScreen();
 	if (useAfterTalk3ColorShift)
@@ -151,6 +151,8 @@ void GameScene::Draw(void)
 
 	if (useAfterTalk3ColorShift)
 	{
+		int addBugging = static_cast<int>(prgMng_.GetProgressEnum()) - static_cast<int>(ProgressManager::STORY_PROGRESS::AFTER_TALK3);
+
 		SetDrawScreen(previousDrawScreen);
 		ScreenEffect::DrawColorShift(
 			colorShiftScreenHandle_,
@@ -158,7 +160,7 @@ void GameScene::Draw(void)
 			0.0f,
 			AFTER_TALK3_COLOR_SHIFT_X,
 			AFTER_TALK3_COLOR_SHIFT_Y,
-			AFTER_TALK3_COLOR_SHIFT_RECT_COUNT,
+			AFTER_TALK3_COLOR_SHIFT_RECT_COUNT + addBugging,
 			AFTER_TALK3_COLOR_SHIFT_RECT_CHANGE_SECONDS
 		);
 	}
@@ -260,7 +262,11 @@ void GameScene::InitLoad()
 
 void GameScene::InitPost(void)
 {
-	sndMng_.PlayBGM(SoundManager::BGM::GAME0);
+
+	if (prgMng_.GetProgressEnum() < ProgressManager::AFTER_LUNCH)
+		sndMng_.PlayBGM(SoundManager::BGM::GAME0);
+	else sndMng_.PlayBGM(SoundManager::BGM::GAME1);
+
 	if (!isReturningFromSetting_)
 	{
 		StartFirstTalkByProgress();

@@ -106,6 +106,10 @@ void NurceStation::Decide(DecideContext& context) const
 		{
 			context.talk.SetTalk(TDI::TALK_PC3);
 		}
+		else if (context.progressManager.GetProgressEnum() == ProgressManager::STORY_PROGRESS::AFTER_TALK3)
+		{
+			context.talk.SetTalk(TDI::TALK_PC4);
+		}
 		else if (pcScene_ != nullptr)
 		{
 			pcScene_->Open();
