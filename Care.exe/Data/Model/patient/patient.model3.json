@@ -17,6 +17,11 @@
 				{
 					"File": "motions/doubt.motion3.json"
 				}
+			],
+			"": [
+				{
+					"File": "motions/Center.motion3.json"
+				}
 			]
 		}
 	},

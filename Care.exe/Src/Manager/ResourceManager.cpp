@@ -37,6 +37,7 @@ void ResourceManager::Init(void)
 	// 会話ウィンドウ画像
 	CreateResource(SRC::TALK_WINDOW_IMG, RES_T::IMG, PATH_IMG + "window.png");
 	CreateResource(SRC::TALK_WINDOW_NEXT_IMG, RES_T::IMG, PATH_IMG + "window_next.png");
+	CreateResource(SRC::TALK_SPEAKER_IMG, RES_T::IMG, PATH_IMG + "Game/window_talking.png");
 	CreateResource(SRC::TALK_IMAGE_0, RES_T::IMG, PATH_IMG + "Talk/talk_image_0.png");
 
 	// キャラクターグラフィック
@@ -58,7 +59,8 @@ void ResourceManager::Init(void)
 	// PC画像
 	CreateResource(SRC::PC_BG, RES_T::IMG, PATH_IMG + "Game/PC/PCscreenBG.png");
 	CreateResource(SRC::PC_FRAME, RES_T::IMG, PATH_IMG + "Game/PC/PC_frame.png");
-	CreateResource(SRC::PC_MANUAL_FOLDER, RES_T::IMG, PATH_IMG + "Game/PC/manual_folder.png");
+	CreateResource(SRC::PC_MANUAL_FOLDER, RES_T::IMG, PATH_IMG + "Game/PC/folder.png");
+	CreateResource(SRC::PC_FILE, RES_T::IMG, PATH_IMG + "Game/PC/file.png");
 	CreateResource(SRC::PC_BP_MANUAL, RES_T::IMG, PATH_IMG + "Game/PC/BPmanual.png");
 	CreateResource(SRC::PC_CURSOR, RES_T::IMG, PATH_IMG + "Game/PC/arrow.png");
 
@@ -96,6 +98,12 @@ void ResourceManager::Init(void)
 	res = new Resource(RES_T::SOUND, PATH_SOUND + "BGM/Game_2.wav");
 	resourcesMap_.emplace(SRC::BGM_GAME_2, res);
 
+	res = new Resource(RES_T::SOUND, PATH_SOUND + "BGM/kowai.mp3");
+	resourcesMap_.emplace(SRC::BGM_KOWAI, res);
+
+	res = new Resource(RES_T::SOUND, PATH_SOUND + "BGM/Ending.mp3");
+	resourcesMap_.emplace(SRC::BGM_ENDING, res);
+
 	// SE
 	res = new Resource(RES_T::SOUND, PATH_SOUND + "SE/system_decide.mp3");
 	resourcesMap_.emplace(SRC::SE_DECIDE, res);
@@ -115,24 +123,22 @@ void ResourceManager::Init(void)
 	res = new Resource(RES_T::SOUND, PATH_SOUND + "SE/typing.mp3");
 	resourcesMap_.emplace(SRC::SE_TYPING, res);
 
-	// ドアSE
 	res = new Resource(RES_T::SOUND, PATH_SOUND + "SE/door.mp3");
 	resourcesMap_.emplace(SRC::SE_DOOR, res);
+
+	res = new Resource(RES_T::SOUND, PATH_SOUND + "SE/mouse.mp3");
+	resourcesMap_.emplace(SRC::SE_PC_MOUSE, res);
 
 	// フォント
 	// 一時登録
 	AddFontResourceExA((PATH_FONT + "Corporate-Mincho-ver3.otf").c_str(), FR_PRIVATE, NULL);
+	AddFontResourceExA((PATH_FONT + "mplus-1p-thin.ttf").c_str(), FR_PRIVATE, NULL);
 	
-	res = new Resource(RES_T::FONT, "コーポレート明朝 ver3 Medium", 30);
-	resourcesMap_.emplace(SRC::TALK_FONT, res);
-	res = new Resource(RES_T::FONT, "コーポレート明朝 ver3 Medium", 38);
-	resourcesMap_.emplace(SRC::TITLE_FONT, res);
-	res = new Resource(RES_T::FONT, "コーポレート明朝 ver3 Medium", 30);
-	resourcesMap_.emplace(SRC::SETTING_FONT, res);
-	res = new Resource(RES_T::FONT, "コーポレート明朝 ver3 Medium", 24, 3);
-	resourcesMap_.emplace(SRC::BPMG_FONT, res);
-	res = new Resource(RES_T::FONT, "コーポレート明朝 ver3 Medium", 42, 5);
-	resourcesMap_.emplace(SRC::BPMG_LARGE_FONT, res);
+	res = new Resource(RES_T::FONT, "コーポレート明朝 ver3 Medium", 30, -1, 0, DX_FONTTYPE_ANTIALIASING);
+	resourcesMap_.emplace(SRC::MAIN_FONT, res);
+
+	res = new Resource(RES_T::FONT, "M+ 1p thin", 22, 0, -1, DX_FONTTYPE_NORMAL);
+	resourcesMap_.emplace(SRC::PC_FONT, res);
 }
 
 void ResourceManager::Release(void)
@@ -156,6 +162,7 @@ void ResourceManager::Destroy(void)
 	resourcesMap_.clear();
 
 	RemoveFontResourceExA((Application::PATH_FONT + "Corporate-Mincho-ver3.otf").c_str(), FR_PRIVATE, NULL);
+	RemoveFontResourceExA((Application::PATH_FONT + "mplus-1p-thin.ttf").c_str(), FR_PRIVATE, NULL);
 	delete instance_;
 }
 
@@ -177,6 +184,23 @@ const Resource& ResourceManager::Load(SRC src)
 		return dummy_;
 	}
 	return res;
+}
+
+int ResourceManager::LoadFont(SRC src, int fontSize, int thick, int fontSpace, int fontType)
+{
+	const auto rPair = resourcesMap_.find(src);
+	if (rPair == resourcesMap_.end() || rPair->second->type_ != Resource::TYPE::FONT)
+	{
+		return -1;
+	}
+
+	Resource& res = *rPair->second;
+	if (loadedMap_.find(src) == loadedMap_.end())
+	{
+		loadedMap_.emplace(src, res);
+	}
+
+	return res.LoadFont(fontSize, thick, fontSpace, fontType);
 }
 
 int ResourceManager::LoadModelDuplicate(SRC src)

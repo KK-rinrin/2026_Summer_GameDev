@@ -27,6 +27,8 @@ public:
 		END_BOTH_LOST = 120,	// 両方削除END
 		END_BOTH_LOCKED,
 
+		CLEAR_COMPLETE = 500,	// スタッフロール完走後
+
 	};
 
 	static void CreateInstance(void);
@@ -41,7 +43,7 @@ public:
 
 	void SetProgress(STORY_PROGRESS progress);
 
-	// 進行度キャッシュを削除
+	// 進行度を初期化してリセット回数を記録
 	bool ResetProgressCache(void);
 
 	// 進行度取得
@@ -64,6 +66,10 @@ public:
 
 	bool IsCanDeleteProgress(void) const { return progress_ >= AFTER_LUNCH;  }
 
+	bool IsResetRequiredProgress(void) const { return progress_ == CLEAR_COMPLETE || progress_ >= 512; }
+
+	bool HasResetHistory(void) const { return resetCount_ > 0; }
+
 	// 削除
 	void Destroy(void);
 
@@ -72,6 +78,7 @@ private:
 	static ProgressManager* instance_;
 
 	int progress_;
+	int resetCount_;
 	bool isPatientCharExists_;
 	bool isNurceCharExists_;
 
@@ -83,7 +90,7 @@ private:
 
 	void LoadProgress(void);
 
-	void SaveProgress(void) const;
+	bool SaveProgress(void) const;
 
 	void CheckCharaFiles(bool isFirstLaunch);
 

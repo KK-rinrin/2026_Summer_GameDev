@@ -6,6 +6,12 @@
 #include <DxLib.h>
 #include "SchoolUtility.h"
 
+bool SchoolUtility::IsPointInRect(const Vector2& point, const Vector2& leftTop, const Vector2& size)
+{
+	return point.x >= leftTop.x && point.x <= leftTop.x + size.x &&
+		point.y >= leftTop.y && point.y <= leftTop.y + size.y;
+}
+
 int SchoolUtility::Clamp(int v, int min, int max)
 {
 	if (v > max)

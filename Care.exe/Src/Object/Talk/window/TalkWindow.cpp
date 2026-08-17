@@ -102,11 +102,10 @@ void TalkWindow::Load()
 
 	// ▼の画像
 	nextHandle_ = rss.Load(ResourceManager::SRC::TALK_WINDOW_NEXT_IMG).handleId_;
+	speakerHandle_ = rss.Load(ResourceManager::SRC::TALK_SPEAKER_IMG).handleId_;
 
 	// フォントは ResourceManager に登録されたフォントハンドルを使う
-	const Resource& fontRes = rss.Load(ResourceManager::SRC::TALK_FONT);
-	font_ = fontRes.handleId_;
-	resourceFontSize_ = fontRes.fontSize_;
+	font_ = rss.LoadFont(ResourceManager::SRC::MAIN_FONT, TALK_FONT_SIZE);
 
 	// フォント情報を元にテキスト位置を調整（ウィンドウ画像の中心を基準に左寄せで決定）
 	imgX_ = IMG_X;
@@ -292,6 +291,14 @@ void TalkWindow::Draw()
 	if (handle_ >= 0)
 		DrawRotaGraph(imgX_, imgY_ + y_, 1.0, 0.0, handle_, true);
 
+	if (speakerHandle_ >= 0 && (currentSpeaker_ == TalkDatas::Speaker::Player || currentSpeaker_ == TalkDatas::Speaker::Patient))
+	{
+		const int speakerX = (currentSpeaker_ == TalkDatas::Speaker::Patient)
+			? SPEAKER_PATIENT_X
+			: SPEAKER_PLAYER_X;
+		DrawGraph(speakerX, SPEAKER_Y, speakerHandle_, true);
+	}
+
 	std::string vis = GetVisibleText();
 	DrawStringToHandle(
 		TEXT_X, TEXT_Y + y_,
@@ -319,6 +326,7 @@ void TalkWindow::Delete()
 	// 画像とフォントの実体はResourceManagerが所有するため、ここでは参照だけを破棄する
 	handle_ = -1;
 	nextHandle_ = -1;
+	speakerHandle_ = -1;
 	font_ = -1;
 }
 

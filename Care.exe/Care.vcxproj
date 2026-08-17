@@ -162,6 +162,7 @@
     <ClCompile Include="Src\FpsControl\FpsControl.cpp" />
     <ClCompile Include="Src\main.cpp" />
     <ClCompile Include="Src\Manager\InputManager.cpp" />
+    <ClCompile Include="Src\Manager\PadInput.cpp" />
     <ClCompile Include="Src\Manager\KeyConfig.cpp" />
     <ClCompile Include="Src\Manager\Live2D.cpp" />
     <ClCompile Include="Src\Manager\Live2DModelHub.cpp" />
@@ -212,6 +213,7 @@
     <ClInclude Include="Src\FpsControl\FpsControl.h" />
     <ClInclude Include="Src\main.h" />
     <ClInclude Include="Src\Manager\InputManager.h" />
+    <ClInclude Include="Src\Manager\PadInput.h" />
     <ClInclude Include="Src\Manager\KeyConfig.h" />
     <ClInclude Include="Src\Manager\Live2D.h" />
     <ClInclude Include="Src\Manager\Live2DModelHub.h" />

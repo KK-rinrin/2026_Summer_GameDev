@@ -152,8 +152,8 @@ void SettingScene::Delete(void)
 
 void SettingScene::InitLoad(void)
 {
-	fontTitle_ = resMng_.Load(ResourceManager::SRC::TITLE_FONT).handleId_;
-	font_ = resMng_.Load(ResourceManager::SRC::SETTING_FONT).handleId_;
+	fontTitle_ = resMng_.LoadFont(ResourceManager::SRC::MAIN_FONT, TITLE_FONT_SIZE);
+	font_ = resMng_.LoadFont(ResourceManager::SRC::MAIN_FONT, MENU_FONT_SIZE);
 }
 
 void SettingScene::MoveSelectItem(int move)

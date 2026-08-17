@@ -1,5 +1,4 @@
 #include <direct.h>
-#include <cstdio>
 #include <fstream>
 
 #include "ProgressManager.h"
@@ -9,8 +8,8 @@ namespace
 	const char* DATA_DIR_PATH = "Data";
 	const char* SYSTEM_DIR_PATH = "Data/System";
 	const char* CHARA_DIR_PATH = "Chara";
-	const char* PATIENT_CHAR_PATH = "Chara/patient.char";
-	const char* NURCE_CHAR_PATH = "Chara/nurce.char";
+	const char* PATIENT_CHAR_PATH = "Chara/nui.char";
+	const char* NURCE_CHAR_PATH = "Chara/neit.char";
 	const char* PROGRESS_SAVE_PATH = "Data/System/cache.bin";
 
 	bool IsFileExists(const char* path)
@@ -49,6 +48,7 @@ ProgressManager& ProgressManager::GetInstance(void)
 void ProgressManager::Init(void)
 {
 	progress_ = START;
+	resetCount_ = 0;
 
 	_mkdir(SYSTEM_DIR_PATH);
 	_mkdir(CHARA_DIR_PATH);
@@ -79,15 +79,23 @@ void ProgressManager::SetProgress(STORY_PROGRESS progress)
 bool ProgressManager::ResetProgressCache(void)
 {
 	progress_ = START;
+	++resetCount_;
+
 	isPatientCharExists_ = IsFileExists(PATIENT_CHAR_PATH);
 	isNurceCharExists_ = IsFileExists(NURCE_CHAR_PATH);
 
-	if (!IsFileExists(PROGRESS_SAVE_PATH))
+	if (!isPatientCharExists_)
 	{
-		return true;
+		CreateEmptyFile(PATIENT_CHAR_PATH);
+		isPatientCharExists_ = IsFileExists(PATIENT_CHAR_PATH);
+	}
+	if (!isNurceCharExists_)
+	{
+		CreateEmptyFile(NURCE_CHAR_PATH);
+		isNurceCharExists_ = IsFileExists(NURCE_CHAR_PATH);
 	}
 
-	return std::remove(PROGRESS_SAVE_PATH) == 0;
+	return isPatientCharExists_ && isNurceCharExists_ && SaveProgress();
 }
 
 bool ProgressManager::IsPatientCharExists(void) const
@@ -141,6 +149,7 @@ void ProgressManager::Destroy(void)
 ProgressManager::ProgressManager(void)
 	:
 	progress_(START),
+	resetCount_(0),
 	isPatientCharExists_(false),
 	isNurceCharExists_(false)
 {
@@ -159,18 +168,27 @@ void ProgressManager::LoadProgress(void)
 	if (!file)
 	{
 		progress_ = START;
+		resetCount_ = 0;
+		return;
+	}
+
+	file >> resetCount_;
+	if (!file || resetCount_ < 0)
+	{
+		resetCount_ = 0;
 	}
 }
 
-void ProgressManager::SaveProgress(void) const
+bool ProgressManager::SaveProgress(void) const
 {
 	std::ofstream file(PROGRESS_SAVE_PATH);
 	if (!file)
 	{
-		return;
+		return false;
 	}
 
-	file << progress_;
+	file << progress_ << ' ' << resetCount_;
+	return file.good();
 }
 
 void ProgressManager::CheckCharaFiles(bool isFirstLaunch)
@@ -196,6 +214,11 @@ void ProgressManager::CheckCharaFiles(bool isFirstLaunch)
 
 void ProgressManager::ApplyEndProgressByCharaFiles(void)
 {
+	if (IsResetRequiredProgress())
+	{
+		return;
+	}
+
 	if (!IsCanDeleteProgress())
 	{
 		return;

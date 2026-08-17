@@ -34,6 +34,10 @@ private:
 		MAX
 	};
 
+	static constexpr int FONT_SIZE = 24;
+	static constexpr int LARGE_FONT_SIZE = 42;
+	static constexpr int FONT_THICK = 3;
+	static constexpr int LARGE_FONT_THICK = 5;
 	static constexpr float PRESSURE_MIN = 0.0f;
 	static constexpr float PRESSURE_MAX = 180.0f;
 	static constexpr float INFLATE_SPEED = 72.0f;

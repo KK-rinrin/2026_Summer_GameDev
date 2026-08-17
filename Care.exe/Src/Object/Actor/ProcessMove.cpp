@@ -1,6 +1,7 @@
 #include "ProcessMove.h"
 #include "../Common/2DTransform.h"
 #include "../../Manager/InputManager.h"
+#include "../../Manager/PadInput.h"
 #include "../../Manager/KeyConfig.h"
 
 ProcessMove::ProcessMove()
@@ -63,7 +64,7 @@ ProcessMove::MoveInput ProcessMove::ReadInput(void) const
 {
 	MoveInput input = { 0.0f, 0.0f, DEFAULT_DELAY_FRAME };
 	const InputManager& inputManager = InputManager::GetInstance();
-	const VECTOR stickInput = inputManager.GetLeftStickInput(InputManager::JOYPAD_NO::PAD1);
+	const VECTOR stickInput = PadInput::GetMoveAxis(inputManager, InputManager::JOYPAD_NO::PAD1);
 
 	input.x += stickInput.x * moveSpeedPercent_;
 	input.y += stickInput.y * moveSpeedPercent_;

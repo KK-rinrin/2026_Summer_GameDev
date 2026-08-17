@@ -1,10 +1,10 @@
 #pragma once
-#include <array>
 #include <DxLib.h>
 #include "../Common/Vector2.h"
 #include "SceneBase.h"
 #include "../Object/Common/2DTransform.h"
 #include <memory>
+#include <vector>
 
 class Live2DTalkController;
 
@@ -16,13 +16,12 @@ class TitleScene : public SceneBase
 	static constexpr VECTOR PLAYER_MODEL_POS = { -240.0f, -300.0f, 0.0f };
 
 	static constexpr Vector2 MENU_POS = { 520, 285 };
+	static constexpr int TITLE_FONT_SIZE = 38;
 	static constexpr int MENU_INTERVAL_Y = 54;
 	static constexpr int MENU_MOVE_PREV = -1;
 	static constexpr int MENU_MOVE_NEXT = 1;
 	static constexpr int MENU_COLOR = 0x7a7a7a;
 	static constexpr int MENU_SELECTED_COLOR = 0x333333;
-	static constexpr int MENU_ITEM_NUM = 3;
-	static constexpr std::array<const char*, MENU_ITEM_NUM> MENU_TEXTS = { "Start", "Setting", "Close" };
 
 	static constexpr int PUSH_START_BLINK_INTERVAL = 30;
 public:
@@ -47,10 +46,13 @@ private:
 	{
 		START,
 		SETTING,
+		RESET,
 		CLOSE,
 	};
 
 	void InitLoad() override;
+
+	void BuildSelectMenu(void);
 
 	void UpdateSelectMenu(void);
 
@@ -64,8 +66,13 @@ private:
 
 	void DecideSelectMenu(void);
 
+	Menu GetSelectedMenu(void) const;
+
+	const char* GetMenuText(Menu menu) const;
+
 	int imgTitle_;
 	int font_;
 	int selectMenu_;
+	std::vector<Menu> menuItems_;
 	std::shared_ptr<Live2DTalkController> liveTalkController_;
 };

@@ -3,6 +3,8 @@
 #include "../Manager/ProgressManager.h"
 #include "../Manager/ResourceManager.h"
 
+class SoundManager;
+
 class ClearScene : public SceneBase
 {
 public:
@@ -22,15 +24,20 @@ private:
 	};
 
 	void InitLoad(void) override;
+	void InitPost(void) override;
+
 	void InitGameOver(void);
+
 	void UpdateGameOver(void);
-	void DrawGameOver(void) const;
-	void DrawEndTitle(void) const;
 	void UpdateCredits(void);
-	void DrawCredits(void) const;
 	void UpdateHiddenReset(void);
 	void UpdateResetComplete(void);
+
+	void DrawGameOver(void) const;
+	void DrawEndTitle(void) const;
+	void DrawCredits(void) const;
 	void DrawResetComplete(void) const;
+
 	bool IsCreditSkipTriggered(void) const;
 	bool IsFinalCredit(void) const;
 	int GetCreditHoldFrames(void) const;
@@ -52,6 +59,8 @@ private:
 	static constexpr int GAME_OVER_MAX_LINES = 24;
 	static constexpr int GAME_OVER_LINE_INTERVAL_Y = 24;
 	static constexpr int END_TITLE_POS_X = 24;
+	static constexpr int TITLE_FONT_SIZE = 38;
+	static constexpr int RESET_FONT_SIZE = 30;
 	static constexpr int END_TITLE_SLIDE_DISTANCE_X = 20;
 	static constexpr int END_TITLE_BOTTOM_MARGIN = 32;
 	static constexpr int END_TITLE_ANIMATION_FRAMES = 60;
@@ -99,4 +108,8 @@ private:
 	const char* gameOverLines_[GAME_OVER_MAX_LINES];
 	int gameOverLineCount_;
 	char previousKeyState_[256];
+
+	bool isFadeOut_ = false;
+
+	SoundManager* sndMng_;
 };

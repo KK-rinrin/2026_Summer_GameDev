@@ -34,8 +34,8 @@ GameMenu::~GameMenu()
 void GameMenu::Load()
 {
 	ResourceManager& resMng = ResourceManager::GetInstance();
-	fontTitle_ = resMng.Load(ResourceManager::SRC::TITLE_FONT).handleId_;
-	font_ = resMng.Load(ResourceManager::SRC::SETTING_FONT).handleId_;
+	fontTitle_ = resMng.LoadFont(ResourceManager::SRC::MAIN_FONT, TITLE_FONT_SIZE);
+	font_ = resMng.LoadFont(ResourceManager::SRC::MAIN_FONT, MENU_FONT_SIZE);
 
 	if (ProgressManager::GetInstance().IsNurceCharExists())
 	{

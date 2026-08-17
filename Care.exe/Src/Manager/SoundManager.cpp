@@ -56,6 +56,8 @@ bool SoundManager::Load(BGM bgm)
 	case BGM::TITLE: res = ResourceManager::SRC::BGM_TITLE; break;
 	case BGM::GAME0: res = ResourceManager::SRC::BGM_GAME; break;
 	case BGM::GAME1: res = ResourceManager::SRC::BGM_GAME_2; break;
+	case BGM::KOWAI: res = ResourceManager::SRC::BGM_KOWAI; break;
+	case BGM::ENDING: res = ResourceManager::SRC::BGM_ENDING; break;
 	default: return false;
 	}
 
@@ -80,6 +82,7 @@ bool SoundManager::Load(SE se)
 	case SE::DOOR: res = ResourceManager::SRC::SE_DOOR; break;
 	case SE::RINGTONE: res = ResourceManager::SRC::SE_RINGTONE; break;
 	case SE::TYPING: res = ResourceManager::SRC::SE_TYPING; break;
+	case SE::MOUSE: res = ResourceManager::SRC::SE_PC_MOUSE; break;
 	default: return false;
 	}
 

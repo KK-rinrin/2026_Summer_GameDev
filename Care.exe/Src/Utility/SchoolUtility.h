@@ -31,6 +31,9 @@ public:
 
 	static constexpr float kEpsilonNormalSqrt = 1e-15F;
 
+	// “_‚ª¶ãŠî€‚Ì‹éŒ`“à‚É‚ ‚é‚©”»’è
+	static bool IsPointInRect(const Vector2& point, const Vector2& leftTop, const Vector2& size);
+
 	// ’l‚ğ”ÍˆÍ‚Éû‚ß‚é
 	static int Clamp(int v, int min, int max);
 	static float Clamp(float v, int min, int max);

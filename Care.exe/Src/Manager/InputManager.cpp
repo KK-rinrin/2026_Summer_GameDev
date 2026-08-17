@@ -2,6 +2,7 @@
 #include "../Application.h"
 #include "../Utility/SchoolUtility.h"
 #include "InputManager.h"
+#include "PadInput.h"
 #include "KeyConfig.h"
 
 InputManager* InputManager::instance_ = nullptr;
@@ -421,58 +422,12 @@ bool InputManager::IsPadConnected(void) const
 		type == JOYPAD_TYPE::DUAL_SENSE;
 }
 
-VECTOR InputManager::GetLeftStickInput(JOYPAD_NO no) const
+const InputManager::JOYPAD_IN_STATE& InputManager::GetPadInputState(JOYPAD_NO no) const
 {
-	const auto& state = padInfos_[static_cast<int>(no)];
-	float dirX = static_cast<float>(state.AKeyLX) / AKEY_VAL_MAX;
-	float dirY = static_cast<float>(state.AKeyLY) / AKEY_VAL_MAX;
-	const float len = sqrtf(dirX * dirX + dirY * dirY);
-
-	if (len < THRESHOLD)
-	{
-		return { 0.0f, 0.0f, 0.0f };
-	}
-
-	const float scale = (len - THRESHOLD) / (1.0f - THRESHOLD);
-	dirX = (dirX / len) * scale;
-	dirY = (dirY / len) * scale;
-
-	return { dirX, dirY, 0.0f };
+	return padInfos_[static_cast<int>(no)];
 }
 
 VECTOR InputManager::GetDirectionXZAKey(int aKeyX, int aKeyY) const
 {
-
-	VECTOR ret = { 0.0f, 0.0f, 0.0f };
-
-	// スティックの個々の入力値は、
-	// -1000.0f ～ 1000.0f の範囲で返ってくるが、
-	// X:1000.0f、Y:1000.0fになることは無い(1000と500くらいが最大)
-	
-	// スティックの入力値を -1.0 ～ 1.0 に正規化
-	float dirX = static_cast<float>(aKeyX) / AKEY_VAL_MAX;
-	float dirZ = static_cast<float>(aKeyY) / AKEY_VAL_MAX;
-
-	// ピタゴラスの定理でニュートラル状態からの長さベクトルにする
-	// ( 円形のデッドゾーンになる )
-
-	// 平方根により、おおよその最大値が1.0となる
-	float len = sqrtf(dirX * dirX + dirZ * dirZ);
-	if (len < THRESHOLD)
-	{
-		// (0.0f, 0.0f, 0.0f)
-		return ret;
-	}
-
-	// デッドゾーン境界からに再スケーリング(可変デッドゾーン)
-	// ( しきい値 0.35 の場合は、 0.0 ～ 0.65 / 0.65 になる )
-	float scale = (len - THRESHOLD) / (1.0f - THRESHOLD);
-	dirX = (dirX / len) * scale;
-	dirZ = (dirZ / len) * scale;
-
-	// Zは前に倒すとマイナス値が返ってくるので反転
-	ret = VNorm({ dirX, 0.0f, -dirZ });
-
-	return ret;
-
+	return PadInput::GetDirectionXZA(aKeyX, aKeyY);
 }

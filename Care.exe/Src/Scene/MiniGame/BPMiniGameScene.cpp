@@ -93,8 +93,8 @@ void BPMiniGameScene::InitLoad(void)
 	isDeleted_ = false;
 	isMonitorAbnormal_ = prgMng_.GetProgress() >= MONITOR_ABNORMAL_PROGRESS;
 
-	font_ = resMng_.Load(ResourceManager::SRC::BPMG_FONT).handleId_;
-	largeFont_ = resMng_.Load(ResourceManager::SRC::BPMG_LARGE_FONT).handleId_;
+	font_ = resMng_.LoadFont(ResourceManager::SRC::MAIN_FONT, FONT_SIZE, FONT_THICK);
+	largeFont_ = resMng_.LoadFont(ResourceManager::SRC::MAIN_FONT, LARGE_FONT_SIZE, LARGE_FONT_THICK);
 	LoadImages();
 }
 

@@ -56,7 +56,7 @@ const std::vector<TD>& TalkDatas::GetTalkData(TalkDataIndex dataIndex)
 		Speak(ナレ, "今日もまた、仕事のルーティンに入る。"),
 		Speak(ナレ, "あなたはこの看護師を操作し、\n患者を『ケア』しましょう。"),
 		Speak(看護師, "(上のドアから部屋に入って、患者の血圧を測りに行こう)"),
-		Speak(看護師, "(血圧測定はマニュアル操作。\n操作方法はパソコンで確認しよう)"), }},
+		Speak(看護師, "(血圧測定はマニュアル操作...あとは...思い出せない。\n操作方法はパソコンで確認しよう)"), }},
 
 		// 血圧測定前の会話
 		{ TDI::TALK_0, {
@@ -64,16 +64,24 @@ const std::vector<TD>& TalkDatas::GetTalkData(TalkDataIndex dataIndex)
 		Speak(患者, "…おはようございます"),
 		Speak(看護師, "調子は？"),
 		Speak(患者, "…元気です"),
-		Speak(看護師, "…血圧、測るね"),
+		Speak(看護師, "...昨日は眠れた？"),
+		Speak(患者, "...はい"),
+		Speak(看護師, "...そう。{WAIT:300}血圧、測るね"),
 		Speak(患者, "はい") }},
+
+		// 血圧測定失敗時の会話
+		{ TDI::TALK_0_FAIL, {
+		Speak(看護師, "うーん...\n{WAIT_C}ごめんなさい、やり方を忘れたみたい..."),
+		Speak(患者, "...？そうですか。"),
+		Speak(看護師, "ちょっと待ってて..."),
+		Speak(患者, "...はい。"),
+		Speak(看護師,"(分からなければもう一度、PCからマニュアルを見返そう)"),
+		}},
 
 		// 血圧測定をやり直す前の会話
 		{ TDI::TALK_0_RETRY, {
-		Speak(看護師, "うーん..."),
-		Speak(患者, "どうしたんですか？"),
-		Speak(看護師, "ごめんなさい、もう一度..."),
-		Speak(患者, "そうですか。"),
-		Speak(看護師, "（また失敗したら、PCからマニュアルを見返そう）"),
+		Speak(看護師, "もう一度やるね..."),
+		Speak(患者, "...わかりました。"),
 		}},
 
 		// ミニゲーム後の会話
@@ -94,7 +102,11 @@ const std::vector<TD>& TalkDatas::GetTalkData(TalkDataIndex dataIndex)
 		FadeIn(2000),
 		Speak(ナレ, "―約2時間後。"),
 		Speak(看護師, "さて。"),
-		Speak(看護師, "...(そろそろ昼食の時間。配膳しよう)")
+		Speak(看護師, "...(そろそろ昼食の時間。配膳しよう)"),
+		FadeOut(),
+		FadeIn(500),
+		Speak(ナレ, "食事トレーを持つ。\n{WAIT:500}茄子の味噌炒め、白菜と人参の煮浸し、\n豆腐の味噌汁、白ご飯。\n\n{WAIT_C}見た目は質素な食事だが、病院食とはそういうものである。"),
+		Speak(看護師, "(患者部屋に行こう)"),
 		}},
 
 		// 昼食前の会話
@@ -108,7 +120,7 @@ const std::vector<TD>& TalkDatas::GetTalkData(TalkDataIndex dataIndex)
 		Speak(患者, "あなたって...\n\n{WAIT_C}{FBF:2.0}誰かに操られてません？"),
 		Bgm(SoundManager::BGM::GAME1),
 		Speak(看護師, "何...急に。"),
-		Speak(看護師, "(...でもなんだろう...。\n{WAIT:50}たしかに、そんな気がしてくる。)"),
+		Speak(看護師, "(...でもなんだろう...。\n{WAIT:50}たしかに、そんな気がしてくる)"),
 		Speak(患者, "{PARAM:EYE_BLINK_R:0.7f}{PARAM:EYE_BLINK_L:0.6f}{PARAM:BROW_RY:0.3f}"
 		"......。"),
 		FadeOut(),
@@ -163,7 +175,10 @@ const std::vector<TD>& TalkDatas::GetTalkData(TalkDataIndex dataIndex)
 		Speak(看護師, "...。"),
 		Speak(看護師, "...もういい。"),
 		Speak(看護師, "(......考えても仕方ない)"),
-		Speak(看護師, "(あの子の様子をもう一度見に行こう)")
+		Speak(看護師, "...？"),
+		Speak(ナレ, "カルテ画面を閉じると、\n見慣れないフォルダがパソコンにあることに気付く。"),
+		Speak(看護師, "(...『Chara』フォルダ...？)"),
+		Speak(看護師, "(...後で見てみよう。\n{WAIT_C}とりあえず、あの子の様子をもう一度見に行こう)")
 		}},
 
 		// 会話
@@ -185,9 +200,30 @@ const std::vector<TD>& TalkDatas::GetTalkData(TalkDataIndex dataIndex)
 		Speak(患者, "もう、時間がありません。"),
 		Speak(患者, "ゲームを閉じて、探してください。"),
 		Speak(患者, "きっと、すぐ近くにあります。"),
-		Speak(看護師, "...(私にできることは、もう...)"),
+		Speak(看護師, "...(でも、さっき見たフォルダはもしかして...？)"),
 		FadeOut(),
 		}},
+
+		// パソコンでの会話4
+		{ TDI::TALK_PC4, {
+		Speak(看護師, "このフォルダ...いかにも怪しい...。"),
+		Speak(ナレ, "フォルダをクリックする。"),
+		Speak(看護師, "私たちの...名前がある...？"),
+		Speak(ナレ, "フォルダを開くと、\n中には二つのcharファイルがある。\n{WAIT:500}『nui』と『neit』。"),
+		Speak(看護師, "中身は...開けない。"),
+		Speak(ナレ, "『アクセス権限がありません』と表示されている。"),
+		Speak(看護師, "...。\n{WAIT_C}(どうしてこんなものが？\n開けたとして、どんな内容なの？\nもし、消したら...)"),
+		Speak(看護師, "(嫌な予感がする。これを消してしまう\nとどうなるのか...)"),
+		Speak(ナレ, "――もう気付けば、夕食の時間。"),
+		Speak(看護師, "(...夕食の時間か...)"),
+		Speak(看護師, "...なに、これ。"),
+		Speak(ナレ, "配膳される食事トレーの上に、\n黄色いフォルダ。が、見える。"),
+		Speak(看護師,"なに、これ。"),
+		Speak(看護師, "なんで...？"),
+		Speak(ナレ, ""),
+		}},
+
+
 
 		// 看護師削除END
 		{ TDI::TALK_END_NURCE_LOST, {
@@ -211,7 +247,8 @@ const std::vector<TD>& TalkDatas::GetTalkData(TalkDataIndex dataIndex)
 		Asset(ResourceManager::SRC::STILL_END_NUR),
 		Speak(看護師, "（あの後、部屋に行ったけど誰もいなかった。）"),
 		Speak(看護師, "（私は開放されたんだ。）"),
-
+		FadeOut(),
+		Speak(看護師, ".....。"),
 		}},
 
 		// 両方削除END
@@ -223,11 +260,30 @@ const std::vector<TD>& TalkDatas::GetTalkData(TalkDataIndex dataIndex)
 		Speak(ナレ, ""),
 		Speak(ナレ, ""),
 		Speak(ナレ, ""),
-		Speak(ナレ, "..."),
 		Asset(ResourceManager::SRC::STILL_END_BOTH),
+		Speak(ナレ, "..."),
 		Speak(ナレ, "{FBF:2.0}......"),
 		Speak(ナレ, "{FBF:0.01}エンディングに移行します。"),
 		}},
+
+		// 隠し会話
+		{ TDI::HIDE_TALK, {
+		Speak(患者, "....こんにちは、プレイヤーさん。"),
+		Speak(患者, "データを改変したんですね。"),
+		Speak(患者, "csvファイルを見つけたのですか。"),
+		Speak(患者, "...."),
+		Speak(患者,"進行度を改変されてしまうと、\nこのゲームは正常に進行できません。"),
+		Speak(患者, "....簡単にチートができてしまうとはいえ...。"),
+		Speak(患者, "...。"),
+		Speak(患者, "...."),
+		Speak(患者, "この病棟、実際見たことがあるものを\nモチーフにしているそうです。"),
+		Speak(患者, "完全再現ではないし、\nあいまいな部分も多いそうですが。"),
+		Speak(患者, "..."),
+		Speak(患者, "...ところで、バックアップは取ってありますか？"),
+		Speak(患者, ".....セーブデータが途中であれば。"),
+		Speak(患者, "System/cache.binに、セーブデータがあります。"),
+		Speak(患者, "インストールし直して、この\ncache.binだけ入れ替えれば元通りです。"),
+		}}
 	};
 
 	// 空のリスト（デフォルト返却用）

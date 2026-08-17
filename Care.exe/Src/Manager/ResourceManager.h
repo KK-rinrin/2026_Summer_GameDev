@@ -12,9 +12,8 @@ public:
 	enum class SRC
 	{
 		TITLE_IMG,
-		TITLE_FONT,
-
-		SETTING_FONT,			// 設定画面用フォント
+		MAIN_FONT,
+		PC_FONT,
 		
 		// アドベンチャー画面
 		PLAYER_GRAPHICS,		// プレイヤーグラフィック
@@ -30,7 +29,8 @@ public:
 
 		PC_BG,					// パソコン画面背景
 		PC_FRAME,				// パソコン画面フレーム
-		PC_MANUAL_FOLDER,		// ミニゲームマニュアルフォルダ
+		PC_MANUAL_FOLDER,
+		PC_FILE,		// ミニゲームマニュアルフォルダ
 		PC_BP_MANUAL,			// 血圧測定ミニゲームマニュアル
 		PC_CURSOR,				// パソコンカーソル
 
@@ -39,6 +39,8 @@ public:
 		BGM_TITLE,				// Title BGM
 		BGM_GAME,				// ゲーム中BGM（アドベンチャーモード）
 		BGM_GAME_2,				// Game BGM 2
+		BGM_KOWAI,				// 怖いBGM　※やさしい
+		BGM_ENDING,				// エンディングBGM
 
 		SE_DECIDE,				// システム決定音
 		SE_CANCEL,				// システムキャンセル音
@@ -48,13 +50,14 @@ public:
 		SE_DOOR,				// ドアの音
 		SE_RINGTONE,			// 呼び出し音
 		SE_TYPING,				// タイピング音
+		SE_PC_MOUSE,				// パソコンのシステムマウス音
 
 		// 会話画面
 		PLAYER_MODEL,			// プレイヤーLive2Dモデル
 		PATIENT_MODEL,			// ヌイLive2Dモデル
-		TALK_FONT,				// 会話用フォント
 		TALK_WINDOW_IMG,		// 会話ウィンドウ画像
 		TALK_WINDOW_NEXT_IMG,	// 会話ウィンドウ▼画像
+		TALK_SPEAKER_IMG,	// 会話話者画像
 		TALK_IMAGE_0,			// 会話用一枚絵
 
 		// ミニゲーム画面
@@ -63,8 +66,6 @@ public:
 		BPMG_PULSE_IMG,		// 脈
 		BPMG_FAILED_IMG,	// 失敗画像
 		BPMG_INTRUCT_IMG,	// 操作説明
-		BPMG_FONT,			// ﾐﾆｹﾞｰﾑフォント
-		BPMG_LARGE_FONT,	// ﾐﾆｹﾞｰﾑデカフォント
 
 		// キャラクター一枚絵
 		STILL_1,			// 不気味な笑顔をうかべるヌイ
@@ -97,6 +98,9 @@ public:
 
 	// リソースのロード
 	const Resource& Load(SRC src);
+
+	// フォントを指定設定でロード
+	int LoadFont(SRC src, int fontSize, int thick = -1, int fontSpace = 0, int fontType = DX_FONTTYPE_ANTIALIASING);
 
 	// リソースの複製ロード(モデル用)
 	int LoadModelDuplicate(SRC src);

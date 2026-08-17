@@ -12,6 +12,7 @@ public:
 		GAME0,
 		GAME1,
 		SAD_THEME,
+		KOWAI,
 		ENDING,
 
 		MAX
@@ -26,6 +27,7 @@ public:
 		DOOR,
 		RINGTONE,
 		TYPING,
+		MOUSE,
 		MAX
 	};
 

@@ -17,6 +17,10 @@ public:
 
 	static constexpr int TEXT_X = 50;
 	static constexpr int TEXT_Y = 370;
+	static constexpr int SPEAKER_Y = 324;
+	static constexpr int SPEAKER_PLAYER_X = 150;
+	static constexpr int SPEAKER_PATIENT_X = 620;
+	static constexpr int TALK_FONT_SIZE = 30;
 
 	static constexpr float LINE_ADVANCE_TIME = 90.0f;
 
@@ -82,6 +86,7 @@ private:
 	// ------------------------------
 	int handle_ = -1;
 	int imgX_, imgY_ = 0;
+	int speakerHandle_ = -1;
 
 	int nextHandle_ = -1;	// 右下の▼
 	int nextIconX_ = NEXT_ICON_X;
@@ -92,7 +97,6 @@ private:
 	// テキスト表示位置（Resource のフォント情報で調整）
 	int textX_ = TEXT_X;
 	int textY_ = TEXT_Y;
-	int resourceFontSize_ = 0;
 
 	// ------------------------------
 	// トークデータ（単行パース済み）

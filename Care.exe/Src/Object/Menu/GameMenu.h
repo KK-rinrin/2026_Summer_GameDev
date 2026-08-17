@@ -47,6 +47,8 @@ private:
 	};
 
 	static constexpr Vector2 TITLE_POS = { 35, 20 };
+	static constexpr int TITLE_FONT_SIZE = 38;
+	static constexpr int MENU_FONT_SIZE = 30;
 	static constexpr Vector2 MENU_TEXT_POS = { 70, 280 };
 	static constexpr int MENU_TEXT_INTERVAL_Y = 70;
 	static constexpr Vector2 PAUSE_TEXT_POS = { 340, 280 };

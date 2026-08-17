@@ -22,6 +22,8 @@ public:
 	};
 
 	static constexpr Vector2 ITEM_POS = { 100, 210 };
+	static constexpr int TITLE_FONT_SIZE = 38;
+	static constexpr int MENU_FONT_SIZE = 30;
 	static constexpr int ITEM_INTERVAL_Y = 60;
 	static constexpr int ITEM_COLOR = 0x666666;
 	static constexpr int ITEM_SELECTED_COLOR = 0x222222;
@@ -62,9 +64,9 @@ public:
 	void Delete(void) override;
 
 private:
-	void InitLoad(void) override;
-	void MoveSelectItem(int move);
-	bool IsItemVisible(Item item) const;
+	void InitLoad(void) override;	// ロード
+	void MoveSelectItem(int move);	// 選択移動
+	bool IsItemVisible(Item item) const;	// 項目を表示するかどうか
 	void DecideSelectItem(void);
 	void BackToReturnScene(void);
 	void DrawItems(void);

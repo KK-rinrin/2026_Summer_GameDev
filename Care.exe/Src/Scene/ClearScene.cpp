@@ -3,7 +3,9 @@
 #include <cstring>
 #include "../Application.h"
 #include "../Manager/InputManager.h"
+#include "../Manager/PadInput.h"
 #include "../Manager/KeyConfig.h"
+#include "../Manager/SoundManager.h"
 #include "ClearScene.h"
 
 namespace
@@ -24,7 +26,8 @@ namespace
 		{ "キャラクターデザイン", "KK" },
 		{ "グラフィック制作", "KK" },
 		{ "Live2Dモデル制作", "KK" },
-		{ "BGM・シナリオ協力", "神楽" },
+		{ "BGM協力", "神楽 / T.R"},
+		{ "シナリオ協力", "神楽" },
 		{ "効果音素材", "Oto Logic / 効果音ラボ" },
 		{ "効果音素材", "On-Jin ～音人～ / 電脳プロダクション" },
 		{ "効果音素材", "Sound Dino" },
@@ -54,6 +57,7 @@ ClearScene::ClearScene(void)
 	gameOverLineCount_(0)
 {
 	std::memset(previousKeyState_, 0, sizeof(previousKeyState_));
+	sndMng_ = &SoundManager::GetInstance();
 }
 
 ClearScene::~ClearScene(void)
@@ -175,10 +179,15 @@ void ClearScene::InitLoad(void)
 	}
 
 	stillHandle_ = resMng_.Load(GetStillSrc()).handleId_;
-	titleFontHandle_ = resMng_.Load(ResourceManager::SRC::TITLE_FONT).handleId_;
-	resetFontHandle_ = resMng_.Load(ResourceManager::SRC::SETTING_FONT).handleId_;
+	titleFontHandle_ = resMng_.LoadFont(ResourceManager::SRC::MAIN_FONT, TITLE_FONT_SIZE);
+	resetFontHandle_ = resMng_.LoadFont(ResourceManager::SRC::MAIN_FONT, RESET_FONT_SIZE);
 	endTitle_ = GetEndTitle();
 	endTitleAnimationFrame_ = 0;
+}
+
+void ClearScene::InitPost(void)
+{
+	sndMng_->PlayBGM(SoundManager::BGM::ENDING);
 }
 
 void ClearScene::InitGameOver(void)
@@ -187,11 +196,11 @@ void ClearScene::InitGameOver(void)
 	gameOverLineCount_ = 0;
 	if (!prgMng_.IsNurceCharExists())
 	{
-		AddGameOverLine("Chara/nurce.charが見つかりません。");
+		AddGameOverLine("Chara/neit.charが見つかりません。");
 	}
 	if (!prgMng_.IsPatientCharExists())
 	{
-		AddGameOverLine("Chara/patient.charが見つかりません。");
+		AddGameOverLine("Chara/nui.charが見つかりません。");
 	}
 	AddGameOverLine("必要なデータを読み込めませんでした。");
 	AddGameOverLine("データをリセットしますか？y/n");
@@ -245,7 +254,16 @@ void ClearScene::UpdateCredits(void)
 	creditFrame_ = 0;
 	if (creditIndex_ >= CREDIT_ENTRY_COUNT)
 	{
+		prgMng_.SetProgress(ProgressManager::CLEAR_COMPLETE);
 		isExitRequested_ = true;
+		// ゆっくりフェードアウト
+		// そのあと「リセットしますか？」表示
+		// はいを押すとリセットして終了
+
+		sndMng_->StopBGM();
+		isFadeOut_ = true;
+
+		// 今はフェードアウトなんてねぇので終了要求を出す　後でやる
 		PostQuitMessage(0);
 	}
 }
@@ -302,7 +320,7 @@ void ClearScene::DrawCredits(void) const
 void ClearScene::UpdateHiddenReset(void)
 {
 	const bool isKeyOrDpadUp = KeyConfig::IsNew(KeyConfig::ACTION::MOVE_UP, iptMng_);
-	const VECTOR stickInput = iptMng_.GetLeftStickInput(InputManager::JOYPAD_NO::PAD1);
+	const VECTOR stickInput = PadInput::GetMoveAxis(iptMng_, InputManager::JOYPAD_NO::PAD1);
 	const bool isStickUp = stickInput.y <= HIDDEN_RESET_STICK_UP;
 	if (!isKeyOrDpadUp && !isStickUp)
 	{

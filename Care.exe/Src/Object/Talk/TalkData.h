@@ -70,13 +70,16 @@ public:
 		TALK_2,			// 昼食後の会話
 		TALK_PC3,		// カルテ記入
 
-		TALK_3,			// ヌイとの会話（変更するかも）
+		TALK_3,			// ヌイとの会話
+		TALK_PC4,		// パソコンでの会話4
 
 		TALK_END_NURCE_LOST,
 		TALK_END_PATIENT_LOST,
 		TALK_END_BOTH_LOST,
 
+		TALK_0_FAIL = 102,	// 血圧測定失敗時の会話
 
+		HIDE_TALK = 666,	// 隠し会話イベント
 	};
 
 	// 可読性のためのイベント生成ヘルパー

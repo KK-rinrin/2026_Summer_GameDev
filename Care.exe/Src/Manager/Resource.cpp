@@ -13,7 +13,9 @@ Resource::Resource(void)
 	handleId_(-1),
 	handleIds_(nullptr),
 	fontSize_(-1),
-	thick_(-1)
+	thick_(-1),
+	fontSpace_(0),
+	fontType_(DX_FONTTYPE_ANTIALIASING)
 {
 }
 
@@ -28,37 +30,26 @@ Resource::Resource(TYPE type, const std::string& path)
 	handleId_(-1),
 	handleIds_(nullptr),
 	fontSize_(-1),
-	thick_(-1)
+	thick_(-1),
+	fontSpace_(0),
+	fontType_(DX_FONTTYPE_ANTIALIASING)
 {
 }
 
-Resource::Resource(TYPE type, const std::string& path, int numX, int numY, int sizeX, int sizeY)
+Resource::Resource(TYPE type, const std::string& path, int value1, int value2, int value3, int value4)
 	:
 	type_(type),
 	path_(path),
-	numX_(numX),
-	numY_(numY),
-	sizeX_(sizeX),
-	sizeY_(sizeY),
+	numX_(type == TYPE::IMGS ? value1 : -1),
+	numY_(type == TYPE::IMGS ? value2 : -1),
+	sizeX_(type == TYPE::IMGS ? value3 : -1),
+	sizeY_(type == TYPE::IMGS ? value4 : -1),
 	handleId_(-1),
 	handleIds_(nullptr),
-	fontSize_(-1),
-	thick_(-1)
-{
-}
-
-Resource::Resource(TYPE type, const std::string& path, int fontSize, int thick)
-	:
-	type_(type),
-	path_(path),
-	numX_(-1),
-	numY_(-1),
-	sizeX_(-1),
-	sizeY_(-1),
-	handleId_(-1),
-	handleIds_(nullptr),
-	fontSize_(fontSize),
-	thick_(thick)
+	fontSize_(type == TYPE::FONT ? value1 : -1),
+	thick_(type == TYPE::FONT ? value2 : -1),
+	fontSpace_(type == TYPE::FONT ? value3 : 0),
+	fontType_(type == TYPE::FONT ? value4 : DX_FONTTYPE_ANTIALIASING)
 {
 }
 
@@ -104,7 +95,7 @@ void Resource::Load(void)
 		break;
 
 	case Resource::TYPE::FONT:
-		handleId_ = CreateFontToHandle(path_.c_str(), fontSize_, thick_, DX_FONTTYPE_ANTIALIASING);
+		handleId_ = LoadFont(fontSize_, thick_, fontSpace_, fontType_);
 		break;
 
 	case Resource::TYPE::SOUND:
@@ -112,6 +103,41 @@ void Resource::Load(void)
 		break;
 	}
 
+}
+
+int Resource::LoadFont(int fontSize, int thick, int fontSpace, int fontType)
+{
+	if (type_ != TYPE::FONT)
+	{
+		return -1;
+	}
+
+	for (const auto& variant : fontVariants_)
+	{
+		if (variant.setting.size == fontSize
+			&& variant.setting.thick == thick
+			&& variant.setting.space == fontSpace
+			&& variant.setting.type == fontType)
+		{
+			handleId_ = variant.handle;
+			return handleId_;
+		}
+	}
+
+	const int handle = CreateFontToHandle(path_.c_str(), fontSize, thick, fontType);
+	if (handle == -1)
+	{
+		return -1;
+	}
+
+	SetFontSpaceToHandle(fontSpace, handle);
+
+	FontVariant variant;
+	variant.setting = { fontSize, thick, fontSpace, fontType };
+	variant.handle = handle;
+	fontVariants_.emplace_back(variant);
+	handleId_ = handle;
+	return handleId_;
 }
 
 void Resource::Release(void)
@@ -181,11 +207,15 @@ void Resource::Release(void)
 		break;
 
 	case Resource::TYPE::FONT:
-		if (handleId_ != -1)
+		for (const auto& variant : fontVariants_)
 		{
-			DeleteFontToHandle(handleId_);
-			handleId_ = -1;
+			if (variant.handle != -1)
+			{
+				DeleteFontToHandle(variant.handle);
+			}
 		}
+		fontVariants_.clear();
+		handleId_ = -1;
 		break;
 
 	case Resource::TYPE::SOUND:

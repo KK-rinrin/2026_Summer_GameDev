@@ -1,4 +1,3 @@
-#include <array>
 #include <DxLib.h>
 #include <Windows.h>
 #include "../Utility/SchoolUtility.h"
@@ -57,15 +56,38 @@ void TitleScene::Delete(void)
 void TitleScene::InitLoad()
 {
 	imgTitle_ = resMng_.Load(ResourceManager::SRC::TITLE_IMG).handleId_;
-	font_ = resMng_.Load(ResourceManager::SRC::TITLE_FONT).handleId_;
+	font_ = resMng_.LoadFont(ResourceManager::SRC::MAIN_FONT, TITLE_FONT_SIZE);
+	BuildSelectMenu();
 
 	// ハブからコントローラ共有を取得
-	if (prgMng_.IsNurceCharExists())
+	if (!prgMng_.IsResetRequiredProgress() && prgMng_.IsNurceCharExists())
 	{
 		liveTalkController_ = Live2DModelHub::Instance().GetController(ResourceManager::SRC::PLAYER_MODEL);
 		liveTalkController_->SetExtendRate(PLAYER_MODEL_EXTEND.x, PLAYER_MODEL_EXTEND.y);
 		liveTalkController_->SetTranslate(PLAYER_MODEL_POS.x, PLAYER_MODEL_POS.y);
 	}
+}
+
+void TitleScene::BuildSelectMenu(void)
+{
+	menuItems_.clear();
+
+	if (prgMng_.IsResetRequiredProgress())
+	{
+		menuItems_.push_back(Menu::RESET);
+		menuItems_.push_back(Menu::CLOSE);
+		selectMenu_ = 0;
+		return;
+	}
+
+	menuItems_.push_back(Menu::START);
+	menuItems_.push_back(Menu::SETTING);
+	if (prgMng_.HasResetHistory())
+	{
+		menuItems_.push_back(Menu::RESET);
+	}
+	menuItems_.push_back(Menu::CLOSE);
+	selectMenu_ = 0;
 }
 
 void TitleScene::UpdateSelectMenu(void)
@@ -95,9 +117,10 @@ void TitleScene::UpdatePlayerModel(void)
 	liveTalkController_->SetTranslate(PLAYER_MODEL_POS.x, PLAYER_MODEL_POS.y);
 	// モーションと表情の更新を Live2DTalkController に任せる
 	// タイトル画面ではメニューに応じてモーションを変えて再生する
-	if (selectMenu_ == static_cast<int>(Menu::START)) liveTalkController_->Update(TEXT("Pose_Start"));
-	if (selectMenu_ == static_cast<int>(Menu::SETTING)) liveTalkController_->Update(TEXT("Pose_Setting"));
-	if (selectMenu_ == static_cast<int>(Menu::CLOSE)) liveTalkController_->Update(TEXT("Pose_Close"));
+	const Menu selectedMenu = GetSelectedMenu();
+	if (selectedMenu == Menu::START) liveTalkController_->Update(TEXT("Pose_Start"));
+	if (selectedMenu == Menu::SETTING || selectedMenu == Menu::RESET) liveTalkController_->Update(TEXT("Pose_Setting"));
+	if (selectedMenu == Menu::CLOSE) liveTalkController_->Update(TEXT("Pose_Close"));
 
 }
 
@@ -115,12 +138,12 @@ void TitleScene::DrawPlayerModel(void)
 
 void TitleScene::DrawSelectMenu(void)
 {
-	for (int i = 0; i < MENU_ITEM_NUM; ++i)
+	for (int i = 0; i < static_cast<int>(menuItems_.size()); ++i)
 	{
 		const int drawY = MENU_POS.y + MENU_INTERVAL_Y * i;
 		const int color = (i == selectMenu_) ? MENU_SELECTED_COLOR : MENU_COLOR;
 		const char* mark = (i == selectMenu_) ? Application::SELECT_MARK : Application::MENU_MARK_SPACE;
-		DrawFormatStringToHandle(MENU_POS.x, drawY, color, font_, "%s%s", mark, MENU_TEXTS[i]);
+		DrawFormatStringToHandle(MENU_POS.x, drawY, color, font_, "%s%s", mark, GetMenuText(menuItems_[i]));
 	}
 }
 
@@ -128,14 +151,23 @@ void TitleScene::MoveSelectMenu(int move)
 {
 	sndMng_.PlaySE(SE::MOVE);
 
-	selectMenu_ = (selectMenu_ + move + MENU_ITEM_NUM) % MENU_ITEM_NUM;
+	const int menuItemNum = static_cast<int>(menuItems_.size());
+	selectMenu_ = (selectMenu_ + move + menuItemNum) % menuItemNum;
 }
 
 void TitleScene::DecideSelectMenu(void)
 {
+	const Menu selectedMenu = GetSelectedMenu();
+	if (selectedMenu == Menu::RESET &&
+		prgMng_.GetProgress() == ProgressManager::START)
+	{
+		sndMng_.PlaySE(SE::BEEP);
+		return;
+	}
+
 	sndMng_.PlaySE(SE::DECIDE);
 
-	switch (static_cast<Menu>(selectMenu_))
+	switch (selectedMenu)
 	{
 	case Menu::START:
 		sceMng_.ChangeScene(SceneManager::SCENE_ID::GAME);
@@ -144,8 +176,36 @@ void TitleScene::DecideSelectMenu(void)
 		sceMng_.SetSettingReturnScene(SceneManager::SCENE_ID::TITLE);
 		sceMng_.ChangeScene(SceneManager::SCENE_ID::SETTING);
 		break;
+	case Menu::RESET:
+		if (prgMng_.ResetProgressCache())
+		{
+			PostQuitMessage(0);
+		}
+		break;
 	case Menu::CLOSE:
 		PostQuitMessage(0);
 		break;
+	}
+}
+
+TitleScene::Menu TitleScene::GetSelectedMenu(void) const
+{
+	return menuItems_[selectMenu_];
+}
+
+const char* TitleScene::GetMenuText(Menu menu) const
+{
+	switch (menu)
+	{
+	case Menu::START:
+		return "Start";
+	case Menu::SETTING:
+		return "Setting";
+	case Menu::RESET:
+		return "Reset";
+	case Menu::CLOSE:
+		return "Close";
+	default:
+		return "";
 	}
 }
