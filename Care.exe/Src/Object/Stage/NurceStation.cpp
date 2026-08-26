@@ -6,12 +6,16 @@
 #include "../../Object/Talk/Talk.h"
 #include "../Actor/ActorBase.h"
 #include "../Collider/Collider.h"
+#include "../Renderer2D.h"
 #include "../../Scene/PCScene.h"
 
 NurceStation::NurceStation()
 	: pcHandle_(-1)
 	, chairHandle_(-1)
 	, lockerHandle_(-1)
+	, tableHandle_(-1)
+	, plateHandle_(-1)
+	, plateFolderHandle_(-1)
 	, pcScene_(nullptr)
 {
 }
@@ -35,6 +39,20 @@ void NurceStation::DrawForeground() const
 	{
 		pcScene_->Draw();
 	}
+}
+
+void NurceStation::RegisterObjects(Renderer2D& renderer)
+{
+	StageBase::RegisterObjects(renderer);
+
+	renderer.Add(TABLE_SORT_Y, [this]()
+		{
+			if (tableHandle_ != -1)
+			{
+				DrawGraph(TABLE_POS.x, TABLE_POS.y, tableHandle_, true);
+			}
+		});
+	renderer.Add(PLATE_SORT_Y, [this]() { DrawPlate(); });
 }
 
 void NurceStation::Delete()
@@ -73,6 +91,23 @@ void NurceStation::DrawGuide(const ActorBase& controlActor) const
 void NurceStation::Decide(DecideContext& context) const
 {
 	const VECTOR actorPos = context.controlActor.GetTransform().pos;
+	const ProgressManager::STORY_PROGRESS progress = context.progressManager.GetProgressEnum();
+
+	if ((progress == ProgressManager::STORY_PROGRESS::AFTER_PC ||
+		progress == ProgressManager::STORY_PROGRESS::AFTER_PC4) &&
+		Collision::IsPointInRect(actorPos, PLATE_LEFT_TOP, PLATE_RIGHT_BOTTOM))
+	{
+		context.progressManager.AddProgress();
+		if (progress == ProgressManager::STORY_PROGRESS::AFTER_PC)
+		{
+			context.talk.SetTalk(TDI::TALK_GET_PLATE);
+		}
+		else
+		{
+			context.talk.SetTalk(TDI::TALK_GET_PLATE_FOLDER);
+		}
+		return;
+	}
 
 	// 前ドアの位置にいて左を向いている時は、患者部屋前ドアへ移動する
 	if (Collision::IsPointInRect(actorPos, TO_PATIENT_ROOM_AREA1_LEFT_TOP, TO_PATIENT_ROOM_AREA1_RIGHT_BOTTOM) &&
@@ -131,6 +166,10 @@ void NurceStation::InitLoad()
 	chairHandle_ = resMng_.Load(ResourceManager::SRC::BG_2_CHAIR).handleId_;
 
 	lockerHandle_ = resMng_.Load(ResourceManager::SRC::BG_2_LOCKER).handleId_;
+
+	tableHandle_ = resMng_.Load(ResourceManager::SRC::BG_2_TABLE).handleId_;
+	plateHandle_ = resMng_.Load(ResourceManager::SRC::BG_2_PLATE).handleId_;
+	plateFolderHandle_ = resMng_.Load(ResourceManager::SRC::BG_2_PLATE_FOLDER).handleId_;
 }
 
 void NurceStation::InitTransform()
@@ -143,9 +182,30 @@ void NurceStation::InitTransform()
 
 }
 
+void NurceStation::DrawPlate() const
+{
+	int plateHandle = -1;
+	const ProgressManager::STORY_PROGRESS progress = ProgressManager::GetInstance().GetProgressEnum();
+	if (progress == ProgressManager::STORY_PROGRESS::AFTER_PC)
+	{
+		plateHandle = plateHandle_;
+	}
+	else if (progress == ProgressManager::STORY_PROGRESS::AFTER_PC4)
+	{
+		plateHandle = plateFolderHandle_;
+	}
+
+	if (plateHandle != -1)
+	{
+		DrawGraph(PLATE_POS.x, PLATE_POS.y, plateHandle, true);
+	}
+}
+
 void NurceStation::InitCollider()
 {
 	AddMBRectPercent({ 0.0f, 0.0f, 0.0f }, { 69.0f, 15.0f, 0.0f });	// PC周辺
+
+	AddMBRectPercent(TABLE_LEFT_TOP, TABLE_RIGHT_BOTTOM);	// 配膳台周辺
 
 	// ロッカー周辺
 	AddMBRectPercent({ 83.0f, 40.0f, 0.0f }, { 100.0f, 100.0f, 0.0f });

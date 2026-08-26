@@ -29,6 +29,7 @@ private:
 	void InitGameOver(void);
 
 	void UpdateGameOver(void);
+	void UpdateRuinedEnd(void);
 	void UpdateCredits(void);
 	void UpdateHiddenReset(void);
 	void UpdateResetComplete(void);
@@ -45,6 +46,7 @@ private:
 	void AddGameOverLine(const char* line);
 	bool IsAnyKeyTrgDown(void);
 	bool IsAnyPadButtonTrgDown(void) const;
+	bool IsRuinedEnd(void) const;
 	const EndInfo& GetEndInfo(void) const;
 	ResourceManager::SRC GetStillSrc(void) const;
 	std::string GetEndTitle(void) const;

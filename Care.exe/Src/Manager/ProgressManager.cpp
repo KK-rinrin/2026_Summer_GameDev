@@ -140,6 +140,7 @@ bool ProgressManager::IsEndLockedProgress(void) const
 	case END_PATIENT_LOCKED:
 	case END_NURCE_LOCKED:
 	case END_BOTH_LOCKED:
+	case END_RUINED_LOCKED:
 		return true;
 	default:
 		return false;

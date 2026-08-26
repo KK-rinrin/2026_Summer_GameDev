@@ -26,6 +26,9 @@ public:
 		BG_2_PC,				// パソコンデスク画像
 		BG_2_CHAIR,				// パソコンデスクの椅子
 		BG_2_LOCKER,			// ナースステーションのロッカー
+		BG_2_TABLE,			// ナースステーションの配膳台
+		BG_2_PLATE,			// 昼食の配膳プレート
+		BG_2_PLATE_FOLDER,	// 夕食の配膳プレート
 
 		PC_BG,					// パソコン画面背景
 		PC_FRAME,				// パソコン画面フレーム
@@ -70,6 +73,8 @@ public:
 		// キャラクター一枚絵
 		STILL_1,			// 不気味な笑顔をうかべるヌイ
 		STILL_2,			// 看護師
+		STILL_STAGE_PR,		// 無人の患者部屋
+		STILL_STAGE_NS,		// 無人のナースステーション
 
 		// ゲームクリア一枚絵
 		STILL_END_NUR,		// ヌイ削除

@@ -106,6 +106,7 @@ void DebugScene::Draw(void)
 	}
 
 	cursorPos_->Draw();
+	cursorPos_->DrawCrossLine();
 }
 
 void DebugScene::Delete(void)

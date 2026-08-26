@@ -11,6 +11,15 @@ public:
 	static constexpr VECTOR LOCKER_POS = { 92.2f,99.9f,0.0f };
 	static constexpr float LOCKER_BUFFER_Y = 370.0f;
 
+	static constexpr Vector2 TABLE_POS = { 159, 365 };
+	static constexpr VECTOR TABLE_LEFT_TOP = { 12.1f, 61.1f, 0.0f };
+	static constexpr VECTOR TABLE_RIGHT_BOTTOM = { 59.8f, 100.0f, 0.0f };
+	static constexpr Vector2 PLATE_POS = { 217, 393 };
+	static constexpr float TABLE_SORT_Y = 600.0f;
+	static constexpr float PLATE_SORT_Y = 601.0f;
+	static constexpr VECTOR PLATE_LEFT_TOP = { 12.3f, 42.8f, 0.0f };
+	static constexpr VECTOR PLATE_RIGHT_BOTTOM = { 60.3f, 80.2f, 0.0f };
+
 	// ナースステーションから患者部屋へ移動するドア判定
 	static constexpr VECTOR TO_PATIENT_ROOM_AREA1_LEFT_TOP = { 0.0f, 55.0f, 0.0f };
 	static constexpr VECTOR TO_PATIENT_ROOM_AREA1_RIGHT_BOTTOM = { 5.0f, 90.0f, 0.0f };
@@ -31,6 +40,7 @@ public:
 
 	void Update() override;
 	void DrawForeground() const override;
+	void RegisterObjects(Renderer2D& renderer) override;
 	void Delete() override;
 	bool IsInputBlocked() const override;
 	void DrawGuide(const ActorBase& controlActor) const override;
@@ -40,9 +50,13 @@ private:
 	void InitLoad() override;
 	void InitTransform() override;
 	void InitCollider() override;
+	void DrawPlate() const;
 
 	int pcHandle_;
 	int chairHandle_;
 	int lockerHandle_;
+	int tableHandle_;
+	int plateHandle_;
+	int plateFolderHandle_;
 	PCScene* pcScene_;
 };

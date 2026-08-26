@@ -13,6 +13,7 @@ public:
 
 	void Update();
 	void Draw() const;
+	void DrawCrossLine() const;
 
 private:
 	VECTOR worldPos_;

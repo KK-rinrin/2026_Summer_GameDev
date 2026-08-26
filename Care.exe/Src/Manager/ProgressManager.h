@@ -14,11 +14,13 @@ public:
 		AFTER_MG,	// ミニゲーム後
 		AFTER_MG_TALKED,	// ミニゲーム後の会話後
 		AFTER_PC,	// PC作業後
+		AFTER_GET_PLATE,	// 昼食の配膳プレート取得後
 		LUNCH,		// 昼食
 		AFTER_PC2,	// PC作業再び
 		AFTER_LUNCH,	// 昼食後
 		AFTER_PC3,		// カルテ記入
 		AFTER_TALK3,	// バグり始める
+		AFTER_PC4,		// Charaフォルダ確認後
 		DINNER,			// 夕食？
 
 		END_PATIENT_LOST = 100,	// 患者削除END
@@ -28,7 +30,7 @@ public:
 		END_BOTH_LOST = 120,	// 両方削除END
 		END_BOTH_LOCKED,
 		END_RUINED = 200,		// 崩壊END
-		END_RUINED_LOCKED,// ※崩壊ENDはゲームオーバー扱い、スタッフロールを流さない
+		END_RUINED_LOCKED,
 
 		CLEAR_COMPLETE = 500,	// スタッフロール後リセット要求
 	};

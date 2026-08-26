@@ -73,6 +73,8 @@ public:
 		TALK_3,			// ヌイとの会話
 		TALK_PC4,		// パソコンでの会話4
 		TALK_DINNER,	// 夕食前の会話
+		TALK_GET_PLATE,	// 昼食の配膳プレート取得
+		TALK_GET_PLATE_FOLDER,	// 夕食の配膳プレート取得
 
 		TALK_END_NURCE_LOST = 901,		// 看護師削除、患者生存
 		TALK_END_PATIENT_LOST = 902,	// 患者削除、看護師生存

@@ -72,6 +72,12 @@ void ClearScene::Update(void)
 		return;
 	}
 
+	if (IsRuinedEnd())
+	{
+		UpdateRuinedEnd();
+		return;
+	}
+
 	if (isResetCompleteOpen_)
 	{
 		UpdateResetComplete();
@@ -148,8 +154,11 @@ void ClearScene::Delete(void)
 {
 	// 進行度がクリア済みかどうかを確認し、クリア済みであれば進行度をリセット完了に設定する
 	int prgres = prgMng_.GetProgress();
-	if (prgres == 101 || prgres == 111 || prgres == 121)
+	if (prgres == 101 || prgres == 111 || prgres == 121 ||
+		prgres == ProgressManager::END_RUINED_LOCKED)
+	{
 		prgMng_.SetProgress(ProgressManager::CLEAR_COMPLETE);
+	}
 
 	// 開放処理
 	stillHandle_ = -1;
@@ -191,10 +200,21 @@ void ClearScene::InitLoad(void)
 	resetFontHandle_ = resMng_.LoadFont(ResourceManager::SRC::MAIN_FONT, RESET_FONT_SIZE);
 	endTitle_ = GetEndTitle();
 	endTitleAnimationFrame_ = 0;
+
+	if (IsRuinedEnd())
+	{
+		GetHitKeyStateAll(previousKeyState_);
+	}
 }
 
 void ClearScene::InitPost(void)
 {
+	if (isGameOver_ || IsRuinedEnd())
+	{
+		sndMng_->StopBGM();
+		return;
+	}
+
 	sndMng_->PlayBGM(SoundManager::BGM::ENDING);
 }
 
@@ -275,6 +295,17 @@ void ClearScene::UpdateCredits(void)
 		// 今はフェードアウトなんてねぇので終了要求を出す　後でやる
 		PostQuitMessage(0);
 	}
+}
+
+void ClearScene::UpdateRuinedEnd(void)
+{
+	if (!IsAnyKeyTrgDown() && !IsAnyPadButtonTrgDown())
+	{
+		return;
+	}
+
+	isExitRequested_ = true;
+	PostQuitMessage(0);
 }
 
 void ClearScene::DrawCredits(void) const
@@ -516,6 +547,11 @@ bool ClearScene::IsAnyPadButtonTrgDown(void) const
 	return false;
 }
 
+bool ClearScene::IsRuinedEnd(void) const
+{
+	return prgMng_.GetProgressEnum() == ProgressManager::END_RUINED_LOCKED;
+}
+
 const ClearScene::EndInfo& ClearScene::GetEndInfo(void) const
 {
 	static constexpr EndInfo END_INFOS[] =
@@ -535,12 +571,17 @@ const ClearScene::EndInfo& ClearScene::GetEndInfo(void) const
 			ResourceManager::SRC::STILL_END_BOTH,
 			"End_NULL:もぬけの殻"
 		},
+		{
+			ProgressManager::STORY_PROGRESS::END_RUINED_LOCKED,
+			ResourceManager::SRC::STILL_END_RUIN,
+			""
+		},
 	};
 	static constexpr EndInfo DEFAULT_END_INFO =
 	{
 		ProgressManager::STORY_PROGRESS::END_BOTH_LOCKED,
 		ResourceManager::SRC::STILL_END_BOTH,
-		"そしていなくなった"
+		"そしていなくなった" 
 	};
 
 	for (const EndInfo& endInfo : END_INFOS)

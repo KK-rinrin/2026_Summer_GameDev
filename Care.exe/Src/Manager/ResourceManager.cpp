@@ -55,6 +55,9 @@ void ResourceManager::Init(void)
 	CreateResource(SRC::BG_2_PC, RES_T::IMG, PATH_IMG + "Game/BG/NS_PCdesk.png");
 	CreateResource(SRC::BG_2_CHAIR, RES_T::IMG, PATH_IMG + "Game/BG/NS_Chair.png");
 	CreateResource(SRC::BG_2_LOCKER, RES_T::IMG, PATH_IMG + "Game/BG/NS_locker.png");
+	CreateResource(SRC::BG_2_TABLE, RES_T::IMG, PATH_IMG + "Game/BG/NS_Table.png");
+	CreateResource(SRC::BG_2_PLATE, RES_T::IMG, PATH_IMG + "Game/BG/NS_Plate.png");
+	CreateResource(SRC::BG_2_PLATE_FOLDER, RES_T::IMG, PATH_IMG + "Game/BG/NS_PlateFolder.png");
 
 	// PC‰æ‘œ
 	CreateResource(SRC::PC_BG, RES_T::IMG, PATH_IMG + "Game/PC/PCscreenBG.png");
@@ -77,6 +80,8 @@ void ResourceManager::Init(void)
 	// •¨Œê’†ˆê–‡ŠG
 	CreateResource(SRC::STILL_1, RES_T::IMG, PATH_IMG + "Still/nui0.png");
 	CreateResource(SRC::STILL_2, RES_T::IMG, PATH_IMG + "Still/neit0.png");
+	CreateResource(SRC::STILL_STAGE_PR, RES_T::IMG, PATH_IMG + "Still/Stage_PR.png");
+	CreateResource(SRC::STILL_STAGE_NS, RES_T::IMG, PATH_IMG + "Still/Stage_NS.png");
 
 	// ƒGƒ“ƒhˆê–‡ŠG
 	CreateResource(SRC::STILL_END_NUR, RES_T::IMG, PATH_IMG + "Still/END_T.png");

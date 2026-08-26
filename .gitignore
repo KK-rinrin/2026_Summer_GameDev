@@ -1,0 +1,26 @@
+# Care.exe is a project directory, but the global *.exe rule also matches
+# directories. Re-include the directory here and ignore only local artifacts.
+!Care.exe/
+
+# Visual Studio / build outputs
+/Care.exe/.vs/
+/Care.exe/Care/.vs/
+/Care.exe/x64/
+/Care.exe/Care/x64/
+/Care.exe/Care.aps
+/Care.exe/*.vcxproj.user
+
+# Runtime-local state
+/Care.exe/Log.txt
+/Care.exe/Data/System/cache.bin
+/Care.exe/Chara/
+
+# Personal notes and assistant settings
+/Care.exe/.codexignore
+/Care.exe/.github/
+/Care.exe/FontUsageMemo.txt
+/Care.exe/Data/Csv/ProgressTable_old.txt
+/Care.exe/**/desktop.ini
+
+# Live2D Cubism SDK is downloaded separately and is not stored in Git.
+/Care.exe/Data/CubismSdkForNative-5-r.4.1/

@@ -84,6 +84,7 @@ void PCScene::Update(const InputManager& input)
 	UpdateKarteText();
 	UpdatePcFolderState();
 	cursorPos_ = input.GetMousePos();
+	const bool isDecideTrgDown = input.IsTrgMouseLeft() || IsPadDecideTrgDown(input);
 	const VECTOR stickInput = PadInput::GetMoveAxis(input, InputManager::JOYPAD_NO::PAD1);
 	if (stickInput.x != 0.0f || stickInput.y != 0.0f)
 	{
@@ -110,7 +111,7 @@ void PCScene::Update(const InputManager& input)
 		SetMousePoint(cursorPos_.x, cursorPos_.y);
 	}
 
-	if (isAccessDeniedVisible_ && input.IsTrgMouseLeft())
+	if (isAccessDeniedVisible_ && isDecideTrgDown)
 	{
 		if (IsAccessDeniedOkHit())
 		{
@@ -119,7 +120,7 @@ void PCScene::Update(const InputManager& input)
 		return;
 	}
 
-	if (isCharaFolderOpen_ && input.IsTrgMouseLeft())
+	if (isCharaFolderOpen_ && isDecideTrgDown)
 	{
 		for (int i = 0; i < 2; ++i)
 		{
@@ -138,13 +139,13 @@ void PCScene::Update(const InputManager& input)
 		return;
 	}
 
-	if (input.IsTrgMouseLeft() && IsCloseButtonHit())
+	if (isDecideTrgDown && IsCloseButtonHit())
 	{
 		HandleCancel();
 		return;
 	}
 
-	if (!input.IsTrgMouseLeft() && !IsPadDecideTrgDown(input))
+	if (!isDecideTrgDown)
 	{
 		return;
 	}

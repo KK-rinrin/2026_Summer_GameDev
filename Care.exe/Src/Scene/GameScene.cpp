@@ -115,6 +115,7 @@ void GameScene::Draw(void)
 {
 	const bool useAfterTalk3ColorShift =
 		prgMng_.GetProgressEnum() >= ProgressManager::STORY_PROGRESS::AFTER_TALK3 &&
+		!prgMng_.IsEndTalkProgress() &&
 		colorShiftScreenHandle_ != -1;
 	const int previousDrawScreen = GetDrawScreen();
 	if (useAfterTalk3ColorShift)
@@ -152,6 +153,10 @@ void GameScene::Draw(void)
 	if (useAfterTalk3ColorShift)
 	{
 		int addBugging = static_cast<int>(prgMng_.GetProgressEnum()) - static_cast<int>(ProgressManager::STORY_PROGRESS::AFTER_TALK3);
+		if (prgMng_.GetProgressEnum() == ProgressManager::STORY_PROGRESS::DINNER)
+		{
+			--addBugging;
+		}
 
 		SetDrawScreen(previousDrawScreen);
 		ScreenEffect::DrawColorShift(
@@ -174,6 +179,17 @@ void GameScene::Draw(void)
 	int a = ProgressManager::GetInstance().GetProgress();
 	DrawFormatString(0, 50, 0x000000, "Progress: %d", a);
 #endif
+
+	if (prgMng_.GetProgressEnum() == ProgressManager::END_RUINED &&
+		GetRand(RUINED_BLACK_BLINK_INTERVAL_FRAMES - 1) == 0)
+	{
+		DrawBox(0, 0, Application::SCREEN_SIZE_X, Application::SCREEN_SIZE_Y, 0x000000, true);
+	}
+
+	if (prgMng_.GetProgressEnum() == ProgressManager::END_RUINED_LOCKED)
+	{
+		DrawBox(0, 0, Application::SCREEN_SIZE_X, Application::SCREEN_SIZE_Y, 0x000000, true);
+	}
 }
 
 void GameScene::Delete(void)
@@ -369,7 +385,11 @@ void GameScene::UpdateTalkProgress()
 			return;
 		}
 
-		if (progressBefore == ProgressManager::MINIGAME_RETRY)
+		if (progressBefore == ProgressManager::DINNER)
+		{
+			prgMng_.SetProgress(ProgressManager::END_RUINED);
+		}
+		else if (progressBefore == ProgressManager::MINIGAME_RETRY)
 		{
 			prgMng_.SetProgress(ProgressManager::START_MINIGAME0);
 		}

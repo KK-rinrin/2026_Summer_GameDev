@@ -42,7 +42,7 @@ public:
 	virtual bool IsInputBlocked() const;
 
 	void DrawBackground() const;
-	void RegisterObjects(Renderer2D& renderer);
+	virtual void RegisterObjects(Renderer2D& renderer);
 	void ApplyMovementBlocks(ActorBase& actor) const;
 	virtual void DrawGuide(const ActorBase& controlActor) const;
 	virtual void Decide(DecideContext& context) const;

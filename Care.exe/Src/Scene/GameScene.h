@@ -29,6 +29,7 @@ public:
 	static constexpr float AFTER_TALK3_COLOR_SHIFT_Y = 0.0f;
 	static constexpr int AFTER_TALK3_COLOR_SHIFT_RECT_COUNT = 4;
 	static constexpr float AFTER_TALK3_COLOR_SHIFT_RECT_CHANGE_SECONDS = 0.05f;
+	static constexpr int RUINED_BLACK_BLINK_INTERVAL_FRAMES = 120;
 	
 	// コンストラクタ
 	GameScene(void);

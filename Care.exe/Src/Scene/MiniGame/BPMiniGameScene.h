@@ -47,7 +47,7 @@ private:
 	static constexpr float DIASTOLIC_WINDOW_HIGH = 82.0f;
 	static constexpr float DIASTOLIC_WINDOW_LOW = 74.0f;
 	static constexpr float SUCCESS_WAIT_SEC = 0.6f;
-	static constexpr int MONITOR_ABNORMAL_PROGRESS = 7;
+	static constexpr int MONITOR_ABNORMAL_PROGRESS = 8;
 	static constexpr Vector2 SCREEN_SIZE = { Application::SCREEN_SIZE_X, Application::SCREEN_SIZE_Y };
 	static constexpr Vector2 MONITOR_POS = { 240, 64 };
 	static constexpr Vector2 MONITOR_SIZE = { 320, 250 };

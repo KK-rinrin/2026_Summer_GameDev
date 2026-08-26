@@ -32,3 +32,15 @@ void DebugCursorPosition::Draw() const
 		worldPos_.x, worldPos_.y,
 		localPercent_.x, localPercent_.y);
 }
+
+void DebugCursorPosition::DrawCrossLine() const
+{
+	int screenWidth = 0;
+	int screenHeight = 0;
+	GetDrawScreenSize(&screenWidth, &screenHeight);
+
+	const int cursorX = static_cast<int>(worldPos_.x);
+	const int cursorY = static_cast<int>(worldPos_.y);
+	DrawLine(0, cursorY, screenWidth, cursorY, DEBUG_TEXT_COLOR);
+	DrawLine(cursorX, 0, cursorX, screenHeight, DEBUG_TEXT_COLOR);
+}
