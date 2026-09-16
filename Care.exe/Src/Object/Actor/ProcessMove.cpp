@@ -20,7 +20,7 @@ void ProcessMove::SetMoveSpeedPercent(float moveSpeedPercent)
 	moveSpeedPercent_ = moveSpeedPercent;
 }
 
-float ProcessMove::GetMoveSpeedPercent(void) const
+float ProcessMove::GetMoveSpeedPercent() const
 {
 	return moveSpeedPercent_;
 }
@@ -34,7 +34,7 @@ void ProcessMove::SetDelayFrameRange(int minDelayFrame, int maxDelayFrame)
 	useDelay_ = maxDelayFrame_ > 0;
 }
 
-void ProcessMove::ClearDelay(void)
+void ProcessMove::ClearDelay()
 {
 	useDelay_ = false;
 	minDelayFrame_ = DEFAULT_DELAY_FRAME;
@@ -42,7 +42,7 @@ void ProcessMove::ClearDelay(void)
 	delayedInputs_.clear();
 }
 
-void ProcessMove::Reset(void)
+void ProcessMove::Reset()
 {
 	delayedInputs_.clear();
 	delaySeed_ = 1u;
@@ -60,7 +60,7 @@ void ProcessMove::Update(Transform2D& transform)
 	UpdateImmediate(transform, input);
 }
 
-ProcessMove::MoveInput ProcessMove::ReadInput(void) const
+ProcessMove::MoveInput ProcessMove::ReadInput() const
 {
 	MoveInput input = { 0.0f, 0.0f, DEFAULT_DELAY_FRAME };
 	const InputManager& inputManager = InputManager::GetInstance();
@@ -123,7 +123,7 @@ void ProcessMove::UpdateDelayed(Transform2D& transform, const MoveInput& input)
 	}
 }
 
-int ProcessMove::CreateDelayFrame(void)
+int ProcessMove::CreateDelayFrame()
 {
 	if (maxDelayFrame_ <= minDelayFrame_)
 	{

@@ -2,7 +2,7 @@
 #include "../Application.h"
 #include "Fader.h"
 
-Fader::Fader(void)
+Fader::Fader()
 	:
 	state_(STATE::NONE),
 	alpha_(0.0f),
@@ -11,16 +11,16 @@ Fader::Fader(void)
 {
 }
 
-Fader::~Fader(void)
+Fader::~Fader()
 {
 }
 
-Fader::STATE Fader::GetState(void) const
+Fader::STATE Fader::GetState() const
 {
 	return state_;
 }
 
-bool Fader::IsEnd(void) const
+bool Fader::IsEnd() const
 {
 	return isEnd_;
 }
@@ -35,11 +35,11 @@ void Fader::SetFade(STATE state)
 	}
 }
 
-void Fader::Init(void)
+void Fader::Init()
 {
 }
 
-void Fader::Update(void)
+void Fader::Update()
 {
 
 	if (isEnd_)
@@ -89,7 +89,7 @@ void Fader::Update(void)
 
 }
 
-void Fader::Draw(void)
+void Fader::Draw()
 {
 
 	switch (state_)

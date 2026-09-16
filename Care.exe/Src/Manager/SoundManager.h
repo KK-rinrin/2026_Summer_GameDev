@@ -39,9 +39,9 @@ public:
 	static constexpr int BGM_CROSS_FADE_MS = 1000;
 
 	// シングルトン
-	static void CreateInstance(void);
-	static SoundManager& GetInstance(void);
-	void Destroy(void);
+	static void CreateInstance();
+	static SoundManager& GetInstance();
+	void Destroy();
 
 	// サウンドを再生
 	bool PlayBGM(BGM bgm);	// 返り値:再生できたかどうか
@@ -64,10 +64,10 @@ public:
 
 private:
 	// コピー代入防止
-	SoundManager(void);
+	SoundManager();
 	SoundManager(const SoundManager& instance) = delete;
 	SoundManager& operator=(const SoundManager& instance) = delete;
-	~SoundManager(void) = default;
+	~SoundManager() = default;
 
 	bool Load(BGM bgm);
 	bool Load(SE se);

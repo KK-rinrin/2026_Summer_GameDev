@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<results version="2">
+    <cppcheck version="2.21.0"/>
+    <errors>
+        <error id="unhandledChar" severity="error" msg="The code contains unhandled character(s) (character code=131). Neither unicode nor extended ascii is supported." verbose="The code contains unhandled character(s) (character code=131). Neither unicode nor extended ascii is supported." sinceDate="2026/09/15">
+            <location file="C:\Project\2026_Summer_GameDev\Care.exe\Src\Object\Talk\TalkData.cpp" line="37" column="27"/>
+        </error>
+    </errors>
+</results>

@@ -15,13 +15,13 @@ public:
 	Player();
 	~Player();
 
-	void Update(void) override;
-	void Draw(void) override;
+	void Update() override;
+	void Draw() override;
 	void SetLocalPercent(float x, float y);
 	bool IsFacingRight() const;
-	ProcessMove* GetProcessMove(void);
+	ProcessMove* GetProcessMove();
 
-	void Release(void) override;
+	void Release() override;
 
 private:
 	void InitLoad() override;

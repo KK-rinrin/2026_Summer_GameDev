@@ -14,12 +14,12 @@ public:
 	double z;
 
 	// コンストラクタ
-	Quaternion(void);
+	Quaternion();
 	explicit Quaternion(const VECTOR& rad);
 	Quaternion(double w, double x, double y, double z);
 
 	// デストラクタ
-	~Quaternion(void);
+	~Quaternion();
 
 	// オイラー角からクォータニオンへ変換
 	static Quaternion Euler(const VECTOR& rad);
@@ -38,11 +38,11 @@ public:
 
 	// クォータニオンからオイラー角へ変換
 	static VECTOR ToEuler(const Quaternion& q);
-	VECTOR ToEuler(void) const;
+	VECTOR ToEuler() const;
 
 	// クォータニオンから行列へ変換
 	static MATRIX ToMatrix(const Quaternion& q);
-	MATRIX ToMatrix(void) const;
+	MATRIX ToMatrix() const;
 
 	// ベクトルからクォータニオンに変換
 	static Quaternion LookRotation(const VECTOR& dir);
@@ -52,12 +52,12 @@ public:
 	static Quaternion GetRotation(const MATRIX& mat);
 
 	// 基本ベクトルを取得
-	VECTOR GetForward(void) const;
-	VECTOR GetBack(void) const;
-	VECTOR GetRight(void) const;
-	VECTOR GetLeft(void) const;
-	VECTOR GetUp(void) const;
-	VECTOR GetDown(void) const;
+	VECTOR GetForward() const;
+	VECTOR GetBack() const;
+	VECTOR GetRight() const;
+	VECTOR GetLeft() const;
+	VECTOR GetUp() const;
+	VECTOR GetDown() const;
 
 	// 内積
 	static double Dot(const Quaternion& q1, const Quaternion& q2);
@@ -65,11 +65,11 @@ public:
 
 	// 正規化
 	static Quaternion Normalize(const Quaternion& q);
-	Quaternion Normalized(void) const;
-	void Normalize(void);
+	Quaternion Normalized() const;
+	void Normalize();
 
 	// 逆クォータニオン
-	Quaternion Inverse(void) const;
+	Quaternion Inverse() const;
 
 	// 球面補間
 	static Quaternion Slerp(const Quaternion& from, const Quaternion& to, double t);
@@ -79,12 +79,12 @@ public:
 	static Quaternion RotateTowards(const Quaternion& from, const Quaternion& to, float maxDegreesDelta);
 	static double Angle(const Quaternion& q1, const Quaternion& q2);
 	static Quaternion SlerpUnclamped(Quaternion a, Quaternion b, float t);
-	static Quaternion Identity(void);
+	static Quaternion Identity();
 
 	// 長さ
-	double Length(void) const;
-	double LengthSquared(void) const;
-	VECTOR xyz(void) const;
+	double Length() const;
+	double LengthSquared() const;
+	VECTOR xyz() const;
 
 	// 対象方向の回転
 	void ToAngleAxis(float* angle, VECTOR* axis);

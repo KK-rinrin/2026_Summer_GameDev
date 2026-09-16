@@ -38,7 +38,7 @@ namespace
 	constexpr int CREDIT_ENTRY_COUNT = sizeof(CREDIT_ENTRIES) / sizeof(CREDIT_ENTRIES[0]);
 }
 
-ClearScene::ClearScene(void)
+ClearScene::ClearScene()
 	:
 	SceneBase(),
 	stillHandle_(-1),
@@ -60,11 +60,11 @@ ClearScene::ClearScene(void)
 	sndMng_ = &SoundManager::GetInstance();
 }
 
-ClearScene::~ClearScene(void)
+ClearScene::~ClearScene()
 {
 }
 
-void ClearScene::Update(void)
+void ClearScene::Update()
 {
 	if (isGameOver_)
 	{
@@ -114,7 +114,7 @@ void ClearScene::Update(void)
 	}
 }
 
-void ClearScene::Draw(void)
+void ClearScene::Draw()
 {
 	if (isGameOver_)
 	{
@@ -150,7 +150,7 @@ void ClearScene::Draw(void)
 	}
 }
 
-void ClearScene::Delete(void)
+void ClearScene::Delete()
 {
 	// 進行度がクリア済みかどうかを確認し、クリア済みであれば進行度をリセット完了に設定する
 	int prgres = prgMng_.GetProgress();
@@ -176,7 +176,7 @@ void ClearScene::Delete(void)
 	isResetCompleteOpen_ = false;
 }
 
-void ClearScene::InitLoad(void)
+void ClearScene::InitLoad()
 {
 	endTitleAnimationFrame_ = 0;
 	endStillHoldFrame_ = 0;
@@ -207,7 +207,7 @@ void ClearScene::InitLoad(void)
 	}
 }
 
-void ClearScene::InitPost(void)
+void ClearScene::InitPost()
 {
 	if (isGameOver_ || IsRuinedEnd())
 	{
@@ -218,7 +218,7 @@ void ClearScene::InitPost(void)
 	sndMng_->PlayBGM(SoundManager::BGM::ENDING);
 }
 
-void ClearScene::InitGameOver(void)
+void ClearScene::InitGameOver()
 {
 	// ゲームオーバー時の初期化処理
 	gameOverState_ = GameOverState::INITIAL_CONFIRM;
@@ -236,7 +236,7 @@ void ClearScene::InitGameOver(void)
 	GetHitKeyStateAll(previousKeyState_);
 }
 
-void ClearScene::DrawEndTitle(void) const
+void ClearScene::DrawEndTitle() const
 {
 	if (titleFontHandle_ < 0 || endTitle_.empty())
 	{
@@ -255,7 +255,7 @@ void ClearScene::DrawEndTitle(void) const
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }
 
-void ClearScene::UpdateCredits(void)
+void ClearScene::UpdateCredits()
 {
 	if (creditIndex_ < 0 || creditIndex_ >= CREDIT_ENTRY_COUNT)
 	{
@@ -297,7 +297,7 @@ void ClearScene::UpdateCredits(void)
 	}
 }
 
-void ClearScene::UpdateRuinedEnd(void)
+void ClearScene::UpdateRuinedEnd()
 {
 	if (!IsAnyKeyTrgDown() && !IsAnyPadButtonTrgDown())
 	{
@@ -308,7 +308,7 @@ void ClearScene::UpdateRuinedEnd(void)
 	PostQuitMessage(0);
 }
 
-void ClearScene::DrawCredits(void) const
+void ClearScene::DrawCredits() const
 {
 	if (stillHandle_ < 0)
 	{
@@ -335,14 +335,14 @@ void ClearScene::DrawCredits(void) const
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha);
 
 	const auto drawRightAligned = [this](const char* text, int drawY, int color)
-	{
-		const int width = GetDrawStringWidthToHandle(
-			text, static_cast<int>(std::strlen(text)), titleFontHandle_);
-		const int drawX = Application::SCREEN_SIZE_X - CREDIT_RIGHT_MARGIN - width;
-		DrawStringToHandle(drawX + CREDIT_SHADOW_OFFSET, drawY + CREDIT_SHADOW_OFFSET,
-			text, END_TITLE_COLOR, titleFontHandle_);
-		DrawStringToHandle(drawX, drawY, text, color, titleFontHandle_);
-	};
+		{
+			const int width = GetDrawStringWidthToHandle(
+				text, static_cast<int>(std::strlen(text)), titleFontHandle_);
+			const int drawX = Application::SCREEN_SIZE_X - CREDIT_RIGHT_MARGIN - width;
+			DrawStringToHandle(drawX + CREDIT_SHADOW_OFFSET, drawY + CREDIT_SHADOW_OFFSET,
+				text, END_TITLE_COLOR, titleFontHandle_);
+			DrawStringToHandle(drawX, drawY, text, color, titleFontHandle_);
+		};
 
 	if (entry.role[0] == '\0')
 	{
@@ -357,7 +357,7 @@ void ClearScene::DrawCredits(void) const
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }
 
-void ClearScene::UpdateHiddenReset(void)
+void ClearScene::UpdateHiddenReset()
 {
 	const bool isKeyOrDpadUp = KeyConfig::IsNew(KeyConfig::ACTION::MOVE_UP, iptMng_);
 	const VECTOR stickInput = PadInput::GetMoveAxis(iptMng_, InputManager::JOYPAD_NO::PAD1);
@@ -382,7 +382,7 @@ void ClearScene::UpdateHiddenReset(void)
 	}
 }
 
-void ClearScene::UpdateResetComplete(void)
+void ClearScene::UpdateResetComplete()
 {
 	if (!IsAnyKeyTrgDown() && !IsAnyPadButtonTrgDown())
 	{
@@ -393,7 +393,7 @@ void ClearScene::UpdateResetComplete(void)
 	PostQuitMessage(0);
 }
 
-void ClearScene::DrawResetComplete(void) const
+void ClearScene::DrawResetComplete() const
 {
 	DrawBox(RESET_WINDOW_LEFT, RESET_WINDOW_TOP, RESET_WINDOW_RIGHT, RESET_WINDOW_BOTTOM,
 		RESET_WINDOW_BG_COLOR, true);
@@ -411,23 +411,23 @@ void ClearScene::DrawResetComplete(void) const
 		"何らかのキーを押して終了...", RESET_SUB_TEXT_COLOR, resetFontHandle_);
 }
 
-bool ClearScene::IsCreditSkipTriggered(void) const
+bool ClearScene::IsCreditSkipTriggered() const
 {
 	return KeyConfig::IsTrgDown(KeyConfig::ACTION::DECIDE, iptMng_) ||
 		KeyConfig::IsTrgDown(KeyConfig::ACTION::CANCEL, iptMng_);
 }
 
-bool ClearScene::IsFinalCredit(void) const
+bool ClearScene::IsFinalCredit() const
 {
 	return creditIndex_ == CREDIT_ENTRY_COUNT - 1;
 }
 
-int ClearScene::GetCreditHoldFrames(void) const
+int ClearScene::GetCreditHoldFrames() const
 {
 	return IsFinalCredit() ? CREDIT_FINAL_HOLD_FRAMES : CREDIT_HOLD_FRAMES;
 }
 
-int ClearScene::GetCreditAlpha(void) const
+int ClearScene::GetCreditAlpha() const
 {
 	if (creditFrame_ < CREDIT_FADE_IN_FRAMES)
 	{
@@ -445,7 +445,7 @@ int ClearScene::GetCreditAlpha(void) const
 	return (alpha > 0) ? alpha : 0;
 }
 
-void ClearScene::DrawGameOver(void) const
+void ClearScene::DrawGameOver() const
 {
 	DrawBox(0, 0, Application::SCREEN_SIZE_X, Application::SCREEN_SIZE_Y,
 		GetColor(0, 0, 0), true);
@@ -456,7 +456,7 @@ void ClearScene::DrawGameOver(void) const
 	}
 }
 
-void ClearScene::UpdateGameOver(void)
+void ClearScene::UpdateGameOver()
 {
 	if (gameOverState_ == GameOverState::WAIT_EXIT)
 	{
@@ -515,7 +515,7 @@ void ClearScene::AddGameOverLine(const char* line)
 	++gameOverLineCount_;
 }
 
-bool ClearScene::IsAnyKeyTrgDown(void)
+bool ClearScene::IsAnyKeyTrgDown()
 {
 	char currentKeyState[256];
 	GetHitKeyStateAll(currentKeyState);
@@ -533,7 +533,7 @@ bool ClearScene::IsAnyKeyTrgDown(void)
 	return isTriggered;
 }
 
-bool ClearScene::IsAnyPadButtonTrgDown(void) const
+bool ClearScene::IsAnyPadButtonTrgDown() const
 {
 	for (int i = 0; i < static_cast<int>(InputManager::JOYPAD_BTN::MAX); ++i)
 	{
@@ -547,12 +547,12 @@ bool ClearScene::IsAnyPadButtonTrgDown(void) const
 	return false;
 }
 
-bool ClearScene::IsRuinedEnd(void) const
+bool ClearScene::IsRuinedEnd() const
 {
 	return prgMng_.GetProgressEnum() == ProgressManager::END_RUINED_LOCKED;
 }
 
-const ClearScene::EndInfo& ClearScene::GetEndInfo(void) const
+const ClearScene::EndInfo& ClearScene::GetEndInfo() const
 {
 	static constexpr EndInfo END_INFOS[] =
 	{
@@ -581,7 +581,7 @@ const ClearScene::EndInfo& ClearScene::GetEndInfo(void) const
 	{
 		ProgressManager::STORY_PROGRESS::END_BOTH_LOCKED,
 		ResourceManager::SRC::STILL_END_BOTH,
-		"そしていなくなった" 
+		"そしていなくなった"
 	};
 
 	for (const EndInfo& endInfo : END_INFOS)
@@ -595,12 +595,12 @@ const ClearScene::EndInfo& ClearScene::GetEndInfo(void) const
 	return DEFAULT_END_INFO;
 }
 
-ResourceManager::SRC ClearScene::GetStillSrc(void) const
+ResourceManager::SRC ClearScene::GetStillSrc() const
 {
 	return GetEndInfo().stillSrc;
 }
 
-std::string ClearScene::GetEndTitle(void) const
+std::string ClearScene::GetEndTitle() const
 {
 	return GetEndInfo().title;
 }

@@ -1,5 +1,5 @@
 #include <DxLib.h>
-#include <EffekseerForDXLib.h>
+
 #include "Manager/InputManager.h"
 #include "Manager/ResourceManager.h"
 #include "Manager/SceneManager.h"
@@ -16,12 +16,11 @@ const std::string Application::PATH_CSV = "Data/Csv/";
 const std::string Application::PATH_IMAGE = "Data/Image/";
 const std::string Application::PATH_TITLE = "Data/Image/Title/";
 const std::string Application::PATH_SOUND = "Data/Sound/";
-const std::string Application::PATH_EFFECT = "Data/Effect/";
 const std::string Application::PATH_CHARA = "Chara/";
 const std::string Application::PATH_MODEL = "Data/Model/";
 const std::string Application::PATH_FONT = "Data/Font/";
 
-void Application::CreateInstance(void)
+void Application::CreateInstance()
 {
 	if (instance_ == nullptr)
 	{
@@ -30,12 +29,12 @@ void Application::CreateInstance(void)
 	instance_->Init();
 }
 
-Application& Application::GetInstance(void)
+Application& Application::GetInstance()
 {
 	return *instance_;
 }
 
-void Application::Init(void)
+void Application::Init()
 {
 
 	// アプリケーションの初期設定
@@ -58,12 +57,6 @@ void Application::Init(void)
 	}
 
 	SetMouseDispFlag(FALSE);
-
-	
-
-	// Effekseerの初期化
-	InitEffekseer();
-
 	// フレームレート制御初期化
 	fpsControl_ = new FpsControl();
 	fpsControl_->Init();
@@ -96,7 +89,7 @@ void Application::Init(void)
 
 }
 
-void Application::Run(void)
+void Application::Run()
 {
 
 	InputManager& inputManager = InputManager::GetInstance();
@@ -131,7 +124,7 @@ void Application::Run(void)
 
 }
 
-void Application::Destroy(void)
+void Application::Destroy()
 {
 	// シーン内オブジェクトが各管理クラスを参照できるうちに先に解放する
 	SceneManager::GetInstance().Destroy();
@@ -150,10 +143,6 @@ void Application::Destroy(void)
 
 	// 進行度管理解放
 	ProgressManager::GetInstance().Destroy();
-
-	// Effekseerを終了する。
-	Effkseer_End();
-
 	delete fpsControl_;
 
 	// DxLib終了
@@ -166,37 +155,24 @@ void Application::Destroy(void)
 	delete instance_;
 }
 
-bool Application::IsInitFail(void) const
+bool Application::IsInitFail() const
 {
 	return isInitFail_;
 }
 
-bool Application::IsReleaseFail(void) const
+bool Application::IsReleaseFail() const
 {
 	return isReleaseFail_;
 }
 
-Application::Application(void)
+Application::Application()
 	:
 	isInitFail_(false),
 	isReleaseFail_(false),
 	fpsControl_(nullptr)
 {
 }
-
-void Application::InitEffekseer(void)
-{
-	if (Effekseer_Init(8000) == -1)
-	{
-		DxLib_End();
-	}
-
-	SetChangeScreenModeGraphicsSystemResetFlag(FALSE);
-
-	Effekseer_SetGraphicsDeviceLostCallbackFunctions();
-}
-
-void Application::InitLive2D(void)
+void Application::InitLive2D()
 {
 #ifdef _WIN64
 	Live2D_SetCubism4CoreDLLPath("Data/CubismSdkForNative-5-r.4.1/Core/dll/windows/x86_64/Live2DCubismCore.dll");

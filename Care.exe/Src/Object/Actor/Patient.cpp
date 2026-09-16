@@ -29,7 +29,7 @@ Patient::~Patient()
 	}
 }
 
-void Patient::Update(void)
+void Patient::Update()
 {
 	if (processMove_ != nullptr) processMove_->Update(transform_);
 
@@ -40,7 +40,7 @@ void Patient::Update(void)
 	anim_.Update();
 }
 
-void Patient::Release(void)
+void Patient::Release()
 {
 	if (processMove_ != nullptr)
 	{

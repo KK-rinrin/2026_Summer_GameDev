@@ -19,7 +19,7 @@ FpsController::FpsController(int fixedFps)
 
 }
 
-FpsController::~FpsController(void)
+FpsController::~FpsController()
 {
 }
 

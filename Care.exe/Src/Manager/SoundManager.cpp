@@ -6,7 +6,7 @@
 
 SoundManager* SoundManager::instance_ = nullptr;
 
-void SoundManager::CreateInstance(void)
+void SoundManager::CreateInstance()
 {
 	if (instance_ == nullptr)
 	{
@@ -14,7 +14,7 @@ void SoundManager::CreateInstance(void)
 	}
 }
 
-SoundManager& SoundManager::GetInstance(void)
+SoundManager& SoundManager::GetInstance()
 {
 	if (instance_ == nullptr)
 	{
@@ -23,7 +23,7 @@ SoundManager& SoundManager::GetInstance(void)
 	return *instance_;
 }
 
-void SoundManager::Destroy(void)
+void SoundManager::Destroy()
 {
 	delete instance_;
 	instance_ = nullptr;

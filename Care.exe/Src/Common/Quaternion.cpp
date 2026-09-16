@@ -3,7 +3,7 @@
 #include "../Utility/SchoolUtility.h"
 #include "Quaternion.h"
 
-Quaternion::Quaternion(void)
+Quaternion::Quaternion()
 {
     w = 1;
     x = y = z = 0;
@@ -26,7 +26,7 @@ Quaternion::Quaternion(double ww, double wx, double wy, double wz)
     z = wz;
 }
 
-Quaternion::~Quaternion(void)
+Quaternion::~Quaternion()
 {
 }
 
@@ -179,7 +179,7 @@ VECTOR Quaternion::ToEuler(const Quaternion& q)
 
 }
 
-VECTOR Quaternion::ToEuler(void) const
+VECTOR Quaternion::ToEuler() const
 {
     return ToEuler(Quaternion(w, x, y, z));
 }
@@ -244,7 +244,7 @@ MATRIX Quaternion::ToMatrix(const Quaternion& q)
 
 }
 
-MATRIX Quaternion::ToMatrix(void) const
+MATRIX Quaternion::ToMatrix() const
 {
     return ToMatrix(Quaternion(w, x, y, z));
 }
@@ -439,32 +439,32 @@ VECTOR Quaternion::GetDir(VECTOR dir) const
     return PosAxis(dir);
 }
 
-VECTOR Quaternion::GetForward(void) const
+VECTOR Quaternion::GetForward() const
 {
     return GetDir(SchoolUtility::DIR_F);
 }
 
-VECTOR Quaternion::GetBack(void) const
+VECTOR Quaternion::GetBack() const
 {
     return GetDir(SchoolUtility::DIR_B);
 }
 
-VECTOR Quaternion::GetRight(void) const
+VECTOR Quaternion::GetRight() const
 {
     return GetDir(SchoolUtility::DIR_R);
 }
 
-VECTOR Quaternion::GetLeft(void) const
+VECTOR Quaternion::GetLeft() const
 {
     return GetDir(SchoolUtility::DIR_L);
 }
 
-VECTOR Quaternion::GetUp(void) const
+VECTOR Quaternion::GetUp() const
 {
     return GetDir(SchoolUtility::DIR_U);
 }
 
-VECTOR Quaternion::GetDown(void) const
+VECTOR Quaternion::GetDown() const
 {
     return GetDir(SchoolUtility::DIR_D);
 }
@@ -487,7 +487,7 @@ Quaternion Quaternion::Normalize(const Quaternion& q)
     return ret;
 }
 
-Quaternion Quaternion::Normalized(void) const
+Quaternion Quaternion::Normalized() const
 {
 
     double mag = sqrt(w * w + x * x + y * y + z * z);
@@ -495,7 +495,7 @@ Quaternion Quaternion::Normalized(void) const
 
 }
 
-void Quaternion::Normalize(void)
+void Quaternion::Normalize()
 {
 
     double mag = sqrt(w * w + x * x + y * y + z * z);
@@ -507,7 +507,7 @@ void Quaternion::Normalize(void)
 
 }
 
-Quaternion Quaternion::Inverse(void) const
+Quaternion Quaternion::Inverse() const
 {
 
     double n = 1.0f / (w * w + x * x + y * y + z * z);
@@ -640,22 +640,22 @@ Quaternion Quaternion::SlerpUnclamped(Quaternion a, Quaternion b, float t)
 
 }
 
-Quaternion Quaternion::Identity(void)
+Quaternion Quaternion::Identity()
 {
     return Quaternion(1.0f, 0.0f, 0.0f, 0.0f);
 }
 
-double Quaternion::Length(void) const
+double Quaternion::Length() const
 {
     return sqrt(x * x + y * y + z * z + w * w);
 }
 
-double Quaternion::LengthSquared(void) const
+double Quaternion::LengthSquared() const
 {
     return x * x + y * y + z * z + w * w;
 }
 
-VECTOR Quaternion::xyz(void) const
+VECTOR Quaternion::xyz() const
 {
     return { (float)x, (float)y, (float)z };
 }

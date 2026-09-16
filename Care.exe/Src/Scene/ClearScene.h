@@ -8,12 +8,12 @@ class SoundManager;
 class ClearScene : public SceneBase
 {
 public:
-	ClearScene(void);
-	~ClearScene(void) override;
+	ClearScene();
+	~ClearScene() override;
 
-	void Update(void) override;
-	void Draw(void) override;
-	void Delete(void) override;
+	void Update() override;
+	void Draw() override;
+	void Delete() override;
 
 private:
 	struct EndInfo
@@ -23,33 +23,33 @@ private:
 		const char* title;
 	};
 
-	void InitLoad(void) override;
-	void InitPost(void) override;
+	void InitLoad() override;
+	void InitPost() override;
 
-	void InitGameOver(void);
+	void InitGameOver();
 
-	void UpdateGameOver(void);
-	void UpdateRuinedEnd(void);
-	void UpdateCredits(void);
-	void UpdateHiddenReset(void);
-	void UpdateResetComplete(void);
+	void UpdateGameOver();
+	void UpdateRuinedEnd();
+	void UpdateCredits();
+	void UpdateHiddenReset();
+	void UpdateResetComplete();
 
-	void DrawGameOver(void) const;
-	void DrawEndTitle(void) const;
-	void DrawCredits(void) const;
-	void DrawResetComplete(void) const;
+	void DrawGameOver() const;
+	void DrawEndTitle() const;
+	void DrawCredits() const;
+	void DrawResetComplete() const;
 
-	bool IsCreditSkipTriggered(void) const;
-	bool IsFinalCredit(void) const;
-	int GetCreditHoldFrames(void) const;
-	int GetCreditAlpha(void) const;
+	bool IsCreditSkipTriggered() const;
+	bool IsFinalCredit() const;
+	int GetCreditHoldFrames() const;
+	int GetCreditAlpha() const;
 	void AddGameOverLine(const char* line);
-	bool IsAnyKeyTrgDown(void);
-	bool IsAnyPadButtonTrgDown(void) const;
-	bool IsRuinedEnd(void) const;
-	const EndInfo& GetEndInfo(void) const;
-	ResourceManager::SRC GetStillSrc(void) const;
-	std::string GetEndTitle(void) const;
+	bool IsAnyKeyTrgDown();
+	bool IsAnyPadButtonTrgDown() const;
+	bool IsRuinedEnd() const;
+	const EndInfo& GetEndInfo() const;
+	ResourceManager::SRC GetStillSrc() const;
+	std::string GetEndTitle() const;
 
 	enum class GameOverState
 	{

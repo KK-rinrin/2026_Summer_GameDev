@@ -1,0 +1,111 @@
+<?xml version="1.0"?>
+<analyzerinfo hash="6138067743055087062">
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;stdio.h&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;stdio.h&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="C:/DxLib/DxDataType.h" line="14" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;windows.h&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;windows.h&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="C:/DxLib/DxDataTypeWin.h" line="21" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;tchar.h&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;tchar.h&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="C:/DxLib/DxDataTypeWin.h" line="23" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;commctrl.h&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;commctrl.h&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="C:/DxLib/DxDataTypeWin.h" line="24" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;chrono&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;chrono&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="C:/Project/2026_Summer_GameDev/Care.exe/Src/Manager/SceneManager.h" line="2" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;vector&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;vector&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="C:/Project/2026_Summer_GameDev/Care.exe/Src/Manager/InputManager.h" line="2" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;map&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;map&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="C:/Project/2026_Summer_GameDev/Care.exe/Src/Manager/InputManager.h" line="3" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;array&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;array&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="C:/Project/2026_Summer_GameDev/Care.exe/Src/Manager/KeyConfig.h" line="2" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;map&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;map&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="C:/Project/2026_Summer_GameDev/Care.exe/Src/Manager/ResourceManager.h" line="2" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="C:/Project/2026_Summer_GameDev/Care.exe/Src/Manager/ResourceManager.h" line="3" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="C:/Project/2026_Summer_GameDev/Care.exe/Src/Manager/Resource.h" line="3" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;vector&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;vector&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="C:/Project/2026_Summer_GameDev/Care.exe/Src/Manager/Resource.h" line="4" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;functional&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;functional&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="C:/Project/2026_Summer_GameDev/Care.exe/Src/Object/Stage/StageBase.h" line="2" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;vector&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;vector&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="C:/Project/2026_Summer_GameDev/Care.exe/Src/Object/Stage/StageBase.h" line="3" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;vector&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;vector&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="C:/Project/2026_Summer_GameDev/Care.exe/Src/Object/Common/2DTransform.h" line="3" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;array&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;array&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="C:/Project/2026_Summer_GameDev/Care.exe/Src/Manager/SoundManager.h" line="2" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="C:/Project/2026_Summer_GameDev/Care.exe/Src/Object/Talk/TalkData.h" line="5" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;variant&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;variant&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="C:/Project/2026_Summer_GameDev/Care.exe/Src/Object/Talk/TalkData.h" line="6" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;vector&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;vector&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="C:/Project/2026_Summer_GameDev/Care.exe/Src/Object/Talk/TalkData.h" line="7" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;unordered_map&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;unordered_map&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="C:/Project/2026_Summer_GameDev/Care.exe/Src/Object/Talk/window/Live2DTalkController.h" line="3" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="C:/Project/2026_Summer_GameDev/Care.exe/Src/Object/Talk/window/Live2DTalkController.h" line="4" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;tchar.h&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;tchar.h&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="C:/Project/2026_Summer_GameDev/Care.exe/Src/Object/Talk/window/Live2DTalkController.h" line="5" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;map&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;map&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="C:/Project/2026_Summer_GameDev/Care.exe/Src/Manager/Live2DModelHub.h" line="3" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;memory&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;memory&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="C:/Project/2026_Summer_GameDev/Care.exe/Src/Manager/Live2DModelHub.h" line="4" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;vector&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;vector&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="C:/Project/2026_Summer_GameDev/Care.exe/Src/Utility/SchoolUtility.h" line="2" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="C:/Project/2026_Summer_GameDev/Care.exe/Src/Utility/SchoolUtility.h" line="3" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;algorithm&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;algorithm&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="C:/Project/2026_Summer_GameDev/Care.exe/Src/Common/Quaternion.h" line="3" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;memory&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;memory&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="C:/Project/2026_Summer_GameDev/Care.exe/Src/Object/Talk/Talk.h" line="6" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="C:/Project/2026_Summer_GameDev/Care.exe/Src/Object/Talk/Talk.h" line="7" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;vector&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;vector&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="C:/Project/2026_Summer_GameDev/Care.exe/Src/Object/Talk/Talk.h" line="8" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;deque&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;deque&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="C:/Project/2026_Summer_GameDev/Care.exe/Src/Object/Actor/ProcessMove.h" line="2" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;algorithm&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;algorithm&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="C:/Project/2026_Summer_GameDev/Care.exe/Src/Object/Renderer2D.h" line="2" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;functional&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;functional&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="C:/Project/2026_Summer_GameDev/Care.exe/Src/Object/Renderer2D.h" line="3" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;vector&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;vector&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="C:/Project/2026_Summer_GameDev/Care.exe/Src/Object/Renderer2D.h" line="4" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;memory&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;memory&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="C:/Project/2026_Summer_GameDev/Care.exe/Src/Object/Menu/GameMenu.h" line="4" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="C:/Project/2026_Summer_GameDev/Care.exe/Src/Application.h" line="2" column="2"/>
+        </error>
+</analyzerinfo>

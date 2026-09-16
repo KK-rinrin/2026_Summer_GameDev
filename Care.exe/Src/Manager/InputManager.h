@@ -69,25 +69,25 @@ public:
 	};
 
 	// インスタンスを明示的に生成
-	static void CreateInstance(void);
+	static void CreateInstance();
 
 	// インスタンスの取得
-	static InputManager& GetInstance(void);
+	static InputManager& GetInstance();
 
 	// 初期化
-	void Init(void);
+	void Init();
 
 	// 更新
-	void Update(void);
+	void Update();
 
 	// リソースの破棄
-	void Destroy(void);
+	void Destroy();
 
 	// 判定を行うキーを追加
 	void Add(int key);
 
 	// 判定を行うキーをクリア
-	void Clear(void);
+	void Clear();
 
 	// キーの押下判定
 	bool IsNew(int key) const;
@@ -99,22 +99,22 @@ public:
 	bool IsTrgUp(int key) const;
 
 	// マウス座標の取得
-	Vector2 GetMousePos(void) const;
+	Vector2 GetMousePos() const;
 
 	// マウスのクリック状態を取得(MOUSE_INPUT_LEFT、RIGHT)
-	int GetMouse(void) const;
+	int GetMouse() const;
 
 	// マウスが左クリックされたか
-	bool IsClickMouseLeft(void) const;
+	bool IsClickMouseLeft() const;
 
 	// マウスが右クリックされたか
-	bool IsClickMouseRight(void) const;
+	bool IsClickMouseRight() const;
 
 	// マウスが左クリックされたか(押しっぱなしはNG)
-	bool IsTrgMouseLeft(void) const;
+	bool IsTrgMouseLeft() const;
 
 	// マウスが右クリックされたか(押しっぱなしはNG)
-	bool IsTrgMouseRight(void) const;
+	bool IsTrgMouseRight() const;
 
 	// コントローラの入力情報を取得する
 	JOYPAD_IN_STATE GetJPadInputState(JOYPAD_NO no);
@@ -124,7 +124,7 @@ public:
 	bool IsPadBtnNew(JOYPAD_NO no, JOYPAD_BTN btn) const;
 	bool IsPadBtnTrgDown(JOYPAD_NO no, JOYPAD_BTN btn) const;
 	bool IsPadBtnTrgUp(JOYPAD_NO no, JOYPAD_BTN btn) const;
-	bool IsPadConnected(void) const;
+	bool IsPadConnected() const;
 
 	// アナログキーの入力値から方向(正規化済み)を取得
 	VECTOR GetDirectionXZAKey(int aKeyX, int aKeyY) const;
@@ -179,13 +179,13 @@ private:
 
 	// デフォルトコンストラクタをprivateにして、
 	// 外部から生成できない様にする
-	InputManager(void);
+	InputManager();
 
 	// コピーコンストラクタも同様
 	InputManager(const InputManager& instance) = default;
 
 	// デストラクタも同様
-	~InputManager(void) = default;
+	~InputManager() = default;
 
 	// 配列の中からキー情報を取得する
 	const InputManager::Info& Find(int key) const;

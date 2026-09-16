@@ -14,17 +14,17 @@ public:
     FpsController(int fixedFps);
 
     // デストラクタ
-    ~FpsController(void);
+    ~FpsController();
 
     // 1フレームごとのFPS制御
     // ( ScreenFlip後に呼ぶこと ）
-    void Wait(void);
+    void Wait();
 
     // 画面にFPSを表示
-    void Draw(void);
+    void Draw();
 
     // 現在のFPSを取得
-    float GetFPS(void) const { return fps_; }
+    float GetFPS() const { return fps_; }
 
 private:
 

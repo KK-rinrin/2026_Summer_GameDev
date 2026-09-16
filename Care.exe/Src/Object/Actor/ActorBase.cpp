@@ -4,7 +4,7 @@
 #include "../../Common/Vector2.h"
 #include "../../Utility/SchoolUtility.h"
 
-ActorBase::ActorBase(void)
+ActorBase::ActorBase()
 	:
 	resMng_(ResourceManager::GetInstance()),
 	scnMng_(SceneManager::GetInstance()),
@@ -14,11 +14,11 @@ ActorBase::ActorBase(void)
 {
 }
 
-ActorBase::~ActorBase(void)
+ActorBase::~ActorBase()
 {
 }
 
-void ActorBase::Init(void)
+void ActorBase::Init()
 {
 
 	// リソースロード
@@ -38,17 +38,17 @@ void ActorBase::Init(void)
 
 }
 
-void ActorBase::Draw(void)
+void ActorBase::Draw()
 {
 	transform_.Draw();
 }
 
-void ActorBase::Release(void)
+void ActorBase::Release()
 {
 	transform_.Delete();
 }
 
-const Transform2D& ActorBase::GetTransform(void) const
+const Transform2D& ActorBase::GetTransform() const
 {
 	return transform_;
 }
@@ -61,7 +61,7 @@ void ActorBase::SetLocalPercent(float x, float y)
 	transform_.Update();
 }
 
-bool ActorBase::IsFacingRight(void) const
+bool ActorBase::IsFacingRight() const
 {
 	return !transform_.isLeft;
 }

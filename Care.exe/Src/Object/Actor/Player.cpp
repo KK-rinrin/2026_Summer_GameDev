@@ -28,7 +28,7 @@ Player::~Player()
 	}
 }
 
-void Player::Update(void)
+void Player::Update()
 {
 	if (processMove_ != nullptr)
 	{
@@ -43,7 +43,7 @@ void Player::Update(void)
 	anim_.Update();
 }
 
-void Player::Draw(void)
+void Player::Draw()
 {
 	if (!ProgressManager::GetInstance().IsNurceCharExists())
 	{
@@ -63,12 +63,12 @@ bool Player::IsFacingRight() const
 	return ActorBase::IsFacingRight();
 }
 
-ProcessMove* Player::GetProcessMove(void)
+ProcessMove* Player::GetProcessMove()
 {
 	return processMove_;
 }
 
-void Player::Release(void)
+void Player::Release()
 {
 	if (processMove_ != nullptr)
 	{

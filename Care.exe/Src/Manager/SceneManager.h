@@ -27,25 +27,25 @@ public:
 	};
 	
 	// インスタンスの生成
-	static void CreateInstance(void);
+	static void CreateInstance();
 
 	// インスタンスの取得
-	static SceneManager& GetInstance(void);
+	static SceneManager& GetInstance();
 
 	// 初期化
-	void Init(void);
+	void Init();
 	
 	// 3Dの初期化
-	void Init3D(void);
+	void Init3D();
 
 	// 更新
-	void Update(void);
+	void Update();
 
 	// 描画
-	void Draw(void);
+	void Draw();
 
 	// リソースの破棄
-	void Destroy(void);
+	void Destroy();
 
 	// 状態遷移
 	void ChangeScene(SCENE_ID nextId);
@@ -57,25 +57,25 @@ public:
 	void SetSettingReturnGameState(int stage, const VECTOR& actorPos);
 
 	// SettingSceneのBACKで戻る先を取得する
-	SCENE_ID GetSettingReturnScene(void) const;
+	SCENE_ID GetSettingReturnScene() const;
 
 	// GameScene復帰情報の有無を取得する
-	bool HasSettingReturnGameState(void) const;
+	bool HasSettingReturnGameState() const;
 
 	// GameScene復帰時のステージを取得する
-	int GetSettingReturnGameStage(void) const;
+	int GetSettingReturnGameStage() const;
 
 	// GameScene復帰時の操作キャラ座標を取得する
-	VECTOR GetSettingReturnActorPos(void) const;
+	VECTOR GetSettingReturnActorPos() const;
 
 	// GameScene復帰情報を破棄する
-	void ClearSettingReturnGameState(void);
+	void ClearSettingReturnGameState();
 
 	// シーンIDの取得
-	SCENE_ID GetSceneID(void);
+	SCENE_ID GetSceneID();
 
 	// デルタタイムの取得
-	float GetDeltaTime(void) const;
+	float GetDeltaTime() const;
 
 private:
 
@@ -108,21 +108,21 @@ private:
 	
 	// デフォルトコンストラクタをprivateにして、
 	// 外部から生成できない様にする
-	SceneManager(void);
+	SceneManager();
 
 	// コピーコンストラクタも同様
 	SceneManager(const SceneManager& instance) = default;
 
 	// デストラクタも同様
-	~SceneManager(void) = default;
+	~SceneManager() = default;
 
 	// デルタタイムをリセットする
-	void ResetDeltaTime(void);
+	void ResetDeltaTime();
 
 	// シーン遷移
 	void DoChangeScene(SCENE_ID sceneId);
 
 	// フェード
-	void Fade(void);
+	void Fade();
 
 };

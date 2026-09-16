@@ -20,7 +20,7 @@ FpsControl::~FpsControl()
 {
 }
 
-void FpsControl::Init(void)
+void FpsControl::Init()
 {
 	currentTime_ = 0;
 	prevFrameTime_ = 0;
@@ -30,7 +30,7 @@ void FpsControl::Init(void)
 }
 
 // フレームレート更新
-bool FpsControl::UpdateFrameRate(void)
+bool FpsControl::UpdateFrameRate()
 {
 	Sleep(1);	// システムに処理を返す
 
@@ -55,7 +55,7 @@ bool FpsControl::UpdateFrameRate(void)
 }
 
 // フレームレート計算
-void FpsControl::CalcFrameRate(void)
+void FpsControl::CalcFrameRate()
 {
 	// 前回のフレームレート更新からの経過時間を求める
 	int difTime = currentTime_ - updateFrameRateTime_;
@@ -80,7 +80,7 @@ void FpsControl::CalcFrameRate(void)
 }
 
 // フレームレート描画(デバッグ用)
-void FpsControl::DrawFrameRate(void)
+void FpsControl::DrawFrameRate()
 {
 	// フレームレートを表示
 	DrawFormatString(

@@ -5,8 +5,8 @@
 #include "../Manager/SoundManager.h"
 #include "SceneBase.h"
 
-SceneBase::SceneBase(void) 
-	: 
+SceneBase::SceneBase()
+	:
 	resMng_(ResourceManager::GetInstance()),
 	sceMng_(SceneManager::GetInstance()),
 	iptMng_(InputManager::GetInstance()),
@@ -15,11 +15,11 @@ SceneBase::SceneBase(void)
 {
 }
 
-SceneBase::~SceneBase(void)
+SceneBase::~SceneBase()
 {
 }
 
-void SceneBase::Init(void)
+void SceneBase::Init()
 {
 	InitLoad();
 
@@ -27,10 +27,10 @@ void SceneBase::Init(void)
 	InitPost();
 }
 
-void SceneBase::Update(void)
+void SceneBase::Update()
 {
 }
 
-void SceneBase::Draw(void)
+void SceneBase::Draw()
 {
 }

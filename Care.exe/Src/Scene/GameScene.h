@@ -30,25 +30,25 @@ public:
 	static constexpr int AFTER_TALK3_COLOR_SHIFT_RECT_COUNT = 4;
 	static constexpr float AFTER_TALK3_COLOR_SHIFT_RECT_CHANGE_SECONDS = 0.05f;
 	static constexpr int RUINED_BLACK_BLINK_INTERVAL_FRAMES = 120;
-	
+
 	// コンストラクタ
-	GameScene(void);
+	GameScene();
 
 	// デストラクタ
-	~GameScene(void) override;
+	~GameScene() override;
 
 	// 更新
-	void Update(void) override;
+	void Update() override;
 
 	// 描画
-	void Draw(void) override;
+	void Draw() override;
 
 	// 解放
-	void Delete(void) override;
+	void Delete() override;
 
 private:
 	void InitLoad() override;
-	void InitPost(void) override;
+	void InitPost() override;
 	void ApplyInitialProgressState();
 	void ChangeStage(Stage nextStage);
 

@@ -8,7 +8,7 @@
 #include "../../Utility/SchoolUtility.h"
 #include "BPMiniGameScene.h"
 
-BPMiniGameScene::BPMiniGameScene(void)
+BPMiniGameScene::BPMiniGameScene()
 	:
 	SceneBase(),
 	state_(State::INFLATE),
@@ -30,12 +30,12 @@ BPMiniGameScene::BPMiniGameScene(void)
 	}
 }
 
-BPMiniGameScene::~BPMiniGameScene(void)
+BPMiniGameScene::~BPMiniGameScene()
 {
 	Delete();
 }
 
-void BPMiniGameScene::Update(void)
+void BPMiniGameScene::Update()
 {
 	++frame_;
 	const float deltaTime = sceMng_.GetDeltaTime();
@@ -57,7 +57,7 @@ void BPMiniGameScene::Update(void)
 	}
 }
 
-void BPMiniGameScene::Draw(void)
+void BPMiniGameScene::Draw()
 {
 	DrawRoom();
 	DrawBackground();
@@ -71,7 +71,7 @@ void BPMiniGameScene::Draw(void)
 	}
 }
 
-void BPMiniGameScene::Delete(void)
+void BPMiniGameScene::Delete()
 {
 	if (isDeleted_)
 	{
@@ -88,7 +88,7 @@ void BPMiniGameScene::Delete(void)
 	isDeleted_ = true;
 }
 
-void BPMiniGameScene::InitLoad(void)
+void BPMiniGameScene::InitLoad()
 {
 	isDeleted_ = false;
 	isMonitorAbnormal_ = prgMng_.GetProgress() >= MONITOR_ABNORMAL_PROGRESS;
@@ -98,7 +98,7 @@ void BPMiniGameScene::InitLoad(void)
 	LoadImages();
 }
 
-void BPMiniGameScene::LoadImages(void)
+void BPMiniGameScene::LoadImages()
 {
 	images_[static_cast<int>(Image::BACKGROUND)] = resMng_.Load(ResourceManager::SRC::BPMG_BG_IMG).handleId_;
 	images_[static_cast<int>(Image::MONITOR)] = resMng_.Load(ResourceManager::SRC::BPMG_MONITOR_IMG).handleId_;
@@ -175,7 +175,7 @@ void BPMiniGameScene::UpdateSuccess(float deltaTime)
 	sceMng_.ChangeScene(SceneManager::SCENE_ID::GAME);
 }
 
-void BPMiniGameScene::UpdateFailed(void)
+void BPMiniGameScene::UpdateFailed()
 {
 	if (KeyConfig::IsTrgDown(KeyConfig::ACTION::DECIDE, iptMng_))
 	{
@@ -185,20 +185,20 @@ void BPMiniGameScene::UpdateFailed(void)
 	}
 }
 
-void BPMiniGameScene::Fail(void)
+void BPMiniGameScene::Fail()
 {
 	state_ = State::FAILED;
 	sndMng_.PlaySE(SE::BEEP);
 }
 
-void BPMiniGameScene::RecordSystolic(void)
+void BPMiniGameScene::RecordSystolic()
 {
 	isSystolicMeasured_ = true;
 	systolic_ = GetDisplayPressure();
 	sndMng_.PlaySE(SE::DECIDE);
 }
 
-void BPMiniGameScene::RecordDiastolic(void)
+void BPMiniGameScene::RecordDiastolic()
 {
 	diastolic_ = GetDisplayPressure();
 	state_ = State::SUCCESS;
@@ -206,38 +206,38 @@ void BPMiniGameScene::RecordDiastolic(void)
 	sndMng_.PlaySE(SE::DECIDE);
 }
 
-bool BPMiniGameScene::IsSystolicDetectable(void) const
+bool BPMiniGameScene::IsSystolicDetectable() const
 {
 	return state_ == State::DEFLATE &&
 		pressure_ <= SYSTOLIC_WINDOW_HIGH &&
 		pressure_ >= SYSTOLIC_WINDOW_LOW;
 }
 
-bool BPMiniGameScene::IsDiastolicDetectable(void) const
+bool BPMiniGameScene::IsDiastolicDetectable() const
 {
 	return state_ == State::DEFLATE &&
 		pressure_ <= DIASTOLIC_WINDOW_HIGH &&
 		pressure_ >= DIASTOLIC_WINDOW_LOW;
 }
 
-bool BPMiniGameScene::IsPulseMoving(void) const
+bool BPMiniGameScene::IsPulseMoving() const
 {
 	return state_ == State::DEFLATE &&
 		pressure_ <= SYSTOLIC_WINDOW_HIGH &&
 		pressure_ > DIASTOLIC_WINDOW_HIGH;
 }
 
-bool BPMiniGameScene::IsPulseMissed(void) const
+bool BPMiniGameScene::IsPulseMissed() const
 {
 	return state_ == State::DEFLATE && !isSystolicMeasured_ && pressure_ < SYSTOLIC_WINDOW_LOW;
 }
 
-bool BPMiniGameScene::IsDiastolicMissed(void) const
+bool BPMiniGameScene::IsDiastolicMissed() const
 {
 	return state_ == State::DEFLATE && isSystolicMeasured_ && pressure_ < DIASTOLIC_WINDOW_LOW;
 }
 
-int BPMiniGameScene::GetDisplayPressure(void) const
+int BPMiniGameScene::GetDisplayPressure() const
 {
 	int pressure = static_cast<int>(pressure_ + 0.5f);
 	if (isMonitorAbnormal_)
@@ -247,7 +247,7 @@ int BPMiniGameScene::GetDisplayPressure(void) const
 
 	return ClampInt(pressure, 0, 199);
 }
-int BPMiniGameScene::GetDisplayPulse(void) const
+int BPMiniGameScene::GetDisplayPulse() const
 {
 	if (!IsPulseMoving())
 	{
@@ -284,13 +284,13 @@ int BPMiniGameScene::MinInt(int lhs, int rhs)
 	return (lhs < rhs) ? lhs : rhs;
 }
 
-void BPMiniGameScene::DrawRoom(void) const
+void BPMiniGameScene::DrawRoom() const
 {
 	DrawBox(0, 0, SCREEN_SIZE.x, SCREEN_SIZE.y, GetColor(225, 229, 232), TRUE);
 	DrawBox(FLOOR_POS.x, FLOOR_POS.y, FLOOR_POS.x + FLOOR_SIZE.x, FLOOR_POS.y + FLOOR_SIZE.y, GetColor(204, 214, 218), TRUE);
 }
 
-void BPMiniGameScene::DrawBackground(void) const
+void BPMiniGameScene::DrawBackground() const
 {
 	const int background = images_[static_cast<int>(Image::BACKGROUND)];
 
@@ -309,7 +309,7 @@ void BPMiniGameScene::DrawBackground(void) const
 	DrawPulseMarker();
 }
 
-void BPMiniGameScene::DrawMonitor(void) const
+void BPMiniGameScene::DrawMonitor() const
 {
 	const int monitor = images_[static_cast<int>(Image::MONITOR)];
 	if (monitor != -1)
@@ -379,7 +379,7 @@ void BPMiniGameScene::DrawMonitor(void) const
 	DrawGlitch();
 }
 
-void BPMiniGameScene::DrawPressureGauge(void) const
+void BPMiniGameScene::DrawPressureGauge() const
 {
 	const Vector2 gaugePos = { MONITOR_POS.x + MONITOR_SIZE.x - 42, DISPLAY_POS.y + 18 };
 	const Vector2 gaugeSize = { 10, DISPLAY_SIZE.y - 36 };
@@ -391,7 +391,7 @@ void BPMiniGameScene::DrawPressureGauge(void) const
 	DrawBox(gaugePos.x - 2, gaugePos.y - 2, gaugePos.x + gaugeSize.x + 2, gaugePos.y + gaugeSize.y + 2, GetColor(112, 178, 154), FALSE);
 }
 
-void BPMiniGameScene::DrawPulseMarker(void) const
+void BPMiniGameScene::DrawPulseMarker() const
 {
 	const int pulse = images_[static_cast<int>(Image::PULSE)];
 	const bool detectable = IsPulseMoving();
@@ -413,7 +413,7 @@ void BPMiniGameScene::DrawPulseMarker(void) const
 	DrawCircle(markerPos.x, markerPos.y, radius, color, TRUE);
 }
 
-void BPMiniGameScene::DrawPulseWave(void) const
+void BPMiniGameScene::DrawPulseWave() const
 {
 	const Vector2 waveStart = { DISPLAY_POS.x + PULSE_WAVE_RELATIVE_POS.x, DISPLAY_POS.y + PULSE_WAVE_RELATIVE_POS.y };
 	const bool detectable = IsPulseMoving();
@@ -442,7 +442,7 @@ void BPMiniGameScene::DrawPulseWave(void) const
 	}
 }
 
-void BPMiniGameScene::DrawGlitch(void) const
+void BPMiniGameScene::DrawGlitch() const
 {
 	if (!isMonitorAbnormal_)
 	{
@@ -467,7 +467,7 @@ void BPMiniGameScene::DrawGlitch(void) const
 		DrawStringToHandle(DISPLAY_POS.x + 154, DISPLAY_POS.y + 20, "ERR", GetColor(235, 76, 90), font_);
 	}
 }
-void BPMiniGameScene::DrawFailed(void) const
+void BPMiniGameScene::DrawFailed() const
 {
 	DrawBox(0, 0, SCREEN_SIZE.x, SCREEN_SIZE.y, GetColor(0, 0, 0), TRUE);
 

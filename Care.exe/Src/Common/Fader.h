@@ -17,28 +17,28 @@ public:
 	};
 
 	// コンストラクタ
-	Fader(void);
+	Fader();
 
 	// デストラクタ
-	~Fader(void);
+	~Fader();
 
 	// 状態の取得
-	STATE GetState(void) const;
+	STATE GetState() const;
 
 	// フェード処理が終了しているか
-	bool IsEnd(void) const;
+	bool IsEnd() const;
 
 	// 指定フェードを開始する
 	void SetFade(STATE state);
 
 	// 初期化
-	void Init(void);
+	void Init();
 
 	// 更新
-	void Update(void);
+	void Update();
 
 	// 描画
-	void Draw(void);
+	void Draw();
 
 private:
 

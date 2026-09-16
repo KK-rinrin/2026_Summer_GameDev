@@ -16,19 +16,19 @@ class DebugScene : public SceneBase
 
 public:
 	// コンストラクタ
-	DebugScene(void);
+	DebugScene();
 
 	// デストラクタ
-	~DebugScene(void) override;
+	~DebugScene() override;
 
 	// 更新
-	void Update(void) override;
+	void Update() override;
 
 	// 描画
-	void Draw(void) override;
+	void Draw() override;
 
 	// 解放
-	void Delete(void) override;
+	void Delete() override;
 
 private:
 	

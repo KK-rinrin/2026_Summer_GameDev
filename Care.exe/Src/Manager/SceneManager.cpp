@@ -1,6 +1,5 @@
 #include <chrono>
 #include <DxLib.h>
-#include <EffekseerForDXLib.h>
 #include "../Common/Fader.h"
 #include "../Scene/TitleScene.h"
 #include "../Scene/GameScene.h"
@@ -23,12 +22,12 @@ void SceneManager::CreateInstance()
 	instance_->Init();
 }
 
-SceneManager& SceneManager::GetInstance(void)
+SceneManager& SceneManager::GetInstance()
 {
 	return *instance_;
 }
 
-void SceneManager::Init(void)
+void SceneManager::Init()
 {
 	sceneId_ = SCENE_ID::TITLE;
 	waitSceneId_ = SCENE_ID::NONE;
@@ -77,7 +76,7 @@ void SceneManager::Init(void)
 
 }
 
-void SceneManager::Update(void)
+void SceneManager::Update()
 {
 
 	if (scene_ == nullptr)
@@ -106,7 +105,7 @@ void SceneManager::Update(void)
 
 }
 
-void SceneManager::Draw(void)
+void SceneManager::Draw()
 {
 	
 	// 描画先グラフィック領域の指定
@@ -116,21 +115,16 @@ void SceneManager::Draw(void)
 	// 画面を初期化
 	ClearDrawScreen();
 
-	// Effekseerにより再生中のエフェクトを更新する。
-	UpdateEffekseer3D();
-
 	// 各シーンの描画処理
 	scene_->Draw();
 
-	// Effekseerにより再生中のエフェクトを描画する。
-	DrawEffekseer3D();
 	
 	// 暗転・明転
 	fader_->Draw();
 
 }
 
-void SceneManager::Destroy(void)
+void SceneManager::Destroy()
 {
 
 	// シーンが所有するオブジェクトを解放してからシーンを破棄する
@@ -191,45 +185,45 @@ void SceneManager::SetSettingReturnGameState(int stage, const VECTOR& actorPos)
 	settingReturnActorPos_ = actorPos;
 }
 
-SceneManager::SCENE_ID SceneManager::GetSettingReturnScene(void) const
+SceneManager::SCENE_ID SceneManager::GetSettingReturnScene() const
 {
 	return settingReturnSceneId_;
 }
 
-bool SceneManager::HasSettingReturnGameState(void) const
+bool SceneManager::HasSettingReturnGameState() const
 {
 	return hasSettingReturnGameState_;
 }
 
-int SceneManager::GetSettingReturnGameStage(void) const
+int SceneManager::GetSettingReturnGameStage() const
 {
 	return settingReturnGameStage_;
 }
 
-VECTOR SceneManager::GetSettingReturnActorPos(void) const
+VECTOR SceneManager::GetSettingReturnActorPos() const
 {
 	return settingReturnActorPos_;
 }
 
-void SceneManager::ClearSettingReturnGameState(void)
+void SceneManager::ClearSettingReturnGameState()
 {
 	hasSettingReturnGameState_ = false;
 	settingReturnGameStage_ = 0;
 	settingReturnActorPos_ = VGet(0.0f, 0.0f, 0.0f);
 }
 
-SceneManager::SCENE_ID SceneManager::GetSceneID(void)
+SceneManager::SCENE_ID SceneManager::GetSceneID()
 {
 	return sceneId_;
 }
 
-float SceneManager::GetDeltaTime(void) const
+float SceneManager::GetDeltaTime() const
 {
 	return 1.0f / 60.0f;
 	//return deltaTime_;
 }
 
-SceneManager::SceneManager(void)
+SceneManager::SceneManager()
 {
 
 	sceneId_ = SCENE_ID::NONE;
@@ -249,7 +243,7 @@ SceneManager::SceneManager(void)
 
 }
 
-void SceneManager::ResetDeltaTime(void)
+void SceneManager::ResetDeltaTime()
 {
 	deltaTime_ = 0.016f;
 	preTime_ = std::chrono::system_clock::now();
@@ -303,7 +297,7 @@ void SceneManager::DoChangeScene(SCENE_ID sceneId)
 
 }
 
-void SceneManager::Fade(void)
+void SceneManager::Fade()
 {
 	Fader::STATE fState = fader_->GetState();
 	switch (fState)

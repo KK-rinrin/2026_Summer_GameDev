@@ -10,28 +10,28 @@ class ActorBase
 public:
 
 	// コンストラクタ
-	ActorBase(void);
+	ActorBase();
 
 	// デストラクタ
-	virtual ~ActorBase(void);
+	virtual ~ActorBase();
 
 	// 初期化
-	void Init(void);
+	void Init();
 
 	// 更新
-	virtual void Update(void) = 0;
+	virtual void Update() = 0;
 
 	// 描画
-	virtual void Draw(void);
+	virtual void Draw();
 
 	// 解放
-	virtual void Release(void);
+	virtual void Release();
 
 	// 変換情報取得
-	const Transform2D& GetTransform(void) const;
+	const Transform2D& GetTransform() const;
 
 	void SetLocalPercent(float x, float y);
-	bool IsFacingRight(void) const;
+	bool IsFacingRight() const;
 
 	virtual void UpdateSortKey();
 
@@ -59,12 +59,12 @@ protected:
 	float radius_;
 
 	// 初期化（継承側）
-	virtual void InitLoad(void) = 0;
-	virtual void InitTransform(void) = 0;
-	virtual void InitCollider(void) = 0;
-	virtual void InitAnimation(void) = 0;
-	virtual void InitPost(void) = 0;
+	virtual void InitLoad() = 0;
+	virtual void InitTransform() = 0;
+	virtual void InitCollider() = 0;
+	virtual void InitAnimation() = 0;
+	virtual void InitPost() = 0;
 
-	virtual void UpdateAnimation(void) {}
+	virtual void UpdateAnimation() {}
 
 };

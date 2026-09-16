@@ -26,7 +26,7 @@ namespace
 
 ProgressManager* ProgressManager::instance_ = nullptr;
 	
-void ProgressManager::CreateInstance(void)
+void ProgressManager::CreateInstance()
 {
 	if (instance_ == nullptr)
 	{
@@ -35,7 +35,7 @@ void ProgressManager::CreateInstance(void)
 	instance_->Init();
 }
 
-ProgressManager& ProgressManager::GetInstance(void)
+ProgressManager& ProgressManager::GetInstance()
 {
 	if (instance_ == nullptr)
 	{
@@ -45,7 +45,7 @@ ProgressManager& ProgressManager::GetInstance(void)
 }
 
 
-void ProgressManager::Init(void)
+void ProgressManager::Init()
 {
 	progress_ = START;
 	resetCount_ = 0;
@@ -64,7 +64,7 @@ void ProgressManager::Init(void)
 	SaveProgress();
 }
 
-void ProgressManager::AddProgress(void)
+void ProgressManager::AddProgress()
 {
 	progress_++;
 	SaveProgress();
@@ -76,7 +76,7 @@ void ProgressManager::SetProgress(STORY_PROGRESS progress)
 }
 
 
-bool ProgressManager::ResetProgressCache(void)
+bool ProgressManager::ResetProgressCache()
 {
 	isPatientCharExists_ = IsFileExists(PATIENT_CHAR_PATH);
 	isNurceCharExists_ = IsFileExists(NURCE_CHAR_PATH);
@@ -104,24 +104,24 @@ bool ProgressManager::ResetProgressCache(void)
 	return isPatientCharExists_ && isNurceCharExists_ && SaveProgress();
 }
 
-bool ProgressManager::IsPatientCharExists(void) const
+bool ProgressManager::IsPatientCharExists() const
 {
 	return IsFileExists(PATIENT_CHAR_PATH);
 }
 
-bool ProgressManager::IsNurceCharExists(void) const
+bool ProgressManager::IsNurceCharExists() const
 {
 	return IsFileExists(NURCE_CHAR_PATH);
 }
 
-bool ProgressManager::IsCharaFileDeletedDuringRun(void) const
+bool ProgressManager::IsCharaFileDeletedDuringRun() const
 {
 	return (isPatientCharExists_ && !IsPatientCharExists()) ||
 		(isNurceCharExists_ && !IsNurceCharExists());
 }
 
 
-bool ProgressManager::IsEndTalkProgress(void) const
+bool ProgressManager::IsEndTalkProgress() const
 {
 	switch (GetProgressEnum())
 	{
@@ -133,7 +133,7 @@ bool ProgressManager::IsEndTalkProgress(void) const
 		return false;
 	}
 }
-bool ProgressManager::IsEndLockedProgress(void) const
+bool ProgressManager::IsEndLockedProgress() const
 {
 	switch (GetProgressEnum())
 	{
@@ -147,13 +147,13 @@ bool ProgressManager::IsEndLockedProgress(void) const
 	}
 }
 
-void ProgressManager::Destroy(void)
+void ProgressManager::Destroy()
 {
 	delete instance_;
 	instance_ = nullptr;
 }
 
-ProgressManager::ProgressManager(void)
+ProgressManager::ProgressManager()
 	:
 	progress_(START),
 	resetCount_(0),
@@ -162,7 +162,7 @@ ProgressManager::ProgressManager(void)
 {
 }
 
-void ProgressManager::LoadProgress(void)
+void ProgressManager::LoadProgress()
 {
 	std::ifstream file(PROGRESS_SAVE_PATH);
 	if (!file)
@@ -192,7 +192,7 @@ void ProgressManager::LoadProgress(void)
 #endif
 }
 
-bool ProgressManager::SaveProgress(void) const
+bool ProgressManager::SaveProgress() const
 {
 	std::ofstream file(PROGRESS_SAVE_PATH);
 	if (!file)
@@ -230,7 +230,7 @@ void ProgressManager::CheckCharaFiles(bool isFirstLaunch)
 	}
 }
 
-void ProgressManager::ApplyEndProgressByCharaFiles(void)
+void ProgressManager::ApplyEndProgressByCharaFiles()
 {
 	if (IsResetRequiredProgress())
 	{

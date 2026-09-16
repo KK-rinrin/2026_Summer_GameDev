@@ -17,9 +17,9 @@ public:
 	Patient();
 	~Patient();
 
-	void Update(void) override;
+	void Update() override;
 
-	void Release(void) override;
+	void Release() override;
 
 private:
 	void InitLoad() override;

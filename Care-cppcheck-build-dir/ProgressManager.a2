@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<analyzerinfo hash="14234769627362510079">
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;direct.h&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;direct.h&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="C:/Project/2026_Summer_GameDev/Care.exe/Src/Manager/ProgressManager.cpp" line="1" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;fstream&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;fstream&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="C:/Project/2026_Summer_GameDev/Care.exe/Src/Manager/ProgressManager.cpp" line="2" column="2"/>
+        </error>
+</analyzerinfo>

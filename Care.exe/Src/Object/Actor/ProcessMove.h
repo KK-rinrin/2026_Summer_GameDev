@@ -9,11 +9,11 @@ public:
 	ProcessMove();
 
 	void SetMoveSpeedPercent(float moveSpeedPercent);
-	float GetMoveSpeedPercent(void) const;
+	float GetMoveSpeedPercent() const;
 
 	void SetDelayFrameRange(int minDelayFrame, int maxDelayFrame);
-	void ClearDelay(void);
-	void Reset(void);
+	void ClearDelay();
+	void Reset();
 
 	void Update(Transform2D& transform);
 
@@ -30,11 +30,11 @@ private:
 		int waitFrame;
 	};
 
-	MoveInput ReadInput(void) const;
+	MoveInput ReadInput() const;
 	void ApplyMove(Transform2D& transform, const MoveInput& input) const;
 	void UpdateImmediate(Transform2D& transform, const MoveInput& input) const;
 	void UpdateDelayed(Transform2D& transform, const MoveInput& input);
-	int CreateDelayFrame(void);
+	int CreateDelayFrame();
 
 	float moveSpeedPercent_;
 	bool useDelay_;

@@ -10,25 +10,25 @@
 #include "../Manager/SoundManager.h"
 #include "../Utility/SchoolUtility.h"
 
-	static bool IsPadDecideTrgDown(const InputManager& input)
+static bool IsPadDecideTrgDown(const InputManager& input)
+{
+	const KeyConfig::PadBinding* binding =
+		KeyConfig::FindPadBinding(KeyConfig::ACTION::DECIDE);
+	if (binding == nullptr)
 	{
-		const KeyConfig::PadBinding* binding =
-			KeyConfig::FindPadBinding(KeyConfig::ACTION::DECIDE);
-		if (binding == nullptr)
-		{
-			return false;
-		}
-
-		const InputManager::JOYPAD_BTN invalidButton = InputManager::JOYPAD_BTN::MAX;
-		return (binding->fixedButton != invalidButton &&
-			input.IsPadBtnTrgDown(InputManager::JOYPAD_NO::PAD1, binding->fixedButton)) ||
-			(binding->configurableButton != invalidButton &&
-				input.IsPadBtnTrgDown(InputManager::JOYPAD_NO::PAD1, binding->configurableButton));
+		return false;
 	}
+
+	const InputManager::JOYPAD_BTN invalidButton = InputManager::JOYPAD_BTN::MAX;
+	return (binding->fixedButton != invalidButton &&
+		input.IsPadBtnTrgDown(InputManager::JOYPAD_NO::PAD1, binding->fixedButton)) ||
+		(binding->configurableButton != invalidButton &&
+			input.IsPadBtnTrgDown(InputManager::JOYPAD_NO::PAD1, binding->configurableButton));
+}
 
 constexpr Vector2 PCScene::FOLDER_POS[];
 
-PCScene::PCScene(void)
+PCScene::PCScene()
 	:
 	backgroundHandle_(-1),
 	frameHandle_(-1),
@@ -53,11 +53,11 @@ PCScene::PCScene(void)
 {
 }
 
-PCScene::~PCScene(void)
+PCScene::~PCScene()
 {
 }
 
-void PCScene::Load(void)
+void PCScene::Load()
 {
 	ResourceManager& resMng = ResourceManager::GetInstance();
 	backgroundHandle_ = resMng.Load(ResourceManager::SRC::PC_BG).handleId_;
@@ -126,7 +126,7 @@ void PCScene::Update(const InputManager& input)
 		{
 			if (IsFileHit(i))
 			{
-			soundMng_->PlaySE(SoundManager::SE::MOUSE);
+				soundMng_->PlaySE(SoundManager::SE::MOUSE);
 				isAccessDeniedVisible_ = true;
 				return;
 			}
@@ -171,7 +171,7 @@ void PCScene::Update(const InputManager& input)
 	}
 }
 
-void PCScene::Draw(void)
+void PCScene::Draw()
 {
 	if (!isOpen_)
 	{
@@ -182,16 +182,16 @@ void PCScene::Draw(void)
 	if (!isBPManualVisible_ && !isKarteVisible_ && !isCharaFolderOpen_)
 	{
 		for (int i = 0; i < (isCharaFolderVisible_ ? 3 : 2); ++i)
-	{
-		const Vector2& folderPos = FOLDER_POS[i];
-		DrawGraph(folderPos.x, folderPos.y, folderHandle_, TRUE);
+		{
+			const Vector2& folderPos = FOLDER_POS[i];
+			DrawGraph(folderPos.x, folderPos.y, folderHandle_, TRUE);
 
-		const char* label = (i == 0) ? "マニュアル確認" : (i == 1 ? "カルテ" : "Chara");
-		const int textWidth = GetDrawStringWidthToHandle(
-			label, static_cast<int>(std::strlen(label)), pcFontHandle_);
-		const int textX = folderPos.x + (folderSize_.x - textWidth) / 2;
-		const int textY = folderPos.y + folderSize_.y;
-		DrawStringToHandle(textX, textY, label, GetColor(0, 0, 0), pcFontHandle_);
+			const char* label = (i == 0) ? "マニュアル確認" : (i == 1 ? "カルテ" : "Chara");
+			const int textWidth = GetDrawStringWidthToHandle(
+				label, static_cast<int>(std::strlen(label)), pcFontHandle_);
+			const int textX = folderPos.x + (folderSize_.x - textWidth) / 2;
+			const int textY = folderPos.y + folderSize_.y;
+			DrawStringToHandle(textX, textY, label, GetColor(0, 0, 0), pcFontHandle_);
 		}
 	}
 
@@ -317,7 +317,7 @@ bool PCScene::IsAccessDeniedOkHit() const
 	return SchoolUtility::IsPointInRect(cursorPos_, ACCESS_DENIED_OK_POS, ACCESS_DENIED_OK_SIZE);
 }
 
-void PCScene::Delete(void)
+void PCScene::Delete()
 {
 	backgroundHandle_ = -1;
 	frameHandle_ = -1;
@@ -331,7 +331,7 @@ void PCScene::Delete(void)
 	isAccessDeniedVisible_ = false;
 }
 
-void PCScene::Open(void)
+void PCScene::Open()
 {
 	isOpen_ = true;
 	isBPManualVisible_ = false;
@@ -379,10 +379,10 @@ bool PCScene::IsCloseButtonHit() const
 		PC_GUIDE_CLOSE_TEXT, static_cast<int>(std::strlen(PC_GUIDE_CLOSE_TEXT)), pcFontHandle_);
 
 	return SchoolUtility::IsPointInRect(
-		 cursorPos_, Vector2(closeX, PC_GUIDE_CLOSE_POS_Y), Vector2(closeWidth, PC_GUIDE_CLOSE_HIT_SIZE_Y));
+		cursorPos_, Vector2(closeX, PC_GUIDE_CLOSE_POS_Y), Vector2(closeWidth, PC_GUIDE_CLOSE_HIT_SIZE_Y));
 }
 
-bool PCScene::IsOpen(void) const
+bool PCScene::IsOpen() const
 {
 	return isOpen_;
 }

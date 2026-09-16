@@ -10,16 +10,16 @@ public:
 	~FpsControl();	// デストラクタ
 
 	// 初期化
-	void Init(void);
+	void Init();
 
 	// フレームレート更新
-	bool UpdateFrameRate(void);
+	bool UpdateFrameRate();
 
 	// フレームレート計算
-	void CalcFrameRate(void);
+	void CalcFrameRate();
 
 	// フレームレート表示(デバッグ表示)
-	void DrawFrameRate(void);
+	void DrawFrameRate();
 
 private:
 	int currentTime_;			// 現在の時間

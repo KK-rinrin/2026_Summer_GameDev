@@ -27,19 +27,19 @@ class TitleScene : public SceneBase
 public:
 
 	// コンストラクタ
-	TitleScene(void);
+	TitleScene();
 
 	// デストラクタ
-	~TitleScene(void) override;
+	~TitleScene() override;
 
 	// 更新
-	void Update(void) override;
+	void Update() override;
 
 	// 描画
-	void Draw(void) override;
+	void Draw() override;
 
 	// 解放
-	void Delete(void) override;
+	void Delete() override;
 
 private:
 	enum class Menu
@@ -52,21 +52,21 @@ private:
 
 	void InitLoad() override;
 
-	void BuildSelectMenu(void);
+	void BuildSelectMenu();
 
-	void UpdateSelectMenu(void);
+	void UpdateSelectMenu();
 
-	void UpdatePlayerModel(void);
+	void UpdatePlayerModel();
 
-	void DrawPlayerModel(void);
+	void DrawPlayerModel();
 
-	void DrawSelectMenu(void);
+	void DrawSelectMenu();
 
 	void MoveSelectMenu(int move);
 
-	void DecideSelectMenu(void);
+	void DecideSelectMenu();
 
-	Menu GetSelectedMenu(void) const;
+	Menu GetSelectedMenu() const;
 
 	const char* GetMenuText(Menu menu) const;
 

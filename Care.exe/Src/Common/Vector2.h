@@ -7,7 +7,7 @@ public:
 	int y = 0;
 
 	// コンストラクタ
-	constexpr Vector2(void) = default;
+	constexpr Vector2() = default;
 
 	// コンストラクタ
 	constexpr Vector2(int vX, int vY)
@@ -18,6 +18,6 @@ public:
 	}
 
 	// デストラクタ
-	~Vector2(void) = default;
+	~Vector2() = default;
 
 };

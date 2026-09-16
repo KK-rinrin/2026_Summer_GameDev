@@ -5,7 +5,7 @@
 
 ResourceManager* ResourceManager::instance_ = nullptr;
 
-void ResourceManager::CreateInstance(void)
+void ResourceManager::CreateInstance()
 {
 	if (instance_ == nullptr)
 	{
@@ -14,12 +14,12 @@ void ResourceManager::CreateInstance(void)
 	instance_->Init();
 }
 
-ResourceManager& ResourceManager::GetInstance(void)
+ResourceManager& ResourceManager::GetInstance()
 {
 	return *instance_;
 }
 
-void ResourceManager::Init(void)
+void ResourceManager::Init()
 {
 
 	using RES = Resource;
@@ -27,7 +27,6 @@ void ResourceManager::Init(void)
 	static std::string PATH_IMG = Application::PATH_IMAGE;
 	static std::string PATH_SOUND = Application::PATH_SOUND;
 	static std::string PATH_TITLE = Application::PATH_TITLE;
-	static std::string PATH_EFF = Application::PATH_EFFECT;
 	static std::string PATH_MODEL = Application::PATH_MODEL;
 	static std::string PATH_FONT = Application::PATH_FONT;
 
@@ -146,7 +145,7 @@ void ResourceManager::Init(void)
 	resourcesMap_.emplace(SRC::PC_FONT, res);
 }
 
-void ResourceManager::Release(void)
+void ResourceManager::Release()
 {
 	for (auto& p : loadedMap_)
 	{
@@ -156,7 +155,7 @@ void ResourceManager::Release(void)
 	loadedMap_.clear();
 }
 
-void ResourceManager::Destroy(void)
+void ResourceManager::Destroy()
 {
 	Release();
 	for (auto& res : resourcesMap_)
@@ -228,7 +227,7 @@ void ResourceManager::CreateResource(SRC src, Resource::TYPE type, const std::st
 	resourcesMap_.emplace(src, res);
 }
 
-ResourceManager::ResourceManager(void)
+ResourceManager::ResourceManager()
 {
 }
 

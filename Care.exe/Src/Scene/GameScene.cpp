@@ -20,7 +20,7 @@
 #include "../Application.h"
 #include "ProgressTable.h"
 
-GameScene::GameScene(void)
+GameScene::GameScene()
 	:
 	SceneBase(),
 	talk_(nullptr),
@@ -37,11 +37,11 @@ GameScene::GameScene(void)
 	isReturningFromSetting_ = false;
 }
 
-GameScene::~GameScene(void)
+GameScene::~GameScene()
 {
 }
 
-void GameScene::Update(void)
+void GameScene::Update()
 {
 	if (stage_ != nullptr && stage_->IsInputBlocked())
 	{
@@ -62,7 +62,7 @@ void GameScene::Update(void)
 		OpenGameMenu();
 		return;
 	}
-	
+
 	if (stage_ != nullptr)
 	{
 		stage_->Update();
@@ -111,7 +111,7 @@ void GameScene::Update(void)
 
 }
 
-void GameScene::Draw(void)
+void GameScene::Draw()
 {
 	const bool useAfterTalk3ColorShift =
 		prgMng_.GetProgressEnum() >= ProgressManager::STORY_PROGRESS::AFTER_TALK3 &&
@@ -192,7 +192,7 @@ void GameScene::Draw(void)
 	}
 }
 
-void GameScene::Delete(void)
+void GameScene::Delete()
 {
 	if (talk_ != nullptr)
 	{
@@ -276,7 +276,7 @@ void GameScene::InitLoad()
 	ChangeStage(currentStage_);
 }
 
-void GameScene::InitPost(void)
+void GameScene::InitPost()
 {
 
 	if (prgMng_.GetProgressEnum() < ProgressManager::AFTER_LUNCH)

@@ -1,8 +1,7 @@
 #include <DxLib.h>
-#include <EffekseerForDXLib.h>
 #include "Resource.h"
 
-Resource::Resource(void)
+Resource::Resource()
 	:
 	type_(TYPE::NONE),
 	path_(""),
@@ -53,12 +52,12 @@ Resource::Resource(TYPE type, const std::string& path, int value1, int value2, i
 {
 }
 
-Resource::~Resource(void)
+Resource::~Resource()
 {
 	Release();
 }
 
-void Resource::Load(void)
+void Resource::Load()
 {
 
 	switch (type_)
@@ -83,12 +82,6 @@ void Resource::Load(void)
 		// ƒ‚ƒfƒ‹
 		handleId_ = MV1LoadModel(path_.c_str());
 		break;
-
-	case Resource::TYPE::EFFEKSEER:
-
-		handleId_ = LoadEffekseerEffect(path_.c_str());
-		break;
-
 	case Resource::TYPE::LIVE2D:
 
 		handleId_ = Live2D_LoadModel(path_.c_str());
@@ -140,7 +133,7 @@ int Resource::LoadFont(int fontSize, int thick, int fontSpace, int fontType)
 	return handleId_;
 }
 
-void Resource::Release(void)
+void Resource::Release()
 {
 
 	switch (type_)
@@ -189,15 +182,6 @@ void Resource::Release(void)
 		duplicateModelIds_.clear();
 	}
 	break;
-
-	case Resource::TYPE::EFFEKSEER:
-		if (handleId_ != -1)
-		{
-			DeleteEffekseerEffect(handleId_);
-			handleId_ = -1;
-		}
-		break;
-
 	case Resource::TYPE::LIVE2D:
 		if (handleId_ != -1)
 		{

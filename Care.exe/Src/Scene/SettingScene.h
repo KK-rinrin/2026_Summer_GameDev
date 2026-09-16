@@ -53,30 +53,30 @@ public:
 	static constexpr const char* TITLE_TEXT = "Setting";
 
 	// 項目テキスト(余裕あれば4番目に"テキストサイズ（倍率）"を追加)
-	static constexpr std::array<const char*, static_cast<int>(Item::MAX)> 
-		ITEM_TEXTS = { "BGM音量", "SE音量", "キーコンフィグ", "パッドコンフィグ", "BACK"};
+	static constexpr std::array<const char*, static_cast<int>(Item::MAX)>
+		ITEM_TEXTS = { "BGM音量", "SE音量", "キーコンフィグ", "パッドコンフィグ", "BACK" };
 
-	SettingScene(void);
-	~SettingScene(void) override;
+	SettingScene();
+	~SettingScene() override;
 
-	void Update(void) override;
-	void Draw(void) override;
-	void Delete(void) override;
+	void Update() override;
+	void Draw() override;
+	void Delete() override;
 
 private:
-	void InitLoad(void) override;	// ロード
+	void InitLoad() override;	// ロード
 	void MoveSelectItem(int move);	// 選択移動
 	bool IsItemVisible(Item item) const;	// 項目を表示するかどうか
-	void DecideSelectItem(void);
-	void BackToReturnScene(void);
-	void DrawItems(void);
-	bool UpdateHiddenResetCommand(void);
+	void DecideSelectItem();
+	void BackToReturnScene();
+	void DrawItems();
+	bool UpdateHiddenResetCommand();
 	bool CheckHiddenResetCommandKey(int keyCode);
-	void OpenProgressResetConfirm(void);
-	void UpdateProgressResetConfirm(void);
-	void DrawProgressResetConfirm(void);
+	void OpenProgressResetConfirm();
+	void UpdateProgressResetConfirm();
+	void DrawProgressResetConfirm();
 
-	std::function<void(void)> ItemUpdate_;
+	std::function<void()> ItemUpdate_;
 
 	void UpdateItemBGMVol();
 	void UpdateItemSEVol();
@@ -88,7 +88,7 @@ private:
 	void DrawItemKeyCon();
 	void DrawItemPadCon();
 
-	void FinishItemUpdate(void);
+	void FinishItemUpdate();
 	void DrawVolume(int volume, const char* label);
 
 	int fontTitle_;

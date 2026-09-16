@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<analyzerinfo hash="8846711655774009227">
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="C:/Project/2026_Summer_GameDev/Care.exe/Src/Object/Talk/window/Text/Text/TalkScriptParser.h" line="2" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;vector&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;vector&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="C:/Project/2026_Summer_GameDev/Care.exe/Src/Object/Talk/window/Text/Text/TalkScriptParser.h" line="3" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;cstdlib&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;cstdlib&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="C:/Project/2026_Summer_GameDev/Care.exe/Src/Object/Talk/window/Text/Text/TalkScriptParser.cpp" line="2" column="2"/>
+        </error>
+</analyzerinfo>

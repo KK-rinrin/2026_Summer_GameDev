@@ -7,15 +7,15 @@
 #include "../../Effect/ScreenEffect.h"
 #include "DxLib.h"
 
-DebugScene::DebugScene(void)
+DebugScene::DebugScene()
 {
 }
 
-DebugScene::~DebugScene(void)
+DebugScene::~DebugScene()
 {
 }
 
-void DebugScene::Update(void)
+void DebugScene::Update()
 {
 	// escキーでタイトルに戻る
 	if (iptMng_.IsTrgDown(KEY_INPUT_ESCAPE))
@@ -68,7 +68,7 @@ void DebugScene::Update(void)
 	cursorPos_->Update();
 }
 
-void DebugScene::Draw(void)
+void DebugScene::Draw()
 {
 	if (colorShiftPixels_ > 0.0f)
 	{
@@ -109,7 +109,7 @@ void DebugScene::Draw(void)
 	cursorPos_->DrawCrossLine();
 }
 
-void DebugScene::Delete(void)
+void DebugScene::Delete()
 {
 	delete cursorPos_;
 }

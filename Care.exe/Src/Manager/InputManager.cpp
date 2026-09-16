@@ -7,7 +7,7 @@
 
 InputManager* InputManager::instance_ = nullptr;
 
-void InputManager::CreateInstance(void)
+void InputManager::CreateInstance()
 {
 	if (instance_ == nullptr)
 	{
@@ -16,7 +16,7 @@ void InputManager::CreateInstance(void)
 	instance_->Init();
 }
 
-InputManager& InputManager::GetInstance(void)
+InputManager& InputManager::GetInstance()
 {
 	if (instance_ == nullptr)
 	{
@@ -25,7 +25,7 @@ InputManager& InputManager::GetInstance(void)
 	return *instance_;
 }
 
-void InputManager::Init(void)
+void InputManager::Init()
 {
 
 	// ゲームで使用したいキーを、
@@ -76,7 +76,7 @@ void InputManager::Init(void)
 
 }
 
-void InputManager::Update(void)
+void InputManager::Update()
 {
 
 	// キーボード検知
@@ -109,7 +109,7 @@ void InputManager::Update(void)
 
 }
 
-void InputManager::Destroy(void)
+void InputManager::Destroy()
 {
 
 	// キー情報のクリア
@@ -133,7 +133,7 @@ void InputManager::Add(int key)
 	keyInfos_.emplace(key, info);
 }
 
-void InputManager::Clear(void)
+void InputManager::Clear()
 {
 	keyInfos_.clear();
 }
@@ -153,37 +153,37 @@ bool InputManager::IsTrgUp(int key) const
 	return Find(key).keyTrgUp;
 }
 
-Vector2 InputManager::GetMousePos(void) const
+Vector2 InputManager::GetMousePos() const
 {
 	return mousePos_;
 }
 
-int InputManager::GetMouse(void) const
+int InputManager::GetMouse() const
 {
 	return mouseInput_;
 }
 
-bool InputManager::IsClickMouseLeft(void) const
+bool InputManager::IsClickMouseLeft() const
 {
 	return mouseInput_ == MOUSE_INPUT_LEFT;
 }
 
-bool InputManager::IsClickMouseRight(void) const
+bool InputManager::IsClickMouseRight() const
 {
 	return mouseInput_ == MOUSE_INPUT_RIGHT;
 }
 
-bool InputManager::IsTrgMouseLeft(void) const
+bool InputManager::IsTrgMouseLeft() const
 {
 	return FindMouse(MOUSE_INPUT_LEFT).keyTrgDown;
 }
 
-bool InputManager::IsTrgMouseRight(void) const
+bool InputManager::IsTrgMouseRight() const
 {
 	return FindMouse(MOUSE_INPUT_RIGHT).keyTrgDown;
 }
 
-InputManager::InputManager(void)
+InputManager::InputManager()
 	:
 	keyInfos_(),
 	mouseInfos_(),
@@ -408,7 +408,7 @@ bool InputManager::IsPadBtnTrgUp(JOYPAD_NO no, JOYPAD_BTN btn) const
 	return padInfos_[static_cast<int>(no)].IsTrgUp[static_cast<int>(btn)];
 }
 
-bool InputManager::IsPadConnected(void) const
+bool InputManager::IsPadConnected() const
 {
 	if (GetJoypadNum() <= 0)
 	{

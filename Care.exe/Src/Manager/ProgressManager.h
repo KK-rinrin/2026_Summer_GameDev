@@ -35,47 +35,47 @@ public:
 		CLEAR_COMPLETE = 500,	// スタッフロール後リセット要求
 	};
 
-	static void CreateInstance(void);
+	static void CreateInstance();
 
-	static ProgressManager& GetInstance(void);
+	static ProgressManager& GetInstance();
 
 	// 初期化
-	void Init(void);
+	void Init();
 
 	// 進行度増加
-	void AddProgress(void);
+	void AddProgress();
 
 	void SetProgress(STORY_PROGRESS progress);
 
 	// 進行度を初期化してリセット回数を記録
-	bool ResetProgressCache(void);
+	bool ResetProgressCache();
 
 	// 進行度取得
-	int GetProgress(void) const { return progress_; }
+	int GetProgress() const { return progress_; }
 
 	// 進行度enum取得
-	STORY_PROGRESS GetProgressEnum(void) const { return static_cast<STORY_PROGRESS>(progress_); }
+	STORY_PROGRESS GetProgressEnum() const { return static_cast<STORY_PROGRESS>(progress_); }
 
 	// 患者charファイル存在取得
-	bool IsPatientCharExists(void) const;
+	bool IsPatientCharExists() const;
 
 	// 看護師charファイル存在取得
-	bool IsNurceCharExists(void) const;
+	bool IsNurceCharExists() const;
 
-	bool IsCharaFileDeletedDuringRun(void) const;
+	bool IsCharaFileDeletedDuringRun() const;
 
-	bool IsEndTalkProgress(void) const;
+	bool IsEndTalkProgress() const;
 
-	bool IsEndLockedProgress(void) const;
+	bool IsEndLockedProgress() const;
 
-	bool IsCanDeleteProgress(void) const { return progress_ >= AFTER_LUNCH;  }
+	bool IsCanDeleteProgress() const { return progress_ >= AFTER_LUNCH;  }
 
-	bool IsResetRequiredProgress(void) const { return progress_ == CLEAR_COMPLETE || progress_ >= 512; }
+	bool IsResetRequiredProgress() const { return progress_ == CLEAR_COMPLETE || progress_ >= 512; }
 
-	bool HasResetHistory(void) const { return resetCount_ > 0; }
+	bool HasResetHistory() const { return resetCount_ > 0; }
 
 	// 削除
-	void Destroy(void);
+	void Destroy();
 
 private:
 
@@ -86,17 +86,17 @@ private:
 	bool isPatientCharExists_;
 	bool isNurceCharExists_;
 
-	ProgressManager(void);
+	ProgressManager();
 
 	ProgressManager(const ProgressManager& instance) = default;
 
-	~ProgressManager(void) = default;
+	~ProgressManager() = default;
 
-	void LoadProgress(void);
+	void LoadProgress();
 
-	bool SaveProgress(void) const;
+	bool SaveProgress() const;
 
 	void CheckCharaFiles(bool isFirstLaunch);
 
-	void ApplyEndProgressByCharaFiles(void);
+	void ApplyEndProgressByCharaFiles();
 };

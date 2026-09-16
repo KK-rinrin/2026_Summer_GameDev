@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<analyzerinfo hash="15390867567001322473">
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;stdio.h&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;stdio.h&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="C:/DxLib/DxDataType.h" line="14" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;windows.h&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;windows.h&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="C:/DxLib/DxDataTypeWin.h" line="21" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;tchar.h&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;tchar.h&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="C:/DxLib/DxDataTypeWin.h" line="23" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;commctrl.h&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;commctrl.h&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="C:/DxLib/DxDataTypeWin.h" line="24" column="2"/>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Include file: &lt;string&gt; not found. Please note: Standard library headers do not need to be provided to get proper results." verbose="Include file: &lt;string&gt; not found. Please note: Standard library headers do not need to be provided to get proper results.">
+            <location file="C:/Project/2026_Summer_GameDev/Care.exe/Src/Application.h" line="2" column="2"/>
+        </error>
+</analyzerinfo>

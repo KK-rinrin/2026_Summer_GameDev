@@ -17,7 +17,7 @@ static constexpr Vector2 TITLE_IMAGE_POS = { Application::SCREEN_SIZE_X / 2,
 
 constexpr Vector2 TitleScene::MENU_POS;
 
-TitleScene::TitleScene(void)
+TitleScene::TitleScene()
 	:
 	SceneBase(),
 	imgTitle_(-1),
@@ -27,25 +27,25 @@ TitleScene::TitleScene(void)
 {
 }
 
-TitleScene::~TitleScene(void)
+TitleScene::~TitleScene()
 {
 	Delete();
 }
 
-void TitleScene::Update(void)
+void TitleScene::Update()
 {
 	UpdateSelectMenu();
 	UpdatePlayerModel();
 }
 
-void TitleScene::Draw(void)
+void TitleScene::Draw()
 {
 	DrawRotaGraph(TITLE_IMAGE_POS.x, TITLE_IMAGE_POS.y, 1.0, 0.0, imgTitle_, TRUE);
 	DrawPlayerModel();
 	DrawSelectMenu();
 }
 
-void TitleScene::Delete(void)
+void TitleScene::Delete()
 {
 	if (liveTalkController_)
 	{
@@ -68,7 +68,7 @@ void TitleScene::InitLoad()
 	}
 }
 
-void TitleScene::BuildSelectMenu(void)
+void TitleScene::BuildSelectMenu()
 {
 	menuItems_.clear();
 
@@ -90,7 +90,7 @@ void TitleScene::BuildSelectMenu(void)
 	selectMenu_ = 0;
 }
 
-void TitleScene::UpdateSelectMenu(void)
+void TitleScene::UpdateSelectMenu()
 {
 	if (KeyConfig::IsTrgDown(KeyConfig::ACTION::MOVE_UP, iptMng_))
 	{
@@ -106,7 +106,7 @@ void TitleScene::UpdateSelectMenu(void)
 	}
 }
 
-void TitleScene::UpdatePlayerModel(void)
+void TitleScene::UpdatePlayerModel()
 {
 	if (liveTalkController_ == nullptr)
 	{
@@ -124,7 +124,7 @@ void TitleScene::UpdatePlayerModel(void)
 
 }
 
-void TitleScene::DrawPlayerModel(void)
+void TitleScene::DrawPlayerModel()
 {
 	if (liveTalkController_ == nullptr)
 	{
@@ -136,7 +136,7 @@ void TitleScene::DrawPlayerModel(void)
 	liveTalkController_->DrawEnd();
 }
 
-void TitleScene::DrawSelectMenu(void)
+void TitleScene::DrawSelectMenu()
 {
 	for (int i = 0; i < static_cast<int>(menuItems_.size()); ++i)
 	{
@@ -155,7 +155,7 @@ void TitleScene::MoveSelectMenu(int move)
 	selectMenu_ = (selectMenu_ + move + menuItemNum) % menuItemNum;
 }
 
-void TitleScene::DecideSelectMenu(void)
+void TitleScene::DecideSelectMenu()
 {
 	const Menu selectedMenu = GetSelectedMenu();
 	if (selectedMenu == Menu::RESET &&
@@ -188,7 +188,7 @@ void TitleScene::DecideSelectMenu(void)
 	}
 }
 
-TitleScene::Menu TitleScene::GetSelectedMenu(void) const
+TitleScene::Menu TitleScene::GetSelectedMenu() const
 {
 	return menuItems_[selectMenu_];
 }

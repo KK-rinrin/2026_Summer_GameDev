@@ -34,7 +34,7 @@ constexpr Vector2 SettingScene::RESET_CONFIRM_WINDOW_POS;
 constexpr Vector2 SettingScene::RESET_CONFIRM_WINDOW_SIZE;
 constexpr Vector2 SettingScene::RESET_CONFIRM_TEXT_OFFSET;
 
-SettingScene::SettingScene(void)
+SettingScene::SettingScene()
 	:
 	SceneBase(),
 	fontTitle_(INVALID_FONT_HANDLE),
@@ -55,12 +55,12 @@ SettingScene::SettingScene(void)
 {
 }
 
-SettingScene::~SettingScene(void)
+SettingScene::~SettingScene()
 {
 	Delete();
 }
 
-void SettingScene::Update(void)
+void SettingScene::Update()
 {
 	if (isProgressResetConfirmOpen_)
 	{
@@ -110,11 +110,11 @@ void SettingScene::Update(void)
 	}
 }
 
-void SettingScene::Draw(void)
+void SettingScene::Draw()
 {
 	// タイトルの描画
 	DrawStringToHandle(TITLE_POS.x, TITLE_POS.y, TITLE_TEXT, TITLE_COLOR, fontTitle_);
-	
+
 	// キャンセルキーで戻る旨の描画
 	DrawStringToHandle(TITLE_POS.x, TITLE_POS.y + ITEM_INTERVAL_Y,
 		"キャンセルキーで戻る", ITEM_COLOR, fontTitle_);
@@ -146,11 +146,11 @@ void SettingScene::Draw(void)
 	}
 }
 
-void SettingScene::Delete(void)
+void SettingScene::Delete()
 {
 }
 
-void SettingScene::InitLoad(void)
+void SettingScene::InitLoad()
 {
 	fontTitle_ = resMng_.LoadFont(ResourceManager::SRC::MAIN_FONT, TITLE_FONT_SIZE);
 	font_ = resMng_.LoadFont(ResourceManager::SRC::MAIN_FONT, MENU_FONT_SIZE);
@@ -170,7 +170,7 @@ bool SettingScene::IsItemVisible(Item item) const
 	return item != Item::PAD_CONFIG || iptMng_.IsPadConnected();
 }
 
-void SettingScene::DecideSelectItem(void)
+void SettingScene::DecideSelectItem()
 {
 	switch (static_cast<Item>(selectItem_))
 	{
@@ -202,13 +202,13 @@ void SettingScene::DecideSelectItem(void)
 	}
 }
 
-void SettingScene::BackToReturnScene(void)
+void SettingScene::BackToReturnScene()
 {
 	// TITLEから開いた時はTITLEへ、GameMenuから開いた時は保存されたGameSceneへ戻る。
 	sceMng_.ChangeScene(sceMng_.GetSettingReturnScene());
 }
 
-void SettingScene::DrawItems(void)
+void SettingScene::DrawItems()
 {
 	int drawIndex = 0;
 	for (int i = 0; i < static_cast<int>(Item::MAX); ++i)
@@ -226,7 +226,7 @@ void SettingScene::DrawItems(void)
 	}
 }
 
-bool SettingScene::UpdateHiddenResetCommand(void)
+bool SettingScene::UpdateHiddenResetCommand()
 {
 	for (const int keyCode : HIDDEN_RESET_COMMAND)
 	{
@@ -259,7 +259,7 @@ bool SettingScene::CheckHiddenResetCommandKey(int keyCode)
 	return false;
 }
 
-void SettingScene::OpenProgressResetConfirm(void)
+void SettingScene::OpenProgressResetConfirm()
 {
 	hiddenResetCommandIndex_ = 0;
 	isProgressResetConfirmOpen_ = true;
@@ -269,7 +269,7 @@ void SettingScene::OpenProgressResetConfirm(void)
 	sndMng_.PlaySE(SE::DECIDE);
 }
 
-void SettingScene::UpdateProgressResetConfirm(void)
+void SettingScene::UpdateProgressResetConfirm()
 {
 	if (isProgressResetResultOpen_)
 	{
@@ -317,7 +317,7 @@ void SettingScene::UpdateProgressResetConfirm(void)
 	}
 }
 
-void SettingScene::DrawProgressResetConfirm(void)
+void SettingScene::DrawProgressResetConfirm()
 {
 	const Vector2 windowEnd = {
 		RESET_CONFIRM_WINDOW_POS.x + RESET_CONFIRM_WINDOW_SIZE.x,
@@ -603,7 +603,7 @@ void SettingScene::DrawItemPadCon()
 	}
 }
 
-void SettingScene::FinishItemUpdate(void)
+void SettingScene::FinishItemUpdate()
 {
 	ItemUpdate_ = nullptr;
 	isWaitingKeyInput_ = false;

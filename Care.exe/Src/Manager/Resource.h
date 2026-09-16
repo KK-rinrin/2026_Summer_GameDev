@@ -15,14 +15,13 @@ public:
 		IMG,
 		IMGS,
 		MODEL,
-		EFFEKSEER,
 		LIVE2D,
 		FONT,
 		SOUND,
 	};
 
 	// コンストラクタ
-	Resource(void);
+	Resource();
 	// コンストラクタ
 	Resource(TYPE type, const std::string& path);
 	// コンストラクタ(IMGS/FONT用)
@@ -32,16 +31,16 @@ public:
 	
 
 	// デストラクタ
-	~Resource(void);
+	~Resource();
 
 	// 読み込み
-	void Load(void);
+	void Load();
 
 	// フォントを指定設定で読み込み
 	int LoadFont(int fontSize, int thick = -1, int fontSpace = 0, int fontType = DX_FONTTYPE_ANTIALIASING);
 
 	// 解放
-	void Release(void);
+	void Release();
 
 	// 複数画像ハンドルを別配列にコピー
 	void CopyHandle(int* imgs) const;

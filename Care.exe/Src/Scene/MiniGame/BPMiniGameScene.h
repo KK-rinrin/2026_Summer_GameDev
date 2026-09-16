@@ -6,12 +6,12 @@
 class BPMiniGameScene : public SceneBase
 {
 public:
-	BPMiniGameScene(void);
-	~BPMiniGameScene(void) override;
+	BPMiniGameScene();
+	~BPMiniGameScene() override;
 
-	void Update(void) override;
-	void Draw(void) override;
-	void Delete(void) override;
+	void Update() override;
+	void Draw() override;
+	void Delete() override;
 	static constexpr Vector2 OK_RELATIVE_POS = { 178, 18 };
 	static constexpr Vector2 PULSE_WAVE_RELATIVE_POS = { 154, 46 };
 
@@ -66,32 +66,32 @@ private:
 	static constexpr Vector2 FALLBACK_WRAP_SIZE = { 118, 118 };
 	static constexpr int IMAGE_NUM = static_cast<int>(Image::MAX);
 
-	void InitLoad(void) override;
-	void LoadImages(void);
+	void InitLoad() override;
+	void LoadImages();
 	void UpdateInflate(float deltaTime);
 	void UpdateDeflate(float deltaTime);
 	void UpdateSuccess(float deltaTime);
-	void UpdateFailed(void);
-	void Fail(void);
-	void RecordSystolic(void);
-	void RecordDiastolic(void);
+	void UpdateFailed();
+	void Fail();
+	void RecordSystolic();
+	void RecordDiastolic();
 
-	bool IsSystolicDetectable(void) const;
-	bool IsDiastolicDetectable(void) const;
-	bool IsPulseMoving(void) const;
-	bool IsPulseMissed(void) const;
-	bool IsDiastolicMissed(void) const;
-	int GetDisplayPressure(void) const;
-	int GetDisplayPulse(void) const;
+	bool IsSystolicDetectable() const;
+	bool IsDiastolicDetectable() const;
+	bool IsPulseMoving() const;
+	bool IsPulseMissed() const;
+	bool IsDiastolicMissed() const;
+	int GetDisplayPressure() const;
+	int GetDisplayPulse() const;
 
-	void DrawRoom(void) const;
-	void DrawBackground(void) const;
-	void DrawMonitor(void) const;
-	void DrawPressureGauge(void) const;
-	void DrawPulseMarker(void) const;
-	void DrawPulseWave(void) const;
-	void DrawGlitch(void) const;
-	void DrawFailed(void) const;
+	void DrawRoom() const;
+	void DrawBackground() const;
+	void DrawMonitor() const;
+	void DrawPressureGauge() const;
+	void DrawPulseMarker() const;
+	void DrawPulseWave() const;
+	void DrawGlitch() const;
+	void DrawFailed() const;
 
 	static int ClampInt(int value, int minValue, int maxValue);
 	static int MaxInt(int lhs, int rhs);

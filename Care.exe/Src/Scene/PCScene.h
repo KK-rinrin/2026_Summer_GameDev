@@ -29,15 +29,15 @@ class PCScene
 
 public:
 
-	PCScene(void);
-	~PCScene(void);
+	PCScene();
+	~PCScene();
 
-	void Load(void);
+	void Load();
 	void Update(const InputManager& input);
-	void Draw(void);
-	void Delete(void);
-	void Open(void);
-	bool IsOpen(void) const;
+	void Draw();
+	void Delete();
+	void Open();
+	bool IsOpen() const;
 
 private:
 	void HandleCancel();
