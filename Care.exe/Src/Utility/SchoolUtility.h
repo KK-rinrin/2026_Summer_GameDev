@@ -6,9 +6,7 @@
 #include "../Common/Quaternion.h"
 class SchoolUtility
 {
-
 public:
-
 	// ラジアン(rad)・度(deg)変換用
 	static constexpr float RAD2DEG = (180.0f / DX_PI_F);
 	static constexpr float DEG2RAD = (DX_PI_F / 180.0f);

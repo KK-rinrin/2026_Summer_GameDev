@@ -6,12 +6,11 @@
 #include "SceneBase.h"
 
 SceneBase::SceneBase()
-	:
-	resMng_(ResourceManager::GetInstance()),
-	sceMng_(SceneManager::GetInstance()),
-	iptMng_(InputManager::GetInstance()),
-	prgMng_(ProgressManager::GetInstance()),
-	sndMng_(SoundManager::GetInstance())
+	: resMng_(ResourceManager::GetInstance())
+	, sceMng_(SceneManager::GetInstance())
+	, iptMng_(InputManager::GetInstance())
+	, prgMng_(ProgressManager::GetInstance())
+	, sndMng_(SoundManager::GetInstance())
 {
 }
 

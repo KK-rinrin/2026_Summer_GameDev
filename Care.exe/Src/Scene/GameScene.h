@@ -13,7 +13,6 @@ class GameMenu;
 
 class GameScene : public SceneBase
 {
-
 public:
 	enum class Stage
 	{
@@ -25,10 +24,10 @@ public:
 	static constexpr float INPUT_MOVE_DELAY_SECONDS_0 = 0.2f;
 	static constexpr float INPUT_MOVE_DELAY_SECONDS_1 = 0.4f;
 	static constexpr float GAME_FPS = 60.0f;
-	static constexpr float AFTER_TALK3_COLOR_SHIFT_X = 4.0f;
-	static constexpr float AFTER_TALK3_COLOR_SHIFT_Y = 0.0f;
-	static constexpr int AFTER_TALK3_COLOR_SHIFT_RECT_COUNT = 4;
-	static constexpr float AFTER_TALK3_COLOR_SHIFT_RECT_CHANGE_SECONDS = 0.05f;
+	static constexpr float COLOR_SHIFT_X = 4.0f;
+	static constexpr float COLOR_SHIFT_Y = 0.0f;
+	static constexpr int COLOR_SHIFT_RECT_COUNT = 4;
+	static constexpr float COLOR_SHIFT_RECT_CHANGE_SEC = 0.05f;
 	static constexpr int RUINED_BLACK_BLINK_INTERVAL_FRAMES = 120;
 
 	// コンストラクタ

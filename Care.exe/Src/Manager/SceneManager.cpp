@@ -224,23 +224,18 @@ float SceneManager::GetDeltaTime() const
 }
 
 SceneManager::SceneManager()
+	: sceneId_(SCENE_ID::NONE)
+	, waitSceneId_(SCENE_ID::NONE)
+	, settingReturnSceneId_(SCENE_ID::TITLE)
+	, hasSettingReturnGameState_(false)
+	, settingReturnGameStage_(0)
+	, settingReturnActorPos_(VGet(0.0f, 0.0f, 0.0f))
+	, fader_(nullptr)
+	, scene_(nullptr)
+	, isSceneChanging_(false)
+	, preTime_()
+	, deltaTime_(1.0f / 60.0f)
 {
-
-	sceneId_ = SCENE_ID::NONE;
-	waitSceneId_ = SCENE_ID::NONE;
-	settingReturnSceneId_ = SCENE_ID::TITLE;
-	hasSettingReturnGameState_ = false;
-	settingReturnGameStage_ = 0;
-	settingReturnActorPos_ = VGet(0.0f, 0.0f, 0.0f);
-
-	scene_ = nullptr;
-	fader_ = nullptr;
-
-	isSceneChanging_ = false;
-
-	// デルタタイム
-	deltaTime_ = 1.0f / 60.0f;
-
 }
 
 void SceneManager::ResetDeltaTime()
@@ -269,22 +264,22 @@ void SceneManager::DoChangeScene(SCENE_ID sceneId)
 	switch (sceneId_)
 	{
 	case SCENE_ID::TITLE:
-		scene_ = new TitleScene();
+`tscene_ = new TitleScene();
 		break;
 	case SCENE_ID::GAME:
-		scene_ = new GameScene();
+`tscene_ = new GameScene();
 		break;
 	case SCENE_ID::SETTING:
-		scene_ = new SettingScene();
+`tscene_ = new SettingScene();
 		break;
 	case SCENE_ID::BP_MINIGAME:
-		scene_ = new BPMiniGameScene();
+`tscene_ = new BPMiniGameScene();
 		break;
 	case SCENE_ID::CLEAR:
-		scene_ = new ClearScene();
+`tscene_ = new ClearScene();
 		break;
 	case SCENE_ID::DEBUG:
-		scene_ = new DebugScene();
+`tscene_ = new DebugScene();
 		break;
 	}
 
@@ -303,7 +298,7 @@ void SceneManager::Fade()
 	switch (fState)
 	{
 	case Fader::STATE::FADE_IN:
-		// 明転中
+`t// 明転中
 		if (fader_->IsEnd())
 		{
 			// 明転が終了したら、フェード処理終了
@@ -312,7 +307,7 @@ void SceneManager::Fade()
 		}
 		break;
 	case Fader::STATE::FADE_OUT:
-		// 暗転中
+`t// 暗転中
 		if (fader_->IsEnd())
 		{
 			// 完全に暗転してからシーン遷移

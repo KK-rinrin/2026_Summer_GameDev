@@ -21,20 +21,19 @@
 #include "ProgressTable.h"
 
 GameScene::GameScene()
-	:
-	SceneBase(),
-	talk_(nullptr),
-	gameMenu_(nullptr),
-	canMove_(false),
-	stage_(nullptr),
-	render_(nullptr),
-	player_(nullptr),
-	patient_(nullptr),
-	controlActor_(nullptr),
-	debugCursorPosition_(nullptr),
-	currentStage_(INIT_STAGE)
+	: SceneBase()
+	, talk_(nullptr)
+	, gameMenu_(nullptr)
+	, canMove_(false)
+	, stage_(nullptr)
+	, render_(nullptr)
+	, player_(nullptr)
+	, patient_(nullptr)
+	, controlActor_(nullptr)
+	, debugCursorPosition_(nullptr)
+	, currentStage_(INIT_STAGE)
+	, isReturningFromSetting_(false)
 {
-	isReturningFromSetting_ = false;
 }
 
 GameScene::~GameScene()
@@ -71,10 +70,10 @@ void GameScene::Update()
 	switch (currentStage_)
 	{
 	case Stage::PAT_ROOM:
-		UpdatePR();
+`tUpdatePR();
 		break;
 	case Stage::NURSE_STATION:
-		UpdateNS();
+`tUpdateNS();
 		break;
 	}
 
@@ -163,10 +162,10 @@ void GameScene::Draw()
 			colorShiftScreenHandle_,
 			0.0f,
 			0.0f,
-			AFTER_TALK3_COLOR_SHIFT_X,
-			AFTER_TALK3_COLOR_SHIFT_Y,
-			AFTER_TALK3_COLOR_SHIFT_RECT_COUNT + addBugging,
-			AFTER_TALK3_COLOR_SHIFT_RECT_CHANGE_SECONDS
+			COLOR_SHIFT_X,
+			COLOR_SHIFT_Y,
+			COLOR_SHIFT_RECT_COUNT + addBugging,
+			COLOR_SHIFT_RECT_CHANGE_SEC
 		);
 	}
 
@@ -180,13 +179,9 @@ void GameScene::Draw()
 	DrawFormatString(0, 50, 0x000000, "Progress: %d", a);
 #endif
 
-	if (prgMng_.GetProgressEnum() == ProgressManager::END_RUINED &&
-		GetRand(RUINED_BLACK_BLINK_INTERVAL_FRAMES - 1) == 0)
-	{
-		DrawBox(0, 0, Application::SCREEN_SIZE_X, Application::SCREEN_SIZE_Y, 0x000000, true);
-	}
-
-	if (prgMng_.GetProgressEnum() == ProgressManager::END_RUINED_LOCKED)
+	if (prgMng_.GetProgressEnum() == ProgressManager::END_RUINED_LOCKED ||	// RUINEDエンドがLOCKED状態なら黒点滅しない(真っ黒)
+		prgMng_.GetProgressEnum() == ProgressManager::END_RUINED &&
+		GetRand(RUINED_BLACK_BLINK_INTERVAL_FRAMES - 1) == 0)		// RUINEDエンドの時は黒点滅
 	{
 		DrawBox(0, 0, Application::SCREEN_SIZE_X, Application::SCREEN_SIZE_Y, 0x000000, true);
 	}
@@ -249,7 +244,6 @@ void GameScene::InitLoad()
 
 	talk_ = new Talk();
 	talk_->Load();
-	// talk_->SetTalk(TalkDatas::TalkDataIndex::TALK_0);
 
 	gameMenu_ = new GameMenu();
 	gameMenu_->Load();
@@ -329,10 +323,10 @@ void GameScene::ChangeStage(Stage nextStage)
 	switch (currentStage_)
 	{
 	case Stage::PAT_ROOM:
-		stage_ = new PatientRoom();
+`tstage_ = new PatientRoom();
 		break;
 	case Stage::NURSE_STATION:
-		stage_ = new NurceStation();
+`tstage_ = new NurceStation();
 		break;
 	}
 
@@ -463,14 +457,14 @@ void GameScene::UpdateGameMenu()
 	switch (gameMenu_->ConsumeResult())
 	{
 	case GameMenu::Result::OPEN_SETTING:
-		OpenSettingFromGameMenu();
+`tOpenSettingFromGameMenu();
 		break;
 	case GameMenu::Result::BACK_TO_TITLE:
-		sceMng_.SetSettingReturnScene(SceneManager::SCENE_ID::TITLE);
+`tsceMng_.SetSettingReturnScene(SceneManager::SCENE_ID::TITLE);
 		sceMng_.ChangeScene(SceneManager::SCENE_ID::TITLE);
 		break;
 	default:
-		break;
+`tbreak;
 	}
 }
 

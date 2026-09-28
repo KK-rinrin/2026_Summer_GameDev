@@ -5,12 +5,11 @@
 #include "../../Utility/SchoolUtility.h"
 
 ActorBase::ActorBase()
-	:
-	resMng_(ResourceManager::GetInstance()),
-	scnMng_(SceneManager::GetInstance()),
-	transform_(),
-	radius_(0.0f),
-	collider_(radius_)
+	: resMng_(ResourceManager::GetInstance())
+	, scnMng_(SceneManager::GetInstance())
+	, transform_()
+	, radius_(0.0f)
+	, collider_(radius_)
 {
 }
 

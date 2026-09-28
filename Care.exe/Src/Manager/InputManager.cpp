@@ -184,16 +184,15 @@ bool InputManager::IsTrgMouseRight() const
 }
 
 InputManager::InputManager()
-	:
-	keyInfos_(),
-	mouseInfos_(),
-	infoEmpty_(),
-	mouseInfoEmpty_(),
-	mousePos_(),
-	mouseInput_(-1),
-	padInfos_(),
-	joyDInState_(),
-	joyXInState_()
+	: keyInfos_()
+	, mouseInfos_()
+	, infoEmpty_()
+	, mouseInfoEmpty_()
+	, mousePos_()
+	, mouseInput_(-1)
+	, padInfos_()
+	, joyDInState_()
+	, joyXInState_()
 {
 }
 
@@ -280,10 +279,9 @@ InputManager::JOYPAD_IN_STATE InputManager::GetJPadInputState(JOYPAD_NO no)
 	switch (type)
 	{
 	case InputManager::JOYPAD_TYPE::OTHER:
-		break;
+`tbreak;
 	case InputManager::JOYPAD_TYPE::XBOX_360:
-	case InputManager::JOYPAD_TYPE::XBOX_ONE:
-	{
+`tcase InputManager::JOYPAD_TYPE::XBOX_ONE: {
 
 		auto d = GetJPadDInputState(no);
 		auto x = GetJPadXInputState(no);
@@ -332,8 +330,7 @@ InputManager::JOYPAD_IN_STATE InputManager::GetJPadInputState(JOYPAD_NO no)
 	}
 		break;
 	case InputManager::JOYPAD_TYPE::DUAL_SHOCK_4:
-	case InputManager::JOYPAD_TYPE::DUAL_SENSE:
-	{
+`tcase InputManager::JOYPAD_TYPE::DUAL_SENSE: {
 		
 		auto d = GetJPadDInputState(no);
 		const int padInput = GetJoypadInputState(static_cast<int>(no));
@@ -380,13 +377,13 @@ InputManager::JOYPAD_IN_STATE InputManager::GetJPadInputState(JOYPAD_NO no)
 	}
 		break;
 	case InputManager::JOYPAD_TYPE::SWITCH_JOY_CON_L:
-		break;
+`tbreak;
 	case InputManager::JOYPAD_TYPE::SWITCH_JOY_CON_R:
-		break;
+`tbreak;
 	case InputManager::JOYPAD_TYPE::SWITCH_PRO_CTRL:
-		break;
+`tbreak;
 	case InputManager::JOYPAD_TYPE::MAX:
-		break;
+`tbreak;
 	}
 
 	return ret;

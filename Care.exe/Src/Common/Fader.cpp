@@ -3,11 +3,10 @@
 #include "Fader.h"
 
 Fader::Fader()
-	:
-	state_(STATE::NONE),
-	alpha_(0.0f),
-	isPreEnd_(true),
-	isEnd_(true)
+	: state_(STATE::NONE)
+	, alpha_(0.0f)
+	, isPreEnd_(true)
+	, isEnd_(true)
 {
 }
 
@@ -50,10 +49,10 @@ void Fader::Update()
 	switch (state_)
 	{
 	case STATE::NONE:
-		return;
+`treturn;
 
 	case STATE::FADE_OUT:
-		alpha_ += SPEED_ALPHA;
+`talpha_ += SPEED_ALPHA;
 		if (alpha_ > 255)
 		{
 			// フェード終了
@@ -69,7 +68,7 @@ void Fader::Update()
 		break;
 
 	case STATE::FADE_IN:
-		alpha_ -= SPEED_ALPHA;
+`talpha_ -= SPEED_ALPHA;
 		if (alpha_ < 0)
 		{
 			// フェード終了
@@ -84,7 +83,7 @@ void Fader::Update()
 		break;
 
 	default:
-		return;
+`treturn;
 	}
 
 }
@@ -95,10 +94,9 @@ void Fader::Draw()
 	switch (state_)
 	{
 	case STATE::NONE:
-		return;
+`treturn;
 	case STATE::FADE_OUT:
-	case STATE::FADE_IN:
-		SetDrawBlendMode(DX_BLENDMODE_ALPHA, (int)alpha_);
+`tcase STATE::FADE_IN: SetDrawBlendMode(DX_BLENDMODE_ALPHA, (int)alpha_);
 		DrawBox(
 			0, 0,
 			Application::SCREEN_SIZE_X,

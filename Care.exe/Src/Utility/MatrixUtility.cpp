@@ -6,7 +6,7 @@ MATRIX MatrixUtility::GetMatrixRotateXYZ(const VECTOR& euler)
 	ret = MMult(ret, MGetRotX(euler.x));
 	ret = MMult(ret, MGetRotY(euler.y));
 	ret = MMult(ret, MGetRotZ(euler.z));
-    return ret;
+	return ret;
 }
 
 MATRIX MatrixUtility::Multiplication(const MATRIX& child, const MATRIX& parent)

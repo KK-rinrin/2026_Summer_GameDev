@@ -104,12 +104,12 @@ private:
 	std::string endTitle_;
 	bool isGameOver_;
 	bool isCreditsActive_;
-	bool isExitRequested_;
+	bool isExitConfirm_;
 	bool isResetCompleteOpen_;
 	GameOverState gameOverState_;
 	const char* gameOverLines_[GAME_OVER_MAX_LINES];
 	int gameOverLineCount_;
-	char previousKeyState_[256];
+	char prevKeyState_[256];
 
 	bool isFadeOut_ = false;
 

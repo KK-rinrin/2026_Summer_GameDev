@@ -75,5 +75,5 @@ private:
 	VECTOR drawPos2; // 描画位置2（左下）
 
 	// 遠近法関連
-	float perspectiveScale; // 遠近法による拡大率
+	float persScale; // 遠近法による拡大率
 };

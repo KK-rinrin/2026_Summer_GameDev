@@ -4,7 +4,6 @@
 
 class SoundManager
 {
-
 public:
 	enum class BGM
 	{

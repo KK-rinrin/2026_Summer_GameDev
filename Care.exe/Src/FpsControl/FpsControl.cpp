@@ -6,11 +6,11 @@ class Application;
 
 // コンストラクタ
 FpsControl::FpsControl()
-	: currentTime_(0),
-	  prevFrameTime_(0),
-	  frameCount_(0),
-	  updateFrameRateTime_(0),
-	  frameRate_(0.0f)
+	: currentTime_(0)
+	, prevFrameTime_(0)
+	, frameCount_(0)
+	, updateFrameRateTime_(0)
+	, frameRate_(0.0f)
 {
 
 }

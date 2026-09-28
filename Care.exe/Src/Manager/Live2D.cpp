@@ -5,8 +5,8 @@
 int Live2D::s_renderCount = 0;
 
 Live2D::Live2D()
+	: modelHandle(-1)
 {
-	modelHandle = -1;
 }
 
 Live2D::~Live2D()

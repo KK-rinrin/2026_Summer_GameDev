@@ -29,27 +29,26 @@ static bool IsPadDecideTrgDown(const InputManager& input)
 constexpr Vector2 PCScene::FOLDER_POS[];
 
 PCScene::PCScene()
-	:
-	backgroundHandle_(-1),
-	frameHandle_(-1),
-	folderHandle_(-1),
-	fileHandle_(-1),
-	bpManualHandle_(-1),
-	cursorHandle_(-1),
-	pcFontHandle_(-1),
-	pcFontHandleS_(-1),
-	folderSize_(0, 0),
-	fileSize_(0, 0),
-	cursorPos_(0, 0),
-	nurseName_("■■■"),
-	symptomText_("不眠、妄想"),
-	isOpen_(false),
-	isBPManualVisible_(false),
-	isKarteVisible_(false),
-	isCharaFolderVisible_(false),
-	isCharaFolderOpen_(false),
-	isAccessDeniedVisible_(false),
-	soundMng_(nullptr)
+	: backgroundHandle_(-1)
+	, frameHandle_(-1)
+	, folderHandle_(-1)
+	, fileHandle_(-1)
+	, bpManualHandle_(-1)
+	, cursorHandle_(-1)
+	, pcFontHandle_(-1)
+	, pcFontHandleS_(-1)
+	, folderSize_(0, 0)
+	, fileSize_(0, 0)
+	, cursorPos_(0, 0)
+	, nurseName_("■■■")
+	, symptomText_("不眠、妄想")
+	, isOpen_(false)
+	, isBPManualVisible_(false)
+	, isKarteVisible_(false)
+	, isCharaFolderVisible_(false)
+	, isCharaFolderOpen_(false)
+	, isAccessDeniedVisible_(false)
+	, soundMng_(nullptr)
 {
 }
 

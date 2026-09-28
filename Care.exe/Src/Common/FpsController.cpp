@@ -2,14 +2,13 @@
 #include "FpsController.h"
 
 FpsController::FpsController(int fixedFps)
-    :
-	// 最大FPSを超えないように制限
-    fixedFps_(fixedFps > MAX_FPS ? MAX_FPS : fixedFps),
-	// 1フレームの理想時間を計算
-	idealFrameTime_(1.0f / static_cast<double>(fixedFps_)),
-    fps_(0.0f),
-	timeList_(),
-	prevTime_()
+    : // 最大FPSを超えないように制限
+    fixedFps_(fixedFps > MAX_FPS ? MAX_FPS : fixedFps)
+	, // 1フレームの理想時間を計算
+	idealFrameTime_(1.0f / static_cast<double>(fixedFps_))
+	, fps_(0.0f)
+	, timeList_()
+	, prevTime_()
 {
 
     prevTime_ = std::chrono::high_resolution_clock::now();

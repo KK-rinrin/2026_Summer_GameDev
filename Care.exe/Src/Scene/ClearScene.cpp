@@ -39,24 +39,24 @@ namespace
 }
 
 ClearScene::ClearScene()
-	:
-	SceneBase(),
-	stillHandle_(-1),
-	titleFontHandle_(-1),
-	resetFontHandle_(-1),
-	endTitleAnimationFrame_(0),
-	endStillHoldFrame_(0),
-	creditIndex_(0),
-	creditFrame_(0),
-	hiddenResetHoldFrame_(0),
-	isGameOver_(false),
-	isCreditsActive_(false),
-	isExitRequested_(false),
-	isResetCompleteOpen_(false),
-	gameOverState_(GameOverState::INITIAL_CONFIRM),
-	gameOverLineCount_(0)
+	: SceneBase()
+	, stillHandle_(-1)
+	, titleFontHandle_(-1)
+	, resetFontHandle_(-1)
+	, endTitleAnimationFrame_(0)
+	, endStillHoldFrame_(0)
+	, creditIndex_(0)
+	, creditFrame_(0)
+	, hiddenResetHoldFrame_(0)
+	, isGameOver_(false)
+	, isCreditsActive_(false)
+	, isResetCompleteOpen_(false)
+	, gameOverState_(GameOverState::INITIAL_CONFIRM)
+	, gameOverLines_{}
+	, gameOverLineCount_(0)
+	, prevKeyState_{}
 {
-	std::memset(previousKeyState_, 0, sizeof(previousKeyState_));
+	std::memset(prevKeyState_, 0, sizeof(prevKeyState_));
 	sndMng_ = &SoundManager::GetInstance();
 }
 
@@ -88,7 +88,7 @@ void ClearScene::Update()
 	{
 		UpdateHiddenReset();
 	}
-	if (isExitRequested_)
+	if (isExitConfirm_)
 	{
 		return;
 	}
@@ -172,7 +172,6 @@ void ClearScene::Delete()
 	endTitle_.clear();
 	isGameOver_ = false;
 	isCreditsActive_ = false;
-	isExitRequested_ = false;
 	isResetCompleteOpen_ = false;
 }
 
@@ -184,7 +183,6 @@ void ClearScene::InitLoad()
 	creditFrame_ = 0;
 	hiddenResetHoldFrame_ = 0;
 	isCreditsActive_ = false;
-	isExitRequested_ = false;
 	isResetCompleteOpen_ = false;
 	isGameOver_ = !prgMng_.IsCanDeleteProgress();
 
@@ -203,7 +201,7 @@ void ClearScene::InitLoad()
 
 	if (IsRuinedEnd())
 	{
-		GetHitKeyStateAll(previousKeyState_);
+		GetHitKeyStateAll(prevKeyState_);
 	}
 }
 
@@ -233,7 +231,7 @@ void ClearScene::InitGameOver()
 	}
 	AddGameOverLine("必要なデータを読み込めませんでした。");
 	AddGameOverLine("データをリセットしますか？y/n");
-	GetHitKeyStateAll(previousKeyState_);
+	GetHitKeyStateAll(prevKeyState_);
 }
 
 void ClearScene::DrawEndTitle() const
@@ -284,15 +282,10 @@ void ClearScene::UpdateCredits()
 	if (creditIndex_ >= CREDIT_ENTRY_COUNT)
 	{
 		prgMng_.SetProgress(ProgressManager::CLEAR_COMPLETE);
-		isExitRequested_ = true;
-		// ゆっくりフェードアウト
-		// そのあと「リセットしますか？」表示
-		// はいを押すとリセットして終了
-
 		sndMng_->StopBGM();
 		isFadeOut_ = true;
 
-		// 今はフェードアウトなんてねぇので終了要求を出す　後でやる
+		// 今はフェードアウトは無いので終了要求を出す　後でやる
 		PostQuitMessage(0);
 	}
 }
@@ -304,7 +297,6 @@ void ClearScene::UpdateRuinedEnd()
 		return;
 	}
 
-	isExitRequested_ = true;
 	PostQuitMessage(0);
 }
 
@@ -362,6 +354,7 @@ void ClearScene::UpdateHiddenReset()
 	const bool isKeyOrDpadUp = KeyConfig::IsNew(KeyConfig::ACTION::MOVE_UP, iptMng_);
 	const VECTOR stickInput = PadInput::GetMoveAxis(iptMng_, InputManager::JOYPAD_NO::PAD1);
 	const bool isStickUp = stickInput.y <= HIDDEN_RESET_STICK_UP;
+
 	if (!isKeyOrDpadUp && !isStickUp)
 	{
 		hiddenResetHoldFrame_ = 0;
@@ -378,7 +371,7 @@ void ClearScene::UpdateHiddenReset()
 	if (prgMng_.ResetProgressCache())
 	{
 		isResetCompleteOpen_ = true;
-		GetHitKeyStateAll(previousKeyState_);
+		GetHitKeyStateAll(prevKeyState_);
 	}
 }
 
@@ -389,7 +382,6 @@ void ClearScene::UpdateResetComplete()
 		return;
 	}
 
-	isExitRequested_ = true;
 	PostQuitMessage(0);
 }
 
@@ -476,7 +468,7 @@ void ClearScene::UpdateGameOver()
 				: "データの初期化に失敗しました。");
 			AddGameOverLine("どれかのキーを押して終了...");
 			gameOverState_ = GameOverState::WAIT_EXIT;
-			GetHitKeyStateAll(previousKeyState_);
+			GetHitKeyStateAll(prevKeyState_);
 		}
 		else
 		{
@@ -523,13 +515,13 @@ bool ClearScene::IsAnyKeyTrgDown()
 	bool isTriggered = false;
 	for (int i = 0; i < 256; ++i)
 	{
-		if (currentKeyState[i] && !previousKeyState_[i])
+		if (currentKeyState[i] && !prevKeyState_[i])
 		{
 			isTriggered = true;
 		}
 	}
 
-	std::memcpy(previousKeyState_, currentKeyState, sizeof(previousKeyState_));
+	std::memcpy(prevKeyState_, currentKeyState, sizeof(prevKeyState_));
 	return isTriggered;
 }
 

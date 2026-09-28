@@ -36,7 +36,6 @@ Application& Application::GetInstance()
 
 void Application::Init()
 {
-
 	// アプリケーションの初期設定
 	SetWindowText("Care.exe");
 
@@ -91,7 +90,6 @@ void Application::Init()
 
 void Application::Run()
 {
-
 	InputManager& inputManager = InputManager::GetInstance();
 	SceneManager& sceneManager = SceneManager::GetInstance();
 
@@ -166,10 +164,9 @@ bool Application::IsReleaseFail() const
 }
 
 Application::Application()
-	:
-	isInitFail_(false),
-	isReleaseFail_(false),
-	fpsControl_(nullptr)
+	: isInitFail_(false)
+	, isReleaseFail_(false)
+	, fpsControl_(nullptr)
 {
 }
 void Application::InitLive2D()

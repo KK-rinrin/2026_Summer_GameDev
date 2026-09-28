@@ -9,20 +9,19 @@
 #include "BPMiniGameScene.h"
 
 BPMiniGameScene::BPMiniGameScene()
-	:
-	SceneBase(),
-	state_(State::INFLATE),
-	pressure_(PRESSURE_MIN),
-	resultTimer_(0.0f),
-	frame_(0),
-	font_(-1),
-	largeFont_(-1),
-	images_(),
-	systolic_(0),
-	diastolic_(0),
-	isMonitorAbnormal_(false),
-	isSystolicMeasured_(false),
-	isDeleted_(false)
+	: SceneBase()
+	, state_(State::INFLATE)
+	, pressure_(PRESSURE_MIN)
+	, resultTimer_(0.0f)
+	, frame_(0)
+	, font_(-1)
+	, largeFont_(-1)
+	, images_()
+	, systolic_(0)
+	, diastolic_(0)
+	, isMonitorAbnormal_(false)
+	, isSystolicMeasured_(false)
+	, isDeleted_(false)
 {
 	for (int& image : images_)
 	{
@@ -43,16 +42,16 @@ void BPMiniGameScene::Update()
 	switch (state_)
 	{
 	case State::INFLATE:
-		UpdateInflate(deltaTime);
+`tUpdateInflate(deltaTime);
 		break;
 	case State::DEFLATE:
-		UpdateDeflate(deltaTime);
+`tUpdateDeflate(deltaTime);
 		break;
 	case State::SUCCESS:
-		UpdateSuccess(deltaTime);
+`tUpdateSuccess(deltaTime);
 		break;
 	case State::FAILED:
-		UpdateFailed();
+`tUpdateFailed();
 		break;
 	}
 }

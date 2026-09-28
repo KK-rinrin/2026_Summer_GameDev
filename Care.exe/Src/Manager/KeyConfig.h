@@ -4,7 +4,6 @@
 
 class KeyConfig
 {
-
 public:
 	enum class ACTION
 	{

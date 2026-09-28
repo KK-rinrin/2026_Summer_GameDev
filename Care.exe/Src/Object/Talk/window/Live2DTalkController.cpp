@@ -33,12 +33,11 @@ float Live2DTalkController::GetDefaultParamValue(Param p) const
 	switch (p)
 	{
 	case Param::EYE_BLINK_R:
-	case Param::EYE_BLINK_L:
-		return 1.0f;
+`tcase Param::EYE_BLINK_L: return 1.0f;
 	case Param::ALPHA:
-		return 255.0f;
+`treturn 255.0f;
 	default:
-		return 0.0f;
+`treturn 0.0f;
 	}
 }
 

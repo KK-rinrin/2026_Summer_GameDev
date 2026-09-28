@@ -35,23 +35,22 @@ constexpr Vector2 SettingScene::RESET_CONFIRM_WINDOW_SIZE;
 constexpr Vector2 SettingScene::RESET_CONFIRM_TEXT_OFFSET;
 
 SettingScene::SettingScene()
-	:
-	SceneBase(),
-	fontTitle_(INVALID_FONT_HANDLE),
-	font_(INVALID_FONT_HANDLE),
-	sndMng_(SoundManager::GetInstance()),
-	selectItem_(INITIAL_SELECT_ITEM),
-	bgmVolume_(sndMng_.GetVolumeBGM()),
-	seVolume_(sndMng_.GetVolumeSE()),
-	previousVolume_(VOLUME_MIN),
-	selectAction_(0),
-	isWaitingKeyInput_(false),
-	isKeyInputReady_(false),
-	hiddenResetCommandIndex_(0),
-	isProgressResetConfirmOpen_(false),
-	isProgressResetResultOpen_(false),
-	isProgressResetYesSelected_(false),
-	isProgressResetSucceeded_(false)
+	: SceneBase()
+	, fontTitle_(INVALID_FONT_HANDLE)
+	, font_(INVALID_FONT_HANDLE)
+	, sndMng_(SoundManager::GetInstance())
+	, selectItem_(INITIAL_SELECT_ITEM)
+	, bgmVolume_(sndMng_.GetVolumeBGM())
+	, seVolume_(sndMng_.GetVolumeSE())
+	, previousVolume_(VOLUME_MIN)
+	, selectAction_(0)
+	, isWaitingKeyInput_(false)
+	, isKeyInputReady_(false)
+	, hiddenResetCommandIndex_(0)
+	, isProgressResetConfirmOpen_(false)
+	, isProgressResetResultOpen_(false)
+	, isProgressResetYesSelected_(false)
+	, isProgressResetSucceeded_(false)
 {
 }
 
@@ -125,19 +124,19 @@ void SettingScene::Draw()
 	switch (static_cast<Item>(selectItem_))
 	{
 	case Item::BGM_VOLUME:
-		DrawItemBGMVol();
+`tDrawItemBGMVol();
 		break;
 	case Item::SE_VOLUME:
-		DrawItemSEVol();
+`tDrawItemSEVol();
 		break;
 	case Item::KEY_CONFIG:
-		DrawItemKeyCon();
+`tDrawItemKeyCon();
 		break;
 	case Item::PAD_CONFIG:
-		DrawItemPadCon();
+`tDrawItemPadCon();
 		break;
 	default:
-		break;
+`tbreak;
 	}
 
 	if (isProgressResetConfirmOpen_)
@@ -175,30 +174,30 @@ void SettingScene::DecideSelectItem()
 	switch (static_cast<Item>(selectItem_))
 	{
 	case Item::BGM_VOLUME:
-		previousVolume_ = bgmVolume_;
+`tpreviousVolume_ = bgmVolume_;
 		ItemUpdate_ = std::bind(&SettingScene::UpdateItemBGMVol, this);
 		break;
 	case Item::SE_VOLUME:
-		previousVolume_ = seVolume_;
+`tpreviousVolume_ = seVolume_;
 		ItemUpdate_ = std::bind(&SettingScene::UpdateItemSEVol, this);
 		break;
 	case Item::KEY_CONFIG:
-		selectAction_ = 0;
+`tselectAction_ = 0;
 		isWaitingKeyInput_ = false;
 		isKeyInputReady_ = false;
 		ItemUpdate_ = std::bind(&SettingScene::UpdateItemKeyCon, this);
 		break;
 	case Item::PAD_CONFIG:
-		selectAction_ = 0;
+`tselectAction_ = 0;
 		isWaitingKeyInput_ = false;
 		isKeyInputReady_ = false;
 		ItemUpdate_ = std::bind(&SettingScene::UpdateItemPadCon, this);
 		break;
 	case Item::BACK:
-		BackToReturnScene();
+`tBackToReturnScene();
 		break;
 	default:
-		break;
+`tbreak;
 	}
 }
 
@@ -336,8 +335,7 @@ void SettingScene::DrawProgressResetConfirm()
 	if (isProgressResetResultOpen_)
 	{
 		const char* message = isProgressResetSucceeded_ ?
-			"ゲーム進捗をリセットしました" :
-			"ゲーム進捗のリセットに失敗しました";
+			"ゲーム進捗をリセットしました" : "ゲーム進捗のリセットに失敗しました";
 		DrawStringToHandle(textPos.x, textPos.y,
 			message, ITEM_SELECTED_COLOR, font_);
 		DrawStringToHandle(textPos.x,

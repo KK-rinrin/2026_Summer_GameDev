@@ -5,9 +5,7 @@ class FpsControl;
 
 class Application
 {
-
 public:
-
 	// スクリーンサイズ
 	static constexpr int SCREEN_SIZE_X = 800;
 	static constexpr int SCREEN_SIZE_Y = 600;

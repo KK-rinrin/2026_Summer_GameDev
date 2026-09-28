@@ -2,53 +2,50 @@
 #include "Resource.h"
 
 Resource::Resource()
-	:
-	type_(TYPE::NONE),
-	path_(""),
-	numX_(-1),
-	numY_(-1),
-	sizeX_(-1),
-	sizeY_(-1),
-	handleId_(-1),
-	handleIds_(nullptr),
-	fontSize_(-1),
-	thick_(-1),
-	fontSpace_(0),
-	fontType_(DX_FONTTYPE_ANTIALIASING)
+	: type_(TYPE::NONE)
+	, path_("")
+	, numX_(-1)
+	, numY_(-1)
+	, sizeX_(-1)
+	, sizeY_(-1)
+	, handleId_(-1)
+	, handleIds_(nullptr)
+	, fontSize_(-1)
+	, thick_(-1)
+	, fontSpace_(0)
+	, fontType_(DX_FONTTYPE_ANTIALIASING)
 {
 }
 
 Resource::Resource(TYPE type, const std::string& path)
-	:
-	type_(type),
-	path_(path),
-	numX_(-1),
-	numY_(-1),
-	sizeX_(-1),
-	sizeY_(-1),
-	handleId_(-1),
-	handleIds_(nullptr),
-	fontSize_(-1),
-	thick_(-1),
-	fontSpace_(0),
-	fontType_(DX_FONTTYPE_ANTIALIASING)
+	: type_(type)
+	, path_(path)
+	, numX_(-1)
+	, numY_(-1)
+	, sizeX_(-1)
+	, sizeY_(-1)
+	, handleId_(-1)
+	, handleIds_(nullptr)
+	, fontSize_(-1)
+	, thick_(-1)
+	, fontSpace_(0)
+	, fontType_(DX_FONTTYPE_ANTIALIASING)
 {
 }
 
 Resource::Resource(TYPE type, const std::string& path, int value1, int value2, int value3, int value4)
-	:
-	type_(type),
-	path_(path),
-	numX_(type == TYPE::IMGS ? value1 : -1),
-	numY_(type == TYPE::IMGS ? value2 : -1),
-	sizeX_(type == TYPE::IMGS ? value3 : -1),
-	sizeY_(type == TYPE::IMGS ? value4 : -1),
-	handleId_(-1),
-	handleIds_(nullptr),
-	fontSize_(type == TYPE::FONT ? value1 : -1),
-	thick_(type == TYPE::FONT ? value2 : -1),
-	fontSpace_(type == TYPE::FONT ? value3 : 0),
-	fontType_(type == TYPE::FONT ? value4 : DX_FONTTYPE_ANTIALIASING)
+	: type_(type)
+	, path_(path)
+	, numX_(type == TYPE::IMGS ? value1 : -1)
+	, numY_(type == TYPE::IMGS ? value2 : -1)
+	, sizeX_(type == TYPE::IMGS ? value3 : -1)
+	, sizeY_(type == TYPE::IMGS ? value4 : -1)
+	, handleId_(-1)
+	, handleIds_(nullptr)
+	, fontSize_(type == TYPE::FONT ? value1 : -1)
+	, thick_(type == TYPE::FONT ? value2 : -1)
+	, fontSpace_(type == TYPE::FONT ? value3 : 0)
+	, fontType_(type == TYPE::FONT ? value4 : DX_FONTTYPE_ANTIALIASING)
 {
 }
 
@@ -63,12 +60,12 @@ void Resource::Load()
 	switch (type_)
 	{
 	case Resource::TYPE::IMG:
-		// âÊëú
+`t// âÊëú
 		handleId_ = LoadGraph(path_.c_str());
 		break;
 
 	case Resource::TYPE::IMGS:
-		// ï°êîâÊëú
+`t// ï°êîâÊëú
 		handleIds_ = new int[numX_ * numY_];
 		LoadDivGraph(
 			path_.c_str(),
@@ -79,20 +76,19 @@ void Resource::Load()
 		break;
 
 	case Resource::TYPE::MODEL:
-		// ÉÇÉfÉã
+`t// ÉÇÉfÉã
 		handleId_ = MV1LoadModel(path_.c_str());
 		break;
 	case Resource::TYPE::LIVE2D:
-
-		handleId_ = Live2D_LoadModel(path_.c_str());
+`thandleId_ = Live2D_LoadModel(path_.c_str());
 		break;
 
 	case Resource::TYPE::FONT:
-		handleId_ = LoadFont(fontSize_, thick_, fontSpace_, fontType_);
+`thandleId_ = LoadFont(fontSize_, thick_, fontSpace_, fontType_);
 		break;
 
 	case Resource::TYPE::SOUND:
-		handleId_ = LoadSoundMem(path_.c_str());
+`thandleId_ = LoadSoundMem(path_.c_str());
 		break;
 	}
 
@@ -139,7 +135,7 @@ void Resource::Release()
 	switch (type_)
 	{
 	case Resource::TYPE::IMG:
-		if (handleId_ != -1)
+`tif (handleId_ != -1)
 		{
 			DeleteGraph(handleId_);
 			handleId_ = -1;
@@ -147,7 +143,7 @@ void Resource::Release()
 		break;
 
 	case Resource::TYPE::IMGS:
-	{
+`t{
 		if (handleIds_ != nullptr)
 		{
 			int num = numX_ * numY_;
@@ -166,7 +162,7 @@ void Resource::Release()
 	break;
 
 	case Resource::TYPE::MODEL:
-	{
+`t{
 		if (handleId_ != -1)
 		{
 			MV1DeleteModel(handleId_);
@@ -183,7 +179,7 @@ void Resource::Release()
 	}
 	break;
 	case Resource::TYPE::LIVE2D:
-		if (handleId_ != -1)
+`tif (handleId_ != -1)
 		{
 			Live2D_DeleteModel(handleId_);
 			handleId_ = -1;
@@ -191,7 +187,7 @@ void Resource::Release()
 		break;
 
 	case Resource::TYPE::FONT:
-		for (const auto& variant : fontVariants_)
+`tfor (const auto& variant : fontVariants_)
 		{
 			if (variant.handle != -1)
 			{
@@ -203,7 +199,7 @@ void Resource::Release()
 		break;
 
 	case Resource::TYPE::SOUND:
-		if (handleId_ != -1)
+`tif (handleId_ != -1)
 		{
 			DeleteSoundMem(handleId_);
 			handleId_ = -1;

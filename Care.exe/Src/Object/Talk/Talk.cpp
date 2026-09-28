@@ -296,8 +296,7 @@ void Talk::UpdateEvent()
 	switch (eventState_)
 	{
 	case EventState::SPEAK:
-		// クリックの挙動を調整:
-		// - 発話中でクリック: 次の WAIT_C までを一気に表示（CompleteSpeak）
+`t// クリックの挙動を調整: // - 発話中でクリック: 次の WAIT_C までを一気に表示（CompleteSpeak）
 		// - 途中待ち(行内 WAIT_C) 中でクリック: WAIT_C を消費して表示を再開（ContinueSpeak）
 		// - 行末待ち(表示完了) 中でクリック: 発話終了 -> 次イベント（FinishSpeak + AdvanceEvent）
 		if (decideTriggered)
@@ -326,14 +325,14 @@ void Talk::UpdateEvent()
 		break;
 
 	case EventState::IMAGE_WAIT:
-		if (decideTriggered)
+`tif (decideTriggered)
 		{
 			AdvanceEvent();
 		}
 		break;
 
 	case EventState::CLEAR_IMAGE:
-	{
+`t{
 		const long long elapsedMs = GetElapsedMs(clearImageStartTime_);
 		if (elapsedMs >= clearImageFadeMs_)
 		{
@@ -350,7 +349,7 @@ void Talk::UpdateEvent()
 
 
 	case EventState::FADING_OUT:
-		if (fader_->IsEnd())
+`tif (fader_->IsEnd())
 		{
 			fadeOutEndTime_ = GetNowHiPerformanceCount();
 			AdvanceEvent();
@@ -358,7 +357,7 @@ void Talk::UpdateEvent()
 		break;
 
 	case EventState::FADE_IN_WAIT:
-		if (fadeOutEndTime_ == 0)
+`tif (fadeOutEndTime_ == 0)
 		{
 			fadeOutEndTime_ = GetNowHiPerformanceCount();
 		}
@@ -370,7 +369,7 @@ void Talk::UpdateEvent()
 		break;
 
 	case EventState::FADING_IN:
-		if (fader_->IsEnd())
+`tif (fader_->IsEnd())
 		{
 			fader_->SetFade(Fader::STATE::NONE);
 			AdvanceEvent();
@@ -403,17 +402,17 @@ void Talk::StartEvent(const TalkDatas::AssetEvent& eventData)
 	switch (resource.type_)
 	{
 	case Resource::TYPE::IMG:
-		imageHandle_ = resource.handleId_;
+`timageHandle_ = resource.handleId_;
 		imageAlpha_ = 255;
 		talkWindow_->FinishSpeak();
 		eventState_ = EventState::IMAGE_WAIT;
 		break;
 	case Resource::TYPE::SOUND:
-		SoundManager::GetInstance().PlaySE(eventData.src);
+`tSoundManager::GetInstance().PlaySE(eventData.src);
 		AdvanceEvent();
 		break;
 	default:
-		AdvanceEvent();
+`tAdvanceEvent();
 		break;
 	}
 }

@@ -30,14 +30,13 @@ void SoundManager::Destroy()
 }
 
 SoundManager::SoundManager()
-	:
-	resMng_(ResourceManager::GetInstance()),
-	currentBGM_(BGM::MAX),
-	lastBGMUpdateMs_(0),
-	BGMvol_(DXLIB_VOLUME_MAX),
-	SEvol_(DXLIB_VOLUME_MAX),
-	BGMvolPercent_(INITIAL_VOLUME),
-	SEvolPercent_(INITIAL_VOLUME)
+	: resMng_(ResourceManager::GetInstance())
+	, currentBGM_(BGM::MAX)
+	, lastBGMUpdateMs_(0)
+	, BGMvol_(DXLIB_VOLUME_MAX)
+	, SEvol_(DXLIB_VOLUME_MAX)
+	, BGMvolPercent_(INITIAL_VOLUME)
+	, SEvolPercent_(INITIAL_VOLUME)
 {
 	// -1で初期化
 	resHandlesBGM_.fill(-1);
@@ -53,12 +52,18 @@ bool SoundManager::Load(BGM bgm)
 	ResourceManager::SRC res;
 	switch (bgm)
 	{
-	case BGM::TITLE: res = ResourceManager::SRC::BGM_TITLE; break;
-	case BGM::GAME0: res = ResourceManager::SRC::BGM_GAME; break;
-	case BGM::GAME1: res = ResourceManager::SRC::BGM_GAME_2; break;
-	case BGM::KOWAI: res = ResourceManager::SRC::BGM_KOWAI; break;
-	case BGM::ENDING: res = ResourceManager::SRC::BGM_ENDING; break;
-	default: return false;
+	case BGM::TITLE:
+`tres = ResourceManager::SRC::BGM_TITLE; break;
+	case BGM::GAME0:
+`tres = ResourceManager::SRC::BGM_GAME; break;
+	case BGM::GAME1:
+`tres = ResourceManager::SRC::BGM_GAME_2; break;
+	case BGM::KOWAI:
+`tres = ResourceManager::SRC::BGM_KOWAI; break;
+	case BGM::ENDING:
+`tres = ResourceManager::SRC::BGM_ENDING; break;
+	default:
+`treturn false;
 	}
 
 	// ロードしてハンドルを格納
@@ -75,15 +80,24 @@ bool SoundManager::Load(SE se)
 	ResourceManager::SRC res;
 	switch (se)
 	{
-	case SE::DECIDE: res = ResourceManager::SRC::SE_DECIDE; break;
-	case SE::CANCEL: res = ResourceManager::SRC::SE_CANCEL; break;
-	case SE::MOVE: res = ResourceManager::SRC::SE_CURSOR_MOVE; break;
-	case SE::BEEP: res = ResourceManager::SRC::SE_BEEP; break;
-	case SE::DOOR: res = ResourceManager::SRC::SE_DOOR; break;
-	case SE::RINGTONE: res = ResourceManager::SRC::SE_RINGTONE; break;
-	case SE::TYPING: res = ResourceManager::SRC::SE_TYPING; break;
-	case SE::MOUSE: res = ResourceManager::SRC::SE_PC_MOUSE; break;
-	default: return false;
+	case SE::DECIDE:
+`tres = ResourceManager::SRC::SE_DECIDE; break;
+	case SE::CANCEL:
+`tres = ResourceManager::SRC::SE_CANCEL; break;
+	case SE::MOVE:
+`tres = ResourceManager::SRC::SE_CURSOR_MOVE; break;
+	case SE::BEEP:
+`tres = ResourceManager::SRC::SE_BEEP; break;
+	case SE::DOOR:
+`tres = ResourceManager::SRC::SE_DOOR; break;
+	case SE::RINGTONE:
+`tres = ResourceManager::SRC::SE_RINGTONE; break;
+	case SE::TYPING:
+`tres = ResourceManager::SRC::SE_TYPING; break;
+	case SE::MOUSE:
+`tres = ResourceManager::SRC::SE_PC_MOUSE; break;
+	default:
+`treturn false;
 	}
 
 	// ロードしてハンドルを格納

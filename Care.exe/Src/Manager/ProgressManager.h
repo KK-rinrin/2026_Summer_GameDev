@@ -2,9 +2,7 @@
 
 class ProgressManager
 {
-
 public:
-
 	enum STORY_PROGRESS
 	{
 		START = 0,	// ゲーム開始
@@ -86,10 +84,9 @@ private:
 	bool isPatientCharExists_;
 	bool isNurceCharExists_;
 
+	// シングルトン
 	ProgressManager();
-
 	ProgressManager(const ProgressManager& instance) = default;
-
 	~ProgressManager() = default;
 
 	void LoadProgress();

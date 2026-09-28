@@ -42,29 +42,33 @@ namespace {
 }
 
 Transform2D::Transform2D()
-	: currentHandleIndex(0)
+	: handleIds()
+	, currentHandleIndex(0)
 	, indexX(1)
 	, indexY(1)
+	, totalFrames(0)
+	, AnimSpeed(0.0f)
+	, stillIndex(0)
+	, stillIndex_back(0)
 	, pos(SchoolUtility::VECTOR_ZERO)
+	, beforePos(SchoolUtility::VECTOR_ZERO)
 	, rotDir(0)
+	, isLeft(false)
+	, enableImageScaling(true)
+	, scaleX(1.0f)
+	, scaleY(1.0f)
+	, animController()
+	, direction(SchoolUtility::VECTOR_ZERO)
+	, imageWidth(0)
+	, imageHeight(0)
+	, drawPos1(SchoolUtility::VECTOR_ZERO)
+	, drawPos2(SchoolUtility::VECTOR_ZERO)
+	, persScale(1.0f)
 {
-	handleIds.clear();
-
-	scaleX = 1.0f;
-	scaleY = 1.0f;
-	beforePos = SchoolUtility::VECTOR_ZERO;
-	isLeft = false;
-	enableImageScaling = true;
-
 	animController.SetFrames(indexX > 0 ? indexX : 1);
 	animController.SetFrameDuration(AnimSpeed);
 	animController.SetStillIndex(stillIndex);
 	animController.SetLoop(true);
-
-	direction = SchoolUtility::VECTOR_ZERO;
-	imageWidth = 0; imageHeight = 0;
-	drawPos1 = SchoolUtility::VECTOR_ZERO; drawPos2 = SchoolUtility::VECTOR_ZERO;
-	perspectiveScale = 1.0f;
 }
 
 //Transform2D::Transform2D(const std::vector<int>& handles, int idxX, int idxY, bool scaling)
@@ -197,11 +201,11 @@ void Transform2D::CalcDrawParams()
 	if (enableImageScaling) {
 		// ★ 遠近法スケールの計算（GetWorldPos ではやらない）
 		const float t = (world.y - MOVE_MIN_Y) / (MOVE_MAX_Y - MOVE_MIN_Y);
-		perspectiveScale = MOVE_PERSPECTIVE_MIN_SCALE +
+		persScale = MOVE_PERSPECTIVE_MIN_SCALE +
 			(1.0f - MOVE_PERSPECTIVE_MIN_SCALE) * t;
 
-		drawW *= perspectiveScale;
-		drawH *= perspectiveScale;
+		drawW *= persScale;
+		drawH *= persScale;
 	}
 
 	// アンカー（足元）から矩形を作る

@@ -274,44 +274,80 @@ const char* KeyConfig::GetKeyText(int key)
 {
 	switch (key)
 	{
-	case KEY_INPUT_RETURN: return "Enter";
-	case KEY_INPUT_SPACE: return "Space";
-	case KEY_INPUT_ESCAPE: return "Esc";
-	case KEY_INPUT_BACK: return "Backspace";
-	case KEY_INPUT_UP: return "Up";
-	case KEY_INPUT_DOWN: return "Down";
-	case KEY_INPUT_LEFT: return "Left";
-	case KEY_INPUT_RIGHT: return "Right";
-	case KEY_INPUT_LSHIFT: return "LShift";
-	case KEY_INPUT_RSHIFT: return "RShift";
-	case KEY_INPUT_A: return "A";
-	case KEY_INPUT_B: return "B";
-	case KEY_INPUT_C: return "C";
-	case KEY_INPUT_D: return "D";
-	case KEY_INPUT_E: return "E";
-	case KEY_INPUT_F: return "F";
-	case KEY_INPUT_G: return "G";
-	case KEY_INPUT_H: return "H";
-	case KEY_INPUT_I: return "I";
-	case KEY_INPUT_J: return "J";
-	case KEY_INPUT_K: return "K";
-	case KEY_INPUT_L: return "L";
-	case KEY_INPUT_M: return "M";
-	case KEY_INPUT_N: return "N";
-	case KEY_INPUT_O: return "O";
-	case KEY_INPUT_P: return "P";
-	case KEY_INPUT_Q: return "Q";
-	case KEY_INPUT_R: return "R";
-	case KEY_INPUT_S: return "S";
-	case KEY_INPUT_T: return "T";
-	case KEY_INPUT_U: return "U";
-	case KEY_INPUT_V: return "V";
-	case KEY_INPUT_W: return "W";
-	case KEY_INPUT_X: return "X";
-	case KEY_INPUT_Y: return "Y";
-	case KEY_INPUT_Z: return "Z";
+	case KEY_INPUT_RETURN:
+`treturn "Enter";
+	case KEY_INPUT_SPACE:
+`treturn "Space";
+	case KEY_INPUT_ESCAPE:
+`treturn "Esc";
+	case KEY_INPUT_BACK:
+`treturn "Backspace";
+	case KEY_INPUT_UP:
+`treturn "Up";
+	case KEY_INPUT_DOWN:
+`treturn "Down";
+	case KEY_INPUT_LEFT:
+`treturn "Left";
+	case KEY_INPUT_RIGHT:
+`treturn "Right";
+	case KEY_INPUT_LSHIFT:
+`treturn "LShift";
+	case KEY_INPUT_RSHIFT:
+`treturn "RShift";
+	case KEY_INPUT_A:
+`treturn "A";
+	case KEY_INPUT_B:
+`treturn "B";
+	case KEY_INPUT_C:
+`treturn "C";
+	case KEY_INPUT_D:
+`treturn "D";
+	case KEY_INPUT_E:
+`treturn "E";
+	case KEY_INPUT_F:
+`treturn "F";
+	case KEY_INPUT_G:
+`treturn "G";
+	case KEY_INPUT_H:
+`treturn "H";
+	case KEY_INPUT_I:
+`treturn "I";
+	case KEY_INPUT_J:
+`treturn "J";
+	case KEY_INPUT_K:
+`treturn "K";
+	case KEY_INPUT_L:
+`treturn "L";
+	case KEY_INPUT_M:
+`treturn "M";
+	case KEY_INPUT_N:
+`treturn "N";
+	case KEY_INPUT_O:
+`treturn "O";
+	case KEY_INPUT_P:
+`treturn "P";
+	case KEY_INPUT_Q:
+`treturn "Q";
+	case KEY_INPUT_R:
+`treturn "R";
+	case KEY_INPUT_S:
+`treturn "S";
+	case KEY_INPUT_T:
+`treturn "T";
+	case KEY_INPUT_U:
+`treturn "U";
+	case KEY_INPUT_V:
+`treturn "V";
+	case KEY_INPUT_W:
+`treturn "W";
+	case KEY_INPUT_X:
+`treturn "X";
+	case KEY_INPUT_Y:
+`treturn "Y";
+	case KEY_INPUT_Z:
+`treturn "Z";
 	default:
-		break;
+`tbreak;
 	}
 
 	static char keyText[16];
@@ -323,18 +359,29 @@ const char* KeyConfig::GetPadButtonText(InputManager::JOYPAD_BTN button)
 {
 	switch (button)
 	{
-	case InputManager::JOYPAD_BTN::LEFT: return "左ボタン";
-	case InputManager::JOYPAD_BTN::RIGHT: return "右ボタン";
-	case InputManager::JOYPAD_BTN::TOP: return "上ボタン";
-	case InputManager::JOYPAD_BTN::DOWN: return "下ボタン";
-	case InputManager::JOYPAD_BTN::R_TRIGGER: return "Rトリガー";
-	case InputManager::JOYPAD_BTN::L_TRIGGER: return "Lトリガー";
-	case InputManager::JOYPAD_BTN::START: return "STARTボタン";
-	case InputManager::JOYPAD_BTN::DPAD_UP: return "十字キー上";
-	case InputManager::JOYPAD_BTN::DPAD_DOWN: return "十字キー下";
-	case InputManager::JOYPAD_BTN::DPAD_LEFT: return "十字キー左";
-	case InputManager::JOYPAD_BTN::DPAD_RIGHT: return "十字キー右";
+	case InputManager::JOYPAD_BTN::LEFT:
+`treturn "左ボタン";
+	case InputManager::JOYPAD_BTN::RIGHT:
+`treturn "右ボタン";
+	case InputManager::JOYPAD_BTN::TOP:
+`treturn "上ボタン";
+	case InputManager::JOYPAD_BTN::DOWN:
+`treturn "下ボタン";
+	case InputManager::JOYPAD_BTN::R_TRIGGER:
+`treturn "Rトリガー";
+	case InputManager::JOYPAD_BTN::L_TRIGGER:
+`treturn "Lトリガー";
+	case InputManager::JOYPAD_BTN::START:
+`treturn "STARTボタン";
+	case InputManager::JOYPAD_BTN::DPAD_UP:
+`treturn "十字キー上";
+	case InputManager::JOYPAD_BTN::DPAD_DOWN:
+`treturn "十字キー下";
+	case InputManager::JOYPAD_BTN::DPAD_LEFT:
+`treturn "十字キー左";
+	case InputManager::JOYPAD_BTN::DPAD_RIGHT:
+`treturn "十字キー右";
 	default:
-		return "未設定";
+`treturn "未設定";
 	}
 }

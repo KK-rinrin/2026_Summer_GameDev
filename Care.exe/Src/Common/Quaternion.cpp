@@ -4,9 +4,8 @@
 #include "Quaternion.h"
 
 Quaternion::Quaternion()
+    : w(1), x(0), y(0), z(0)
 {
-    w = 1;
-    x = y = z = 0;
 }
 
 Quaternion::Quaternion(const VECTOR& rad)
@@ -19,11 +18,8 @@ Quaternion::Quaternion(const VECTOR& rad)
 }
 
 Quaternion::Quaternion(double ww, double wx, double wy, double wz)
+    : w(ww), x(wx), y(wy), z(wz)
 {
-    w = ww;
-    x = wx;
-    y = wy;
-    z = wz;
 }
 
 Quaternion::~Quaternion()
@@ -409,22 +405,22 @@ Quaternion Quaternion::GetRotation(const MATRIX& mat)
     //switch (biggestIdx)
     //{
     //case 0:
-    //    q[1] = (mat.m[1][0] + mat.m[0][1]) * mult;
+    // q[1] = (mat.m[1][0] + mat.m[0][1]) * mult;
     //    q[2] = (mat.m[0][2] + mat.m[2][0]) * mult;
     //    q[3] = (mat.m[2][1] - mat.m[1][2]) * mult;
     //    break;
     //case 1:
-    //    q[0] = (mat.m[1][0] + mat.m[0][1]) * mult;
+    // q[0] = (mat.m[1][0] + mat.m[0][1]) * mult;
     //    q[2] = (mat.m[2][1] + mat.m[1][2]) * mult;
     //    q[3] = (mat.m[0][2] - mat.m[2][0]) * mult;
     //    break;
     //case 2:
-    //    q[0] = (mat.m[0][2] + mat.m[2][0]) * mult;
+    // q[0] = (mat.m[0][2] + mat.m[2][0]) * mult;
     //    q[1] = (mat.m[2][1] + mat.m[1][2]) * mult;
     //    q[3] = (mat.m[1][0] - mat.m[0][1]) * mult;
     //    break;
     //case 3:
-    //    q[0] = (mat.m[2][1] - mat.m[1][2]) * mult;
+    // q[0] = (mat.m[2][1] - mat.m[1][2]) * mult;
     //    q[1] = (mat.m[0][2] - mat.m[2][0]) * mult;
     //    q[2] = (mat.m[1][0] - mat.m[0][1]) * mult;
     //    break;

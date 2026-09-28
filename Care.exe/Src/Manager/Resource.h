@@ -5,9 +5,7 @@
 
 class Resource
 {
-
 public:
-	
 	// リソースタイプ
 	enum class TYPE
 	{

@@ -6,9 +6,7 @@
 
 class InputManager
 {
-
 public:
-
 	// ゲームコントローラーの認識番号
 	// DxLib定数、DX_INPUT_PAD1等に対応
 	enum class JOYPAD_NO

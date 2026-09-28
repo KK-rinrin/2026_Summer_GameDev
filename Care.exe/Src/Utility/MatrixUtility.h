@@ -3,9 +3,7 @@
 
 class MatrixUtility
 {
-
 public:
-
 	// オイラー角から回転行列XYZ順を取得
 	static MATRIX GetMatrixRotateXYZ(const VECTOR& euler);
 

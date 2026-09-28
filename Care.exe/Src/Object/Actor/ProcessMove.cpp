@@ -5,13 +5,12 @@
 #include "../../Manager/KeyConfig.h"
 
 ProcessMove::ProcessMove()
-	:
-	moveSpeedPercent_(DEFAULT_MOVE_SPEED_PERCENT),
-	useDelay_(false),
-	minDelayFrame_(DEFAULT_DELAY_FRAME),
-	maxDelayFrame_(DEFAULT_DELAY_FRAME),
-	delaySeed_(1u),
-	delayedInputs_()
+	: moveSpeedPercent_(DEFAULT_MOVE_SPEED_PERCENT)
+	, useDelay_(false)
+	, minDelayFrame_(DEFAULT_DELAY_FRAME)
+	, maxDelayFrame_(DEFAULT_DELAY_FRAME)
+	, delaySeed_(1u)
+	, delayedInputs_()
 {
 }
 

@@ -5,9 +5,7 @@
 
 class ResourceManager
 {
-
 public:
-
 	// ƒŠƒ\[ƒX–¼
 	enum class SRC
 	{

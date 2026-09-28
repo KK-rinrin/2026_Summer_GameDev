@@ -15,14 +15,13 @@ constexpr VECTOR GameMenu::PLAYER_MODEL_EXTEND;
 constexpr VECTOR GameMenu::PLAYER_MODEL_POS;
 
 GameMenu::GameMenu()
-	:
-	isOpen_(false),
-	mode_(Mode::NORMAL),
-	result_(Result::NONE),
-	fontTitle_(INVALID_FONT_HANDLE),
-	font_(INVALID_FONT_HANDLE),
-	selectItem_(static_cast<int>(Item::RESUME)),
-	playerController_(nullptr)
+	: isOpen_(false)
+	, mode_(Mode::NORMAL)
+	, result_(Result::NONE)
+	, fontTitle_(INVALID_FONT_HANDLE)
+	, font_(INVALID_FONT_HANDLE)
+	, selectItem_(static_cast<int>(Item::RESUME))
+	, playerController_(nullptr)
 {
 }
 
@@ -56,11 +55,11 @@ void GameMenu::Update(const InputManager& input)
 	switch (mode_)
 	{
 	case Mode::NORMAL:
-		UpdatePlayerModel();
+`tUpdatePlayerModel();
 		UpdateNormal(input);
 		break;
 	case Mode::PAUSE:
-		UpdatePause(input);
+`tUpdatePause(input);
 		break;
 	}
 }
@@ -75,10 +74,10 @@ void GameMenu::Draw()
 	switch (mode_)
 	{
 	case Mode::NORMAL:
-		DrawNormal();
+`tDrawNormal();
 		break;
 	case Mode::PAUSE:
-		DrawPause();
+`tDrawPause();
 		break;
 	}
 }
@@ -211,15 +210,15 @@ void GameMenu::DecideSelectItem()
 	switch (static_cast<Item>(selectItem_))
 	{
 	case Item::RESUME:
-		isOpen_ = false;
+`tisOpen_ = false;
 		result_ = Result::RESUME;
 		break;
 	case Item::SETTING:
-		isOpen_ = false;
+`tisOpen_ = false;
 		result_ = Result::OPEN_SETTING;
 		break;
 	case Item::BACK_TO_TITLE:
-		isOpen_ = false;
+`tisOpen_ = false;
 		result_ = Result::BACK_TO_TITLE;
 		break;
 	}
@@ -243,12 +242,12 @@ const char* GameMenu::GetItemText(Item item) const
 	switch (item)
 	{
 	case Item::RESUME:
-		return "Resume";
+`treturn "Resume";
 	case Item::SETTING:
-		return "Setting";
+`treturn "Setting";
 	case Item::BACK_TO_TITLE:
-		return "Back to Title";
+`treturn "Back to Title";
 	default:
-		return "";
+`treturn "";
 	}
 }

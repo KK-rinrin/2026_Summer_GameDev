@@ -6,9 +6,7 @@ class Fader;
 
 class SceneManager
 {
-
 public:
-
 	// îwåiêF
 	static constexpr int BACKGROUND_COLOR_R = 226;
 	static constexpr int BACKGROUND_COLOR_G = 226;
