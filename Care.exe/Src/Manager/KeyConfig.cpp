@@ -156,6 +156,11 @@ bool KeyConfig::IsTrgUp(ACTION action, const InputManager& input)
 	return false;
 }
 
+bool KeyConfig::IsNewAny(const InputManager& input)
+{
+	return input.IsNewKeyAll();
+}
+
 const KeyConfig::KeyBinding* KeyConfig::FindBinding(ACTION action)
 {
 	const int actionIndex = static_cast<int>(action);
@@ -275,79 +280,79 @@ const char* KeyConfig::GetKeyText(int key)
 	switch (key)
 	{
 	case KEY_INPUT_RETURN:
-`treturn "Enter";
+		return "Enter";
 	case KEY_INPUT_SPACE:
-`treturn "Space";
+		return "Space";
 	case KEY_INPUT_ESCAPE:
-`treturn "Esc";
+		return "Esc";
 	case KEY_INPUT_BACK:
-`treturn "Backspace";
+		return "Backspace";
 	case KEY_INPUT_UP:
-`treturn "Up";
+		return "Up";
 	case KEY_INPUT_DOWN:
-`treturn "Down";
+		return "Down";
 	case KEY_INPUT_LEFT:
-`treturn "Left";
+		return "Left";
 	case KEY_INPUT_RIGHT:
-`treturn "Right";
+		return "Right";
 	case KEY_INPUT_LSHIFT:
-`treturn "LShift";
+		return "LShift";
 	case KEY_INPUT_RSHIFT:
-`treturn "RShift";
+		return "RShift";
 	case KEY_INPUT_A:
-`treturn "A";
+		return "A";
 	case KEY_INPUT_B:
-`treturn "B";
+		return "B";
 	case KEY_INPUT_C:
-`treturn "C";
+		return "C";
 	case KEY_INPUT_D:
-`treturn "D";
+		return "D";
 	case KEY_INPUT_E:
-`treturn "E";
+		return "E";
 	case KEY_INPUT_F:
-`treturn "F";
+		return "F";
 	case KEY_INPUT_G:
-`treturn "G";
+		return "G";
 	case KEY_INPUT_H:
-`treturn "H";
+		return "H";
 	case KEY_INPUT_I:
-`treturn "I";
+		return "I";
 	case KEY_INPUT_J:
-`treturn "J";
+		return "J";
 	case KEY_INPUT_K:
-`treturn "K";
+		return "K";
 	case KEY_INPUT_L:
-`treturn "L";
+		return "L";
 	case KEY_INPUT_M:
-`treturn "M";
+		return "M";
 	case KEY_INPUT_N:
-`treturn "N";
+		return "N";
 	case KEY_INPUT_O:
-`treturn "O";
+		return "O";
 	case KEY_INPUT_P:
-`treturn "P";
+		return "P";
 	case KEY_INPUT_Q:
-`treturn "Q";
+		return "Q";
 	case KEY_INPUT_R:
-`treturn "R";
+		return "R";
 	case KEY_INPUT_S:
-`treturn "S";
+		return "S";
 	case KEY_INPUT_T:
-`treturn "T";
+		return "T";
 	case KEY_INPUT_U:
-`treturn "U";
+		return "U";
 	case KEY_INPUT_V:
-`treturn "V";
+		return "V";
 	case KEY_INPUT_W:
-`treturn "W";
+		return "W";
 	case KEY_INPUT_X:
-`treturn "X";
+		return "X";
 	case KEY_INPUT_Y:
-`treturn "Y";
+		return "Y";
 	case KEY_INPUT_Z:
-`treturn "Z";
+		return "Z";
 	default:
-`tbreak;
+		break;
 	}
 
 	static char keyText[16];
@@ -360,28 +365,28 @@ const char* KeyConfig::GetPadButtonText(InputManager::JOYPAD_BTN button)
 	switch (button)
 	{
 	case InputManager::JOYPAD_BTN::LEFT:
-`treturn "左ボタン";
+return "左ボタン";
 	case InputManager::JOYPAD_BTN::RIGHT:
-`treturn "右ボタン";
+return "右ボタン";
 	case InputManager::JOYPAD_BTN::TOP:
-`treturn "上ボタン";
+return "上ボタン";
 	case InputManager::JOYPAD_BTN::DOWN:
-`treturn "下ボタン";
+return "下ボタン";
 	case InputManager::JOYPAD_BTN::R_TRIGGER:
-`treturn "Rトリガー";
+return "Rトリガー";
 	case InputManager::JOYPAD_BTN::L_TRIGGER:
-`treturn "Lトリガー";
+return "Lトリガー";
 	case InputManager::JOYPAD_BTN::START:
-`treturn "STARTボタン";
+return "STARTボタン";
 	case InputManager::JOYPAD_BTN::DPAD_UP:
-`treturn "十字キー上";
+return "十字キー上";
 	case InputManager::JOYPAD_BTN::DPAD_DOWN:
-`treturn "十字キー下";
+return "十字キー下";
 	case InputManager::JOYPAD_BTN::DPAD_LEFT:
-`treturn "十字キー左";
+return "十字キー左";
 	case InputManager::JOYPAD_BTN::DPAD_RIGHT:
-`treturn "十字キー右";
+return "十字キー右";
 	default:
-`treturn "未設定";
+return "未設定";
 	}
 }

@@ -55,11 +55,11 @@ void GameMenu::Update(const InputManager& input)
 	switch (mode_)
 	{
 	case Mode::NORMAL:
-`tUpdatePlayerModel();
+		UpdatePlayerModel();
 		UpdateNormal(input);
 		break;
 	case Mode::PAUSE:
-`tUpdatePause(input);
+		UpdatePause(input);
 		break;
 	}
 }
@@ -74,10 +74,10 @@ void GameMenu::Draw()
 	switch (mode_)
 	{
 	case Mode::NORMAL:
-`tDrawNormal();
+		DrawNormal();
 		break;
 	case Mode::PAUSE:
-`tDrawPause();
+		DrawPause();
 		break;
 	}
 }
@@ -210,15 +210,15 @@ void GameMenu::DecideSelectItem()
 	switch (static_cast<Item>(selectItem_))
 	{
 	case Item::RESUME:
-`tisOpen_ = false;
+		isOpen_ = false;
 		result_ = Result::RESUME;
 		break;
 	case Item::SETTING:
-`tisOpen_ = false;
+		isOpen_ = false;
 		result_ = Result::OPEN_SETTING;
 		break;
 	case Item::BACK_TO_TITLE:
-`tisOpen_ = false;
+		isOpen_ = false;
 		result_ = Result::BACK_TO_TITLE;
 		break;
 	}
@@ -242,12 +242,12 @@ const char* GameMenu::GetItemText(Item item) const
 	switch (item)
 	{
 	case Item::RESUME:
-`treturn "Resume";
+		return "Resume";
 	case Item::SETTING:
-`treturn "Setting";
+		return "Setting";
 	case Item::BACK_TO_TITLE:
-`treturn "Back to Title";
+		return "Back to Title";
 	default:
-`treturn "";
+		return "";
 	}
 }

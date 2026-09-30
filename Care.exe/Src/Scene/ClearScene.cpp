@@ -10,6 +10,47 @@
 
 namespace
 {
+#pragma region 定数定義 
+	static constexpr int GAME_OVER_LINE_INTERVAL_Y = 24;
+	static constexpr int END_TITLE_POS_X = 24;
+
+	static constexpr int TITLE_FONT_SIZE = 38;
+	static constexpr int RESET_FONT_SIZE = 30;
+
+	static constexpr int END_TITLE_SLIDE_DISTANCE_X = 20;
+	static constexpr int END_TITLE_BOTTOM_MARGIN = 32;
+	static constexpr int END_TITLE_ANIMATION_FRAMES = 60;
+	static constexpr int END_TITLE_MAX_ALPHA = 255;
+	static constexpr int END_TITLE_COLOR = 0x000000;
+	static constexpr int END_STILL_HOLD_FRAMES = 180;
+
+	static constexpr int CREDIT_FADE_IN_FRAMES = 30;
+	static constexpr int CREDIT_HOLD_FRAMES = 60;
+	static constexpr int CREDIT_FINAL_HOLD_FRAMES = 600;
+	static constexpr int CREDIT_FADE_OUT_FRAMES = 30;
+	static constexpr int CREDIT_ROLE_POS_Y = 422;
+	static constexpr int CREDIT_NAME_POS_Y = 482;
+	static constexpr int CREDIT_RIGHT_MARGIN = 30;
+	static constexpr int CREDIT_SHADOW_OFFSET = 2;
+	static constexpr int CREDIT_ROLE_COLOR = 0xaaaaaa;
+	static constexpr int CREDIT_NAME_COLOR = 0xffffff;
+
+	static constexpr int HIDDEN_RESET_HOLD_FRAMES = 180;
+	static constexpr float HIDDEN_RESET_STICK_UP = -0.8f;
+
+	static constexpr int RESET_WINDOW_LEFT = 50;
+	static constexpr int RESET_WINDOW_TOP = 150;
+	static constexpr int RESET_WINDOW_RIGHT = 750;
+	static constexpr int RESET_WINDOW_BOTTOM = 370;
+	static constexpr int RESET_TEXT_POS_X = 100;
+	static constexpr int RESET_TEXT_POS_Y = 195;
+	static constexpr int RESET_TEXT_LINE_INTERVAL = 45;
+	static constexpr int RESET_WINDOW_BG_COLOR = 0xffffff;
+	static constexpr int RESET_WINDOW_FRAME_COLOR = 0x222222;
+	static constexpr int RESET_TEXT_COLOR = 0x222222;
+	static constexpr int RESET_SUB_TEXT_COLOR = 0x666666;
+#pragma endregion
+
 	struct CreditEntry
 	{
 		const char* role;
@@ -50,6 +91,7 @@ ClearScene::ClearScene()
 	, hiddenResetHoldFrame_(0)
 	, isGameOver_(false)
 	, isCreditsActive_(false)
+	, isExitConfirm_(false)
 	, isResetCompleteOpen_(false)
 	, gameOverState_(GameOverState::INITIAL_CONFIRM)
 	, gameOverLines_{}
@@ -292,7 +334,7 @@ void ClearScene::UpdateCredits()
 
 void ClearScene::UpdateRuinedEnd()
 {
-	if (!IsAnyKeyTrgDown() && !IsAnyPadButtonTrgDown())
+	if (KeyConfig::IsNewAny(iptMng_))
 	{
 		return;
 	}
@@ -351,12 +393,14 @@ void ClearScene::DrawCredits() const
 
 void ClearScene::UpdateHiddenReset()
 {
+	// ↑キーまたはパッドの上方向入力が押されていたら
 	const bool isKeyOrDpadUp = KeyConfig::IsNew(KeyConfig::ACTION::MOVE_UP, iptMng_);
 	const VECTOR stickInput = PadInput::GetMoveAxis(iptMng_, InputManager::JOYPAD_NO::PAD1);
 	const bool isStickUp = stickInput.y <= HIDDEN_RESET_STICK_UP;
 
 	if (!isKeyOrDpadUp && !isStickUp)
 	{
+		// 入力がなければ長押し判定のリセット（長押しが必要）
 		hiddenResetHoldFrame_ = 0;
 		return;
 	}
@@ -377,7 +421,7 @@ void ClearScene::UpdateHiddenReset()
 
 void ClearScene::UpdateResetComplete()
 {
-	if (!IsAnyKeyTrgDown() && !IsAnyPadButtonTrgDown())
+	if (!KeyConfig::IsNewAny(iptMng_))
 	{
 		return;
 	}
@@ -452,7 +496,7 @@ void ClearScene::UpdateGameOver()
 {
 	if (gameOverState_ == GameOverState::WAIT_EXIT)
 	{
-		if (IsAnyKeyTrgDown())
+		if (KeyConfig::IsNewAny(iptMng_))
 		{
 			PostQuitMessage(0);
 		}
@@ -505,43 +549,6 @@ void ClearScene::AddGameOverLine(const char* line)
 
 	gameOverLines_[gameOverLineCount_] = line;
 	++gameOverLineCount_;
-}
-
-bool ClearScene::IsAnyKeyTrgDown()
-{
-	char currentKeyState[256];
-	GetHitKeyStateAll(currentKeyState);
-
-	bool isTriggered = false;
-	for (int i = 0; i < 256; ++i)
-	{
-		if (currentKeyState[i] && !prevKeyState_[i])
-		{
-			isTriggered = true;
-		}
-	}
-
-	std::memcpy(prevKeyState_, currentKeyState, sizeof(prevKeyState_));
-	return isTriggered;
-}
-
-bool ClearScene::IsAnyPadButtonTrgDown() const
-{
-	for (int i = 0; i < static_cast<int>(InputManager::JOYPAD_BTN::MAX); ++i)
-	{
-		const InputManager::JOYPAD_BTN button = static_cast<InputManager::JOYPAD_BTN>(i);
-		if (iptMng_.IsPadBtnTrgDown(InputManager::JOYPAD_NO::PAD1, button))
-		{
-			return true;
-		}
-	}
-
-	return false;
-}
-
-bool ClearScene::IsRuinedEnd() const
-{
-	return prgMng_.GetProgressEnum() == ProgressManager::END_RUINED_LOCKED;
 }
 
 const ClearScene::EndInfo& ClearScene::GetEndInfo() const

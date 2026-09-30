@@ -49,10 +49,10 @@ void Fader::Update()
 	switch (state_)
 	{
 	case STATE::NONE:
-`treturn;
+		return;
 
 	case STATE::FADE_OUT:
-`talpha_ += SPEED_ALPHA;
+		alpha_ += SPEED_ALPHA;
 		if (alpha_ > 255)
 		{
 			// フェード終了
@@ -68,7 +68,7 @@ void Fader::Update()
 		break;
 
 	case STATE::FADE_IN:
-`talpha_ -= SPEED_ALPHA;
+		alpha_ -= SPEED_ALPHA;
 		if (alpha_ < 0)
 		{
 			// フェード終了
@@ -83,7 +83,7 @@ void Fader::Update()
 		break;
 
 	default:
-`treturn;
+		return;
 	}
 
 }
@@ -94,9 +94,9 @@ void Fader::Draw()
 	switch (state_)
 	{
 	case STATE::NONE:
-`treturn;
+		return;
 	case STATE::FADE_OUT:
-`tcase STATE::FADE_IN: SetDrawBlendMode(DX_BLENDMODE_ALPHA, (int)alpha_);
+	case STATE::FADE_IN: SetDrawBlendMode(DX_BLENDMODE_ALPHA, (int)alpha_);
 		DrawBox(
 			0, 0,
 			Application::SCREEN_SIZE_X,

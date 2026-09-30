@@ -33,10 +33,13 @@ public:
 
 	static void RegisterDefaultKeys(InputManager& input);
 
+	// アクションの入力判定
 	static bool IsNew(ACTION action, const InputManager& input);
 	static bool IsTrgDown(ACTION action, const InputManager& input);
 	static bool IsTrgUp(ACTION action, const InputManager& input);
+	static bool IsNewAny(const InputManager& input);
 
+	// アクションとのつながりを取得
 	static const KeyBinding* FindBinding(ACTION action);
 	static const PadBinding* FindPadBinding(ACTION action);
 	static bool SetConfigurableKey(ACTION action, int key, InputManager& input);

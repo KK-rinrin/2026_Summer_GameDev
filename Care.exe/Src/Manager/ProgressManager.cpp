@@ -126,9 +126,9 @@ bool ProgressManager::IsEndTalkProgress() const
 	switch (GetProgressEnum())
 	{
 	case END_PATIENT_LOST:
-`tcase END_NURCE_LOST: case END_BOTH_LOST: return true;
+	case END_NURCE_LOST: case END_BOTH_LOST: return true;
 	default:
-`treturn false;
+		return false;
 	}
 }
 bool ProgressManager::IsEndLockedProgress() const
@@ -136,9 +136,9 @@ bool ProgressManager::IsEndLockedProgress() const
 	switch (GetProgressEnum())
 	{
 	case END_PATIENT_LOCKED:
-`tcase END_NURCE_LOCKED: case END_BOTH_LOCKED: case END_RUINED_LOCKED: return true;
+	case END_NURCE_LOCKED: case END_BOTH_LOCKED: case END_RUINED_LOCKED: return true;
 	default:
-`treturn false;
+		return false;
 	}
 }
 

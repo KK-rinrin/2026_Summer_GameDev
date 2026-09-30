@@ -16,6 +16,9 @@ public:
 	void Delete() override;
 
 private:
+	static constexpr int GAME_OVER_MAX_LINES = 24;
+	static constexpr int DX_MAX = 255;
+
 	struct EndInfo
 	{
 		ProgressManager::STORY_PROGRESS progress;
@@ -39,14 +42,19 @@ private:
 	void DrawCredits() const;
 	void DrawResetComplete() const;
 
+	// ゲッター
 	bool IsCreditSkipTriggered() const;
 	bool IsFinalCredit() const;
 	int GetCreditHoldFrames() const;
 	int GetCreditAlpha() const;
+
+	// ゲームオーバー処理
 	void AddGameOverLine(const char* line);
-	bool IsAnyKeyTrgDown();
-	bool IsAnyPadButtonTrgDown() const;
-	bool IsRuinedEnd() const;
+	bool IsRuinedEnd() const 
+	{
+		return prgMng_.GetProgressEnum() == ProgressManager::END_RUINED_LOCKED;
+	}								// 崩壊ENDのみ特殊処理を行うための判定
+
 	const EndInfo& GetEndInfo() const;
 	ResourceManager::SRC GetStillSrc() const;
 	std::string GetEndTitle() const;
@@ -57,41 +65,6 @@ private:
 		EXIT_CONFIRM,
 		WAIT_EXIT
 	};
-
-	static constexpr int GAME_OVER_MAX_LINES = 24;
-	static constexpr int GAME_OVER_LINE_INTERVAL_Y = 24;
-	static constexpr int END_TITLE_POS_X = 24;
-	static constexpr int TITLE_FONT_SIZE = 38;
-	static constexpr int RESET_FONT_SIZE = 30;
-	static constexpr int END_TITLE_SLIDE_DISTANCE_X = 20;
-	static constexpr int END_TITLE_BOTTOM_MARGIN = 32;
-	static constexpr int END_TITLE_ANIMATION_FRAMES = 60;
-	static constexpr int END_TITLE_MAX_ALPHA = 255;
-	static constexpr int END_TITLE_COLOR = 0x000000;
-	static constexpr int END_STILL_HOLD_FRAMES = 180;
-	static constexpr int CREDIT_FADE_IN_FRAMES = 30;
-	static constexpr int CREDIT_HOLD_FRAMES = 60;
-	static constexpr int CREDIT_FINAL_HOLD_FRAMES = 600;
-	static constexpr int CREDIT_FADE_OUT_FRAMES = 30;
-	static constexpr int CREDIT_ROLE_POS_Y = 422;
-	static constexpr int CREDIT_NAME_POS_Y = 482;
-	static constexpr int CREDIT_RIGHT_MARGIN = 30;
-	static constexpr int CREDIT_SHADOW_OFFSET = 2;
-	static constexpr int CREDIT_ROLE_COLOR = 0xaaaaaa;
-	static constexpr int CREDIT_NAME_COLOR = 0xffffff;
-	static constexpr int HIDDEN_RESET_HOLD_FRAMES = 180;
-	static constexpr float HIDDEN_RESET_STICK_UP = -0.8f;
-	static constexpr int RESET_WINDOW_LEFT = 50;
-	static constexpr int RESET_WINDOW_TOP = 150;
-	static constexpr int RESET_WINDOW_RIGHT = 750;
-	static constexpr int RESET_WINDOW_BOTTOM = 370;
-	static constexpr int RESET_TEXT_POS_X = 100;
-	static constexpr int RESET_TEXT_POS_Y = 195;
-	static constexpr int RESET_TEXT_LINE_INTERVAL = 45;
-	static constexpr int RESET_WINDOW_BG_COLOR = 0xffffff;
-	static constexpr int RESET_WINDOW_FRAME_COLOR = 0x222222;
-	static constexpr int RESET_TEXT_COLOR = 0x222222;
-	static constexpr int RESET_SUB_TEXT_COLOR = 0x666666;
 
 	int stillHandle_;
 	int titleFontHandle_;

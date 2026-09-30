@@ -42,16 +42,16 @@ void BPMiniGameScene::Update()
 	switch (state_)
 	{
 	case State::INFLATE:
-`tUpdateInflate(deltaTime);
+		UpdateInflate(deltaTime);
 		break;
 	case State::DEFLATE:
-`tUpdateDeflate(deltaTime);
+		UpdateDeflate(deltaTime);
 		break;
 	case State::SUCCESS:
-`tUpdateSuccess(deltaTime);
+		UpdateSuccess(deltaTime);
 		break;
 	case State::FAILED:
-`tUpdateFailed();
+		UpdateFailed();
 		break;
 	}
 }

@@ -8,6 +8,9 @@
 #include "DxLib.h"
 
 DebugScene::DebugScene()
+	: SceneBase()
+	, cursorPos_(nullptr)
+	, debugPers_(nullptr)
 {
 }
 
@@ -117,6 +120,7 @@ void DebugScene::Delete()
 void DebugScene::InitLoad()
 {
 	cursorPos_ = new DebugCursorPosition();
+	debugPers_ = new DebugPerspective();
 
 	BG_.emplace_back(resMng_.Load(ResourceManager::SRC::BG_1).handleId_);
 	BG_.emplace_back(resMng_.Load(ResourceManager::SRC::BG_2).handleId_);

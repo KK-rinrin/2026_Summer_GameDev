@@ -70,10 +70,10 @@ void GameScene::Update()
 	switch (currentStage_)
 	{
 	case Stage::PAT_ROOM:
-`tUpdatePR();
+		UpdatePR();
 		break;
 	case Stage::NURSE_STATION:
-`tUpdateNS();
+		UpdateNS();
 		break;
 	}
 
@@ -323,10 +323,11 @@ void GameScene::ChangeStage(Stage nextStage)
 	switch (currentStage_)
 	{
 	case Stage::PAT_ROOM:
-`tstage_ = new PatientRoom();
+		stage_ = new PatientRoom();
 		break;
+
 	case Stage::NURSE_STATION:
-`tstage_ = new NurceStation();
+		stage_ = new NurceStation();
 		break;
 	}
 
@@ -359,37 +360,43 @@ void GameScene::UpdateTalkProgress()
 	const bool suppressProgressTalkThisUpdate = isReturningFromSetting_;
 	isReturningFromSetting_ = false;
 
-	// Talk の更新結果を使いまわす
+	// 会話プログラムの更新結果を使いまわす
 	const bool isTalking = talk_->Update();
 	canMove_ = !isTalking;
 
 	const ProgressManager::STORY_PROGRESS progressBefore = prgMng_.GetProgressEnum();
 	const ProgressData& progressData = ProgressTable::Get(progressBefore);
-	if (progressData.talkEnd != TDI::NONE &&
-		talk_->ConsumeTalkEnd(progressData.talkEnd) &&
-		ProgressTable::ShouldAdvanceByTalkEnd(
-			progressBefore, progressData.talkEnd))
-	{
-		const ProgressManager::STORY_PROGRESS endLockedProgress =
-			ProgressTable::GetEndLockedProgress(progressBefore);
-		if (endLockedProgress != progressBefore)
-		{
-			prgMng_.SetProgress(endLockedProgress);
-			sceMng_.ChangeScene(SceneManager::SCENE_ID::CLEAR);
-			return;
-		}
 
-		if (progressBefore == ProgressManager::DINNER)
+	// 会話終了時に進行状況を進める設定なら進める
+	if (ProgressTable::ShouldAdvanceByTalkEnd(
+		progressBefore, progressData.talkEnd))
+	{
+		if (progressData.talkEnd != TDI::NONE &&			// 進行状況に対応する会話が設定されている場合
+			talk_->ConsumeTalkEnd(progressData.talkEnd))	// ＋その会話が終了した場合
 		{
-			prgMng_.SetProgress(ProgressManager::END_RUINED);
-		}
-		else if (progressBefore == ProgressManager::MINIGAME_RETRY)
-		{
-			prgMng_.SetProgress(ProgressManager::START_MINIGAME0);
-		}
-		else
-		{
-			prgMng_.AddProgress();
+			// 進行ロックがある場合、ロック済みの進行状況に強制的に変更する
+			const ProgressManager::STORY_PROGRESS endLockedProgress =
+				ProgressTable::GetEndLockedProgress(progressBefore);
+				if (endLockedProgress != progressBefore)
+				{
+					prgMng_.SetProgress(endLockedProgress);
+					sceMng_.ChangeScene(SceneManager::SCENE_ID::CLEAR);
+					return;
+				}
+
+			// 進行状況を進める
+			if (progressBefore == ProgressManager::DINNER)
+			{
+				prgMng_.SetProgress(ProgressManager::END_RUINED);
+			}
+			else if (progressBefore == ProgressManager::MINIGAME_RETRY)
+			{
+				prgMng_.SetProgress(ProgressManager::START_MINIGAME0);
+			}
+			else
+			{
+				prgMng_.AddProgress();
+			}
 		}
 	}
 
@@ -399,22 +406,26 @@ void GameScene::UpdateTalkProgress()
 		return;
 	}
 
+	// (デバッグ用) 進行状況開始時に自動で進める設定なら進める
 	if (ProgressTable::ShouldAutoAdvance(prgMng_.GetProgressEnum()))
 	{
 		prgMng_.AddProgress();
 	}
 
+	// 進行状況が変化したときの処理
 	if (progressBefore != prgMng_.GetProgressEnum())
 	{
+		// 操作キャラ移動遅延の適用判定を行う
 		ApplyControlMoveDelay();
+
+		// 進行状況開始時の会話を開始する
+		if (!suppressProgressTalkThisUpdate)
+		{
+			StartFirstTalkByProgress();
+		}
 	}
 
-	if (progressBefore != prgMng_.GetProgressEnum() && !suppressProgressTalkThisUpdate)
-	{
-		StartFirstTalkByProgress();
-	}
 }
-
 
 void GameScene::ApplyControlMoveDelay()
 {
@@ -457,14 +468,14 @@ void GameScene::UpdateGameMenu()
 	switch (gameMenu_->ConsumeResult())
 	{
 	case GameMenu::Result::OPEN_SETTING:
-`tOpenSettingFromGameMenu();
+		OpenSettingFromGameMenu();
 		break;
 	case GameMenu::Result::BACK_TO_TITLE:
-`tsceMng_.SetSettingReturnScene(SceneManager::SCENE_ID::TITLE);
+		sceMng_.SetSettingReturnScene(SceneManager::SCENE_ID::TITLE);
 		sceMng_.ChangeScene(SceneManager::SCENE_ID::TITLE);
 		break;
 	default:
-`tbreak;
+		break;
 	}
 }
 

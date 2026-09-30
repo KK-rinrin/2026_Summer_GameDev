@@ -124,19 +124,19 @@ void SettingScene::Draw()
 	switch (static_cast<Item>(selectItem_))
 	{
 	case Item::BGM_VOLUME:
-`tDrawItemBGMVol();
+		DrawItemBGMVol();
 		break;
 	case Item::SE_VOLUME:
-`tDrawItemSEVol();
+		DrawItemSEVol();
 		break;
 	case Item::KEY_CONFIG:
-`tDrawItemKeyCon();
+		DrawItemKeyCon();
 		break;
 	case Item::PAD_CONFIG:
-`tDrawItemPadCon();
+		DrawItemPadCon();
 		break;
 	default:
-`tbreak;
+		break;
 	}
 
 	if (isProgressResetConfirmOpen_)
@@ -174,30 +174,30 @@ void SettingScene::DecideSelectItem()
 	switch (static_cast<Item>(selectItem_))
 	{
 	case Item::BGM_VOLUME:
-`tpreviousVolume_ = bgmVolume_;
+		previousVolume_ = bgmVolume_;
 		ItemUpdate_ = std::bind(&SettingScene::UpdateItemBGMVol, this);
 		break;
 	case Item::SE_VOLUME:
-`tpreviousVolume_ = seVolume_;
+		previousVolume_ = seVolume_;
 		ItemUpdate_ = std::bind(&SettingScene::UpdateItemSEVol, this);
 		break;
 	case Item::KEY_CONFIG:
-`tselectAction_ = 0;
+		selectAction_ = 0;
 		isWaitingKeyInput_ = false;
 		isKeyInputReady_ = false;
 		ItemUpdate_ = std::bind(&SettingScene::UpdateItemKeyCon, this);
 		break;
 	case Item::PAD_CONFIG:
-`tselectAction_ = 0;
+		selectAction_ = 0;
 		isWaitingKeyInput_ = false;
 		isKeyInputReady_ = false;
 		ItemUpdate_ = std::bind(&SettingScene::UpdateItemPadCon, this);
 		break;
 	case Item::BACK:
-`tBackToReturnScene();
+		BackToReturnScene();
 		break;
 	default:
-`tbreak;
+		break;
 	}
 }
 

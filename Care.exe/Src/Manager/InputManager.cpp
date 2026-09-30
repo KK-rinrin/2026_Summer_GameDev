@@ -153,6 +153,11 @@ bool InputManager::IsTrgUp(int key) const
 	return Find(key).keyTrgUp;
 }
 
+bool InputManager::IsNewKeyAll() const
+{
+	return CheckHitKeyAll() != 0;
+}
+
 Vector2 InputManager::GetMousePos() const
 {
 	return mousePos_;
@@ -279,9 +284,9 @@ InputManager::JOYPAD_IN_STATE InputManager::GetJPadInputState(JOYPAD_NO no)
 	switch (type)
 	{
 	case InputManager::JOYPAD_TYPE::OTHER:
-`tbreak;
+		break;
 	case InputManager::JOYPAD_TYPE::XBOX_360:
-`tcase InputManager::JOYPAD_TYPE::XBOX_ONE: {
+	case InputManager::JOYPAD_TYPE::XBOX_ONE: {
 
 		auto d = GetJPadDInputState(no);
 		auto x = GetJPadXInputState(no);
@@ -330,7 +335,7 @@ InputManager::JOYPAD_IN_STATE InputManager::GetJPadInputState(JOYPAD_NO no)
 	}
 		break;
 	case InputManager::JOYPAD_TYPE::DUAL_SHOCK_4:
-`tcase InputManager::JOYPAD_TYPE::DUAL_SENSE: {
+	case InputManager::JOYPAD_TYPE::DUAL_SENSE: {
 		
 		auto d = GetJPadDInputState(no);
 		const int padInput = GetJoypadInputState(static_cast<int>(no));
@@ -377,17 +382,16 @@ InputManager::JOYPAD_IN_STATE InputManager::GetJPadInputState(JOYPAD_NO no)
 	}
 		break;
 	case InputManager::JOYPAD_TYPE::SWITCH_JOY_CON_L:
-`tbreak;
+		break;
 	case InputManager::JOYPAD_TYPE::SWITCH_JOY_CON_R:
-`tbreak;
+		break;
 	case InputManager::JOYPAD_TYPE::SWITCH_PRO_CTRL:
-`tbreak;
+		break;
 	case InputManager::JOYPAD_TYPE::MAX:
-`tbreak;
+		break;
 	}
 
 	return ret;
-
 }
 
 bool InputManager::IsPadBtnNew(JOYPAD_NO no, JOYPAD_BTN btn) const
@@ -417,6 +421,21 @@ bool InputManager::IsPadConnected() const
 		type == JOYPAD_TYPE::XBOX_ONE ||
 		type == JOYPAD_TYPE::DUAL_SHOCK_4 ||
 		type == JOYPAD_TYPE::DUAL_SENSE;
+}
+
+bool InputManager::IsPadBtnNewAll(JOYPAD_NO no) const
+{
+	int no_ = static_cast<int>(no);
+	auto& stateNow = padInfos_[no_];
+
+	for (int i = 0; i < static_cast<int>(JOYPAD_BTN::MAX); i++)
+	{
+		if (padInfos_[static_cast<int>(no)].IsNew[i])
+		{
+			return true;
+		}
+	}
+	return false;
 }
 
 const InputManager::JOYPAD_IN_STATE& InputManager::GetPadInputState(JOYPAD_NO no) const

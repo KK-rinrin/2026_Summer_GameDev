@@ -169,20 +169,20 @@ void TitleScene::DecideSelectMenu()
 	switch (selectedMenu)
 	{
 	case Menu::START:
-`tsceMng_.ChangeScene(SceneManager::SCENE_ID::GAME);
+		sceMng_.ChangeScene(SceneManager::SCENE_ID::GAME);
 		break;
 	case Menu::SETTING:
-`tsceMng_.SetSettingReturnScene(SceneManager::SCENE_ID::TITLE);
+		sceMng_.SetSettingReturnScene(SceneManager::SCENE_ID::TITLE);
 		sceMng_.ChangeScene(SceneManager::SCENE_ID::SETTING);
 		break;
 	case Menu::RESET:
-`tif (prgMng_.ResetProgressCache())
+		if (prgMng_.ResetProgressCache())
 		{
 			PostQuitMessage(0);
 		}
 		break;
 	case Menu::CLOSE:
-`tPostQuitMessage(0);
+		PostQuitMessage(0);
 		break;
 	}
 }
@@ -197,14 +197,14 @@ const char* TitleScene::GetMenuText(Menu menu) const
 	switch (menu)
 	{
 	case Menu::START:
-`treturn "Start";
+		return "Start";
 	case Menu::SETTING:
-`treturn "Setting";
+		return "Setting";
 	case Menu::RESET:
-`treturn "Reset";
+		return "Reset";
 	case Menu::CLOSE:
-`treturn "Close";
+		return "Close";
 	default:
-`treturn "";
+		return "";
 	}
 }

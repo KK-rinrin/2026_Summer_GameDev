@@ -96,6 +96,9 @@ public:
 	// キーを離した時の判定
 	bool IsTrgUp(int key) const;
 
+	// いずれかのキー押下判定
+	bool IsNewKeyAll() const;
+
 	// マウス座標の取得
 	Vector2 GetMousePos() const;
 
@@ -123,6 +126,8 @@ public:
 	bool IsPadBtnTrgDown(JOYPAD_NO no, JOYPAD_BTN btn) const;
 	bool IsPadBtnTrgUp(JOYPAD_NO no, JOYPAD_BTN btn) const;
 	bool IsPadConnected() const;
+	// コントローラのいずれかのボタンが押された
+	bool IsPadBtnNewAll(JOYPAD_NO no) const;
 
 	// アナログキーの入力値から方向(正規化済み)を取得
 	VECTOR GetDirectionXZAKey(int aKeyX, int aKeyY) const;

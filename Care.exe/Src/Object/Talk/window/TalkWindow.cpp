@@ -438,18 +438,15 @@ void TalkWindow::UpdateLineAdvance()
 
 		switch (cu.punctKind)
 		{
-		case CharUnit::PunctKind::PERIOD:
-`tms = 500.0f; break;
-		case CharUnit::PunctKind::COMMA:
-`tms = 250.0f; break;
+		case CharUnit::PunctKind::PERIOD: 			ms = 500.0f; break;
+		case CharUnit::PunctKind::COMMA: 			ms = 250.0f; break;
 		case CharUnit::PunctKind::EXCLAM:
-`tcase CharUnit::PunctKind::QUESTION:       ms = 250.0f; break;
+		case CharUnit::PunctKind::QUESTION: 		ms = 250.0f; break;
 		case CharUnit::PunctKind::EXCLAM_MANY:
-`tcase CharUnit::PunctKind::QUESTION_MANY:  ms = 400.0f; break;
-		case CharUnit::PunctKind::MIXED:
-`tms = 300.0f; break;
+		case CharUnit::PunctKind::QUESTION_MANY: 	ms = 400.0f; break;
+		case CharUnit::PunctKind::MIXED:  			ms = 300.0f; break;
 		default:
-`tbreak;
+			break;
 		}
 
 		waitTimer_ = ms;

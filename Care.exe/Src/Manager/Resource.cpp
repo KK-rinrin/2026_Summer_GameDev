@@ -60,12 +60,12 @@ void Resource::Load()
 	switch (type_)
 	{
 	case Resource::TYPE::IMG:
-`t// âÊëú
+		// âÊëú
 		handleId_ = LoadGraph(path_.c_str());
 		break;
 
 	case Resource::TYPE::IMGS:
-`t// ï°êîâÊëú
+		// ï°êîâÊëú
 		handleIds_ = new int[numX_ * numY_];
 		LoadDivGraph(
 			path_.c_str(),
@@ -76,19 +76,19 @@ void Resource::Load()
 		break;
 
 	case Resource::TYPE::MODEL:
-`t// ÉÇÉfÉã
+		// ÉÇÉfÉã
 		handleId_ = MV1LoadModel(path_.c_str());
 		break;
 	case Resource::TYPE::LIVE2D:
-`thandleId_ = Live2D_LoadModel(path_.c_str());
+		handleId_ = Live2D_LoadModel(path_.c_str());
 		break;
 
 	case Resource::TYPE::FONT:
-`thandleId_ = LoadFont(fontSize_, thick_, fontSpace_, fontType_);
+		handleId_ = LoadFont(fontSize_, thick_, fontSpace_, fontType_);
 		break;
 
 	case Resource::TYPE::SOUND:
-`thandleId_ = LoadSoundMem(path_.c_str());
+		handleId_ = LoadSoundMem(path_.c_str());
 		break;
 	}
 
@@ -135,7 +135,7 @@ void Resource::Release()
 	switch (type_)
 	{
 	case Resource::TYPE::IMG:
-`tif (handleId_ != -1)
+		if (handleId_ != -1)
 		{
 			DeleteGraph(handleId_);
 			handleId_ = -1;
@@ -143,7 +143,6 @@ void Resource::Release()
 		break;
 
 	case Resource::TYPE::IMGS:
-`t{
 		if (handleIds_ != nullptr)
 		{
 			int num = numX_ * numY_;
@@ -158,11 +157,9 @@ void Resource::Release()
 			delete[] handleIds_;
 			handleIds_ = nullptr;
 		}
-	}
 	break;
 
 	case Resource::TYPE::MODEL:
-`t{
 		if (handleId_ != -1)
 		{
 			MV1DeleteModel(handleId_);
@@ -176,10 +173,9 @@ void Resource::Release()
 			}
 		}
 		duplicateModelIds_.clear();
-	}
 	break;
 	case Resource::TYPE::LIVE2D:
-`tif (handleId_ != -1)
+		if (handleId_ != -1)
 		{
 			Live2D_DeleteModel(handleId_);
 			handleId_ = -1;
@@ -187,7 +183,7 @@ void Resource::Release()
 		break;
 
 	case Resource::TYPE::FONT:
-`tfor (const auto& variant : fontVariants_)
+		for (const auto& variant : fontVariants_)
 		{
 			if (variant.handle != -1)
 			{
@@ -199,7 +195,7 @@ void Resource::Release()
 		break;
 
 	case Resource::TYPE::SOUND:
-`tif (handleId_ != -1)
+		if (handleId_ != -1)
 		{
 			DeleteSoundMem(handleId_);
 			handleId_ = -1;

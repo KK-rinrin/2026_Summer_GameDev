@@ -264,22 +264,22 @@ void SceneManager::DoChangeScene(SCENE_ID sceneId)
 	switch (sceneId_)
 	{
 	case SCENE_ID::TITLE:
-`tscene_ = new TitleScene();
+		scene_ = new TitleScene();
 		break;
 	case SCENE_ID::GAME:
-`tscene_ = new GameScene();
+		scene_ = new GameScene();
 		break;
 	case SCENE_ID::SETTING:
-`tscene_ = new SettingScene();
+		scene_ = new SettingScene();
 		break;
 	case SCENE_ID::BP_MINIGAME:
-`tscene_ = new BPMiniGameScene();
+		scene_ = new BPMiniGameScene();
 		break;
 	case SCENE_ID::CLEAR:
-`tscene_ = new ClearScene();
+		scene_ = new ClearScene();
 		break;
 	case SCENE_ID::DEBUG:
-`tscene_ = new DebugScene();
+		scene_ = new DebugScene();
 		break;
 	}
 
@@ -298,7 +298,7 @@ void SceneManager::Fade()
 	switch (fState)
 	{
 	case Fader::STATE::FADE_IN:
-`t// 明転中
+		// 明転中
 		if (fader_->IsEnd())
 		{
 			// 明転が終了したら、フェード処理終了
@@ -307,7 +307,7 @@ void SceneManager::Fade()
 		}
 		break;
 	case Fader::STATE::FADE_OUT:
-`t// 暗転中
+		// 暗転中
 		if (fader_->IsEnd())
 		{
 			// 完全に暗転してからシーン遷移

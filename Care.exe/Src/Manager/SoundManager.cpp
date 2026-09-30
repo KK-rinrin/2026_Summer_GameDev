@@ -53,17 +53,17 @@ bool SoundManager::Load(BGM bgm)
 	switch (bgm)
 	{
 	case BGM::TITLE:
-`tres = ResourceManager::SRC::BGM_TITLE; break;
+		res = ResourceManager::SRC::BGM_TITLE; break;
 	case BGM::GAME0:
-`tres = ResourceManager::SRC::BGM_GAME; break;
+		res = ResourceManager::SRC::BGM_GAME; break;
 	case BGM::GAME1:
-`tres = ResourceManager::SRC::BGM_GAME_2; break;
+		res = ResourceManager::SRC::BGM_GAME_2; break;
 	case BGM::KOWAI:
-`tres = ResourceManager::SRC::BGM_KOWAI; break;
+		res = ResourceManager::SRC::BGM_KOWAI; break;
 	case BGM::ENDING:
-`tres = ResourceManager::SRC::BGM_ENDING; break;
+		res = ResourceManager::SRC::BGM_ENDING; break;
 	default:
-`treturn false;
+		return false;
 	}
 
 	// ロードしてハンドルを格納
@@ -81,23 +81,23 @@ bool SoundManager::Load(SE se)
 	switch (se)
 	{
 	case SE::DECIDE:
-`tres = ResourceManager::SRC::SE_DECIDE; break;
+		res = ResourceManager::SRC::SE_DECIDE; break;
 	case SE::CANCEL:
-`tres = ResourceManager::SRC::SE_CANCEL; break;
+		res = ResourceManager::SRC::SE_CANCEL; break;
 	case SE::MOVE:
-`tres = ResourceManager::SRC::SE_CURSOR_MOVE; break;
+	res = ResourceManager::SRC::SE_CURSOR_MOVE; break;
 	case SE::BEEP:
-`tres = ResourceManager::SRC::SE_BEEP; break;
+		res = ResourceManager::SRC::SE_BEEP; break;
 	case SE::DOOR:
-`tres = ResourceManager::SRC::SE_DOOR; break;
+		res = ResourceManager::SRC::SE_DOOR; break;
 	case SE::RINGTONE:
-`tres = ResourceManager::SRC::SE_RINGTONE; break;
+		res = ResourceManager::SRC::SE_RINGTONE; break;
 	case SE::TYPING:
-`tres = ResourceManager::SRC::SE_TYPING; break;
+		res = ResourceManager::SRC::SE_TYPING; break;
 	case SE::MOUSE:
-`tres = ResourceManager::SRC::SE_PC_MOUSE; break;
+		res = ResourceManager::SRC::SE_PC_MOUSE; break;
 	default:
-`treturn false;
+return false;
 	}
 
 	// ロードしてハンドルを格納
