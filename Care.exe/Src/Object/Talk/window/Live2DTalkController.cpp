@@ -1,6 +1,6 @@
 #include "Live2DTalkController.h"
 #include "../../../Manager/Live2DModelHub.h"
-#include <Windows.h> // OutputDebugStringA
+#include <Windows.h> // デバッグ文字列の出力に使用
 
 Live2DTalkController::Live2DTalkController()
 	: model_(nullptr)

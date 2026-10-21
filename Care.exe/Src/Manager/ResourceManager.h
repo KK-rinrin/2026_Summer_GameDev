@@ -44,9 +44,9 @@ public:
 
 		GUIDE_MOVE,				// 移動可能ドアガイド画像
 
-		BGM_TITLE,				// Title BGM
+		BGM_TITLE,				// タイトル画面のBGM
 		BGM_GAME,				// ゲーム中BGM（アドベンチャーモード）
-		BGM_GAME_2,				// Game BGM 2
+		BGM_GAME_2,				// ゲーム中のBGM 2
 		BGM_KOWAI,				// 怖いBGM　※やさしい
 		BGM_ENDING,				// エンディングBGM
 

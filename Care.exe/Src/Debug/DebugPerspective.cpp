@@ -1,5 +1,5 @@
 #include "DebugPerspective.h"
-#include "../Object/Common/2DTransform.h"
+#include "../Object/Stage/StageProjection2D.h"
 
 DebugPerspective::DebugPerspective()
 {
@@ -11,8 +11,8 @@ DebugPerspective::~DebugPerspective()
 
 void DebugPerspective::DrawLineDebug(VECTOR StartLPos, VECTOR EndLPos, int color)
 {
-	auto s = Transform2D::GetWorldPos(StartLPos);
-	auto e = Transform2D::GetWorldPos(EndLPos);
+	auto s = StageProjection2D::ToWorld(StartLPos);
+	auto e = StageProjection2D::ToWorld(EndLPos);
 
 	int sX = static_cast<int>(s.x);
 	int sY = static_cast<int>(s.y);

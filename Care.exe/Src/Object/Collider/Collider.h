@@ -1,4 +1,5 @@
 #pragma once
+#include <DxLib.h>
 
 // コライダークラス群
 enum class ColliderType {
@@ -42,6 +43,9 @@ struct RectCollider : public Collider {
 class Collision
 {
 public:
+	static VECTOR BlockCrossingLocalRect(const VECTOR& beforePos, const VECTOR& currentPos,
+		const VECTOR& leftTopPercent, const VECTOR& rightBottomPercent);
+
 
 	// 点(point)が中心(center), 半径(radius)の円の内側にいるか
 	static bool IsPointInCircle(const VECTOR& point, const VECTOR& center, float radius)
@@ -74,4 +78,8 @@ public:
 		return (dx * dx + dy * dy) <= (combinedRadius * combinedRadius);
 	}
 
+private:
+	static constexpr float LOCAL_PERCENT_MAX = 100.0f;
+	static constexpr float EPS = 1e-5f;
+	static constexpr float OUTSIDE_MARGIN = 0.01f;
 };

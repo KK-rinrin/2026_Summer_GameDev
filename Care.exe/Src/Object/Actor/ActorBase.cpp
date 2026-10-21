@@ -1,6 +1,7 @@
 #include "../../Manager/ResourceManager.h"
 #include "../../Manager/SceneManager.h"
 #include "ActorBase.h"
+#include "../Stage/StageProjection2D.h"
 #include "../../Common/Vector2.h"
 #include "../../Utility/SchoolUtility.h"
 
@@ -8,6 +9,7 @@ ActorBase::ActorBase()
 	: resMng_(ResourceManager::GetInstance())
 	, scnMng_(SceneManager::GetInstance())
 	, transform_()
+	, beforePos_(SchoolUtility::VECTOR_ZERO)
 	, radius_(0.0f)
 	, collider_(radius_)
 {
@@ -39,7 +41,8 @@ void ActorBase::Init()
 
 void ActorBase::Draw()
 {
-	transform_.Draw();
+	const VECTOR world = transform_.GetWorldPos();
+	sprite_.Draw(world, transform_.scaleX, transform_.scaleY, StageProjection2D::GetPerspectiveScale(world.y));
 }
 
 void ActorBase::Release()
@@ -56,13 +59,13 @@ void ActorBase::SetLocalPercent(float x, float y)
 {
 	transform_.pos.x = x;
 	transform_.pos.y = y;
-	transform_.beforePos = transform_.pos;
 	transform_.Update();
+	beforePos_ = transform_.pos;
 }
 
 bool ActorBase::IsFacingRight() const
 {
-	return !transform_.isLeft;
+	return !sprite_.IsFlippedX();
 }
 void ActorBase::UpdateSortKey()
 {
@@ -77,6 +80,11 @@ bool ActorBase::IsHitCircle(const ActorBase& other) const
 
 void ActorBase::MoveToBeforePos()
 {
-	transform_.pos = transform_.beforePos;
+	transform_.pos = beforePos_;
 	transform_.Update();
+}
+
+void ActorBase::BlockCrossingLocalRect(const VECTOR& leftTopPercent, const VECTOR& rightBottomPercent)
+{
+	transform_.pos = Collision::BlockCrossingLocalRect(beforePos_, transform_.pos, leftTopPercent, rightBottomPercent);
 }

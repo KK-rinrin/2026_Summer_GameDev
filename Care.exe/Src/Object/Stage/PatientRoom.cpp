@@ -83,7 +83,7 @@ void PatientRoom::InitLoad()
 void PatientRoom::InitTransform()
 {
 	AddScreenObject(wallHandle_, WALL_SORT_Y, true);
-	AddTransformObject(Transform2D(toiletHandle_, TOILET_POS, false));
+	AddTransformObject(Transform2D(TOILET_POS), Sprite2D(toiletHandle_, false));
 }
 
 void PatientRoom::InitCollider()

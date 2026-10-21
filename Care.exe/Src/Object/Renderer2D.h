@@ -4,6 +4,7 @@
 #include <vector>
 #include "Actor/ActorBase.h"
 #include "Common/2DTransform.h"
+#include "Common/Sprite2D.h"
 
 class Renderer2D
 {
@@ -18,7 +19,7 @@ public:
 	void Clear();
 
 	void AddActor(ActorBase* actor, Layer layer = Layer::Object);
-	void AddTransform(Transform2D* transform, Layer layer = Layer::Object);
+	void AddSprite(const Transform2D* transform, const Sprite2D* sprite, Layer layer = Layer::Object);
 	void Add(float sortY, const std::function<void()>& drawFunc, Layer layer = Layer::Object);
 	void Add(const std::function<float()>& sortYFunc, const std::function<void()>& drawFunc, Layer layer = Layer::Object);
 

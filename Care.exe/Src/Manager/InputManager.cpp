@@ -316,13 +316,13 @@ InputManager::JOYPAD_IN_STATE InputManager::GetJPadInputState(JOYPAD_NO no)
 		ret.ButtonsNew[idx] = d.Buttons[XBOX_A];// A
 
 		idx = static_cast<int>(JOYPAD_BTN::R_TRIGGER);
-		ret.ButtonsNew[idx] = x.RightTrigger;// R_TRIGGER
+		ret.ButtonsNew[idx] = x.RightTrigger;// 右トリガー
 
 		idx = static_cast<int>(JOYPAD_BTN::L_TRIGGER);
-		ret.ButtonsNew[idx] = x.LeftTrigger; // L_TRIGGER
+		ret.ButtonsNew[idx] = x.LeftTrigger; // 左トリガー
 
 		idx = static_cast<int>(JOYPAD_BTN::START);
-		ret.ButtonsNew[idx] = x.Buttons[XINPUT_BUTTON_START];// START
+		ret.ButtonsNew[idx] = x.Buttons[XINPUT_BUTTON_START];// スタートボタン
 
 		// 左スティック
 		ret.AKeyLX = d.X;
@@ -363,13 +363,13 @@ InputManager::JOYPAD_IN_STATE InputManager::GetJPadInputState(JOYPAD_NO no)
 		ret.ButtonsNew[idx] = d.Buttons[PS_CROSS];// ×
 
 		idx = static_cast<int>(JOYPAD_BTN::R_TRIGGER);
-		ret.ButtonsNew[idx] = d.Buttons[PS_R2];// R_TRIGGER
+		ret.ButtonsNew[idx] = d.Buttons[PS_R2];// 右トリガー
 
 		idx = static_cast<int>(JOYPAD_BTN::L_TRIGGER);
-		ret.ButtonsNew[idx] = d.Buttons[PS_L2]; // L_TRIGGER
+		ret.ButtonsNew[idx] = d.Buttons[PS_L2]; // 左トリガー
 
 		idx = static_cast<int>(JOYPAD_BTN::START);
-		ret.ButtonsNew[idx] = d.Buttons[PS_OPTIONS];// OPTIONS
+		ret.ButtonsNew[idx] = d.Buttons[PS_OPTIONS];// オプションボタン
 
 		// 左スティック
 		ret.AKeyLX = d.X;

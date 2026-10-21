@@ -571,7 +571,7 @@ double Quaternion::Angle(const Quaternion& q1, const Quaternion& q2)
 Quaternion Quaternion::SlerpUnclamped(Quaternion a, Quaternion b, float t)
 {
 
-    // if either input is zero, return the other.
+    // 片方の入力がゼロなら、もう片方を返す。
     if (a.LengthSquared() == 0.0f)
     {
         if (b.LengthSquared() == 0.0f)
@@ -590,7 +590,7 @@ Quaternion Quaternion::SlerpUnclamped(Quaternion a, Quaternion b, float t)
 
     if (cosHalfAngle >= 1.0f || cosHalfAngle <= -1.0f)
     {
-        // angle = 0.0f, so just return one input.
+        // 回転の差がないため、入力の一方をそのまま返す。
         return a;
     }
     else if (cosHalfAngle < 0.0f)
@@ -607,7 +607,7 @@ Quaternion Quaternion::SlerpUnclamped(Quaternion a, Quaternion b, float t)
     float blendB;
     if (cosHalfAngle < SLERP_LINEAR_COS_THRESHOLD)
     {
-        // do proper slerp for big angles
+        // 角度が大きい場合は球面線形補間する
         float halfAngle = acosf(cosHalfAngle);
         float sinHalfAngle = sinf(halfAngle);
         float oneOverSinHalfAngle = 1.0f / sinHalfAngle;
@@ -616,7 +616,7 @@ Quaternion Quaternion::SlerpUnclamped(Quaternion a, Quaternion b, float t)
     }
     else
     {
-        // do lerp if angle is really small.
+        // 角度が非常に小さい場合は線形補間する。
         blendA = 1.0f - t;
         blendB = t;
     }
@@ -663,7 +663,7 @@ void Quaternion::ToAngleAxis(float* angle, VECTOR* axis)
 	{
 		this->Normalize();
 	}
-	*angle = 2.0f * acosf((float)this->w); // angle
+	*angle = 2.0f * acosf((float)this->w); // 回転角度
 
     if (x == 0 && y == 0 && z == 0)
     {
@@ -681,8 +681,8 @@ void Quaternion::ToAngleAxis(float* angle, VECTOR* axis)
 	}
 	else
 	{
-		// This occurs when the angle is zero. 
-		// Not a problem: just set an arbitrary normalized axis.
+		// 回転角度がゼロの場合はここに入る。 
+		// 回転軸は任意なので、正規化済みの軸を設定する。
 		*axis = { 1.0f, 0.0f, 0.0f };
 	}
 

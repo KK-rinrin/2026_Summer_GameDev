@@ -1,5 +1,7 @@
 #pragma once
 #include "../Common/2DTransform.h"
+#include "../Common/Sprite2D.h"
+#include "../Common/CharacterAnimator2D.h"
 #include "../Collider/Collider.h"
 class ResourceManager;
 class SceneManager;
@@ -38,7 +40,7 @@ public:
 	float GetSortY() const { return transform_.GetWorldPos().y; }
 
 	// ローカル百分率矩形による通過防止（leftTop / rightBottom は VECTOR、0..100）
-	void BlockCrossingLocalRect(const VECTOR& leftTopPercent, const VECTOR& rightBottomPercent) { transform_.BlockCrossingLocalRect(leftTopPercent, rightBottomPercent); }
+	void BlockCrossingLocalRect(const VECTOR& leftTopPercent, const VECTOR& rightBottomPercent);
 
 	bool IsHitCircle(const ActorBase& other) const;
 
@@ -52,9 +54,13 @@ protected:
 
 	// 位置など
 	Transform2D transform_;
+	Sprite2D sprite_;
+	VECTOR beforePos_;
+
+	void BeginMovement() { beforePos_ = transform_.pos; }
 
 	// アニメーション
-	AnimationController2D anim_;
+	CharacterAnimator2D animator_;
 
 	// コライダ
 	CircleCollider collider_;

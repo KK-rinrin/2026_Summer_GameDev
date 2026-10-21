@@ -31,13 +31,12 @@ Patient::~Patient()
 
 void Patient::Update()
 {
+	BeginMovement();
 	if (processMove_ != nullptr) processMove_->Update(transform_);
 
 	transform_.Update();
 
 	UpdateAnimation();
-
-	anim_.Update();
 }
 
 void Patient::Release()
@@ -63,12 +62,12 @@ void Patient::InitLoad()
 		handles.reserve(num);
 		for (int i = 0; i < num; ++i)
 			handles.push_back(res.handleIds_[i]);
-		transform_.SetHandles(handles, res.numX_, res.numY_);
+		sprite_.SetHandles(handles, res.numX_, res.numY_);
 	}
 	else
 	{
 		// その他は空ベクタを渡す（安全側）
-		transform_.SetHandles(std::vector<int>{}, 1, 1);
+		sprite_.SetHandles(std::vector<int>{}, 1, 1);
 	}
 }
 
@@ -77,7 +76,7 @@ void Patient::InitTransform()
 	// 初期位置
 	transform_.pos.x = INIT_PER.x;
 	transform_.pos.y = INIT_PER.y;
-	transform_.beforePos = transform_.pos;
+	beforePos_ = transform_.pos;
 
 
 }
@@ -91,9 +90,8 @@ void Patient::InitCollider()
 void Patient::InitAnimation()
 {
 	// 静止画像
-	transform_.stillIndex = ResourceManager::CHARACTER_FRONT_STILL_INDEX;
-	transform_.stillIndex_back = ResourceManager::CHARACTER_BACK_STILL_INDEX;
-	transform_.isLeft = true;
+	animator_.Configure(sprite_.GetColumns(), ResourceManager::CHARACTER_FRONT_STILL_INDEX);
+	sprite_.SetFlipX(true);
 }
 
 void Patient::InitPost()
@@ -102,7 +100,7 @@ void Patient::InitPost()
 
 void Patient::UpdateAnimation()
 {
-	transform_.currentHandleIndex = transform_.stillIndex;
+	animator_.ShowStill(sprite_);
 
 	// 話しかけられたらその方向を向く
 }

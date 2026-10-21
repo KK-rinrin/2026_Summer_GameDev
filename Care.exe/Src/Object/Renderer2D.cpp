@@ -1,4 +1,5 @@
 #include "Renderer2D.h"
+#include "Stage/StageProjection2D.h"
 
 void Renderer2D::Clear()
 {
@@ -17,13 +18,16 @@ void Renderer2D::AddActor(ActorBase* actor, Layer layer)
 	);
 }
 
-void Renderer2D::AddTransform(Transform2D* transform, Layer layer)
+void Renderer2D::AddSprite(const Transform2D* transform, const Sprite2D* sprite, Layer layer)
 {
-	if (transform == nullptr) return;
+	if (transform == nullptr || sprite == nullptr) return;
 
 	Add(
 		[transform]() { return transform->GetWorldPos().y; },
-		[transform]() { transform->Draw(); },
+		[transform, sprite]() {
+			const VECTOR world = transform->GetWorldPos();
+			sprite->Draw(world, transform->scaleX, transform->scaleY, StageProjection2D::GetPerspectiveScale(world.y));
+		},
 		layer
 	);
 }

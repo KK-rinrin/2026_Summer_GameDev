@@ -45,7 +45,7 @@ static Live2DTalkController::Param StringToParam(const std::string& s)
 }
 
 // ==============================
-// ctor / dtor
+// コンストラクタ・デストラクタ
 // ==============================
 TalkWindow::TalkWindow()
 {
@@ -90,7 +90,7 @@ void TalkWindow::Init()
 }
 
 // ==============================
-// Load
+// 読み込み
 // ==============================
 void TalkWindow::Load()
 {
@@ -236,12 +236,12 @@ void TalkWindow::ContinueSpeak()
 }
 
 // ==============================
-// Update
+// 更新
 // ==============================
 void TalkWindow::Update()
 {
 
-	// deltaTime
+	// 前回からの経過時間
 	long long now = GetNowHiPerformanceCount();
 	deltaTime_ = (now - prevTime_) / MICROSECONDS_PER_SECOND;
 	prevTime_ = now;
@@ -278,7 +278,7 @@ void TalkWindow::UpdateNextIcon()
 }
 
 // ==============================
-// Draw
+// 描画
 // ==============================
 void TalkWindow::Draw()
 {
@@ -318,7 +318,7 @@ void TalkWindow::DrawNextIcon()
 }
 
 // ==============================
-// Delete
+// 解放
 // ==============================
 void TalkWindow::Delete()
 {
@@ -330,7 +330,7 @@ void TalkWindow::Delete()
 }
 
 // ==============================
-// Speak
+// 発話
 // ==============================
 void TalkWindow::Speak(const std::string& talk, float advanceTime)
 {
@@ -383,7 +383,7 @@ void TalkWindow::UpdateLineAdvance()
 
 	const CharUnit& cu = units_[unitPos_];
 
-	// TAG
+	// タグ
 	if (cu.type == CharUnit::Type::TAG)
 	{
 		Live2DTalkController* ctrl = (currentSpeaker_ == TalkDatas::Speaker::Patient) ? patientController_ : playerController_;
@@ -414,7 +414,7 @@ void TalkWindow::UpdateLineAdvance()
 			// タグはここでは消費せず、表示を止めて口を閉じる
 			waitingForClick_ = true;
 			CloseMouthForCurrentSpeaker();
-			// do NOT increment unitPos_ here; ContinueSpeak() will consume the tag
+			// タグは ContinueSpeak() が消費するため、ここでは unitPos_ を進めない
 		}
 		else
 		{
@@ -430,7 +430,7 @@ void TalkWindow::UpdateLineAdvance()
 		return;
 	}
 
-	// PUNCT
+	// 句読点
 	if (cu.type == CharUnit::Type::PUNCT)
 	{
 		float ms = PUNCT_DEFAULT_WAIT_MS;
@@ -453,7 +453,7 @@ void TalkWindow::UpdateLineAdvance()
 		return;
 	}
 
-	// NORMAL
+	// 通常の文字
 	if (cu.type == CharUnit::Type::NORMAL)
 	{
 		visCharaTime_ += deltaTime_ * MILLISECONDS_PER_SECOND;

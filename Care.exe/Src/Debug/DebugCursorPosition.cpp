@@ -1,5 +1,5 @@
 #include "DebugCursorPosition.h"
-#include "../Object/Common/2DTransform.h"
+#include "../Object/Stage/StageProjection2D.h"
 #include "../Utility/SchoolUtility.h"
 
 DebugCursorPosition::DebugCursorPosition()
@@ -22,7 +22,7 @@ void DebugCursorPosition::Update()
 	worldPos_.y = static_cast<float>(mouseY);
 	worldPos_.z = 0.0f;
 
-	localPercent_ = Transform2D::WorldToLocalPercent(worldPos_);
+	localPercent_ = StageProjection2D::ToLocalPercent(worldPos_);
 }
 
 void DebugCursorPosition::Draw() const

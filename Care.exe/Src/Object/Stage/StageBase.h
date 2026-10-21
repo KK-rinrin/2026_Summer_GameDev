@@ -3,6 +3,7 @@
 #include <vector>
 #include "../../Common/Vector2.h"
 #include "../Common/2DTransform.h"
+#include "../Common/Sprite2D.h"
 class ResourceManager;
 class Renderer2D;
 class ActorBase;
@@ -65,13 +66,15 @@ protected:
 	struct TransformObject
 	{
 		Transform2D transform;
+		Sprite2D sprite;
+		void Draw() const;
 		bool useSortY;
 		float sortY;
 	};
 
 	void AddScreenObject(int handle, float sortY, bool trans = true);
-	void AddTransformObject(const Transform2D& transform);
-	void AddTransformObject(const Transform2D& transform, float sortY);
+	void AddTransformObject(const Transform2D& transform, const Sprite2D& sprite);
+	void AddTransformObject(const Transform2D& transform, const Sprite2D& sprite, float sortY);
 	void AddMBRectPercent(const VECTOR& leftTopPercent, const VECTOR& rightBottomPercent);
 	void DrawMoveGuide(const Vector2& pos) const;
 

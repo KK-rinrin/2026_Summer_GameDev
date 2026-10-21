@@ -23,7 +23,7 @@ public:
 private:
 	static constexpr int MILLISECONDS_PER_SECOND = 1000;
 	static constexpr int TARGET_FPS = 60;
-	// Preserve the current integer division: 16 ms.
+	// 整数除算による現在の値（16ミリ秒）を維持する。
 	static constexpr float FRAME_INTERVAL_MS = MILLISECONDS_PER_SECOND / TARGET_FPS;
 	static constexpr int YIELD_SLEEP_MS = 1;
 	static constexpr int FPS_RIGHT_MARGIN = 90;

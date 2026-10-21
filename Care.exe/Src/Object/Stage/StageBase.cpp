@@ -1,4 +1,5 @@
 #include "StageBase.h"
+#include "StageProjection2D.h"
 #include "../../Manager/ResourceManager.h"
 #include "../Renderer2D.h"
 #include "../Actor/ActorBase.h"
@@ -51,7 +52,7 @@ void StageBase::Draw()
 
 	for (auto& obj : objects_)
 	{
-		obj.transform.Draw();
+		obj.Draw();
 	}
 }
 
@@ -91,12 +92,12 @@ void StageBase::RegisterObjects(Renderer2D& renderer)
 	{
 		if (obj.useSortY)
 		{
-			Transform2D* transform = &obj.transform;
-			renderer.Add(obj.sortY, [transform]() { transform->Draw(); });
+			const TransformObject* object = &obj;
+			renderer.Add(obj.sortY, [object]() { object->Draw(); });
 		}
 		else
 		{
-			renderer.AddTransform(&obj.transform);
+			renderer.AddSprite(&obj.transform, &obj.sprite);
 		}
 	}
 }
@@ -126,14 +127,14 @@ void StageBase::AddScreenObject(int handle, float sortY, bool trans)
 	screenObjects_.push_back({ handle, sortY, trans });
 }
 
-void StageBase::AddTransformObject(const Transform2D& transform)
+void StageBase::AddTransformObject(const Transform2D& transform, const Sprite2D& sprite)
 {
-	objects_.push_back({ transform, false, 0.0f });
+	objects_.push_back({ transform, sprite, false, 0.0f });
 }
 
-void StageBase::AddTransformObject(const Transform2D& transform, float sortY)
+void StageBase::AddTransformObject(const Transform2D& transform, const Sprite2D& sprite, float sortY)
 {
-	objects_.push_back({ transform, true, sortY });
+	objects_.push_back({ transform, sprite, true, sortY });
 }
 
 void StageBase::DrawMoveGuide(const Vector2& pos) const
@@ -150,4 +151,10 @@ void StageBase::AddMBRectPercent(const VECTOR& leftTopPercent, const VECTOR& rig
 	r.leftTop = leftTopPercent;
 	r.rightBottom = rightBottomPercent;
 	movementRectPercents_.push_back(r);
+}
+
+void StageBase::TransformObject::Draw() const
+{
+	const VECTOR world = transform.GetWorldPos();
+	sprite.Draw(world, transform.scaleX, transform.scaleY, StageProjection2D::GetPerspectiveScale(world.y));
 }

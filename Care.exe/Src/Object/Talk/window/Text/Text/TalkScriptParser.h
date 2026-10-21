@@ -32,13 +32,13 @@ struct CharUnit
     // 表示文字
     std::string text;
 
-    // TAG
+    // タグ
     std::string tagType;   // タグ名 ("WAIT", "FBF", "PARAM", "HAPPY" 等)
     std::string tagParam;  // タグの追加パラメータ（PARAM の名前等）
     int   waitMs = 0;
     float floatValue = 1.0f;
 
-    // PUNCT
+    // 句読点
     PunctKind punctKind = PunctKind::NONE;
 
     // フラグ：このユニットは「括弧内」であり口パクを行わない

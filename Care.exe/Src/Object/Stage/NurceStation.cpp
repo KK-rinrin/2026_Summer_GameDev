@@ -174,11 +174,11 @@ void NurceStation::InitLoad()
 
 void NurceStation::InitTransform()
 {
-	AddTransformObject(Transform2D(pcHandle_, PC_POS, false));
+	AddTransformObject(Transform2D(PC_POS), Sprite2D(pcHandle_, false));
 
-	AddTransformObject(Transform2D(chairHandle_, CHAIR_POS, false));
+	AddTransformObject(Transform2D(CHAIR_POS), Sprite2D(chairHandle_, false));
 
-	AddTransformObject(Transform2D(lockerHandle_, LOCKER_POS, false), LOCKER_BUFFER_Y);
+	AddTransformObject(Transform2D(LOCKER_POS), Sprite2D(lockerHandle_, false), LOCKER_BUFFER_Y);
 
 }
 

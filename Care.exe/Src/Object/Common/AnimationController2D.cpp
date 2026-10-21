@@ -10,7 +10,7 @@ AnimationController2D::AnimationController2D()
 	, direction_(1)
 	, playing_(false)
 	, lastTimeMs_(GetNowCount())
-	, frameDurationMs_(DEFAULT_FRAME_DURATION_MS) // 100ms default
+	, frameDurationMs_(DEFAULT_FRAME_DURATION_MS) // 初期値は100ミリ秒
 {
 }
 
@@ -71,26 +71,26 @@ void AnimationController2D::Update()
 	unsigned int elapsed = now - lastTimeMs_;
 	if (elapsed < 1u) return;
 
-	// 経過フレーム数を逐次更新（ping-pong の場合は1フレームずつ処理）
+	// 経過フレーム数を逐次更新（往復再生の場合は1フレームずつ処理）
 	unsigned int frameMs = static_cast<unsigned int>(frameDurationMs_);
 	while (elapsed >= frameMs) {
 		elapsed -= frameMs;
-		// advance one step according to mode
+		// 再生方式に応じて1フレーム進める
 		if (pingpong_) {
 			currentFrame_ += direction_;
 			if (currentFrame_ >= frames_) {
-				// reached after-last
+				// 最終フレームを越えた場合
 				if (frames_ <= 1) {
 					currentFrame_ = 0;
 				}
 				else {
-					currentFrame_ = frames_ - 2; // bounce back
+					currentFrame_ = frames_ - 2; // 折り返して逆方向に再生する
 					direction_ = -1;
 					if (!loop_ && currentFrame_ < 0) currentFrame_ = 0;
 				}
 			}
 			else if (currentFrame_ < 0) {
-				// reached before-first
+				// 先頭フレームより前に進んだ場合
 				if (frames_ <= 1) {
 					currentFrame_ = 0;
 				}
@@ -102,7 +102,7 @@ void AnimationController2D::Update()
 			}
 		}
 		else {
-			// normal forward
+			// 通常の順方向再生
 			currentFrame_++;
 			if (loop_) {
 				currentFrame_ %= frames_;
@@ -120,7 +120,7 @@ void AnimationController2D::Update()
 int AnimationController2D::GetFrame() const
 {
 	if (frames_ <= 0) return 0;
-	// ensure in-range
+	// フレーム番号を有効範囲に収める
 	int f = currentFrame_;
 	if (f < 0) f = 0;
 	if (f >= frames_) f = frames_ - 1;

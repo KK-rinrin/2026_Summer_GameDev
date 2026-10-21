@@ -507,7 +507,7 @@ VECTOR SchoolUtility::VNormalize(const VECTOR& v)
 
 double SchoolUtility::AngleDeg(const VECTOR& from, const VECTOR& to)
 {
-	// sqrt(a) * sqrt(b) = sqrt(a * b) -- valid for real numbers
+	// ”ñ•‰‚ÌÀ”‚Å‚Í sqrt(a) * sqrt(b) = sqrt(a * b) ‚ª¬‚è—§‚Â
 	auto fLen = SqrMagnitude(from);
 	auto tLen = SqrMagnitude(to);
 	auto denominator = sqrt(fLen * tLen);
