@@ -121,7 +121,7 @@ void PCScene::Update(const InputManager& input)
 
 	if (isCharaFolderOpen_ && isDecideTrgDown)
 	{
-		for (int i = 0; i < 2; ++i)
+		for (int i = 0; i < FILE_COUNT; ++i)
 		{
 			if (IsFileHit(i))
 			{
@@ -149,19 +149,19 @@ void PCScene::Update(const InputManager& input)
 		return;
 	}
 
-	if (SchoolUtility::IsPointInRect(cursorPos_, FOLDER_POS[0], folderSize_))
+	if (SchoolUtility::IsPointInRect(cursorPos_, FOLDER_POS[MANUAL_FOLDER], folderSize_))
 	{
 		soundMng_->PlaySE(SoundManager::SE::MOUSE);
 		isBPManualVisible_ = true;
 		isKarteVisible_ = false;
 	}
-	else if (SchoolUtility::IsPointInRect(cursorPos_, FOLDER_POS[1], folderSize_))
+	else if (SchoolUtility::IsPointInRect(cursorPos_, FOLDER_POS[KARTE_FOLDER], folderSize_))
 	{
 		soundMng_->PlaySE(SoundManager::SE::MOUSE);
 		isBPManualVisible_ = false;
 		isKarteVisible_ = true;
 	}
-	else if (isCharaFolderVisible_ && SchoolUtility::IsPointInRect(cursorPos_, FOLDER_POS[2], folderSize_))
+	else if (isCharaFolderVisible_ && SchoolUtility::IsPointInRect(cursorPos_, FOLDER_POS[CHARA_FOLDER], folderSize_))
 	{
 		soundMng_->PlaySE(SoundManager::SE::MOUSE);
 		isBPManualVisible_ = false;
@@ -180,17 +180,17 @@ void PCScene::Draw()
 	DrawGraph(0, 0, backgroundHandle_, TRUE);
 	if (!isBPManualVisible_ && !isKarteVisible_ && !isCharaFolderOpen_)
 	{
-		for (int i = 0; i < (isCharaFolderVisible_ ? 3 : 2); ++i)
+		for (int i = 0; i < (isCharaFolderVisible_ ? FOLDER_COUNT : INITIAL_FOLDER_COUNT); ++i)
 		{
 			const Vector2& folderPos = FOLDER_POS[i];
 			DrawGraph(folderPos.x, folderPos.y, folderHandle_, TRUE);
 
-			const char* label = (i == 0) ? "マニュアル確認" : (i == 1 ? "カルテ" : "Chara");
+			const char* label = (i == MANUAL_FOLDER) ? "マニュアル確認" : (i == KARTE_FOLDER ? "カルテ" : "Chara");
 			const int textWidth = GetDrawStringWidthToHandle(
 				label, static_cast<int>(std::strlen(label)), pcFontHandle_);
 			const int textX = folderPos.x + (folderSize_.x - textWidth) / 2;
 			const int textY = folderPos.y + folderSize_.y;
-			DrawStringToHandle(textX, textY, label, GetColor(0, 0, 0), pcFontHandle_);
+			DrawStringToHandle(textX, textY, label, TEXT_COLOR.ToDxColor(), pcFontHandle_);
 		}
 	}
 
@@ -214,7 +214,7 @@ void PCScene::Draw()
 		const int prefixLength = static_cast<int>(std::strlen(PC_GUIDE_TEXT) - std::strlen(PC_GUIDE_CLOSE_TEXT));
 		const int prefixWidth = GetDrawStringWidthToHandle(PC_GUIDE_TEXT, prefixLength, pcFontHandleS_);
 		const int guideX = PC_GUIDE_CLOSE_POS_X - prefixWidth;
-		DrawStringToHandle(guideX, PC_GUIDE_CLOSE_POS_Y, PC_GUIDE_TEXT, GetColor(0, 0, 0), pcFontHandleS_);
+		DrawStringToHandle(guideX, PC_GUIDE_CLOSE_POS_Y, PC_GUIDE_TEXT, TEXT_COLOR.ToDxColor(), pcFontHandleS_);
 	}
 
 	if (isAccessDeniedVisible_)
@@ -241,7 +241,7 @@ void PCScene::DrawKarte() const
 		return;
 	}
 
-	const int textColor = GetColor(0, 0, 0);
+	const int textColor = TEXT_COLOR.ToDxColor();
 	DrawStringToHandle(KARTE_TEXT_POS.x, KARTE_TEXT_POS.y, "患者カルテ", textColor, pcFontHandle_);
 	DrawStringToHandle(KARTE_TEXT_POS.x, KARTE_TEXT_POS.y + KARTE_TEXT_LINE_INTERVAL_Y, "患者名：ヌイ", textColor, pcFontHandle_);
 	DrawFormatStringToHandle(KARTE_TEXT_POS.x, KARTE_TEXT_POS.y + KARTE_TEXT_LINE_INTERVAL_Y * 2, textColor, pcFontHandle_, "担当看護師：%s", nurseName_.c_str());
@@ -266,14 +266,14 @@ void PCScene::DrawFiles() const
 		return;
 	}
 
-	for (int i = 0; i < 2; ++i)
+	for (int i = 0; i < FILE_COUNT; ++i)
 	{
 		const Vector2& filePos = FILE_POS[i];
 		DrawGraph(filePos.x, filePos.y, fileHandle_, TRUE);
-		const char* fileName = (i == 0) ? "neit.char" : "nui.char";
+		const char* fileName = (i == NURCE_FILE) ? "neit.char" : "nui.char";
 		const int textWidth = GetDrawStringWidthToHandle(fileName, static_cast<int>(std::strlen(fileName)), pcFontHandle_);
 		const int textX = filePos.x + (fileSize_.x - textWidth) / 2;
-		DrawStringToHandle(textX, filePos.y + FILE_LABEL_Y_OFFSET, fileName, GetColor(0, 0, 0), pcFontHandle_);
+		DrawStringToHandle(textX, filePos.y + FILE_LABEL_Y_OFFSET, fileName, TEXT_COLOR.ToDxColor(), pcFontHandle_);
 	}
 }
 
@@ -288,23 +288,23 @@ void PCScene::DrawAccessDeniedMessage() const
 	const int top = ACCESS_DENIED_BOX_POS.y;
 	const int right = left + ACCESS_DENIED_BOX_SIZE.x;
 	const int bottom = top + ACCESS_DENIED_BOX_SIZE.y;
-	const int frameColor = GetColor(80, 80, 80);
-	const int windowColor = GetColor(220, 220, 220);
-	const int titleColor = GetColor(100, 100, 100);
-	const int textColor = GetColor(0, 0, 0);
+	const int frameColor = FRAME_COLOR.ToDxColor();
+	const int windowColor = WINDOW_COLOR.ToDxColor();
+	const int titleColor = TITLE_BAR_COLOR.ToDxColor();
+	const int textColor = TEXT_COLOR.ToDxColor();
 	DrawBox(left, top, right, bottom, frameColor, TRUE);
-	DrawBox(left + 2, top + 2, right - 2, bottom - 2, windowColor, TRUE);
-	DrawBox(left + 2, top + 2, right - 2, top + ACCESS_DENIED_TITLE_BAR_HEIGHT, titleColor, TRUE);
-	DrawStringToHandle(left + 12, top + 6, "エラー", GetColor(255, 255, 255), pcFontHandleS_);
-	DrawStringToHandle(left + 24, top + 58, "アクセス権限がありません。", textColor, pcFontHandleS_);
+	DrawBox(left + FRAME_WIDTH, top + FRAME_WIDTH, right - FRAME_WIDTH, bottom - FRAME_WIDTH, windowColor, TRUE);
+	DrawBox(left + FRAME_WIDTH, top + FRAME_WIDTH, right - FRAME_WIDTH, top + ACCESS_DENIED_TITLE_BAR_HEIGHT, titleColor, TRUE);
+	DrawStringToHandle(left + TITLE_TEXT_OFFSET.x, top + TITLE_TEXT_OFFSET.y, "エラー", TITLE_TEXT_COLOR.ToDxColor(), pcFontHandleS_);
+	DrawStringToHandle(left + MESSAGE_TEXT_OFFSET.x, top + MESSAGE_TEXT_OFFSET.y, "アクセス権限がありません。", textColor, pcFontHandleS_);
 	DrawBox(ACCESS_DENIED_OK_POS.x, ACCESS_DENIED_OK_POS.y, ACCESS_DENIED_OK_POS.x + ACCESS_DENIED_OK_SIZE.x, ACCESS_DENIED_OK_POS.y + ACCESS_DENIED_OK_SIZE.y, frameColor, TRUE);
-	DrawBox(ACCESS_DENIED_OK_POS.x + 2, ACCESS_DENIED_OK_POS.y + 2, ACCESS_DENIED_OK_POS.x + ACCESS_DENIED_OK_SIZE.x - 2, ACCESS_DENIED_OK_POS.y + ACCESS_DENIED_OK_SIZE.y - 2, windowColor, TRUE);
-	DrawStringToHandle(ACCESS_DENIED_OK_POS.x + 30, ACCESS_DENIED_OK_POS.y + 5, "OK", textColor, pcFontHandleS_);
+	DrawBox(ACCESS_DENIED_OK_POS.x + FRAME_WIDTH, ACCESS_DENIED_OK_POS.y + FRAME_WIDTH, ACCESS_DENIED_OK_POS.x + ACCESS_DENIED_OK_SIZE.x - FRAME_WIDTH, ACCESS_DENIED_OK_POS.y + ACCESS_DENIED_OK_SIZE.y - FRAME_WIDTH, windowColor, TRUE);
+	DrawStringToHandle(ACCESS_DENIED_OK_POS.x + OK_TEXT_OFFSET.x, ACCESS_DENIED_OK_POS.y + OK_TEXT_OFFSET.y, "OK", textColor, pcFontHandleS_);
 }
 
 bool PCScene::IsFileHit(int fileIndex) const
 {
-	if (fileIndex < 0 || fileIndex >= 2)
+	if (fileIndex < 0 || fileIndex >= FILE_COUNT)
 	{
 		return false;
 	}

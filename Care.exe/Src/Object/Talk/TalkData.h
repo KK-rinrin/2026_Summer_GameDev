@@ -9,6 +9,9 @@
 class TalkDatas
 {
 public:
+	static constexpr float DEFAULT_ADVANCE_TIME = 1.0f;
+	static constexpr int DEFAULT_CLEAR_IMAGE_FADE_MS = 300;
+
 	enum class Speaker
 	{
 		NONE = -1,
@@ -22,7 +25,7 @@ public:
 	{
 		Speaker speaker = Speaker::Player;
 		std::string talk;
-		float advanceTime = 1.0f;
+		float advanceTime = DEFAULT_ADVANCE_TIME;
 	};
 
 	// 素材イベント。画像なら表示、音なら再生する
@@ -34,7 +37,7 @@ public:
 	// 表示中の一枚絵を消す。クリック待ちはせず、指定時間で軽くフェードアウトする。
 	struct ClearImageEvent
 	{
-		int fadeMs = 300;
+		int fadeMs = DEFAULT_CLEAR_IMAGE_FADE_MS;
 	};
 
 	// シーン遷移はせず、Talk内だけで暗転する。入力待ちはしない。
@@ -88,19 +91,20 @@ public:
 
 	// 可読性のためのイベント生成ヘルパー
 	// 会話
-	static TalkEvent Speak(Speaker speaker, const std::string& talk, float advanceTime = 1.0f);
+	static TalkEvent Speak(Speaker speaker, const std::string& talk, float advanceTime = DEFAULT_ADVANCE_TIME);
 	// 素材を表示・再生
 	static TalkEvent Asset(ResourceManager::SRC src);
 	// BGMを再生
 	static TalkEvent Bgm(SoundManager::BGM bgm);
 	// 一枚絵を消す
-	static TalkEvent ClearImage(int fadeMs = 300);
+	static TalkEvent ClearImage(int fadeMs = DEFAULT_CLEAR_IMAGE_FADE_MS);
 	// 暗転
 	static TalkEvent FadeOut();
 	// 明転
 	static TalkEvent FadeIn(int waitMs = 0);
 
 	static const std::vector<TalkEvent>& GetTalkData(TalkDataIndex dataIndex);
+
 };
 
 using TD = TalkDatas::TalkEvent;

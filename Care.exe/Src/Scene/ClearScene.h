@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 #include "SceneBase.h"
 #include "../Manager/ProgressManager.h"
 #include "../Manager/ResourceManager.h"
@@ -18,12 +19,56 @@ public:
 private:
 	static constexpr int GAME_OVER_MAX_LINES = 24;
 	static constexpr int DX_MAX = 255;
+	static constexpr int KEY_STATE_BUFFER_SIZE = 256;
+	static constexpr int GAME_OVER_POS_X = 16;
+	static constexpr int GAME_OVER_POS_Y = 16;
+	static constexpr int GAME_OVER_TEXT_RED = 200;
+	static constexpr int GAME_OVER_TEXT_GREEN = 255;
+	static constexpr int GAME_OVER_TEXT_BLUE = 200;
+	static constexpr int GAME_OVER_LINE_INTERVAL_Y = 24;
+	static constexpr int END_TITLE_POS_X = 24;
+
+	static constexpr int TITLE_FONT_SIZE = 38;
+	static constexpr int RESET_FONT_SIZE = 30;
+
+	static constexpr int END_TITLE_SLIDE_DISTANCE_X = 20;
+	static constexpr int END_TITLE_BOTTOM_MARGIN = 32;
+	static constexpr int END_TITLE_ANIMATION_FRAMES = 60;
+	static constexpr int END_TITLE_MAX_ALPHA = DX_MAX;
+	static constexpr int END_TITLE_COLOR = 0x000000;
+	static constexpr int END_STILL_HOLD_FRAMES = 180;
+
+	static constexpr int CREDIT_FADE_IN_FRAMES = 30;
+	static constexpr int CREDIT_HOLD_FRAMES = 60;
+	static constexpr int CREDIT_FINAL_HOLD_FRAMES = 600;
+	static constexpr int CREDIT_FADE_OUT_FRAMES = 30;
+	static constexpr int CREDIT_ROLE_POS_Y = 422;
+	static constexpr int CREDIT_NAME_POS_Y = 482;
+	static constexpr int CREDIT_RIGHT_MARGIN = 30;
+	static constexpr int CREDIT_SHADOW_OFFSET = 2;
+	static constexpr int CREDIT_ROLE_COLOR = 0xaaaaaa;
+	static constexpr int CREDIT_NAME_COLOR = 0xffffff;
+
+	static constexpr int HIDDEN_RESET_HOLD_FRAMES = 180;
+	static constexpr float HIDDEN_RESET_STICK_UP = -0.8f;
+
+	static constexpr int RESET_WINDOW_LEFT = 50;
+	static constexpr int RESET_WINDOW_TOP = 150;
+	static constexpr int RESET_WINDOW_RIGHT = 750;
+	static constexpr int RESET_WINDOW_BOTTOM = 370;
+	static constexpr int RESET_TEXT_POS_X = 100;
+	static constexpr int RESET_TEXT_POS_Y = 195;
+	static constexpr int RESET_TEXT_LINE_INTERVAL = 45;
+	static constexpr int RESET_WINDOW_BG_COLOR = 0xffffff;
+	static constexpr int RESET_WINDOW_FRAME_COLOR = 0x222222;
+	static constexpr int RESET_TEXT_COLOR = 0x222222;
+	static constexpr int RESET_SUB_TEXT_COLOR = 0x666666;
 
 	struct EndInfo
 	{
 		ProgressManager::STORY_PROGRESS progress;
 		ResourceManager::SRC stillSrc;
-		const char* title;
+		std::string title;
 	};
 
 	void InitLoad() override;
@@ -46,10 +91,11 @@ private:
 	bool IsCreditSkipTriggered() const;
 	bool IsFinalCredit() const;
 	int GetCreditHoldFrames() const;
+	int GetCreditCount() const;
 	int GetCreditAlpha() const;
 
 	// ゲームオーバー処理
-	void AddGameOverLine(const char* line);
+	void AddLineGameOver(const std::string& line);
 	bool IsRuinedEnd() const 
 	{
 		return prgMng_.GetProgressEnum() == ProgressManager::END_RUINED_LOCKED;
@@ -80,9 +126,9 @@ private:
 	bool isExitConfirm_;
 	bool isResetCompleteOpen_;
 	GameOverState gameOverState_;
-	const char* gameOverLines_[GAME_OVER_MAX_LINES];
+	std::string gameOverLines_[GAME_OVER_MAX_LINES];
 	int gameOverLineCount_;
-	char prevKeyState_[256];
+	char prevKeyState_[KEY_STATE_BUFFER_SIZE];
 
 	bool isFadeOut_ = false;
 

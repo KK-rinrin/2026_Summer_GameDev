@@ -140,13 +140,13 @@ bool TalkScriptParser::ReadCharSJIS(
     outChar.clear();
 
     // 2ƒoƒCƒg•¶Žš”»’è
-    if ((c >= 0x81 && c <= 0x9F) || (c >= 0xE0 && c <= 0xFC))
+    if ((c >= SJIS_LEAD_LOW_MIN && c <= SJIS_LEAD_LOW_MAX) || (c >= SJIS_LEAD_HIGH_MIN && c <= SJIS_LEAD_HIGH_MAX))
     {
         if (i + 1 < src.size())
         {
             outChar += src[i];
             outChar += src[i + 1];
-            i += 2;
+            i += SJIS_CHARACTER_BYTES;
         }
         else
         {

@@ -1,7 +1,7 @@
 #include "ProgressTable.h"
-#include "../Application.h"
-#include "../Object/Actor/Player.h"
-#include "../Utility/SchoolUtility.h"
+#include "../../Application.h"
+#include "../../Object/Actor/Player.h"
+#include "../../Utility/SchoolUtility.h"
 #include <fstream>
 #include <string>
 #include <vector>
@@ -104,7 +104,7 @@ void ProgressTable::LoadCsvData()
 
 		// カンマ区切りで各列に分割する
 		std::vector<std::string> strSplit = SchoolUtility::Split(line, ',');
-		if (strSplit.size() < 10)
+		if (strSplit.size() < REQUIRED_COLUMN_COUNT)
 		{
 			// 必要な列が足りない行は無視する
 			continue;

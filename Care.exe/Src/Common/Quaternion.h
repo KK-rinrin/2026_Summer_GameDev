@@ -90,6 +90,11 @@ public:
 	void ToAngleAxis(float* angle, VECTOR* axis);
 
 private:
+	static constexpr double ANTIPARALLEL_ANGLE_DEGREES = 179.9196;
+	static constexpr float AXIS_LENGTH_SQUARED_EPSILON = 0.000001f;
+	static constexpr float SLERP_LINEAR_COS_THRESHOLD = 0.99f;
+	static constexpr float ANGLE_AXIS_DENOMINATOR_EPSILON = 0.0001f;
+
 
 	// 基本ベクトルを取得
 	VECTOR GetDir(VECTOR dir) const;

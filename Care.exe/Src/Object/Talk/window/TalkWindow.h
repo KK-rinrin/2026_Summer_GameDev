@@ -47,7 +47,7 @@ public:
 	void Draw();
 	void Delete();
 
-	void StartSpeak(TalkDatas::Speaker speaker, const std::string& talk, float advanceTime = 1.0f);
+	void StartSpeak(TalkDatas::Speaker speaker, const std::string& talk, float advanceTime = TalkDatas::DEFAULT_ADVANCE_TIME);
 	void CompleteSpeak();
 	void FinishSpeak();
 
@@ -64,7 +64,18 @@ public:
 	void AttachPlayerController(Live2DTalkController* controller) { playerController_ = controller; }
 
 private:
-	void Speak(const std::string& talk, float advanceTime = 1.0f);
+	static constexpr float MICROSECONDS_PER_SECOND = 1000000.0f;
+	static constexpr float MILLISECONDS_PER_SECOND = 1000.0f;
+	static constexpr float MAX_DELTA_SECONDS = 0.1f;
+	static constexpr float PUNCT_DEFAULT_WAIT_MS = 200.0f;
+	static constexpr float PUNCT_PERIOD_WAIT_MS = 500.0f;
+	static constexpr float PUNCT_COMMA_WAIT_MS = 250.0f;
+	static constexpr float PUNCT_SINGLE_MARK_WAIT_MS = 250.0f;
+	static constexpr float PUNCT_REPEATED_MARK_WAIT_MS = 400.0f;
+	static constexpr float PUNCT_MIXED_MARK_WAIT_MS = 300.0f;
+	static constexpr int TEXT_RGB_MAX = 255;
+
+	void Speak(const std::string& talk, float advanceTime = TalkDatas::DEFAULT_ADVANCE_TIME);
 	void UpdateVisibleWindow();
 	void UpdateLineAdvance();
 	void ResetMouths();
@@ -122,7 +133,7 @@ private:
 	int font_; // フォントハンドル
 	float visCharaTime_ = 0.0f;
 	float baseCharTime_ = LINE_ADVANCE_TIME;
-	float lineAdTimeMulti_ = 1.0f;
+	float lineAdTimeMulti_ = TalkDatas::DEFAULT_ADVANCE_TIME;
 	float waitTimer_ = 0.0f;
 
 	// ------------------------------

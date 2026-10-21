@@ -146,7 +146,7 @@ void StageBase::DrawMoveGuide(const Vector2& pos) const
 
 void StageBase::AddMBRectPercent(const VECTOR& leftTopPercent, const VECTOR& rightBottomPercent)
 {
-	MovementRectPercent r;
+	Rect r = {};
 	r.leftTop = leftTopPercent;
 	r.rightBottom = rightBottomPercent;
 	movementRectPercents_.push_back(r);

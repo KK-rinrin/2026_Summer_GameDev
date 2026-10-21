@@ -56,7 +56,7 @@ protected:
 	};
 
 	// ローカル百分率基準の矩形（pos.x/pos.y が 0..100 の空間）
-	struct MovementRectPercent
+	struct Rect
 	{
 		VECTOR leftTop;    // 左上 (x=0..100, y=0..100)
 		VECTOR rightBottom;// 右下 (x=0..100, y=0..100)
@@ -83,7 +83,7 @@ protected:
 	int guideMoveHandle_;
 	std::vector<TransformObject> objects_;	// 障害物の位置
 	std::vector<RenderObject> screenObjects_;
-	std::vector<MovementRectPercent> movementRectPercents_;
+	std::vector<Rect> movementRectPercents_;
 
 	ResourceManager& resMng_;
 };

@@ -5,6 +5,7 @@
 #include "Manager/SceneManager.h"
 #include "Manager/ProgressManager.h"
 #include "Application.h"
+#include <Windows.h>
 #include "FpsControl/FpsControl.h"
 #include "Manager/Live2DModelHub.h"
 #include "Manager/SoundManager.h"
@@ -40,7 +41,7 @@ void Application::Init()
 	SetWindowText("Care.exe");
 
 	// ウィンドウサイズ
-	SetGraphMode(SCREEN_SIZE_X, SCREEN_SIZE_Y, 32);
+	SetGraphMode(SCREEN_SIZE_X, SCREEN_SIZE_Y, SCREEN_COLOR_DEPTH);
 	ChangeWindowMode(true);
 
 	// DxLibの初期化

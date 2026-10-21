@@ -46,6 +46,12 @@ public:
 	void Delete() override;
 
 private:
+	static constexpr int RUINED_BLINK_COLOR = 0x000000;
+
+	static constexpr int DEBUG_PROGRESS_POS_X = 0;
+	static constexpr int DEBUG_PROGRESS_POS_Y = 50;
+	static constexpr int DEBUG_PROGRESS_COLOR = 0x000000;
+
 	void InitLoad() override;
 	void InitPost() override;
 	void ApplyInitialProgressState();

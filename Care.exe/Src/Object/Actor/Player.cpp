@@ -90,7 +90,7 @@ void Player::InitLoad()
 		handles.reserve(num);
 		for (int i = 0; i < num; ++i) 
 			handles.push_back(res.handleIds_[i]);
-		transform_.SetHandles(handles,3,2);
+		transform_.SetHandles(handles, res.numX_, res.numY_);
 	}
 	else if (res.type_ == Resource::TYPE::IMG)
 	{
@@ -122,8 +122,8 @@ void Player::InitCollider()
 void Player::InitAnimation()
 {
 	// 静止画像
-	transform_.stillIndex = 1;
-	transform_.stillIndex_back = 4;
+	transform_.stillIndex = ResourceManager::CHARACTER_FRONT_STILL_INDEX;
+	transform_.stillIndex_back = ResourceManager::CHARACTER_BACK_STILL_INDEX;
 
 	transform_.animController.SetPingPong(true);
 }
@@ -157,9 +157,8 @@ void Player::UpdateAnimation()
 	const float dy = t.pos.y - t.beforePos.y;
 	const float absdx = std::fabs(dx);
 	const float absdy = std::fabs(dy);
-	const float THRESH = 0.1f;
 
-	bool isMoving = !(absdx < THRESH && absdy < THRESH);
+	bool isMoving = !(absdx < MOVEMENT_EPSILON && absdy < MOVEMENT_EPSILON);
 
 	// 静止
 	if (!isMoving)
@@ -178,16 +177,15 @@ void Player::UpdateAnimation()
 	// 方向推定（8方向）
 	int deducedRot = t.rotDir;
 
-	if (!(absdx < THRESH && absdy < THRESH))
+	if (!(absdx < MOVEMENT_EPSILON && absdy < MOVEMENT_EPSILON))
 	{
 		constexpr float RAD_TO_DEG = 180.0f / 3.14159265f;
 		float angleDeg = std::atan2(dy, dx) * RAD_TO_DEG;
 		if (angleDeg < 0.0f) angleDeg += 360.0f;
 
-		int sector = static_cast<int>((angleDeg + 22.5f) / 45.0f) % 8;
+		int sector = static_cast<int>((angleDeg + SECTOR_HALF_ANGLE_DEGREES) / SECTOR_ANGLE_DEGREES) % DIRECTION_COUNT;
 
-		const int sectorToRot[8] = { 2, 1, 0, 7, 6, 5, 4, 3 };
-		deducedRot = sectorToRot[sector];
+		deducedRot = SECTOR_TO_ROT[sector];
 	}
 	t.rotDir = deducedRot;
 
@@ -199,12 +197,12 @@ void Player::UpdateAnimation()
 	bool flip = false;
 
 	// 特殊ケース: 前後2セット
-	if (framesPerDir == 3 && total == framesPerDir * 2)
+	if (framesPerDir == ResourceManager::CHARACTER_SHEET_COLUMNS && total == framesPerDir * ResourceManager::CHARACTER_SHEET_ROWS)
 	{
-		bool verticalStrict = (absdx < THRESH && absdy >= THRESH);
+		bool verticalStrict = (absdx < MOVEMENT_EPSILON && absdy >= MOVEMENT_EPSILON);
 
 		bool useBack = false;
-		if (absdy >= THRESH)
+		if (absdy >= MOVEMENT_EPSILON)
 		{
 			useBack = (dy < 0.0f);
 		}
@@ -221,14 +219,14 @@ void Player::UpdateAnimation()
 			flip = (dx < 0.0f);
 		}
 	}
-	else if (t.indexY == 4 && total == framesPerDir * 2)
+	else if (t.indexY == LEGACY_DIRECTION_SHEET_ROWS && total == framesPerDir * ResourceManager::CHARACTER_SHEET_ROWS)
 	{
 		int half = total / 2;
 
-		if (t.rotDir == 0 || t.rotDir == 3) baseIndex = 0;
+		if (t.rotDir == LEGACY_FRONT_DIRECTION || t.rotDir == LEGACY_FRONT_FLIPPED_DIRECTION) baseIndex = 0;
 		else baseIndex = half;
 
-		flip = (t.rotDir == 3) || (t.rotDir == 2);
+		flip = (t.rotDir == LEGACY_FRONT_FLIPPED_DIRECTION) || (t.rotDir == LEGACY_BACK_FLIPPED_DIRECTION);
 	}
 	else
 	{

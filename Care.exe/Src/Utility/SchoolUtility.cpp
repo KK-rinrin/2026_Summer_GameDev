@@ -537,7 +537,7 @@ void SchoolUtility::DrawLineDir(const VECTOR& pos, const VECTOR& dir, int color,
 	auto sPos = VAdd(pos, VScale(nDir, -len));
 	auto ePos = VAdd(pos, VScale(nDir, len));
 	DrawLine3D(sPos, ePos, color);
-	DrawSphere3D(ePos, 5.0f, 5, color, color, true);
+	DrawSphere3D(ePos, DEBUG_MARKER_RADIUS, DEBUG_MARKER_DIVISIONS, color, color, true);
 }
 
 void SchoolUtility::DrawLineXYZ(const VECTOR& pos, const MATRIX& rot, float len)
@@ -547,15 +547,15 @@ void SchoolUtility::DrawLineXYZ(const VECTOR& pos, const MATRIX& rot, float len)
 
 	// X
 	dir = VTransform(SchoolUtility::DIR_R, rot);
-	DrawLineDir(pos, dir, 0xff0000, len);
+	DrawLineDir(pos, dir, DEBUG_AXIS_X_COLOR, len);
 
 	// Y
 	dir = VTransform(SchoolUtility::DIR_U, rot);
-	DrawLineDir(pos, dir, 0x00ff00, len);
+	DrawLineDir(pos, dir, DEBUG_AXIS_Y_COLOR, len);
 
 	// Z
 	dir = VTransform(SchoolUtility::DIR_F, rot);
-	DrawLineDir(pos, dir, 0x0000ff, len);
+	DrawLineDir(pos, dir, DEBUG_AXIS_Z_COLOR, len);
 
 }
 
@@ -566,15 +566,15 @@ void SchoolUtility::DrawLineXYZ(const VECTOR& pos, const Quaternion& rot, float 
 
 	// X
 	dir = rot.GetRight();
-	DrawLineDir(pos, dir, 0xff0000, len);
+	DrawLineDir(pos, dir, DEBUG_AXIS_X_COLOR, len);
 
 	// Y
 	dir = rot.GetUp();
-	DrawLineDir(pos, dir, 0x00ff00, len);
+	DrawLineDir(pos, dir, DEBUG_AXIS_Y_COLOR, len);
 
 	// Z
 	dir = rot.GetForward();
-	DrawLineDir(pos, dir, 0x0000ff, len);
+	DrawLineDir(pos, dir, DEBUG_AXIS_Z_COLOR, len);
 
 }
 

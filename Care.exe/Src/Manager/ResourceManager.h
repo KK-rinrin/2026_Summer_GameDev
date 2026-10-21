@@ -6,6 +6,13 @@
 class ResourceManager
 {
 public:
+	static constexpr int CHARACTER_SHEET_COLUMNS = 3;
+	static constexpr int CHARACTER_SHEET_ROWS = 2;
+	static constexpr int CHARACTER_CELL_WIDTH = 120;
+	static constexpr int CHARACTER_CELL_HEIGHT = 300;
+	static constexpr int CHARACTER_FRONT_STILL_INDEX = 1;
+	static constexpr int CHARACTER_BACK_STILL_INDEX = 4;
+
 	// リソース名
 	enum class SRC
 	{
@@ -103,7 +110,7 @@ public:
 	const Resource& Load(SRC src);
 
 	// フォントを指定設定でロード
-	int LoadFont(SRC src, int fontSize, int thick = -1, int fontSpace = 0, int fontType = DX_FONTTYPE_ANTIALIASING);
+	int LoadFont(SRC src, int fontSize, int thick = DEFAULT_FONT_THICK, int fontSpace = DEFAULT_FONT_SPACE, int fontType = DX_FONTTYPE_ANTIALIASING);
 
 	// リソースの複製ロード(モデル用)
 	int LoadModelDuplicate(SRC src);
@@ -111,6 +118,14 @@ public:
 	//
 
 private:
+	static constexpr int DEFAULT_PC_FONT_SIZE = 22;
+	static constexpr int DEFAULT_PC_FONT_THICK = 0;
+	static constexpr int DEFAULT_PC_FONT_SPACE = -1;
+
+	static constexpr int MAIN_FONT_SIZE = 30;
+	static constexpr int DEFAULT_FONT_THICK = -1;
+	static constexpr int DEFAULT_FONT_SPACE = 0;
+
 	// 素材登録するヘルパー関数
 	void CreateResource(SRC src, Resource::TYPE type, const std::string& path);
 

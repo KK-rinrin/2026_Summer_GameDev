@@ -52,6 +52,8 @@ public:
 	bool IsReleaseFail() const;
 
 private:
+	static constexpr int SCREEN_COLOR_DEPTH = 32;
+
 
 	// 静的インスタンス
 	static Application* instance_;

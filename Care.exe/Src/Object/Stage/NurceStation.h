@@ -6,6 +6,7 @@ class PCScene;
 class NurceStation : public StageBase
 {
 public:
+
 	static constexpr VECTOR PC_POS = { 35.0f,12.0f,0.0f };
 	static constexpr VECTOR CHAIR_POS = { 35.0f,22.0f,0.0f };
 	static constexpr VECTOR LOCKER_POS = { 92.2f,99.9f,0.0f };
@@ -47,6 +48,12 @@ public:
 	void Decide(DecideContext& context) const override;
 
 private:
+
+	static constexpr VECTOR PC_BLOCK_LEFT_TOP = { 0.0f, 0.0f, 0.0f };
+	static constexpr VECTOR PC_BLOCK_RIGHT_BOTTOM = { 69.0f, 15.0f, 0.0f };
+	static constexpr VECTOR LOCKER_BLOCK_LEFT_TOP = { 83.0f, 40.0f, 0.0f };
+	static constexpr VECTOR LOCKER_BLOCK_RIGHT_BOTTOM = { 100.0f, 100.0f, 0.0f };
+
 	void InitLoad() override;
 	void InitTransform() override;
 	void InitCollider() override;

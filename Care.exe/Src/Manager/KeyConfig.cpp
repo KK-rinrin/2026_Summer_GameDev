@@ -355,7 +355,7 @@ const char* KeyConfig::GetKeyText(int key)
 		break;
 	}
 
-	static char keyText[16];
+	static char keyText[KEY_TEXT_BUFFER_SIZE];
 	sprintf_s(keyText, "Key:%d", key);
 	return keyText;
 }

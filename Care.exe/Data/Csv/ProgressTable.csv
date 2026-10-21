@@ -1,4 +1,4 @@
-進行度,初期ステージ,初期座標X,初期座標Y,初期座標Z,開始時会話,患者会話,進行条件会話,エンドロック先,自動進行
+進行度（progress）,初期ステージ（initStage）,初期座標X（playerInitPos.x）,初期座標Y（playerInitPos.y）,初期座標Z（playerInitPos.z）,開始時会話（firstTalk）,患者会話（patientTalk）,進行条件会話（talkEnd）,エンドロック先（endLockedProgress）,自動進行（autoAdvanceProgress）
 0,1,50.0,50.0,0.0,0,1,1,0,0
 1,0,48.0,33.0,0.0,-1,-1,-1,1,1
 2,0,48.0,33.0,0.0,102,2,2,2,0

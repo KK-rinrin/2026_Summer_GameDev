@@ -27,15 +27,15 @@ Talk::Talk()
 	, isFinishing_(false)
 	, isFinalFadeIn_(false)
 	, imageHandle_(-1)
-	, imageAlpha_(255)
+	, imageAlpha_(MAX_ALPHA)
 	, clearImageStartTime_(0)
-	, clearImageFadeMs_(300)
+	, clearImageFadeMs_(TalkDatas::DEFAULT_CLEAR_IMAGE_FADE_MS)
 	, fadeOutEndTime_(0)
 	, fadeInWaitMs_(0)
 	, finalFadeInStartTime_(0)
-	, finalFadeInAlpha_(255)
+	, finalFadeInAlpha_(MAX_ALPHA)
 	, prevMouseLeftDown_(false)
-	, alpha_(255)
+	, alpha_(MAX_ALPHA)
 {
 }
 
@@ -95,7 +95,7 @@ bool Talk::Update()
 		}
 		else
 		{
-			finalFadeInAlpha_ = 255 - static_cast<int>(255 * elapsedMs / FINAL_FADE_IN_MS);
+			finalFadeInAlpha_ = MAX_ALPHA - static_cast<int>(MAX_ALPHA * elapsedMs / FINAL_FADE_IN_MS);
 		}
 		return true;
 	}
@@ -132,8 +132,8 @@ void Talk::Draw()
 		return;
 	}
 
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 30);
-	DrawBox(0, 0, Application::SCREEN_SIZE_X, Application::SCREEN_SIZE_Y, 0x000000, true);
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, OVERLAY_ALPHA);
+	DrawBox(0, 0, Application::SCREEN_SIZE_X, Application::SCREEN_SIZE_Y, FADE_COLOR, true);
 
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha_);
 	DrawCharacters();
@@ -141,7 +141,7 @@ void Talk::Draw()
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha_);
 	talkWindow_->Draw();
 
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, MAX_ALPHA);
 
 	if (fader_)
 	{
@@ -179,15 +179,15 @@ void Talk::SetTalk(TDI dataIndex)
 	isFinishing_ = false;
 	isFinalFadeIn_ = false;
 	imageHandle_ = -1;
-	imageAlpha_ = 255;
+	imageAlpha_ = MAX_ALPHA;
 	clearImageStartTime_ = 0;
-	clearImageFadeMs_ = 300;
+	clearImageFadeMs_ = TalkDatas::DEFAULT_CLEAR_IMAGE_FADE_MS;
 	fadeOutEndTime_ = 0;
 	fadeInWaitMs_ = 0;
 	finalFadeInStartTime_ = 0;
-	finalFadeInAlpha_ = 255;
+	finalFadeInAlpha_ = MAX_ALPHA;
 	prevMouseLeftDown_ = false;
-	alpha_ = 255;
+	alpha_ = MAX_ALPHA;
 
 	if (fader_)
 	{
@@ -215,15 +215,15 @@ void Talk::SetTemporaryTalk(TalkDatas::Speaker speaker, const std::string& talk,
 	isFinishing_ = false;
 	isFinalFadeIn_ = false;
 	imageHandle_ = -1;
-	imageAlpha_ = 255;
+	imageAlpha_ = MAX_ALPHA;
 	clearImageStartTime_ = 0;
-	clearImageFadeMs_ = 300;
+	clearImageFadeMs_ = TalkDatas::DEFAULT_CLEAR_IMAGE_FADE_MS;
 	fadeOutEndTime_ = 0;
 	fadeInWaitMs_ = 0;
 	finalFadeInStartTime_ = 0;
-	finalFadeInAlpha_ = 255;
+	finalFadeInAlpha_ = MAX_ALPHA;
 	prevMouseLeftDown_ = false;
-	alpha_ = 255;
+	alpha_ = MAX_ALPHA;
 
 	if (fader_)
 	{
@@ -337,12 +337,12 @@ void Talk::UpdateEvent()
 		if (elapsedMs >= clearImageFadeMs_)
 		{
 			imageHandle_ = -1;
-			imageAlpha_ = 255;
+			imageAlpha_ = MAX_ALPHA;
 			AdvanceEvent();
 		}
 		else
 		{
-			imageAlpha_ = 255 - static_cast<int>(255 * elapsedMs / clearImageFadeMs_);
+			imageAlpha_ = MAX_ALPHA - static_cast<int>(MAX_ALPHA * elapsedMs / clearImageFadeMs_);
 		}
 		break;
 	}
@@ -402,7 +402,7 @@ void Talk::StartEvent(const TalkDatas::AssetEvent& eventData)
 	{
 	case Resource::TYPE::IMG:
 		imageHandle_ = resource.handleId_;
-		imageAlpha_ = 255;
+		imageAlpha_ = MAX_ALPHA;
 		talkWindow_->FinishSpeak();
 		eventState_ = EventState::IMAGE_WAIT;
 		break;
@@ -424,7 +424,7 @@ void Talk::StartEvent(const TalkDatas::ClearImageEvent& eventData)
 		return;
 	}
 
-	clearImageFadeMs_ = (eventData.fadeMs > 0) ? eventData.fadeMs : 1;
+	clearImageFadeMs_ = (eventData.fadeMs > 0) ? eventData.fadeMs : MIN_CLEAR_IMAGE_FADE_MS;
 	clearImageStartTime_ = GetNowHiPerformanceCount();
 	talkWindow_->FinishSpeak();
 	eventState_ = EventState::CLEAR_IMAGE;
@@ -483,22 +483,22 @@ void Talk::StartFinalFadeIn()
 {
 	alpha_ = 0;
 	imageHandle_ = -1;
-	imageAlpha_ = 255;
+	imageAlpha_ = MAX_ALPHA;
 	isFinishing_ = false;
 	isFinalFadeIn_ = true;
 	finalFadeInStartTime_ = GetNowHiPerformanceCount();
-	finalFadeInAlpha_ = 255;
+	finalFadeInAlpha_ = MAX_ALPHA;
 }
 
 void Talk::CompleteTalkEnd()
 {
 	talkData_ = nullptr;
 	imageHandle_ = -1;
-	imageAlpha_ = 255;
+	imageAlpha_ = MAX_ALPHA;
 	isFinishing_ = false;
 	isFinalFadeIn_ = false;
 	finalFadeInStartTime_ = 0;
-	finalFadeInAlpha_ = 255;
+	finalFadeInAlpha_ = MAX_ALPHA;
 	isTalkEnd_ = true;
 
 	if (patientController_) patientController_->ResetTalkParams();
@@ -559,7 +559,7 @@ bool Talk::IsDecideTriggered()
 
 long long Talk::GetElapsedMs(long long startTime) const
 {
-	return (GetNowHiPerformanceCount() - startTime) / 1000;
+	return (GetNowHiPerformanceCount() - startTime) / MICROSECONDS_PER_MILLISECOND;
 }
 
 void Talk::DrawCharacters()
@@ -587,7 +587,7 @@ void Talk::DrawImage()
 		return;
 	}
 
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha_ * imageAlpha_ / 255);
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha_ * imageAlpha_ / MAX_ALPHA);
 	DrawExtendGraph(
 		0, 0,
 		Application::SCREEN_SIZE_X,
@@ -598,6 +598,6 @@ void Talk::DrawImage()
 void Talk::DrawFinalFadeIn()
 {
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, finalFadeInAlpha_);
-	DrawBox(0, 0, Application::SCREEN_SIZE_X, Application::SCREEN_SIZE_Y, 0x000000, true);
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
+	DrawBox(0, 0, Application::SCREEN_SIZE_X, Application::SCREEN_SIZE_Y, FADE_COLOR, true);
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, MAX_ALPHA);
 }

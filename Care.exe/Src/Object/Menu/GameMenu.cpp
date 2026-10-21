@@ -152,8 +152,8 @@ void GameMenu::DrawNormal()
 void GameMenu::DrawPause()
 {
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, PAUSE_BLEND_ALPHA);
-	DrawBox(SCREEN_LEFT, SCREEN_TOP, SCREEN_RIGHT, SCREEN_BOTTOM, 0x000000, TRUE);
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
+	DrawBox(SCREEN_LEFT, SCREEN_TOP, SCREEN_RIGHT, SCREEN_BOTTOM, DIM_COLOR, TRUE);
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, MAX_ALPHA);
 	DrawStringToHandle(PAUSE_TEXT_POS.x, PAUSE_TEXT_POS.y, PAUSE_TEXT, PAUSE_TEXT_COLOR, fontTitle_);
 }
 
@@ -182,7 +182,7 @@ void GameMenu::UpdatePlayerModel()
 
 	playerController_->SetExtendRate(PLAYER_MODEL_EXTEND.x, PLAYER_MODEL_EXTEND.y);
 	playerController_->SetTranslate(PLAYER_MODEL_POS.x, PLAYER_MODEL_POS.y);
-	playerController_->SetAlpha(255);
+	playerController_->SetAlpha(MAX_ALPHA);
 	playerController_->Update(TEXT("Pose_Menu"));
 }
 

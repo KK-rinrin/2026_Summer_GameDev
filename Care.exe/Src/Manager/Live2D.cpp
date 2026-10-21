@@ -30,7 +30,7 @@ void Live2D::Update(const TCHAR* motion)
 		Live2D_Model_StartMotion(modelHandle, motion, 0);
 	}
 
-	Live2D_Model_Update(modelHandle, static_cast<float>(1 / 60.0f));
+	Live2D_Model_Update(modelHandle, UPDATE_DELTA_SECONDS);
 }
 
 // 追加: 即時にモーションを開始する（強制切替やポーズ切替に使用）

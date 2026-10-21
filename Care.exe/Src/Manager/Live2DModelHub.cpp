@@ -35,7 +35,7 @@ Live2D* Live2DModelHub::GetModel(ResourceManager::SRC src)
 
 	// デバッグ出力
 	{
-		char buf[256];
+		char buf[DEBUG_BUFFER_SIZE];
 		sprintf_s(buf, "Live2DModelHub: creating model for src=%d, handle=%d, ptr=%p\n",
 			static_cast<int>(src), ptr->GetHandle(), static_cast<void*>(ptr));
 		OutputDebugStringA(buf);
@@ -68,7 +68,7 @@ std::shared_ptr<Live2DTalkController> Live2DModelHub::GetController(ResourceMana
 
 	// デバッグ出力
 	{
-		char buf[256];
+		char buf[DEBUG_BUFFER_SIZE];
 		sprintf_s(buf, "Live2DModelHub: created controller for src=%d ptr=%p\n", static_cast<int>(src), static_cast<void*>(ctrl.get()));
 		OutputDebugStringA(buf);
 	}

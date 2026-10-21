@@ -24,3 +24,4 @@
 
 # Live2D Cubism SDK is downloaded separately and is not stored in Git.
 /Care.exe/Data/CubismSdkForNative-5-r.4.1/
+clean_dxlib_libs.py

@@ -1,0 +1,11 @@
+メッセージキー（message_key）,本文（text）
+MISSING_NURCE,Chara/neit.charが見つかりません。
+MISSING_PATIENT,Chara/nui.charが見つかりません。
+LOAD_FAILED,必要なデータを読み込めませんでした。
+RESET_CONFIRM,データをリセットしますか？y/n
+RESET_COMPLETE,リセットが完了しました。
+RESET_COMPLETE_EXIT,どれかのキーを押して終了...
+RESET_SUCCEEDED,データの初期化が完了しました。ゲームを再起動してください。
+RESET_FAILED,データの初期化に失敗しました。
+GAME_OVER_EXIT,どれかのキーを押して終了...
+EXIT_CONFIRM,リセットしなければゲームが起動できません。このまま終了してよろしいですか？y/n

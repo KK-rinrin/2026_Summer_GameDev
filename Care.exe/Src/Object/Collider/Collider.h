@@ -9,12 +9,14 @@ enum class ColliderType {
 
 // コライダーベースクラス
 struct Collider {
+
 	ColliderType type = ColliderType::None;
 	virtual ~Collider() {}
 };
 
 // 円コライダー
 struct CircleCollider : public Collider {
+
 	float radius;
 
 	CircleCollider(float r) {
@@ -25,6 +27,7 @@ struct CircleCollider : public Collider {
 
 // 矩形コライダー
 struct RectCollider : public Collider {
+
 	float halfW;
 	float halfH;
 
@@ -39,6 +42,7 @@ struct RectCollider : public Collider {
 class Collision
 {
 public:
+
 	// 点(point)が中心(center), 半径(radius)の円の内側にいるか
 	static bool IsPointInCircle(const VECTOR& point, const VECTOR& center, float radius)
 	{

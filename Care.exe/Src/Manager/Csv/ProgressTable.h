@@ -1,8 +1,9 @@
 #pragma once
+#include <cstddef>
 #include <DxLib.h>
-#include "../Manager/ProgressManager.h"
-#include "../Object/Talk/TalkData.h"
-#include "GameScene.h"
+#include "../ProgressManager.h"
+#include "../../Object/Talk/TalkData.h"
+#include "../../Scene/GameScene.h"
 
 struct ProgressData
 {
@@ -29,5 +30,7 @@ public:
 	static bool ShouldAutoAdvance(STORY_PROGRESS progress);
 
 private:
+	static constexpr std::size_t REQUIRED_COLUMN_COUNT = 10;
+
 	static void LoadCsvData();
 };

@@ -238,27 +238,27 @@ bool BPMiniGameScene::IsDiastolicMissed() const
 
 int BPMiniGameScene::GetDisplayPressure() const
 {
-	int pressure = static_cast<int>(pressure_ + 0.5f);
+	int pressure = static_cast<int>(pressure_ + DISPLAY_ROUNDING_OFFSET);
 	if (isMonitorAbnormal_)
 	{
-		pressure += ((frame_ / 10) % 3 - 1) * 4;
+		pressure += ((frame_ / PRESSURE_JITTER_FRAMES) % JITTER_STATE_COUNT - JITTER_CENTER_INDEX) * PRESSURE_JITTER_AMPLITUDE;
 	}
 
-	return ClampInt(pressure, 0, 199);
+	return ClampInt(pressure, 0, DISPLAY_VALUE_MAX);
 }
 int BPMiniGameScene::GetDisplayPulse() const
 {
 	if (!IsPulseMoving())
 	{
-		return (isMonitorAbnormal_ && (frame_ / 20) % 2 == 0) ? 69 : 0;
+		return (isMonitorAbnormal_ && (frame_ / STOPPED_PULSE_BLINK_FRAMES) % BLINK_PHASE_COUNT == 0) ? STOPPED_PULSE_VALUE : 0;
 	}
 
-	int pulse = 72 + static_cast<int>(std::sinf(frame_ * 0.18f) * 4.0f);
+	int pulse = PULSE_BASE_VALUE + static_cast<int>(std::sinf(frame_ * PULSE_PHASE_STEP) * PULSE_AMPLITUDE);
 	if (isMonitorAbnormal_)
 	{
-		pulse += ((frame_ / 9) % 3 - 1) * 6;
+		pulse += ((frame_ / ABNORMAL_PULSE_JITTER_FRAMES) % JITTER_STATE_COUNT - JITTER_CENTER_INDEX) * ABNORMAL_PULSE_JITTER_AMPLITUDE;
 	}
-	return ClampInt(pulse, 0, 199);
+	return ClampInt(pulse, 0, DISPLAY_VALUE_MAX);
 }
 int BPMiniGameScene::ClampInt(int value, int minValue, int maxValue)
 {
@@ -285,8 +285,8 @@ int BPMiniGameScene::MinInt(int lhs, int rhs)
 
 void BPMiniGameScene::DrawRoom() const
 {
-	DrawBox(0, 0, SCREEN_SIZE.x, SCREEN_SIZE.y, GetColor(225, 229, 232), TRUE);
-	DrawBox(FLOOR_POS.x, FLOOR_POS.y, FLOOR_POS.x + FLOOR_SIZE.x, FLOOR_POS.y + FLOOR_SIZE.y, GetColor(204, 214, 218), TRUE);
+	DrawBox(0, 0, SCREEN_SIZE.x, SCREEN_SIZE.y, ROOM_COLOR.ToDxColor(), TRUE);
+	DrawBox(FLOOR_POS.x, FLOOR_POS.y, FLOOR_POS.x + FLOOR_SIZE.x, FLOOR_POS.y + FLOOR_SIZE.y, FLOOR_COLOR.ToDxColor(), TRUE);
 }
 
 void BPMiniGameScene::DrawBackground() const
@@ -299,10 +299,10 @@ void BPMiniGameScene::DrawBackground() const
 	}
 	else
 	{
-		DrawBox(BED_POS.x, BED_POS.y, BED_POS.x + BED_SIZE.x, BED_POS.y + BED_SIZE.y, GetColor(238, 242, 242), TRUE);
-		DrawBox(BED_SHADOW_POS.x, BED_SHADOW_POS.y, BED_SHADOW_POS.x + BED_SHADOW_SIZE.x, BED_SHADOW_POS.y + BED_SHADOW_SIZE.y, GetColor(178, 189, 194), TRUE);
-		DrawOval(FALLBACK_LIMB_CENTER.x, FALLBACK_LIMB_CENTER.y, FALLBACK_LIMB_RADIUS.x, FALLBACK_LIMB_RADIUS.y, GetColor(235, 186, 156), TRUE);
-		DrawBox(FALLBACK_WRAP_POS.x, FALLBACK_WRAP_POS.y, FALLBACK_WRAP_POS.x + FALLBACK_WRAP_SIZE.x, FALLBACK_WRAP_POS.y + FALLBACK_WRAP_SIZE.y, GetColor(38, 55, 71), TRUE);
+		DrawBox(BED_POS.x, BED_POS.y, BED_POS.x + BED_SIZE.x, BED_POS.y + BED_SIZE.y, BED_COLOR.ToDxColor(), TRUE);
+		DrawBox(BED_SHADOW_POS.x, BED_SHADOW_POS.y, BED_SHADOW_POS.x + BED_SHADOW_SIZE.x, BED_SHADOW_POS.y + BED_SHADOW_SIZE.y, BED_SHADOW_COLOR.ToDxColor(), TRUE);
+		DrawOval(FALLBACK_LIMB_CENTER.x, FALLBACK_LIMB_CENTER.y, FALLBACK_LIMB_RADIUS.x, FALLBACK_LIMB_RADIUS.y, LIMB_COLOR.ToDxColor(), TRUE);
+		DrawBox(FALLBACK_WRAP_POS.x, FALLBACK_WRAP_POS.y, FALLBACK_WRAP_POS.x + FALLBACK_WRAP_SIZE.x, FALLBACK_WRAP_POS.y + FALLBACK_WRAP_SIZE.y, WRAP_COLOR.ToDxColor(), TRUE);
 	}
 
 	DrawPulseMarker();
@@ -317,61 +317,61 @@ void BPMiniGameScene::DrawMonitor() const
 	}
 	else
 	{
-		DrawBox(MONITOR_POS.x, MONITOR_POS.y, MONITOR_POS.x + MONITOR_SIZE.x, MONITOR_POS.y + MONITOR_SIZE.y, GetColor(34, 38, 42), TRUE);
-		DrawBox(MONITOR_POS.x + 10, MONITOR_POS.y + 10, MONITOR_POS.x + MONITOR_SIZE.x - 10, MONITOR_POS.y + MONITOR_SIZE.y - 10, GetColor(72, 78, 84), FALSE);
-		DrawBox(DISPLAY_POS.x, DISPLAY_POS.y, DISPLAY_POS.x + DISPLAY_SIZE.x, DISPLAY_POS.y + DISPLAY_SIZE.y, GetColor(8, 28, 26), TRUE);
-		DrawBox(MONITOR_POS.x + 130, MONITOR_POS.y + MONITOR_SIZE.y, MONITOR_POS.x + 190, MONITOR_POS.y + MONITOR_SIZE.y + 50, GetColor(46, 52, 56), TRUE);
-		DrawBox(MONITOR_POS.x + 82, MONITOR_POS.y + MONITOR_SIZE.y + 48, MONITOR_POS.x + 238, MONITOR_POS.y + MONITOR_SIZE.y + 68, GetColor(44, 49, 53), TRUE);
+		DrawBox(MONITOR_POS.x, MONITOR_POS.y, MONITOR_POS.x + MONITOR_SIZE.x, MONITOR_POS.y + MONITOR_SIZE.y, MONITOR_COLOR.ToDxColor(), TRUE);
+		DrawBox(MONITOR_POS.x + MONITOR_FRAME_INSET, MONITOR_POS.y + MONITOR_FRAME_INSET, MONITOR_POS.x + MONITOR_SIZE.x - MONITOR_FRAME_INSET, MONITOR_POS.y + MONITOR_SIZE.y - MONITOR_FRAME_INSET, MONITOR_FRAME_COLOR.ToDxColor(), FALSE);
+		DrawBox(DISPLAY_POS.x, DISPLAY_POS.y, DISPLAY_POS.x + DISPLAY_SIZE.x, DISPLAY_POS.y + DISPLAY_SIZE.y, DISPLAY_COLOR.ToDxColor(), TRUE);
+		DrawBox(MONITOR_POS.x + MONITOR_STEM_POS.x, MONITOR_POS.y + MONITOR_STEM_POS.y, MONITOR_POS.x + MONITOR_STEM_POS.x + MONITOR_STEM_SIZE.x, MONITOR_POS.y + MONITOR_STEM_POS.y + MONITOR_STEM_SIZE.y, STEM_COLOR.ToDxColor(), TRUE);
+		DrawBox(MONITOR_POS.x + MONITOR_BASE_POS.x, MONITOR_POS.y + MONITOR_BASE_POS.y, MONITOR_POS.x + MONITOR_BASE_POS.x + MONITOR_BASE_SIZE.x, MONITOR_POS.y + MONITOR_BASE_POS.y + MONITOR_BASE_SIZE.y, BASE_COLOR.ToDxColor(), TRUE);
 	}
 
 	DrawPulseWave();
 
-	const int textColor = GetColor(170, 245, 214);
-	const int subColor = GetColor(112, 178, 154);
+	const int textColor = TEXT_COLOR.ToDxColor();
+	const int subColor = SUB_TEXT_COLOR.ToDxColor();
 	const int pressure = GetDisplayPressure();
 	const int pulse = GetDisplayPulse();
-	const int jitterOffset = isMonitorAbnormal_ ? ((frame_ / 8) % 3 - 1) * 2 : 0;
+	const int jitterOffset = isMonitorAbnormal_ ? ((frame_ / TEXT_JITTER_FRAMES) % JITTER_STATE_COUNT - JITTER_CENTER_INDEX) * TEXT_JITTER_PIXELS : 0;
 
-	DrawStringToHandle(DISPLAY_POS.x + 18 + jitterOffset, DISPLAY_POS.y + 14, "PRESSURE", subColor, font_);
-	DrawFormatStringToHandle(DISPLAY_POS.x + 24 + jitterOffset, DISPLAY_POS.y + 42, textColor, largeFont_, "%03d", pressure);
-	DrawStringToHandle(DISPLAY_POS.x + 158, DISPLAY_POS.y + 68, "mmHg", subColor, font_);
+	DrawStringToHandle(DISPLAY_POS.x + PRESSURE_LABEL_OFFSET.x + jitterOffset, DISPLAY_POS.y + PRESSURE_LABEL_OFFSET.y, "PRESSURE", subColor, font_);
+	DrawFormatStringToHandle(DISPLAY_POS.x + PRESSURE_VALUE_OFFSET.x + jitterOffset, DISPLAY_POS.y + PRESSURE_VALUE_OFFSET.y, textColor, largeFont_, "%03d", pressure);
+	DrawStringToHandle(DISPLAY_POS.x + PRESSURE_UNIT_OFFSET.x, DISPLAY_POS.y + PRESSURE_UNIT_OFFSET.y, "mmHg", subColor, font_);
 
-	DrawStringToHandle(DISPLAY_POS.x + 18 - jitterOffset, DISPLAY_POS.y + 98, "PULSE", subColor, font_);
+	DrawStringToHandle(DISPLAY_POS.x + PULSE_LABEL_OFFSET.x - jitterOffset, DISPLAY_POS.y + PULSE_LABEL_OFFSET.y, "PULSE", subColor, font_);
 	if (pulse <= 0)
 	{
-		DrawStringToHandle(DISPLAY_POS.x + 28 - jitterOffset, DISPLAY_POS.y + 120, "---", textColor, largeFont_);
+		DrawStringToHandle(DISPLAY_POS.x + PULSE_VALUE_OFFSET.x - jitterOffset, DISPLAY_POS.y + PULSE_VALUE_OFFSET.y, "---", textColor, largeFont_);
 	}
-	else if (isMonitorAbnormal_ && (frame_ / 10) % 2 == 0)
+	else if (isMonitorAbnormal_ && (frame_ / INVALID_PULSE_BLINK_FRAMES) % BLINK_PHASE_COUNT == 0)
 	{
-		DrawStringToHandle(DISPLAY_POS.x + 28 - jitterOffset, DISPLAY_POS.y + 120, "???", GetColor(255, 120, 120), largeFont_);
+		DrawStringToHandle(DISPLAY_POS.x + PULSE_VALUE_OFFSET.x - jitterOffset, DISPLAY_POS.y + PULSE_VALUE_OFFSET.y, "???", ABNORMAL_TEXT_COLOR.ToDxColor(), largeFont_);
 	}
 	else	{
-		DrawFormatStringToHandle(DISPLAY_POS.x + 28 - jitterOffset, DISPLAY_POS.y + 120, textColor, largeFont_, "%03d", pulse);
+		DrawFormatStringToHandle(DISPLAY_POS.x + PULSE_VALUE_OFFSET.x - jitterOffset, DISPLAY_POS.y + PULSE_VALUE_OFFSET.y, textColor, largeFont_, "%03d", pulse);
 	}
 
-	DrawStringToHandle(DISPLAY_POS.x + 142, DISPLAY_POS.y + 112, "SYS", subColor, font_);
+	DrawStringToHandle(DISPLAY_POS.x + SYSTOLIC_LABEL_OFFSET.x, DISPLAY_POS.y + SYSTOLIC_LABEL_OFFSET.y, "SYS", subColor, font_);
 	if (systolic_ <= 0)
 	{
-		DrawStringToHandle(DISPLAY_POS.x + 196, DISPLAY_POS.y + 112, "---", textColor, font_);
+		DrawStringToHandle(DISPLAY_POS.x + SYSTOLIC_VALUE_OFFSET.x, DISPLAY_POS.y + SYSTOLIC_VALUE_OFFSET.y, "---", textColor, font_);
 	}
 	else
 	{
-		DrawFormatStringToHandle(DISPLAY_POS.x + 196, DISPLAY_POS.y + 112, textColor, font_, "%03d", systolic_);
+		DrawFormatStringToHandle(DISPLAY_POS.x + SYSTOLIC_VALUE_OFFSET.x, DISPLAY_POS.y + SYSTOLIC_VALUE_OFFSET.y, textColor, font_, "%03d", systolic_);
 	}
 
-	DrawStringToHandle(DISPLAY_POS.x + 142, DISPLAY_POS.y + 142, "DIA", subColor, font_);
+	DrawStringToHandle(DISPLAY_POS.x + DIASTOLIC_LABEL_OFFSET.x, DISPLAY_POS.y + DIASTOLIC_LABEL_OFFSET.y, "DIA", subColor, font_);
 	if (diastolic_ <= 0)
 	{
-		DrawStringToHandle(DISPLAY_POS.x + 196, DISPLAY_POS.y + 142, "---", textColor, font_);
+		DrawStringToHandle(DISPLAY_POS.x + DIASTOLIC_VALUE_OFFSET.x, DISPLAY_POS.y + DIASTOLIC_VALUE_OFFSET.y, "---", textColor, font_);
 	}
 	else
 	{
-		DrawFormatStringToHandle(DISPLAY_POS.x + 196, DISPLAY_POS.y + 142, textColor, font_, "%03d", diastolic_);
+		DrawFormatStringToHandle(DISPLAY_POS.x + DIASTOLIC_VALUE_OFFSET.x, DISPLAY_POS.y + DIASTOLIC_VALUE_OFFSET.y, textColor, font_, "%03d", diastolic_);
 	}
 
 	if (state_ == State::SUCCESS)
 	{
-		DrawStringToHandle(DISPLAY_POS.x + OK_RELATIVE_POS.x, DISPLAY_POS.y + OK_RELATIVE_POS.y, "OK", GetColor(120, 235, 130), largeFont_);
+		DrawStringToHandle(DISPLAY_POS.x + OK_RELATIVE_POS.x, DISPLAY_POS.y + OK_RELATIVE_POS.y, "OK", SUCCESS_COLOR.ToDxColor(), largeFont_);
 	}
 
 	DrawPressureGauge();
@@ -380,22 +380,22 @@ void BPMiniGameScene::DrawMonitor() const
 
 void BPMiniGameScene::DrawPressureGauge() const
 {
-	const Vector2 gaugePos = { MONITOR_POS.x + MONITOR_SIZE.x - 42, DISPLAY_POS.y + 18 };
-	const Vector2 gaugeSize = { 10, DISPLAY_SIZE.y - 36 };
+	const Vector2 gaugePos = PRESSURE_GAUGE_POS;
+	const Vector2 gaugeSize = PRESSURE_GAUGE_SIZE;
 	const float rate = SchoolUtility::Clamp(pressure_ / PRESSURE_MAX, 0.0f, 1.0f);
 	const int fillTop = gaugePos.y + gaugeSize.y - static_cast<int>(gaugeSize.y * rate);
 
-	DrawBox(gaugePos.x, gaugePos.y, gaugePos.x + gaugeSize.x, gaugePos.y + gaugeSize.y, GetColor(18, 58, 52), TRUE);
-	DrawBox(gaugePos.x, fillTop, gaugePos.x + gaugeSize.x, gaugePos.y + gaugeSize.y, GetColor(112, 228, 183), TRUE);
-	DrawBox(gaugePos.x - 2, gaugePos.y - 2, gaugePos.x + gaugeSize.x + 2, gaugePos.y + gaugeSize.y + 2, GetColor(112, 178, 154), FALSE);
+	DrawBox(gaugePos.x, gaugePos.y, gaugePos.x + gaugeSize.x, gaugePos.y + gaugeSize.y, GAUGE_BG_COLOR.ToDxColor(), TRUE);
+	DrawBox(gaugePos.x, fillTop, gaugePos.x + gaugeSize.x, gaugePos.y + gaugeSize.y, GAUGE_FILL_COLOR.ToDxColor(), TRUE);
+	DrawBox(gaugePos.x - GAUGE_BORDER_WIDTH, gaugePos.y - GAUGE_BORDER_WIDTH, gaugePos.x + gaugeSize.x + GAUGE_BORDER_WIDTH, gaugePos.y + gaugeSize.y + GAUGE_BORDER_WIDTH, SUB_TEXT_COLOR.ToDxColor(), FALSE);
 }
 
 void BPMiniGameScene::DrawPulseMarker() const
 {
 	const int pulse = images_[static_cast<int>(Image::PULSE)];
 	const bool detectable = IsPulseMoving();
-	const float beat = detectable ? std::sinf(frame_ * 0.42f) : 0.0f;
-	const float beatRange = isMonitorAbnormal_ ? 14.0f : 10.0f;
+	const float beat = detectable ? std::sinf(frame_ * MARKER_PHASE_STEP) : 0.0f;
+	const float beatRange = isMonitorAbnormal_ ? MARKER_ABNORMAL_AMPLITUDE : MARKER_NORMAL_AMPLITUDE;
 	const Vector2 markerPos =
 	{
 		PULSE_MARKER_POS.x,
@@ -407,8 +407,8 @@ void BPMiniGameScene::DrawPulseMarker() const
 		return;
 	}
 
-	const int color = detectable ? GetColor(235, 62, 74) : GetColor(116, 101, 104);
-	const int radius = detectable ? 9 + static_cast<int>(std::fabs(beat) * 5.0f) : 7;
+	const int color = detectable ? PULSE_ACTIVE_COLOR.ToDxColor() : PULSE_IDLE_COLOR.ToDxColor();
+	const int radius = detectable ? MARKER_ACTIVE_RADIUS + static_cast<int>(std::fabs(beat) * MARKER_RADIUS_AMPLITUDE) : MARKER_IDLE_RADIUS;
 	DrawCircle(markerPos.x, markerPos.y, radius, color, TRUE);
 }
 
@@ -418,25 +418,25 @@ void BPMiniGameScene::DrawPulseWave() const
 	const bool detectable = IsPulseMoving();
 	Vector2 prevPos = waveStart;
 
-	for (int i = 1; i <= 92; ++i)
+	for (int i = 1; i <= WAVE_SAMPLE_COUNT; ++i)
 	{
 		Vector2 linePos = { waveStart.x + i, waveStart.y };
 		float amp = 0.0f;
 		if (detectable)
 		{
-			amp = std::sinf((frame_ + i) * 0.25f) * (isMonitorAbnormal_ ? 20.0f : 14.0f);
-			if ((i + frame_) % 24 < 4)
+			amp = std::sinf((frame_ + i) * WAVE_PHASE_STEP) * (isMonitorAbnormal_ ? WAVE_ABNORMAL_AMPLITUDE : WAVE_NORMAL_AMPLITUDE);
+			if ((i + frame_) % WAVE_SPIKE_PERIOD_FRAMES < WAVE_SPIKE_WIDTH_FRAMES)
 			{
-				amp *= 2.0f;
+				amp *= WAVE_SPIKE_GAIN;
 			}
 		}
 		else if (isMonitorAbnormal_)
 		{
-			amp = std::sinf((frame_ + i) * 0.12f) * 2.0f;
+			amp = std::sinf((frame_ + i) * WAVE_IDLE_PHASE_STEP) * WAVE_IDLE_AMPLITUDE;
 		}
 
 		linePos.y -= static_cast<int>(amp);
-		DrawLine(prevPos.x, prevPos.y, linePos.x, linePos.y, GetColor(96, 230, 170), 2);
+		DrawLine(prevPos.x, prevPos.y, linePos.x, linePos.y, WAVE_COLOR.ToDxColor(), WAVE_LINE_WIDTH);
 		prevPos = linePos;
 	}
 }
@@ -448,27 +448,27 @@ void BPMiniGameScene::DrawGlitch() const
 		return;
 	}
 
-	const int lineCount = 4;
+	const int lineCount = GLITCH_LINE_COUNT;
 	for (int i = 0; i < lineCount; ++i)
 	{
 		const Vector2 glitchPos =
 		{
-			DISPLAY_POS.x + 8 + (i * 37 + frame_) % 40,
-			DISPLAY_POS.y + 14 + (frame_ * (i + 3) + i * 29) % (DISPLAY_SIZE.y - 28)
+			DISPLAY_POS.x + GLITCH_X_INSET + (i * GLITCH_X_STRIDE + frame_) % GLITCH_X_RANGE,
+			DISPLAY_POS.y + GLITCH_Y_INSET + (frame_ * (i + GLITCH_SPEED_BIAS) + i * GLITCH_Y_STRIDE) % (DISPLAY_SIZE.y - GLITCH_Y_MARGIN)
 		};
-		const int glitchLength = 60 + (i * 23 + 34) % 140;
-		const int color = (i % 2 == 0) ? GetColor(42, 116, 114) : GetColor(112, 42, 70);
-		DrawBox(glitchPos.x, glitchPos.y, MinInt(glitchPos.x + glitchLength, DISPLAY_POS.x + DISPLAY_SIZE.x - 8), glitchPos.y + 3, color, TRUE);
+		const int glitchLength = GLITCH_MIN_LENGTH + (i * GLITCH_LENGTH_STRIDE + GLITCH_LENGTH_OFFSET) % GLITCH_LENGTH_RANGE;
+		const int color = (i % BLINK_PHASE_COUNT == 0) ? GLITCH_EVEN_COLOR.ToDxColor() : GLITCH_ODD_COLOR.ToDxColor();
+		DrawBox(glitchPos.x, glitchPos.y, MinInt(glitchPos.x + glitchLength, DISPLAY_POS.x + DISPLAY_SIZE.x - GLITCH_X_INSET), glitchPos.y + GLITCH_LINE_HEIGHT, color, TRUE);
 	}
 
-	if ((frame_ / 24) % 2 == 0)
+	if ((frame_ / ERROR_BLINK_FRAMES) % BLINK_PHASE_COUNT == 0)
 	{
-		DrawStringToHandle(DISPLAY_POS.x + 154, DISPLAY_POS.y + 20, "ERR", GetColor(235, 76, 90), font_);
+		DrawStringToHandle(DISPLAY_POS.x + ERROR_TEXT_OFFSET.x, DISPLAY_POS.y + ERROR_TEXT_OFFSET.y, "ERR", ERROR_COLOR.ToDxColor(), font_);
 	}
 }
 void BPMiniGameScene::DrawFailed() const
 {
-	DrawBox(0, 0, SCREEN_SIZE.x, SCREEN_SIZE.y, GetColor(0, 0, 0), TRUE);
+	DrawBox(0, 0, SCREEN_SIZE.x, SCREEN_SIZE.y, BLACK_COLOR.ToDxColor(), TRUE);
 
 	const int failed = images_[static_cast<int>(Image::FAILED)];
 	if (failed != -1)
@@ -477,5 +477,5 @@ void BPMiniGameScene::DrawFailed() const
 		return;
 	}
 
-	DrawStringToHandle(SCREEN_SIZE.x / 2 - 108, SCREEN_SIZE.y / 2 - 34, "FAILED", GetColor(225, 60, 70), largeFont_);
+	DrawStringToHandle(SCREEN_SIZE.x / 2 - FAILED_TEXT_CENTER_OFFSET.x, SCREEN_SIZE.y / 2 - FAILED_TEXT_CENTER_OFFSET.y, "FAILED", FAILED_COLOR.ToDxColor(), largeFont_);
 }

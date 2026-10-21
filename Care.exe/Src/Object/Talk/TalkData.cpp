@@ -478,7 +478,8 @@ const std::vector<TD>& TalkDatas::GetTalkData(TalkDataIndex dataIndex)
 			Speak(患者, "...ところで、バックアップは取ってありますか？"),
 			Speak(患者, ".....セーブデータが途中であれば。"),
 			Speak(患者, "オートセーブなので、ファイルを入れ替えればいいだけです。"),
-		}}
+		} }
+
 	};
 
 	// 空のリスト（デフォルト返却用）

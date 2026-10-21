@@ -1,0 +1,8 @@
+ステージID（stage_id）,オブジェクトID（object_id）,描画方式（render_mode）,画像キー（asset_key）,切り替え画像キー（alternate_asset_key）,X座標（x）,Y座標（y）,描画順Y（sort_y）,矩形コライダ左端（collider_left）,矩形コライダ上端（collider_top）,矩形コライダ右端（collider_right）,矩形コライダ下端（collider_bottom）,操作範囲左端（interaction_left）,操作範囲上端（interaction_top）,操作範囲右端（interaction_right）,操作範囲下端（interaction_bottom）
+NURSE_STATION,PC,PERCENT,BG_2_PC,,35,12,,0,0,69,15,25,15,50,30
+NURSE_STATION,CHAIR,PERCENT,BG_2_CHAIR,,35,22,,,,,,,,,
+NURSE_STATION,LOCKER,PERCENT,BG_2_LOCKER,,92.2,99.9,370,83,40,100,100,,,,
+NURSE_STATION,TABLE,PIXEL,BG_2_TABLE,,159,365,600,12.1,61.1,59.8,100,,,,
+NURSE_STATION,PLATE,PROGRESS,BG_2_PLATE,BG_2_PLATE_FOLDER,217,393,601,,,,,12.3,42.8,60.3,80.2
+PAT_ROOM,WALL,PIXEL,BG_1_WALL,,0,0,400,0,51,100,62,,,,
+PAT_ROOM,TOILET,PERCENT,BG_1_TOILET,,80,10,,75,5,87,10,,,,

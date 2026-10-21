@@ -1,7 +1,6 @@
 #pragma once
 
 // フレームレート
-static constexpr float FRAME_RATE(1000 / 60);
 
 class FpsControl
 {
@@ -22,6 +21,15 @@ public:
 	void DrawFrameRate();
 
 private:
+	static constexpr int MILLISECONDS_PER_SECOND = 1000;
+	static constexpr int TARGET_FPS = 60;
+	// Preserve the current integer division: 16 ms.
+	static constexpr float FRAME_INTERVAL_MS = MILLISECONDS_PER_SECOND / TARGET_FPS;
+	static constexpr int YIELD_SLEEP_MS = 1;
+	static constexpr int FPS_RIGHT_MARGIN = 90;
+	static constexpr int FPS_BOTTOM_MARGIN = 20;
+	static constexpr int FPS_TEXT_COLOR = 0xFF0000;
+
 	int currentTime_;			// 現在の時間
 	int prevFrameTime_;			// 前回のフレーム実行時の時間
 

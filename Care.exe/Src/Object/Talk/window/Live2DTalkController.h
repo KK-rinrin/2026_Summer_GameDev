@@ -66,6 +66,10 @@ public:
 	void ResetForScene();
 
 private:
+	static constexpr int MAX_ALPHA = 255;
+
+	static constexpr int DEBUG_BUFFER_SIZE = 256;
+
 	// ハブが所有するモデルへの参照（非所有）
 	Live2D* model_;
 	std::unordered_map<int, std::basic_string<TCHAR>> paramMap_;

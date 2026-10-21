@@ -39,10 +39,10 @@ void FpsController::Wait()
     {
 
 		// 待つべき時間(ミリ秒)
-        double waitMiliSecond = (idealFrameTime_ - deltaTime) * 1000.0;
+        double waitMiliSecond = (idealFrameTime_ - deltaTime) * MILLISECONDS_PER_SECOND;
 
         // Sleepで待ち時間分を待機
-        if (waitMiliSecond >= 1.0)
+        if (waitMiliSecond >= MIN_WAIT_MILLISECONDS)
         {
             // 指定ミリ秒数待つ(DxLib関数)
             WaitTimer(static_cast<int>(waitMiliSecond));

@@ -6,6 +6,7 @@ class ProcessMove;
 class Patient : public ActorBase
 {
 public:
+
 	static constexpr float INIT_MOVE_SPEED_PER = 0.6f;
 	static constexpr VECTOR INIT_PER = { 60.0f, 32.0f, 0.0f };
 
@@ -22,6 +23,7 @@ public:
 	void Release() override;
 
 private:
+
 	void InitLoad() override;
 	void InitTransform() override;
 	void InitCollider() override;

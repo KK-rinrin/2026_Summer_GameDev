@@ -26,40 +26,41 @@ namespace
 		return distribution(colorShiftRectState_.randomEngine);
 	}
 
-	void RefreshColorShiftRects(
-		int handle,
-		int width,
-		int height,
-		int rectCount,
-		unsigned int changeIntervalMs,
-		unsigned int now
-	)
+}
+
+void ScreenEffect::RefreshColorShiftRects(
+	int handle,
+	int width,
+	int height,
+	int rectCount,
+	unsigned int changeIntervalMs,
+	unsigned int now
+)
+{
+	colorShiftRectState_.handle = handle;
+	colorShiftRectState_.width = width;
+	colorShiftRectState_.height = height;
+	colorShiftRectState_.rectCount = rectCount;
+	colorShiftRectState_.changeIntervalMs = changeIntervalMs;
+	colorShiftRectState_.lastChangeTime = now;
+	colorShiftRectState_.rects.clear();
+	colorShiftRectState_.rects.reserve(rectCount);
+
+	const int minRectWidth = (std::max)(1, width / RECT_MIN_WIDTH_DIVISOR);
+	const int maxRectWidth = (std::max)(minRectWidth, width / RECT_MAX_WIDTH_DIVISOR);
+	const int minRectHeight = (std::max)(1, height / RECT_MIN_HEIGHT_DIVISOR);
+	const int maxRectHeight = (std::max)(minRectHeight, height / RECT_MAX_HEIGHT_DIVISOR);
+
+	for (int i = 0; i < rectCount; ++i)
 	{
-		colorShiftRectState_.handle = handle;
-		colorShiftRectState_.width = width;
-		colorShiftRectState_.height = height;
-		colorShiftRectState_.rectCount = rectCount;
-		colorShiftRectState_.changeIntervalMs = changeIntervalMs;
-		colorShiftRectState_.lastChangeTime = now;
-		colorShiftRectState_.rects.clear();
-		colorShiftRectState_.rects.reserve(rectCount);
+		const int rectWidth = GetRandomRange(minRectWidth, maxRectWidth);
+		const int rectHeight = GetRandomRange(minRectHeight, maxRectHeight);
+		const int left = GetRandomRange(0, width - rectWidth);
+		const int top = GetRandomRange(0, height - rectHeight);
 
-		const int minRectWidth = (std::max)(1, width / 8);
-		const int maxRectWidth = (std::max)(minRectWidth, width / 2);
-		const int minRectHeight = (std::max)(1, height / 24);
-		const int maxRectHeight = (std::max)(minRectHeight, height / 6);
-
-		for (int i = 0; i < rectCount; ++i)
-		{
-			const int rectWidth = GetRandomRange(minRectWidth, maxRectWidth);
-			const int rectHeight = GetRandomRange(minRectHeight, maxRectHeight);
-			const int left = GetRandomRange(0, width - rectWidth);
-			const int top = GetRandomRange(0, height - rectHeight);
-
-			colorShiftRectState_.rects.push_back(
-				RECT{ left, top, left + rectWidth, top + rectHeight }
-			);
-		}
+		colorShiftRectState_.rects.push_back(
+			RECT{ left, top, left + rectWidth, top + rectHeight }
+		);
 	}
 }
 
@@ -78,9 +79,9 @@ void ScreenEffect::DrawColorShift(
 		return;
 	}
 
-	int previousRed = 255;
-	int previousGreen = 255;
-	int previousBlue = 255;
+	int previousRed = MAX_BRIGHTNESS;
+	int previousGreen = MAX_BRIGHTNESS;
+	int previousBlue = MAX_BRIGHTNESS;
 	GetDrawBright(&previousRed, &previousGreen, &previousBlue);
 
 	int previousBlendMode = DX_BLENDMODE_NOBLEND;
@@ -88,7 +89,7 @@ void ScreenEffect::DrawColorShift(
 	GetDrawBlendMode(&previousBlendMode, &previousBlendParam);
 
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-	SetDrawBright(255, 255, 255);
+	SetDrawBright(MAX_BRIGHTNESS, MAX_BRIGHTNESS, MAX_BRIGHTNESS);
 	DrawGraphF(x, y, handle, TRUE);
 
 	int width = 0;
@@ -102,7 +103,7 @@ void ScreenEffect::DrawColorShift(
 	}
 
 	const unsigned int changeIntervalMs =
-		static_cast<unsigned int>((std::max)(0.001f, rectChangeSeconds) * 1000.0f);
+		static_cast<unsigned int>((std::max)(MIN_CHANGE_SECONDS, rectChangeSeconds) * MILLISECONDS_PER_SECOND);
 	const unsigned int now = static_cast<unsigned int>(GetNowCount());
 	const bool settingsChanged =
 		colorShiftRectState_.handle != handle ||
@@ -136,7 +137,7 @@ void ScreenEffect::DrawColorShift(
 		DX_BLEND_ONE,
 		DX_BLEND_ONE,
 		DX_BLENDOP_MAX,
-		255
+		MAX_BRIGHTNESS
 	);
 
 	for (const RECT& rect : colorShiftRectState_.rects)
@@ -151,9 +152,9 @@ void ScreenEffect::DrawColorShift(
 		}
 
 		SetDrawArea(left, top, right, bottom);
-		SetDrawBright(255, 0, 0);
+		SetDrawBright(MAX_BRIGHTNESS, 0, 0);
 		DrawGraphF(x - shiftX, y - shiftY, handle, TRUE);
-		SetDrawBright(0, 0, 255);
+		SetDrawBright(0, 0, MAX_BRIGHTNESS);
 		DrawGraphF(x + shiftX, y + shiftY, handle, TRUE);
 	}
 
@@ -177,20 +178,20 @@ void ScreenEffect::DrawColorShift(int handle, float x, float y, float shiftX, fl
 		return;
 	}
 
-	int previousRed = 255;
-	int previousGreen = 255;
-	int previousBlue = 255;
+	int previousRed = MAX_BRIGHTNESS;
+	int previousGreen = MAX_BRIGHTNESS;
+	int previousBlue = MAX_BRIGHTNESS;
 	GetDrawBright(&previousRed, &previousGreen, &previousBlue);
 
 	int previousBlendMode = DX_BLENDMODE_NOBLEND;
 	int previousBlendParam = 0;
 	GetDrawBlendMode(&previousBlendMode, &previousBlendParam);
 
-	SetDrawBlendMode(DX_BLENDMODE_ADD, 255);
+	SetDrawBlendMode(DX_BLENDMODE_ADD, MAX_BRIGHTNESS);
 
-	DrawColorChannel(handle, x - shiftX, y - shiftY, 255, 0, 0);
-	DrawColorChannel(handle, x, y, 0, 255, 0);
-	DrawColorChannel(handle, x + shiftX, y + shiftY, 0, 0, 255);
+	DrawColorChannel(handle, x - shiftX, y - shiftY, MAX_BRIGHTNESS, 0, 0);
+	DrawColorChannel(handle, x, y, 0, MAX_BRIGHTNESS, 0);
+	DrawColorChannel(handle, x + shiftX, y + shiftY, 0, 0, MAX_BRIGHTNESS);
 
 	SetDrawBright(previousRed, previousGreen, previousBlue);
 	SetDrawBlendMode(previousBlendMode, previousBlendParam);

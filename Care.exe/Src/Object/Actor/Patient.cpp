@@ -63,7 +63,7 @@ void Patient::InitLoad()
 		handles.reserve(num);
 		for (int i = 0; i < num; ++i)
 			handles.push_back(res.handleIds_[i]);
-		transform_.SetHandles(handles, 3, 2);
+		transform_.SetHandles(handles, res.numX_, res.numY_);
 	}
 	else
 	{
@@ -91,8 +91,8 @@ void Patient::InitCollider()
 void Patient::InitAnimation()
 {
 	// ÃŽ~‰æ‘œ
-	transform_.stillIndex = 1;
-	transform_.stillIndex_back = 4;
+	transform_.stillIndex = ResourceManager::CHARACTER_FRONT_STILL_INDEX;
+	transform_.stillIndex_back = ResourceManager::CHARACTER_BACK_STILL_INDEX;
 	transform_.isLeft = true;
 }
 

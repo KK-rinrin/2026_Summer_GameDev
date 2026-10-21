@@ -41,6 +41,10 @@ public:
 	void Draw();
 
 private:
+	static constexpr int FADE_COLOR = 0x000000;
+
+	static constexpr int MAX_ALPHA = 255;
+
 
 	// èÛë‘
 	STATE state_;

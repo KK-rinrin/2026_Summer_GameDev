@@ -35,7 +35,7 @@ float Live2DTalkController::GetDefaultParamValue(Param p) const
 	case Param::EYE_BLINK_R:
 	case Param::EYE_BLINK_L: return 1.0f;
 	case Param::ALPHA:
-		return 255.0f;
+		return static_cast<float>(MAX_ALPHA);
 	default:
 		return 0.0f;
 	}
@@ -47,7 +47,7 @@ float Live2DTalkController::GetDefaultParamValue(const TCHAR* parameterId) const
 
 	const std::basic_string<TCHAR> id(parameterId);
 	if (id == TEXT("ParamEyeROpen") || id == TEXT("ParamEyeLOpen")) return 1.0f;
-	if (id == TEXT("ParamAlpha")) return 255.0f;
+	if (id == TEXT("ParamAlpha")) return static_cast<float>(MAX_ALPHA);
 	return 0.0f;
 }
 
@@ -59,7 +59,7 @@ void Live2DTalkController::Load(ResourceManager::SRC src)
 
 	// デバッグ: モデル取得状態を出力
 	{
-		char buf[256];
+		char buf[DEBUG_BUFFER_SIZE];
 		sprintf_s(buf, "Live2DTalkController::Load src=%d model_ptr=%p handle=%d\n",
 			static_cast<int>(src), static_cast<void*>(model_), model_ ? model_->GetHandle() : -1);
 		OutputDebugStringA(buf);
@@ -213,7 +213,7 @@ void Live2DTalkController::ResetForScene()
 	ResetMouth();
 
 	// アルファは通常 255
-	SetAlpha(255);
+	SetAlpha(MAX_ALPHA);
 
 	// 必要なら他の一時状態（waiting flags など）もここでリセットする
 }

@@ -10,7 +10,7 @@ AnimationController2D::AnimationController2D()
 	, direction_(1)
 	, playing_(false)
 	, lastTimeMs_(GetNowCount())
-	, frameDurationMs_(100.0f) // 100ms default
+	, frameDurationMs_(DEFAULT_FRAME_DURATION_MS) // 100ms default
 {
 }
 
@@ -23,7 +23,7 @@ void AnimationController2D::SetFrames(int frames)
 
 void AnimationController2D::SetFrameDuration(float seconds)
 {
-	frameDurationMs_ = (seconds > 0.0f) ? (seconds * 1000.0f) : 100.0f;
+	frameDurationMs_ = (seconds > 0.0f) ? (seconds * MILLISECONDS_PER_SECOND) : DEFAULT_FRAME_DURATION_MS;
 }
 
 void AnimationController2D::SetLoop(bool loop)

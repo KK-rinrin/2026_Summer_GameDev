@@ -40,9 +40,9 @@ void ResourceManager::Init()
 	CreateResource(SRC::TALK_IMAGE_0, RES_T::IMG, PATH_IMG + "Talk/talk_image_0.png");
 
 	// キャラクターグラフィック
-	Resource* res = new Resource(RES_T::IMGS, PATH_IMG + "Game/Player.png", 3, 2, 120, 300);
+	Resource* res = new Resource(RES_T::IMGS, PATH_IMG + "Game/Player.png", CHARACTER_SHEET_COLUMNS, CHARACTER_SHEET_ROWS, CHARACTER_CELL_WIDTH, CHARACTER_CELL_HEIGHT);
 	resourcesMap_.emplace(SRC::PLAYER_GRAPHICS, res);
-	res = new Resource(RES_T::IMGS, PATH_IMG + "Game/Patient.png", 3, 2, 120, 300);
+	res = new Resource(RES_T::IMGS, PATH_IMG + "Game/Patient.png", CHARACTER_SHEET_COLUMNS, CHARACTER_SHEET_ROWS, CHARACTER_CELL_WIDTH, CHARACTER_CELL_HEIGHT);
 	resourcesMap_.emplace(SRC::PATIENT_GRAPHICS, res);
 
 	// 背景グラフィック
@@ -138,10 +138,10 @@ void ResourceManager::Init()
 	AddFontResourceExA((PATH_FONT + "Corporate-Mincho-ver3.otf").c_str(), FR_PRIVATE, NULL);
 	AddFontResourceExA((PATH_FONT + "mplus-1p-thin.ttf").c_str(), FR_PRIVATE, NULL);
 	
-	res = new Resource(RES_T::FONT, "コーポレート明朝 ver3 Medium", 30, -1, 0, DX_FONTTYPE_ANTIALIASING);
+	res = new Resource(RES_T::FONT, "コーポレート明朝 ver3 Medium", MAIN_FONT_SIZE, DEFAULT_FONT_THICK, DEFAULT_FONT_SPACE, DX_FONTTYPE_ANTIALIASING);
 	resourcesMap_.emplace(SRC::MAIN_FONT, res);
 
-	res = new Resource(RES_T::FONT, "M+ 1p thin", 22, 0, -1, DX_FONTTYPE_NORMAL);
+	res = new Resource(RES_T::FONT, "M+ 1p thin", DEFAULT_PC_FONT_SIZE, DEFAULT_PC_FONT_THICK, DEFAULT_PC_FONT_SPACE, DX_FONTTYPE_NORMAL);
 	resourcesMap_.emplace(SRC::PC_FONT, res);
 }
 

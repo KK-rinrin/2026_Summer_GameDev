@@ -11,6 +11,7 @@ class Live2DTalkController;
 class GameMenu
 {
 public:
+
 	enum class Mode
 	{
 		NORMAL,
@@ -38,6 +39,7 @@ public:
 	Result ConsumeResult();
 
 private:
+
 	enum class Item
 	{
 		RESUME,
@@ -45,6 +47,9 @@ private:
 		BACK_TO_TITLE,
 		MAX
 	};
+
+	static constexpr int MAX_ALPHA = 255;
+	static constexpr int DIM_COLOR = 0x000000;
 
 	static constexpr Vector2 TITLE_POS = { 35, 20 };
 	static constexpr int TITLE_FONT_SIZE = 38;

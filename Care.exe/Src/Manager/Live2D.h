@@ -24,6 +24,8 @@ public:
 	int GetHandle() const { return modelHandle; }
 
 private:
+	static constexpr float UPDATE_DELTA_SECONDS = 1 / 60.0f;
+
 	int modelHandle;
 
 	// RenderBegin/End の参照カウント（全インスタンスで共有）

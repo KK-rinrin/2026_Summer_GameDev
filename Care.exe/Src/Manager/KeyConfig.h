@@ -49,6 +49,8 @@ public:
 	static const char* GetPadButtonText(InputManager::JOYPAD_BTN button);
 
 private:
+	static constexpr int KEY_TEXT_BUFFER_SIZE = 16;
+
 	static constexpr int ACTION_INDEX_MIN = 0;
 	static constexpr int ACTION_NUM = static_cast<int>(ACTION::MAX);
 

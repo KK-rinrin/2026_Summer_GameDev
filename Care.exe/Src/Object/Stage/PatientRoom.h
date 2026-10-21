@@ -4,6 +4,7 @@
 class PatientRoom : public StageBase
 {
 public:
+
 	PatientRoom();
 	~PatientRoom() override;
 
@@ -11,6 +12,10 @@ public:
 	void Decide(DecideContext& context) const override;
 
 private:
+
+	static constexpr VECTOR TOILET_BLOCK_LEFT_TOP = { 75.0f, 5.0f, 0.0f };
+	static constexpr VECTOR TOILET_BLOCK_RIGHT_BOTTOM = { 87.0f, 10.0f, 0.0f };
+
 	static constexpr float WALL_SORT_Y = 400.0f;
 	static constexpr VECTOR WALL_BLOCK_LEFT_TOP = { 0.0f,51.0f,0.0f };
 	static constexpr VECTOR WALL_BLOCK_RIGHT_BOTTOM = { 100.0f,62.0f,0.0f };

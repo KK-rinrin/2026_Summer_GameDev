@@ -63,7 +63,7 @@ void SettingScene::Update()
 {
 	if (isProgressResetConfirmOpen_)
 	{
-		UpdateProgressResetConfirm();
+		UpdateResetDialog();
 		return;
 	}
 
@@ -78,7 +78,7 @@ void SettingScene::Update()
 		return;
 	}
 
-	if (UpdateHiddenResetCommand())
+	if (UpdateResetSequence())
 	{
 		return;
 	}
@@ -99,13 +99,13 @@ void SettingScene::Update()
 	{
 		sndMng_.PlaySE(SE::DECIDE);
 
-		DecideSelectItem();
+		SelectItem();
 	}
 	if (KeyConfig::IsTrgDown(KeyConfig::ACTION::CANCEL, iptMng_))
 	{
 		sndMng_.PlaySE(SE::CANCEL);
 
-		BackToReturnScene();
+		Return();
 	}
 }
 
@@ -119,7 +119,7 @@ void SettingScene::Draw()
 		"キャンセルキーで戻る", ITEM_COLOR, fontTitle_);
 
 	// 項目の描画
-	DrawItems();
+	DrawMenu();
 
 	switch (static_cast<Item>(selectItem_))
 	{
@@ -141,7 +141,7 @@ void SettingScene::Draw()
 
 	if (isProgressResetConfirmOpen_)
 	{
-		DrawProgressResetConfirm();
+		DrawResetDialog();
 	}
 }
 
@@ -161,15 +161,15 @@ void SettingScene::MoveSelectItem(int move)
 	do
 	{
 		selectItem_ = (selectItem_ + move + inum) % inum;
-	} while (!IsItemVisible(static_cast<Item>(selectItem_)));
+	} while (!IsVisible(static_cast<Item>(selectItem_)));
 }
 
-bool SettingScene::IsItemVisible(Item item) const
+bool SettingScene::IsVisible(Item item) const
 {
 	return item != Item::PAD_CONFIG || iptMng_.IsPadConnected();
 }
 
-void SettingScene::DecideSelectItem()
+void SettingScene::SelectItem()
 {
 	switch (static_cast<Item>(selectItem_))
 	{
@@ -194,25 +194,25 @@ void SettingScene::DecideSelectItem()
 		ItemUpdate_ = std::bind(&SettingScene::UpdateItemPadCon, this);
 		break;
 	case Item::BACK:
-		BackToReturnScene();
+		Return();
 		break;
 	default:
 		break;
 	}
 }
 
-void SettingScene::BackToReturnScene()
+void SettingScene::Return()
 {
 	// TITLEから開いた時はTITLEへ、GameMenuから開いた時は保存されたGameSceneへ戻る。
 	sceMng_.ChangeScene(sceMng_.GetSettingReturnScene());
 }
 
-void SettingScene::DrawItems()
+void SettingScene::DrawMenu()
 {
 	int drawIndex = 0;
 	for (int i = 0; i < static_cast<int>(Item::MAX); ++i)
 	{
-		if (!IsItemVisible(static_cast<Item>(i)))
+		if (!IsVisible(static_cast<Item>(i)))
 		{
 			continue;
 		}
@@ -225,7 +225,7 @@ void SettingScene::DrawItems()
 	}
 }
 
-bool SettingScene::UpdateHiddenResetCommand()
+bool SettingScene::UpdateResetSequence()
 {
 	for (const int keyCode : HIDDEN_RESET_COMMAND)
 	{
@@ -234,31 +234,26 @@ bool SettingScene::UpdateHiddenResetCommand()
 			continue;
 		}
 
-		return CheckHiddenResetCommandKey(keyCode);
-	}
-
-	return false;
-}
-
-bool SettingScene::CheckHiddenResetCommandKey(int keyCode)
-{
-	if (keyCode == HIDDEN_RESET_COMMAND[hiddenResetCommandIndex_])
-	{
-		++hiddenResetCommandIndex_;
-		if (hiddenResetCommandIndex_ >= static_cast<int>(HIDDEN_RESET_COMMAND.size()))
+		if (keyCode == HIDDEN_RESET_COMMAND[hiddenResetCommandIndex_])
 		{
-			OpenProgressResetConfirm();
-			return true;
+			++hiddenResetCommandIndex_;
+			if (hiddenResetCommandIndex_ >= static_cast<int>(HIDDEN_RESET_COMMAND.size()))
+			{
+				OpenResetDialog();
+				return true;
+			}
+
+			return false;
 		}
 
+		hiddenResetCommandIndex_ = (keyCode == HIDDEN_RESET_COMMAND[0]) ? 1 : 0;
 		return false;
 	}
 
-	hiddenResetCommandIndex_ = (keyCode == HIDDEN_RESET_COMMAND[0]) ? 1 : 0;
 	return false;
 }
 
-void SettingScene::OpenProgressResetConfirm()
+void SettingScene::OpenResetDialog()
 {
 	hiddenResetCommandIndex_ = 0;
 	isProgressResetConfirmOpen_ = true;
@@ -268,7 +263,7 @@ void SettingScene::OpenProgressResetConfirm()
 	sndMng_.PlaySE(SE::DECIDE);
 }
 
-void SettingScene::UpdateProgressResetConfirm()
+void SettingScene::UpdateResetDialog()
 {
 	if (isProgressResetResultOpen_)
 	{
@@ -316,7 +311,7 @@ void SettingScene::UpdateProgressResetConfirm()
 	}
 }
 
-void SettingScene::DrawProgressResetConfirm()
+void SettingScene::DrawResetDialog()
 {
 	const Vector2 windowEnd = {
 		RESET_CONFIRM_WINDOW_POS.x + RESET_CONFIRM_WINDOW_SIZE.x,

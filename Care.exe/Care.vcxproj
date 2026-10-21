@@ -262,7 +262,7 @@
     <ClCompile Include="Src\Scene\GameScene.cpp" />
     <ClCompile Include="Src\Scene\MiniGame\BPMiniGameScene.cpp" />
     <ClCompile Include="Src\Scene\PCScene.cpp" />
-    <ClCompile Include="Src\Scene\ProgressTable.cpp" />
+    <ClCompile Include="Src\Manager\Csv\ProgressTable.cpp" />
     <ClCompile Include="Src\Scene\SceneBase.cpp" />
     <ClCompile Include="Src\Scene\SettingScene.cpp" />
     <ClCompile Include="Src\Scene\TitleScene.cpp" />
@@ -312,7 +312,7 @@
     <ClInclude Include="Src\Scene\GameScene.h" />
     <ClInclude Include="Src\Scene\MiniGame\BPMiniGameScene.h" />
     <ClInclude Include="Src\Scene\PCScene.h" />
-    <ClInclude Include="Src\Scene\ProgressTable.h" />
+    <ClInclude Include="Src\Manager\Csv\ProgressTable.h" />
     <ClInclude Include="Src\Scene\SceneBase.h" />
     <ClInclude Include="Src\Scene\SettingScene.h" />
     <ClInclude Include="Src\Scene\TitleScene.h" />
@@ -327,6 +327,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Src\Effect\Shader\ColorShiftPS.fx" />
+    <None Include="Data\Csv\TalkEvents.csv" />
+    <None Include="Data\Csv\ClearCredits.csv" />
+    <None Include="Data\Csv\StageObjects.csv" />
+    <None Include="Data\Csv\ClearEndings.csv" />
+    <None Include="Data\Csv\ClearMessages.csv" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Care.rc" />

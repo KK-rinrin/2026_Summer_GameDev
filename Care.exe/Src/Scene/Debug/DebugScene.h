@@ -31,6 +31,12 @@ public:
 	void Delete() override;
 
 private:
+	static constexpr float GRID_PERCENT_MAX = 100.0f;
+	static constexpr int GRID_LINE_COLOR = 0x000000;
+
+	static constexpr int INITIAL_GRID_DIVISION_X = 5;
+	static constexpr int INITIAL_GRID_DIVISION_Y = 3;
+
 	
 
 	void InitLoad() override;
@@ -42,8 +48,8 @@ private:
 	DebugCursorPosition* cursorPos_;
 	DebugPerspective* debugPers_;
 
-	int gridDivisionX_ = 5;	// グリッドX分割数
-	int gridDivisionY_ = 3;	// グリッドY分割数
+	int gridDivisionX_ = INITIAL_GRID_DIVISION_X;	// グリッドX分割数
+	int gridDivisionY_ = INITIAL_GRID_DIVISION_Y;	// グリッドY分割数
 
 	static constexpr float COLOR_SHIFT_STEP_PIXELS = 1.0f;
 	static constexpr float COLOR_SHIFT_MAX_PIXELS = 10.0f;

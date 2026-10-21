@@ -87,7 +87,6 @@ void TalkWindow::Init()
 	textX_ = TEXT_X;
 	textY_ = TEXT_Y;
 
-
 }
 
 // ==============================
@@ -159,7 +158,7 @@ void TalkWindow::CompleteSpeak()
 			}
 			else if (cu.tagType == "FBF")
 			{
-				lineAdTimeMulti_ = (cu.floatValue > 0.0f) ? cu.floatValue : 1.0f;
+				lineAdTimeMulti_ = (cu.floatValue > 0.0f) ? cu.floatValue : TalkDatas::DEFAULT_ADVANCE_TIME;
 			}
 			else if (cu.tagType == "PARAM")
 			{
@@ -244,9 +243,9 @@ void TalkWindow::Update()
 
 	// deltaTime
 	long long now = GetNowHiPerformanceCount();
-	deltaTime_ = (now - prevTime_) / 1000000.0f;
+	deltaTime_ = (now - prevTime_) / MICROSECONDS_PER_SECOND;
 	prevTime_ = now;
-	if (deltaTime_ > 0.1f) deltaTime_ = 0.1f;
+	if (deltaTime_ > MAX_DELTA_SECONDS) deltaTime_ = MAX_DELTA_SECONDS;
 
 	UpdateVisibleWindow();
 	if (!waitingForClick_)
@@ -302,7 +301,7 @@ void TalkWindow::Draw()
 	std::string vis = GetVisibleText();
 	DrawStringToHandle(
 		TEXT_X, TEXT_Y + y_,
-		vis.c_str(), GetColor(255, 255, 255),
+		vis.c_str(), GetColor(TEXT_RGB_MAX, TEXT_RGB_MAX, TEXT_RGB_MAX),
 		font_);
 
 	DrawNextIcon();
@@ -336,7 +335,7 @@ void TalkWindow::Delete()
 void TalkWindow::Speak(const std::string& talk, float advanceTime)
 {
 	talkScript_ = talk;
-	lineAdTimeMulti_ = (advanceTime > 0.0f) ? advanceTime : 1.0f;
+	lineAdTimeMulti_ = (advanceTime > 0.0f) ? advanceTime : TalkDatas::DEFAULT_ADVANCE_TIME;
 	units_ = TalkScriptParser::Parse(talk);
 	unitPos_ = 0;
 	visCharaTime_ = 0.0f;
@@ -377,7 +376,7 @@ void TalkWindow::UpdateLineAdvance()
 
 	if (waitTimer_ > 0.0f)
 	{
-		waitTimer_ -= deltaTime_ * 1000.0f;
+		waitTimer_ -= deltaTime_ * MILLISECONDS_PER_SECOND;
 		if (waitTimer_ < 0.0f) waitTimer_ = 0.0f;
 		return;
 	}
@@ -396,7 +395,7 @@ void TalkWindow::UpdateLineAdvance()
 		}
 		else if (cu.tagType == "FBF")
 		{
-			lineAdTimeMulti_ = (cu.floatValue > 0.0f) ? cu.floatValue : 1.0f;
+			lineAdTimeMulti_ = (cu.floatValue > 0.0f) ? cu.floatValue : TalkDatas::DEFAULT_ADVANCE_TIME;
 			unitPos_++;
 		}
 		else if (cu.tagType == "PARAM")
@@ -434,17 +433,17 @@ void TalkWindow::UpdateLineAdvance()
 	// PUNCT
 	if (cu.type == CharUnit::Type::PUNCT)
 	{
-		float ms = 200.0f;
+		float ms = PUNCT_DEFAULT_WAIT_MS;
 
 		switch (cu.punctKind)
 		{
-		case CharUnit::PunctKind::PERIOD: 			ms = 500.0f; break;
-		case CharUnit::PunctKind::COMMA: 			ms = 250.0f; break;
+		case CharUnit::PunctKind::PERIOD: 			ms = PUNCT_PERIOD_WAIT_MS; break;
+		case CharUnit::PunctKind::COMMA: 			ms = PUNCT_COMMA_WAIT_MS; break;
 		case CharUnit::PunctKind::EXCLAM:
-		case CharUnit::PunctKind::QUESTION: 		ms = 250.0f; break;
+		case CharUnit::PunctKind::QUESTION: 		ms = PUNCT_SINGLE_MARK_WAIT_MS; break;
 		case CharUnit::PunctKind::EXCLAM_MANY:
-		case CharUnit::PunctKind::QUESTION_MANY: 	ms = 400.0f; break;
-		case CharUnit::PunctKind::MIXED:  			ms = 300.0f; break;
+		case CharUnit::PunctKind::QUESTION_MANY: 	ms = PUNCT_REPEATED_MARK_WAIT_MS; break;
+		case CharUnit::PunctKind::MIXED:  			ms = PUNCT_MIXED_MARK_WAIT_MS; break;
 		default:
 			break;
 		}
@@ -457,7 +456,7 @@ void TalkWindow::UpdateLineAdvance()
 	// NORMAL
 	if (cu.type == CharUnit::Type::NORMAL)
 	{
-		visCharaTime_ += deltaTime_ * 1000.0f;
+		visCharaTime_ += deltaTime_ * MILLISECONDS_PER_SECOND;
 		float denom = baseCharTime_ * lineAdTimeMulti_;
 		float t = (denom > 0.0f) ? (visCharaTime_ / denom) : 0.0f;
 		if (t < 0.0f) t = 0.0f;

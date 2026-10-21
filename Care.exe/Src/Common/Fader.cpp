@@ -53,10 +53,10 @@ void Fader::Update()
 
 	case STATE::FADE_OUT:
 		alpha_ += SPEED_ALPHA;
-		if (alpha_ > 255)
+		if (alpha_ > MAX_ALPHA)
 		{
 			// フェード終了
-			alpha_ = 255;
+			alpha_ = MAX_ALPHA;
 			if (isPreEnd_)
 			{
 				// 1フレーム後(Draw後)に終了とする
@@ -101,7 +101,7 @@ void Fader::Draw()
 			0, 0,
 			Application::SCREEN_SIZE_X,
 			Application::SCREEN_SIZE_Y,
-			0x000000, true);
+			FADE_COLOR, true);
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 		break;
 	}

@@ -4,6 +4,7 @@
 class AnimationController2D
 {
 public:
+
 	AnimationController2D();
 
 	// フレーム数（1 以上）
@@ -28,6 +29,10 @@ public:
 	bool IsPlaying() const;
 
 private:
+
+	static constexpr float DEFAULT_FRAME_DURATION_MS = 100.0f;
+	static constexpr float MILLISECONDS_PER_SECOND = 1000.0f;
+
 	int frames_;
 	int currentFrame_;
 	int stillIndex_;

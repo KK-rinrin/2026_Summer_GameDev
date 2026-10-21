@@ -50,11 +50,13 @@ protected:
 	ResourceManager& resMng_;
 	SceneManager& scnMng_;
 
-	// 位置等
+	// 位置など
 	Transform2D transform_;
 
+	// アニメーション
 	AnimationController2D anim_;
 
+	// コライダ
 	CircleCollider collider_;
 	float radius_;
 

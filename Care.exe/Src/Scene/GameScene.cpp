@@ -18,7 +18,7 @@
 #include "../Manager/SoundManager.h"
 #include "../Effect/ScreenEffect.h"
 #include "../Application.h"
-#include "ProgressTable.h"
+#include "../Manager/Csv/ProgressTable.h"
 
 GameScene::GameScene()
 	: SceneBase()
@@ -176,14 +176,14 @@ void GameScene::Draw()
 	}
 
 	int a = ProgressManager::GetInstance().GetProgress();
-	DrawFormatString(0, 50, 0x000000, "Progress: %d", a);
+	DrawFormatString(DEBUG_PROGRESS_POS_X, DEBUG_PROGRESS_POS_Y, DEBUG_PROGRESS_COLOR, "Progress: %d", a);
 #endif
 
 	if (prgMng_.GetProgressEnum() == ProgressManager::END_RUINED_LOCKED ||	// RUINEDエンドがLOCKED状態なら黒点滅しない(真っ黒)
 		prgMng_.GetProgressEnum() == ProgressManager::END_RUINED &&
 		GetRand(RUINED_BLACK_BLINK_INTERVAL_FRAMES - 1) == 0)		// RUINEDエンドの時は黒点滅
 	{
-		DrawBox(0, 0, Application::SCREEN_SIZE_X, Application::SCREEN_SIZE_Y, 0x000000, true);
+		DrawBox(0, 0, Application::SCREEN_SIZE_X, Application::SCREEN_SIZE_Y, RUINED_BLINK_COLOR, true);
 	}
 }
 

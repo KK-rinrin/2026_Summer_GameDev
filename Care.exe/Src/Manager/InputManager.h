@@ -133,6 +133,14 @@ public:
 	VECTOR GetDirectionXZAKey(int aKeyX, int aKeyY) const;
 
 private:
+	static constexpr int PAD_INFO_COUNT = static_cast<int>(JOYPAD_NO::PAD4) + 1;
+	enum XboxDInputButton : int { XBOX_A, XBOX_B, XBOX_X, XBOX_Y };
+	enum PlayStationDInputButton : int
+	{
+		PS_SQUARE, PS_CROSS, PS_CIRCLE, PS_TRIANGLE,
+		PS_L2 = 6, PS_R2 = 7, PS_OPTIONS = 9
+	};
+
 
 	// キー情報
 	struct Info
@@ -178,7 +186,7 @@ private:
 	int mouseInput_;
 
 	// パッド情報
-	JOYPAD_IN_STATE padInfos_[5];
+	JOYPAD_IN_STATE padInfos_[PAD_INFO_COUNT];
 
 	// デフォルトコンストラクタをprivateにして、
 	// 外部から生成できない様にする

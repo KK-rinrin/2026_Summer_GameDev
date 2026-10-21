@@ -1,0 +1,6 @@
+"進行度キー（progress_key）","画像キー（asset_key）","タイトル（title）"
+"END_PATIENT_LOCKED","STILL_END_NUR","End_T:存在しない入院患者"
+"END_NURCE_LOCKED","STILL_END_NUI","End_D:思い通り"
+"END_BOTH_LOCKED","STILL_END_BOTH","End_NULL:もぬけの殻"
+"END_RUINED_LOCKED","STILL_END_RUIN",""
+"DEFAULT","STILL_END_BOTH","そしていなくなった"

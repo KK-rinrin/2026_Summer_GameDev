@@ -304,16 +304,16 @@ InputManager::JOYPAD_IN_STATE InputManager::GetJPadInputState(JOYPAD_NO no)
 		//   A
 
 		idx = static_cast<int>(JOYPAD_BTN::TOP);
-		ret.ButtonsNew[idx] = d.Buttons[3];// Y
+		ret.ButtonsNew[idx] = d.Buttons[XBOX_Y];// Y
 
 		idx = static_cast<int>(JOYPAD_BTN::LEFT);
-		ret.ButtonsNew[idx] = d.Buttons[2];// X
+		ret.ButtonsNew[idx] = d.Buttons[XBOX_X];// X
 
 		idx = static_cast<int>(JOYPAD_BTN::RIGHT);
-		ret.ButtonsNew[idx] = d.Buttons[1];// B
+		ret.ButtonsNew[idx] = d.Buttons[XBOX_B];// B
 
 		idx = static_cast<int>(JOYPAD_BTN::DOWN);
-		ret.ButtonsNew[idx] = d.Buttons[0];// A
+		ret.ButtonsNew[idx] = d.Buttons[XBOX_A];// A
 
 		idx = static_cast<int>(JOYPAD_BTN::R_TRIGGER);
 		ret.ButtonsNew[idx] = x.RightTrigger;// R_TRIGGER
@@ -351,25 +351,25 @@ InputManager::JOYPAD_IN_STATE InputManager::GetJPadInputState(JOYPAD_NO no)
 		//   Å~
 
 		idx = static_cast<int>(JOYPAD_BTN::TOP);
-		ret.ButtonsNew[idx] = d.Buttons[3];// Å¢
+		ret.ButtonsNew[idx] = d.Buttons[PS_TRIANGLE];// Å¢
 
 		idx = static_cast<int>(JOYPAD_BTN::LEFT);
-		ret.ButtonsNew[idx] = d.Buttons[0];// Å†
+		ret.ButtonsNew[idx] = d.Buttons[PS_SQUARE];// Å†
 
 		idx = static_cast<int>(JOYPAD_BTN::RIGHT);
-		ret.ButtonsNew[idx] = d.Buttons[2];// ÅZ
+		ret.ButtonsNew[idx] = d.Buttons[PS_CIRCLE];// ÅZ
 
 		idx = static_cast<int>(JOYPAD_BTN::DOWN);
-		ret.ButtonsNew[idx] = d.Buttons[1];// Å~
+		ret.ButtonsNew[idx] = d.Buttons[PS_CROSS];// Å~
 
 		idx = static_cast<int>(JOYPAD_BTN::R_TRIGGER);
-		ret.ButtonsNew[idx] = d.Buttons[7];// R_TRIGGER
+		ret.ButtonsNew[idx] = d.Buttons[PS_R2];// R_TRIGGER
 
 		idx = static_cast<int>(JOYPAD_BTN::L_TRIGGER);
-		ret.ButtonsNew[idx] = d.Buttons[6]; // L_TRIGGER
+		ret.ButtonsNew[idx] = d.Buttons[PS_L2]; // L_TRIGGER
 
 		idx = static_cast<int>(JOYPAD_BTN::START);
-		ret.ButtonsNew[idx] = d.Buttons[9];// OPTIONS
+		ret.ButtonsNew[idx] = d.Buttons[PS_OPTIONS];// OPTIONS
 
 		// ç∂ÉXÉeÉBÉbÉN
 		ret.AKeyLX = d.X;

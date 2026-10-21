@@ -87,7 +87,7 @@ void SceneManager::Update()
 	// デルタタイム
 	auto nowTime = std::chrono::system_clock::now();
 	deltaTime_ = static_cast<float>(
-		std::chrono::duration_cast<std::chrono::nanoseconds>(nowTime - preTime_).count() / 1000000000.0);
+		std::chrono::duration_cast<std::chrono::nanoseconds>(nowTime - preTime_).count() / NANOSECONDS_PER_SECOND);
 	preTime_ = nowTime;
 
 	// フェード機能の更新
@@ -219,7 +219,7 @@ SceneManager::SCENE_ID SceneManager::GetSceneID()
 
 float SceneManager::GetDeltaTime() const
 {
-	return 1.0f / 60.0f;
+	return FALLBACK_DELTA_SECONDS;
 	//return deltaTime_;
 }
 
@@ -234,13 +234,13 @@ SceneManager::SceneManager()
 	, scene_(nullptr)
 	, isSceneChanging_(false)
 	, preTime_()
-	, deltaTime_(1.0f / 60.0f)
+	, deltaTime_(FALLBACK_DELTA_SECONDS)
 {
 }
 
 void SceneManager::ResetDeltaTime()
 {
-	deltaTime_ = 0.016f;
+	deltaTime_ = RESET_DELTA_SECONDS;
 	preTime_ = std::chrono::system_clock::now();
 }
 

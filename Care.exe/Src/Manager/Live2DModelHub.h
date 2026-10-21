@@ -25,6 +25,8 @@ public:
 	void ReleaseAll();
 
 private:
+	static constexpr int DEBUG_BUFFER_SIZE = 256;
+
 	Live2DModelHub() = default;
 	~Live2DModelHub();
 

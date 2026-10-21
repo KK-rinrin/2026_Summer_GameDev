@@ -10,52 +10,7 @@
 
 namespace
 {
-#pragma region 定数定義 
-	static constexpr int GAME_OVER_LINE_INTERVAL_Y = 24;
-	static constexpr int END_TITLE_POS_X = 24;
-
-	static constexpr int TITLE_FONT_SIZE = 38;
-	static constexpr int RESET_FONT_SIZE = 30;
-
-	static constexpr int END_TITLE_SLIDE_DISTANCE_X = 20;
-	static constexpr int END_TITLE_BOTTOM_MARGIN = 32;
-	static constexpr int END_TITLE_ANIMATION_FRAMES = 60;
-	static constexpr int END_TITLE_MAX_ALPHA = 255;
-	static constexpr int END_TITLE_COLOR = 0x000000;
-	static constexpr int END_STILL_HOLD_FRAMES = 180;
-
-	static constexpr int CREDIT_FADE_IN_FRAMES = 30;
-	static constexpr int CREDIT_HOLD_FRAMES = 60;
-	static constexpr int CREDIT_FINAL_HOLD_FRAMES = 600;
-	static constexpr int CREDIT_FADE_OUT_FRAMES = 30;
-	static constexpr int CREDIT_ROLE_POS_Y = 422;
-	static constexpr int CREDIT_NAME_POS_Y = 482;
-	static constexpr int CREDIT_RIGHT_MARGIN = 30;
-	static constexpr int CREDIT_SHADOW_OFFSET = 2;
-	static constexpr int CREDIT_ROLE_COLOR = 0xaaaaaa;
-	static constexpr int CREDIT_NAME_COLOR = 0xffffff;
-
-	static constexpr int HIDDEN_RESET_HOLD_FRAMES = 180;
-	static constexpr float HIDDEN_RESET_STICK_UP = -0.8f;
-
-	static constexpr int RESET_WINDOW_LEFT = 50;
-	static constexpr int RESET_WINDOW_TOP = 150;
-	static constexpr int RESET_WINDOW_RIGHT = 750;
-	static constexpr int RESET_WINDOW_BOTTOM = 370;
-	static constexpr int RESET_TEXT_POS_X = 100;
-	static constexpr int RESET_TEXT_POS_Y = 195;
-	static constexpr int RESET_TEXT_LINE_INTERVAL = 45;
-	static constexpr int RESET_WINDOW_BG_COLOR = 0xffffff;
-	static constexpr int RESET_WINDOW_FRAME_COLOR = 0x222222;
-	static constexpr int RESET_TEXT_COLOR = 0x222222;
-	static constexpr int RESET_SUB_TEXT_COLOR = 0x666666;
-#pragma endregion
-
-	struct CreditEntry
-	{
-		const char* role;
-		const char* name;
-	};
+	struct CreditEntry { std::string role; std::string name; };
 
 	const CreditEntry CREDIT_ENTRIES[] =
 	{
@@ -172,7 +127,7 @@ void ClearScene::Draw()
 	{
 		if (stillHandle_ < 0)
 		{
-			DrawBox(0, 0, Application::SCREEN_SIZE_X, Application::SCREEN_SIZE_Y, 0x000000, true);
+			DrawBox(0, 0, Application::SCREEN_SIZE_X, Application::SCREEN_SIZE_Y, END_TITLE_COLOR, true);
 		}
 		else
 		{
@@ -196,7 +151,8 @@ void ClearScene::Delete()
 {
 	// 進行度がクリア済みかどうかを確認し、クリア済みであれば進行度をリセット完了に設定する
 	int prgres = prgMng_.GetProgress();
-	if (prgres == 101 || prgres == 111 || prgres == 121 ||
+	if (prgres == ProgressManager::END_PATIENT_LOCKED ||
+		prgres == ProgressManager::END_NURCE_LOCKED || prgres == ProgressManager::END_BOTH_LOCKED ||
 		prgres == ProgressManager::END_RUINED_LOCKED)
 	{
 		prgMng_.SetProgress(ProgressManager::CLEAR_COMPLETE);
@@ -265,14 +221,14 @@ void ClearScene::InitGameOver()
 	gameOverLineCount_ = 0;
 	if (!prgMng_.IsNurceCharExists())
 	{
-		AddGameOverLine("Chara/neit.charが見つかりません。");
+		AddLineGameOver("Chara/neit.charが見つかりません。");
 	}
 	if (!prgMng_.IsPatientCharExists())
 	{
-		AddGameOverLine("Chara/nui.charが見つかりません。");
+		AddLineGameOver("Chara/nui.charが見つかりません。");
 	}
-	AddGameOverLine("必要なデータを読み込めませんでした。");
-	AddGameOverLine("データをリセットしますか？y/n");
+	AddLineGameOver("必要なデータを読み込めませんでした。");
+	AddLineGameOver("データをリセットしますか？y/n");
 	GetHitKeyStateAll(prevKeyState_);
 }
 
@@ -297,7 +253,7 @@ void ClearScene::DrawEndTitle() const
 
 void ClearScene::UpdateCredits()
 {
-	if (creditIndex_ < 0 || creditIndex_ >= CREDIT_ENTRY_COUNT)
+	if (creditIndex_ < 0 || creditIndex_ >= GetCreditCount())
 	{
 		return;
 	}
@@ -321,7 +277,7 @@ void ClearScene::UpdateCredits()
 
 	++creditIndex_;
 	creditFrame_ = 0;
-	if (creditIndex_ >= CREDIT_ENTRY_COUNT)
+	if (creditIndex_ >= GetCreditCount())
 	{
 		prgMng_.SetProgress(ProgressManager::CLEAR_COMPLETE);
 		sndMng_->StopBGM();
@@ -347,7 +303,7 @@ void ClearScene::DrawCredits() const
 	if (stillHandle_ < 0)
 	{
 		DrawBox(0, 0, Application::SCREEN_SIZE_X, Application::SCREEN_SIZE_Y,
-			GetColor(0, 0, 0), true);
+			END_TITLE_COLOR, true);
 	}
 	else
 	{
@@ -359,7 +315,7 @@ void ClearScene::DrawCredits() const
 	}
 	DrawEndTitle();
 
-	if (titleFontHandle_ < 0 || creditIndex_ < 0 || creditIndex_ >= CREDIT_ENTRY_COUNT)
+	if (titleFontHandle_ < 0 || creditIndex_ < 0 || creditIndex_ >= GetCreditCount())
 	{
 		return;
 	}
@@ -378,14 +334,14 @@ void ClearScene::DrawCredits() const
 			DrawStringToHandle(drawX, drawY, text, color, titleFontHandle_);
 		};
 
-	if (entry.role[0] == '\0')
+	if (entry.role.empty())
 	{
-		drawRightAligned(entry.name, CREDIT_NAME_POS_Y, CREDIT_NAME_COLOR);
+		drawRightAligned(entry.name.c_str(), CREDIT_NAME_POS_Y, CREDIT_NAME_COLOR);
 	}
 	else
 	{
-		drawRightAligned(entry.role, CREDIT_ROLE_POS_Y, CREDIT_ROLE_COLOR);
-		drawRightAligned(entry.name, CREDIT_NAME_POS_Y, CREDIT_NAME_COLOR);
+		drawRightAligned(entry.role.c_str(), CREDIT_ROLE_POS_Y, CREDIT_ROLE_COLOR);
+		drawRightAligned(entry.name.c_str(), CREDIT_NAME_POS_Y, CREDIT_NAME_COLOR);
 	}
 
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
@@ -455,7 +411,7 @@ bool ClearScene::IsCreditSkipTriggered() const
 
 bool ClearScene::IsFinalCredit() const
 {
-	return creditIndex_ == CREDIT_ENTRY_COUNT - 1;
+	return creditIndex_ == GetCreditCount() - 1;
 }
 
 int ClearScene::GetCreditHoldFrames() const
@@ -467,28 +423,28 @@ int ClearScene::GetCreditAlpha() const
 {
 	if (creditFrame_ < CREDIT_FADE_IN_FRAMES)
 	{
-		return creditFrame_ * 255 / CREDIT_FADE_IN_FRAMES;
+		return creditFrame_ * DX_MAX / CREDIT_FADE_IN_FRAMES;
 	}
 
 	const int fadeOutStartFrame = CREDIT_FADE_IN_FRAMES + GetCreditHoldFrames();
 	if (creditFrame_ < fadeOutStartFrame)
 	{
-		return 255;
+		return DX_MAX;
 	}
 
 	const int fadeOutFrame = creditFrame_ - fadeOutStartFrame;
-	const int alpha = 255 - fadeOutFrame * 255 / CREDIT_FADE_OUT_FRAMES;
+	const int alpha = DX_MAX - fadeOutFrame * DX_MAX / CREDIT_FADE_OUT_FRAMES;
 	return (alpha > 0) ? alpha : 0;
 }
 
 void ClearScene::DrawGameOver() const
 {
 	DrawBox(0, 0, Application::SCREEN_SIZE_X, Application::SCREEN_SIZE_Y,
-		GetColor(0, 0, 0), true);
+		END_TITLE_COLOR, true);
 	for (int i = 0; i < gameOverLineCount_; ++i)
 	{
-		DrawString(16, 16 + GAME_OVER_LINE_INTERVAL_Y * i,
-			gameOverLines_[i], GetColor(200, 255, 200));
+		DrawString(GAME_OVER_POS_X, GAME_OVER_POS_Y + GAME_OVER_LINE_INTERVAL_Y * i,
+			gameOverLines_[i].c_str(), GetColor(GAME_OVER_TEXT_RED, GAME_OVER_TEXT_GREEN, GAME_OVER_TEXT_BLUE));
 	}
 }
 
@@ -508,9 +464,9 @@ void ClearScene::UpdateGameOver()
 		if (gameOverState_ == GameOverState::INITIAL_CONFIRM)
 		{
 			const bool isResetSucceeded = prgMng_.ResetProgressCache();
-			AddGameOverLine(isResetSucceeded ? "データの初期化が完了しました。ゲームを再起動してください。"
+			AddLineGameOver(isResetSucceeded ? "データの初期化が完了しました。ゲームを再起動してください。"
 				: "データの初期化に失敗しました。");
-			AddGameOverLine("どれかのキーを押して終了...");
+			AddLineGameOver("どれかのキーを押して終了...");
 			gameOverState_ = GameOverState::WAIT_EXIT;
 			GetHitKeyStateAll(prevKeyState_);
 		}
@@ -525,18 +481,18 @@ void ClearScene::UpdateGameOver()
 	{
 		if (gameOverState_ == GameOverState::INITIAL_CONFIRM)
 		{
-			AddGameOverLine("リセットしなければゲームが起動できません。このまま終了してよろしいですか？y/n");
+			AddLineGameOver("リセットしなければゲームが起動できません。このまま終了してよろしいですか？y/n");
 			gameOverState_ = GameOverState::EXIT_CONFIRM;
 		}
 		else
 		{
-			AddGameOverLine("データをリセットしますか？y/n");
+			AddLineGameOver("データをリセットしますか？y/n");
 			gameOverState_ = GameOverState::INITIAL_CONFIRM;
 		}
 	}
 }
 
-void ClearScene::AddGameOverLine(const char* line)
+void ClearScene::AddLineGameOver(const std::string& line)
 {
 	if (gameOverLineCount_ >= GAME_OVER_MAX_LINES)
 	{
@@ -553,7 +509,7 @@ void ClearScene::AddGameOverLine(const char* line)
 
 const ClearScene::EndInfo& ClearScene::GetEndInfo() const
 {
-	static constexpr EndInfo END_INFOS[] =
+	static const EndInfo END_INFOS[] =
 	{
 		{
 			ProgressManager::STORY_PROGRESS::END_PATIENT_LOCKED,
@@ -576,7 +532,7 @@ const ClearScene::EndInfo& ClearScene::GetEndInfo() const
 			""
 		},
 	};
-	static constexpr EndInfo DEFAULT_END_INFO =
+	static const EndInfo DEFAULT_END_INFO =
 	{
 		ProgressManager::STORY_PROGRESS::END_BOTH_LOCKED,
 		ResourceManager::SRC::STILL_END_BOTH,
@@ -602,4 +558,9 @@ ResourceManager::SRC ClearScene::GetStillSrc() const
 std::string ClearScene::GetEndTitle() const
 {
 	return GetEndInfo().title;
+}
+
+int ClearScene::GetCreditCount() const
+{
+	return CREDIT_ENTRY_COUNT;
 }

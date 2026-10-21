@@ -6,6 +6,7 @@ class Transform2D;
 class ProcessMove
 {
 public:
+
 	ProcessMove();
 
 	void SetMoveSpeedPercent(float moveSpeedPercent);
@@ -18,6 +19,7 @@ public:
 	void Update(Transform2D& transform);
 
 private:
+
 	static constexpr float DEFAULT_MOVE_SPEED_PERCENT = 0.0f;
 	static constexpr int DEFAULT_DELAY_FRAME = 0;
 	static constexpr unsigned int DELAY_RANDOM_A = 1103515245u;

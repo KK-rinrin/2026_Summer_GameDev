@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <DxLib.h>
 #include "../Common/Vector2.h"
 
 class InputManager;
@@ -40,6 +41,24 @@ public:
 	bool IsOpen() const;
 
 private:
+	struct Rgb
+	{
+		int r, g, b;
+		int ToDxColor() const { return GetColor(r, g, b); }
+	};
+	static constexpr Rgb TEXT_COLOR = { 0, 0, 0 };
+	static constexpr Rgb TITLE_TEXT_COLOR = { 255, 255, 255 };
+	static constexpr Rgb FRAME_COLOR = { 80, 80, 80 };
+	static constexpr Rgb WINDOW_COLOR = { 220, 220, 220 };
+	static constexpr Rgb TITLE_BAR_COLOR = { 100, 100, 100 };
+	static constexpr int FRAME_WIDTH = 2;
+	static constexpr Vector2 TITLE_TEXT_OFFSET = { 12, 6 };
+	static constexpr Vector2 MESSAGE_TEXT_OFFSET = { 24, 58 };
+	static constexpr Vector2 OK_TEXT_OFFSET = { 30, 5 };
+	enum FolderIndex : int { MANUAL_FOLDER, KARTE_FOLDER, CHARA_FOLDER };
+	enum FileIndex : int { NURCE_FILE, PATIENT_FILE };
+	static constexpr int FILE_COUNT = sizeof(FILE_POS) / sizeof(FILE_POS[0]);
+
 	void HandleCancel();
 	void UpdateKarteText();
 	void DrawKarte() const;
@@ -51,6 +70,8 @@ private:
 	bool IsCloseButtonHit() const;
 
 	static constexpr Vector2 FOLDER_POS[] = { { 70, 33 }, { 70, 155 }, { 70, 277 } };
+	static constexpr int FOLDER_COUNT = sizeof(FOLDER_POS) / sizeof(FOLDER_POS[0]);
+	static constexpr int INITIAL_FOLDER_COUNT = FOLDER_COUNT - 1;
 
 	int backgroundHandle_;
 	int frameHandle_;

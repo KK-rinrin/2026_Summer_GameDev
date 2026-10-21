@@ -66,15 +66,14 @@ public:
 private:
 	void InitLoad() override;	// ロード
 	void MoveSelectItem(int move);	// 選択移動
-	bool IsItemVisible(Item item) const;	// 項目を表示するかどうか
-	void DecideSelectItem();
-	void BackToReturnScene();
-	void DrawItems();
-	bool UpdateHiddenResetCommand();
-	bool CheckHiddenResetCommandKey(int keyCode);
-	void OpenProgressResetConfirm();
-	void UpdateProgressResetConfirm();
-	void DrawProgressResetConfirm();
+	bool IsVisible(Item item) const;	// 項目を表示するかどうか
+	void SelectItem();
+	void Return();
+	void DrawMenu();
+	bool UpdateResetSequence();
+	void OpenResetDialog();
+	void UpdateResetDialog();
+	void DrawResetDialog();
 
 	std::function<void()> ItemUpdate_;
 

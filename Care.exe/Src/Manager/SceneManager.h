@@ -76,6 +76,10 @@ public:
 	float GetDeltaTime() const;
 
 private:
+	static constexpr double NANOSECONDS_PER_SECOND = 1000000000.0;
+	static constexpr float FALLBACK_DELTA_SECONDS = 1.0f / 60.0f;
+	static constexpr float RESET_DELTA_SECONDS = 0.016f;
+
 
 	// 静的インスタンス
 	static SceneManager* instance_;

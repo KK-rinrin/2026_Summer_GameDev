@@ -68,7 +68,7 @@ public:
 
 	bool IsCanDeleteProgress() const { return progress_ >= AFTER_LUNCH;  }
 
-	bool IsResetRequiredProgress() const { return progress_ == CLEAR_COMPLETE || progress_ >= 512; }
+	bool IsResetRequiredProgress() const { return progress_ == CLEAR_COMPLETE || progress_ >= RESET_REQUIRED_PROGRESS_MIN; }
 
 	bool HasResetHistory() const { return resetCount_ > 0; }
 
@@ -76,6 +76,8 @@ public:
 	void Destroy();
 
 private:
+	static constexpr int RESET_REQUIRED_PROGRESS_MIN = 512;
+
 
 	static ProgressManager* instance_;
 

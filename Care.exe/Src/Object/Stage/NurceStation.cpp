@@ -203,10 +203,10 @@ void NurceStation::DrawPlate() const
 
 void NurceStation::InitCollider()
 {
-	AddMBRectPercent({ 0.0f, 0.0f, 0.0f }, { 69.0f, 15.0f, 0.0f });	// PC周辺
+	AddMBRectPercent(PC_BLOCK_LEFT_TOP, PC_BLOCK_RIGHT_BOTTOM);	// PC周辺
 
 	AddMBRectPercent(TABLE_LEFT_TOP, TABLE_RIGHT_BOTTOM);	// 配膳台周辺
 
 	// ロッカー周辺
-	AddMBRectPercent({ 83.0f, 40.0f, 0.0f }, { 100.0f, 100.0f, 0.0f });
+	AddMBRectPercent(LOCKER_BLOCK_LEFT_TOP, LOCKER_BLOCK_RIGHT_BOTTOM);
 }

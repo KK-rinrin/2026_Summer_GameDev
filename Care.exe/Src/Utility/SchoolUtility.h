@@ -7,6 +7,8 @@
 class SchoolUtility
 {
 public:
+	static constexpr float DEFAULT_DEBUG_LINE_LENGTH = 50.0f;
+
 	// ラジアン(rad)・度(deg)変換用
 	static constexpr float RAD2DEG = (180.0f / DX_PI_F);
 	static constexpr float DEG2RAD = (DX_PI_F / 180.0f);
@@ -114,11 +116,18 @@ public:
 	static double AngleDeg(const VECTOR& from, const VECTOR& to);
 
 	// 描画系
-	static void DrawLineDir(const VECTOR& pos, const VECTOR& dir, int color, float len = 50.0f);
-	static void DrawLineXYZ(const VECTOR& pos, const MATRIX& rot, float len = 50.0f);
-	static void DrawLineXYZ(const VECTOR& pos, const Quaternion& rot, float len = 50.0f);
+	static void DrawLineDir(const VECTOR& pos, const VECTOR& dir, int color, float len = DEFAULT_DEBUG_LINE_LENGTH);
+	static void DrawLineXYZ(const VECTOR& pos, const MATRIX& rot, float len = DEFAULT_DEBUG_LINE_LENGTH);
+	static void DrawLineXYZ(const VECTOR& pos, const Quaternion& rot, float len = DEFAULT_DEBUG_LINE_LENGTH);
 
 	// 文字列の分割
 	static std::vector <std::string> Split(std::string& line, char delimiter);
+private:
+	static constexpr float DEBUG_MARKER_RADIUS = 5.0f;
+	static constexpr int DEBUG_MARKER_DIVISIONS = 5;
+	static constexpr int DEBUG_AXIS_X_COLOR = 0xff0000;
+	static constexpr int DEBUG_AXIS_Y_COLOR = 0x00ff00;
+	static constexpr int DEBUG_AXIS_Z_COLOR = 0x0000ff;
+
 };
 

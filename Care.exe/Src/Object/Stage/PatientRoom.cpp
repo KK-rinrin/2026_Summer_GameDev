@@ -3,7 +3,7 @@
 #include "../../Manager/ProgressManager.h"
 #include "../../Manager/SoundManager.h"
 #include "../../Object/Talk/Talk.h"
-#include "../../Scene/ProgressTable.h"
+#include "../../Manager/Csv/ProgressTable.h"
 #include "../Actor/ActorBase.h"
 #include "../Actor/Patient.h"
 #include "../Collider/Collider.h"
@@ -89,5 +89,5 @@ void PatientRoom::InitTransform()
 void PatientRoom::InitCollider()
 {
 	AddMBRectPercent(WALL_BLOCK_LEFT_TOP, WALL_BLOCK_RIGHT_BOTTOM);
-	AddMBRectPercent({ 75.0f, 5.0f, 0.0f }, { 87.0f, 10.0f, 0.0f });
+	AddMBRectPercent(TOILET_BLOCK_LEFT_TOP, TOILET_BLOCK_RIGHT_BOTTOM);
 }

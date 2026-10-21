@@ -27,6 +27,9 @@ public:
     float GetFPS() const { return fps_; }
 
 private:
+	static constexpr double MILLISECONDS_PER_SECOND = 1000.0;
+	static constexpr double MIN_WAIT_MILLISECONDS = 1.0;
+
 
     // ç≈ëÂFPS
     const int MAX_FPS = 1200;

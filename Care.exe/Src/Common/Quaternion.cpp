@@ -533,13 +533,13 @@ Quaternion Quaternion::FromToRotation(const VECTOR& fromDir, const VECTOR& toDir
 
 	VECTOR axis = VCross(fromDir, toDir);
 	double angle = SchoolUtility::AngleDeg(fromDir, toDir);
-	if (angle >= 179.9196)
+	if (angle >= ANTIPARALLEL_ANGLE_DEGREES)
 	{
 		auto r = VCross(fromDir, SchoolUtility::DIR_R);
 		axis = VCross(r, fromDir);
 		//if (axis.sqrMagnitude < 0.000001f)
 		float len = axis.x * axis.x + axis.y * axis.y + axis.z * axis.z;
-		if (len < 0.000001f)
+		if (len < AXIS_LENGTH_SQUARED_EPSILON)
 		{
 			axis = SchoolUtility::DIR_U;
 		}
@@ -605,7 +605,7 @@ Quaternion Quaternion::SlerpUnclamped(Quaternion a, Quaternion b, float t)
 
     float blendA;
     float blendB;
-    if (cosHalfAngle < 0.99f)
+    if (cosHalfAngle < SLERP_LINEAR_COS_THRESHOLD)
     {
         // do proper slerp for big angles
         float halfAngle = acosf(cosHalfAngle);
@@ -671,7 +671,7 @@ void Quaternion::ToAngleAxis(float* angle, VECTOR* axis)
     }
 
 	float den = sqrtf(1.0f - (float)(this->w * this->w));
-	if (den > 0.0001f)
+	if (den > ANGLE_AXIS_DENOMINATOR_EPSILON)
 	{
 		//axis = q->xyz / den;
 		auto v = this->xyz();
