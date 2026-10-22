@@ -333,11 +333,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Src\Effect\Shader\ColorShiftPS.fx" />
-    <None Include="Data\Csv\TalkEvents.csv" />
-    <None Include="Data\Csv\ClearCredits.csv" />
-    <None Include="Data\Csv\StageObjects.csv" />
-    <None Include="Data\Csv\ClearEndings.csv" />
-    <None Include="Data\Csv\ClearMessages.csv" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Care.rc" />

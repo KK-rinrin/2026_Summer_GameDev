@@ -13,8 +13,8 @@ public:
 	// 1フレームあたりの秒数（秒）
 	void SetFrameDuration(float seconds);
 
-	void SetLoop(bool loop);
-	void SetPingPong(bool pingpong); // 追加: 往復再生
+	void SetLoop(bool loop);	// 始めと終わりをつなげる
+	void SetPingPong(bool pingpong); // 往復再生
 	void SetStillIndex(int idx);
 
 	void Play();   // 再生（動作状態）
@@ -42,4 +42,5 @@ private:
 	bool playing_;
 	unsigned int lastTimeMs_;
 	float frameDurationMs_;
+
 };

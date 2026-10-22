@@ -342,21 +342,6 @@
     <None Include="Src\Effect\Shader\ColorShiftPS.fx">
       <Filter>ソース ファイル</Filter>
     </None>
-    <None Include="Data\Csv\TalkEvents.csv">
-      <Filter>ソース ファイル</Filter>
-    </None>
-    <None Include="Data\Csv\ClearCredits.csv">
-      <Filter>ソース ファイル</Filter>
-    </None>
-    <None Include="Data\Csv\StageObjects.csv">
-      <Filter>ソース ファイル</Filter>
-    </None>
-    <None Include="Data\Csv\ClearEndings.csv">
-      <Filter>ソース ファイル</Filter>
-    </None>
-    <None Include="Data\Csv\ClearMessages.csv">
-      <Filter>ソース ファイル</Filter>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Care.rc">

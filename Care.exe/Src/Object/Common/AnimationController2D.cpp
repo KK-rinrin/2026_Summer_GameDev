@@ -43,6 +43,7 @@ void AnimationController2D::SetStillIndex(int idx)
 
 void AnimationController2D::Play()
 {
+	// Ä¶‚³‚ê‚Ä‚¢‚È‚¯‚ê‚ÎÄ¶‚·‚é
 	if (!playing_) {
 		playing_ = true;
 		lastTimeMs_ = GetNowCount();
@@ -51,8 +52,12 @@ void AnimationController2D::Play()
 
 void AnimationController2D::Stop()
 {
+	// ~‚ß‚é
 	playing_ = false;
+
+	// ƒtƒŒ[ƒ€‚ğŒÅ’è
 	currentFrame_ = SchoolUtility::Clamp(stillIndex_, 0, frames_ - 1);
+	
 	direction_ = 1;
 }
 
