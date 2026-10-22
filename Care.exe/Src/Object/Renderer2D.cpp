@@ -22,6 +22,7 @@ void Renderer2D::AddSprite(const Transform2D* transform, const Sprite2D* sprite,
 {
 	if (transform == nullptr || sprite == nullptr) return;
 
+	// 登録後の移動も奥行き順に反映する
 	Add(
 		[transform]() { return transform->GetWorldPos().y; },
 		[transform, sprite]() {
@@ -44,6 +45,7 @@ void Renderer2D::Add(const std::function<float()>& sortYFunc, const std::functio
 
 void Renderer2D::Render()
 {
+	// レイヤーを優先し、同じレイヤー内はY座標順、同じY座標なら登録順を保つ。
 	std::stable_sort(drawList_.begin(), drawList_.end(),
 		[](const RenderItem& a, const RenderItem& b)
 		{

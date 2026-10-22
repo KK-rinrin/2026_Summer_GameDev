@@ -26,8 +26,10 @@ float ProcessMove::GetMoveSpeedPercent() const
 
 void ProcessMove::SetDelayFrameRange(int minDelayFrame, int maxDelayFrame)
 {
+	// 大小をそろえる
 	const int smallerDelayFrame = (minDelayFrame < maxDelayFrame) ? minDelayFrame : maxDelayFrame;
 	const int largerDelayFrame = (minDelayFrame < maxDelayFrame) ? maxDelayFrame : minDelayFrame;
+
 	minDelayFrame_ = (smallerDelayFrame < 0) ? 0 : smallerDelayFrame;
 	maxDelayFrame_ = (largerDelayFrame < 0) ? 0 : largerDelayFrame;
 	useDelay_ = maxDelayFrame_ > 0;
@@ -101,6 +103,7 @@ void ProcessMove::UpdateImmediate(Transform2D& transform, const MoveInput& input
 
 void ProcessMove::UpdateDelayed(Transform2D& transform, const MoveInput& input)
 {
+	// 入力時点の移動量を個別に遅延させることで、遅延中も操作した動きが後から反映される
 	if (input.x != 0.0f || input.y != 0.0f)
 	{
 		MoveInput delayedInput = input;
@@ -129,6 +132,7 @@ int ProcessMove::CreateDelayFrame()
 		return minDelayFrame_;
 	}
 
+	// 遅延フレーム数を指定範囲（両端を含む）から疑似乱数で選ぶ
 	delaySeed_ = delaySeed_ * DELAY_RANDOM_A + DELAY_RANDOM_C;
 	const int delayRange = maxDelayFrame_ - minDelayFrame_ + 1;
 	return minDelayFrame_ + static_cast<int>(delaySeed_ % static_cast<unsigned int>(delayRange));

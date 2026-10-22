@@ -9,6 +9,7 @@
 class Renderer2D
 {
 public:
+	// レイヤー順を優先し、同じレイヤー内ではY座標による奥行き順で描画する
 	enum class Layer
 	{
 		Back,

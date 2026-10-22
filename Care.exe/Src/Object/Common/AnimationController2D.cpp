@@ -82,6 +82,7 @@ void AnimationController2D::Update()
 		elapsed -= frameMs;
 		// 再生方式に応じて1フレーム進める
 		if (pingpong_) {
+			// 端のフレームを重複させずに折り返し、再生方向を反転する
 			currentFrame_ += direction_;
 			if (currentFrame_ >= frames_) {
 				// 最終フレームを越えた場合
@@ -119,6 +120,7 @@ void AnimationController2D::Update()
 	}
 
 	// 消費した分だけ lastTimeMs_ を進める
+	// 余った経過時間を次回へ持ち越し、更新間隔のずれが累積するのを防ぐ
 	lastTimeMs_ = now - elapsed;
 }
 
