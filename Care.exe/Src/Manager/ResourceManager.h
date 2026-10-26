@@ -104,7 +104,7 @@ public:
 	void Destroy();
 
 	// リソースのパスを取得
-	char* GetResourcePath(SRC src) const;
+	const char* GetResourcePath(SRC src) const;
 
 	// リソースのロード
 	const Resource& Load(SRC src);

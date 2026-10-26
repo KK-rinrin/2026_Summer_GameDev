@@ -32,9 +32,6 @@ public:
 
 	// ‰Šú‰»
 	void Init();
-	
-	// 3D‚Ì‰Šú‰»
-	void Init3D();
 
 	// XV
 	void Update();

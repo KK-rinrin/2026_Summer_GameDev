@@ -56,7 +56,7 @@ private:
 	static constexpr Vector2 MESSAGE_TEXT_OFFSET = { 24, 58 };
 	static constexpr Vector2 OK_TEXT_OFFSET = { 30, 5 };
 	enum FolderIndex : int { MANUAL_FOLDER, KARTE_FOLDER, CHARA_FOLDER };
-	enum FileIndex : int { NURCE_FILE, PATIENT_FILE };
+	enum FileIndex : int { NURSE_FILE, PATIENT_FILE };
 	static constexpr int FILE_COUNT = sizeof(FILE_POS) / sizeof(FILE_POS[0]);
 
 	void HandleCancel();

@@ -9,7 +9,7 @@ namespace
 	const char* SYSTEM_DIR_PATH = "Data/System";
 	const char* CHARA_DIR_PATH = "Chara";
 	const char* PATIENT_CHAR_PATH = "Chara/nui.char";
-	const char* NURCE_CHAR_PATH = "Chara/neit.char";
+	const char* NURSE_CHAR_PATH = "Chara/neit.char";
 	const char* PROGRESS_SAVE_PATH = "Data/System/cache.bin";
 
 	bool IsFileExists(const char* path)
@@ -79,17 +79,17 @@ void ProgressManager::SetProgress(STORY_PROGRESS progress)
 bool ProgressManager::ResetProgressCache()
 {
 	isPatientCharExists_ = IsFileExists(PATIENT_CHAR_PATH);
-	isNurceCharExists_ = IsFileExists(NURCE_CHAR_PATH);
+	isNurseCharExists_ = IsFileExists(NURSE_CHAR_PATH);
 
 	if (!isPatientCharExists_)
 	{
 		CreateEmptyFile(PATIENT_CHAR_PATH);
 		isPatientCharExists_ = IsFileExists(PATIENT_CHAR_PATH);
 	}
-	if (!isNurceCharExists_)
+	if (!isNurseCharExists_)
 	{
-		CreateEmptyFile(NURCE_CHAR_PATH);
-		isNurceCharExists_ = IsFileExists(NURCE_CHAR_PATH);
+		CreateEmptyFile(NURSE_CHAR_PATH);
+		isNurseCharExists_ = IsFileExists(NURSE_CHAR_PATH);
 	}
 
 	progress_ = START;
@@ -101,7 +101,7 @@ bool ProgressManager::ResetProgressCache()
 	resetCount_ = 0;
 #endif
 
-	return isPatientCharExists_ && isNurceCharExists_ && SaveProgress();
+	return isPatientCharExists_ && isNurseCharExists_ && SaveProgress();
 }
 
 bool ProgressManager::IsPatientCharExists() const
@@ -109,15 +109,15 @@ bool ProgressManager::IsPatientCharExists() const
 	return IsFileExists(PATIENT_CHAR_PATH);
 }
 
-bool ProgressManager::IsNurceCharExists() const
+bool ProgressManager::IsNurseCharExists() const
 {
-	return IsFileExists(NURCE_CHAR_PATH);
+	return IsFileExists(NURSE_CHAR_PATH);
 }
 
 bool ProgressManager::IsCharaFileDeletedDuringRun() const
 {
 	return (isPatientCharExists_ && !IsPatientCharExists()) ||
-		(isNurceCharExists_ && !IsNurceCharExists());
+		(isNurseCharExists_ && !IsNurseCharExists());
 }
 
 
@@ -126,7 +126,7 @@ bool ProgressManager::IsEndTalkProgress() const
 	switch (GetProgressEnum())
 	{
 	case END_PATIENT_LOST:
-	case END_NURCE_LOST: case END_BOTH_LOST: return true;
+	case END_NURSE_LOST: case END_BOTH_LOST: return true;
 	default:
 		return false;
 	}
@@ -136,7 +136,7 @@ bool ProgressManager::IsEndLockedProgress() const
 	switch (GetProgressEnum())
 	{
 	case END_PATIENT_LOCKED:
-	case END_NURCE_LOCKED: case END_BOTH_LOCKED: case END_RUINED_LOCKED: return true;
+	case END_NURSE_LOCKED: case END_BOTH_LOCKED: case END_RUINED_LOCKED: return true;
 	default:
 		return false;
 	}
@@ -152,7 +152,7 @@ ProgressManager::ProgressManager()
 	: progress_(START)
 	, resetCount_(0)
 	, isPatientCharExists_(false)
-	, isNurceCharExists_(false)
+	, isNurseCharExists_(false)
 {
 }
 
@@ -206,7 +206,7 @@ bool ProgressManager::SaveProgress() const
 void ProgressManager::CheckCharaFiles(bool isFirstLaunch)
 {
 	isPatientCharExists_ = IsFileExists(PATIENT_CHAR_PATH);
-	isNurceCharExists_ = IsFileExists(NURCE_CHAR_PATH);
+	isNurseCharExists_ = IsFileExists(NURSE_CHAR_PATH);
 
 	if (isFirstLaunch)
 	{
@@ -216,10 +216,10 @@ void ProgressManager::CheckCharaFiles(bool isFirstLaunch)
 			isPatientCharExists_ = IsFileExists(PATIENT_CHAR_PATH);
 		}
 
-		if (!isNurceCharExists_)
+		if (!isNurseCharExists_)
 		{
-			CreateEmptyFile(NURCE_CHAR_PATH);
-			isNurceCharExists_ = IsFileExists(NURCE_CHAR_PATH);
+			CreateEmptyFile(NURSE_CHAR_PATH);
+			isNurseCharExists_ = IsFileExists(NURSE_CHAR_PATH);
 		}
 	}
 }
@@ -241,12 +241,12 @@ void ProgressManager::ApplyEndProgressByCharaFiles()
 		return;
 	}
 
-	if (isPatientCharExists_ && isNurceCharExists_)
+	if (isPatientCharExists_ && isNurseCharExists_)
 	{
 		return;
 	}
 
-	if (!isPatientCharExists_ && !isNurceCharExists_)
+	if (!isPatientCharExists_ && !isNurseCharExists_)
 	{
 		progress_ = END_BOTH_LOST;
 		return;
@@ -258,5 +258,5 @@ void ProgressManager::ApplyEndProgressByCharaFiles()
 		return;
 	}
 
-	progress_ = END_NURCE_LOST;
+	progress_ = END_NURSE_LOST;
 }

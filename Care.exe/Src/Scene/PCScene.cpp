@@ -270,7 +270,7 @@ void PCScene::DrawFiles() const
 	{
 		const Vector2& filePos = FILE_POS[i];
 		DrawGraph(filePos.x, filePos.y, fileHandle_, TRUE);
-		const char* fileName = (i == NURCE_FILE) ? "neit.char" : "nui.char";
+		const char* fileName = (i == NURSE_FILE) ? "neit.char" : "nui.char";
 		const int textWidth = GetDrawStringWidthToHandle(fileName, static_cast<int>(std::strlen(fileName)), pcFontHandle_);
 		const int textX = filePos.x + (fileSize_.x - textWidth) / 2;
 		DrawStringToHandle(textX, filePos.y + FILE_LABEL_Y_OFFSET, fileName, TEXT_COLOR.ToDxColor(), pcFontHandle_);

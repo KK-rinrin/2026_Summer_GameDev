@@ -79,7 +79,7 @@ public:
 		TALK_GET_PLATE,	// 昼食の配膳プレート取得
 		TALK_GET_PLATE_FOLDER,	// 夕食の配膳プレート取得
 
-		TALK_END_NURCE_LOST = 901,		// 看護師削除、患者生存
+		TALK_END_NURSE_LOST = 901,		// 看護師削除、患者生存
 		TALK_END_PATIENT_LOST = 902,	// 患者削除、看護師生存
 		TALK_END_BOTH_LOST = 903,		// 両方削除
 		TALK_END_RUINED = 904,			// 崩壊END

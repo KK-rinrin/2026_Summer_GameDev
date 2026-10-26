@@ -52,7 +52,7 @@ void Talk::Load()
 	{
 		patientController_ = Live2DModelHub::Instance().GetController(ResourceManager::SRC::PATIENT_MODEL);
 	}
-	if (ProgressManager::GetInstance().IsNurceCharExists())
+	if (ProgressManager::GetInstance().IsNurseCharExists())
 	{
 		playerController_ = Live2DModelHub::Instance().GetController(ResourceManager::SRC::PLAYER_MODEL);
 	}
@@ -527,7 +527,7 @@ void Talk::RefreshVisibleSpeakers(const std::vector<TD>& talkData)
 	PatientVisible_ = false;
 	PlayerVisible_ = false;
 	const bool patientExists = ProgressManager::GetInstance().IsPatientCharExists();
-	const bool playerExists = ProgressManager::GetInstance().IsNurceCharExists();
+	const bool playerExists = ProgressManager::GetInstance().IsNurseCharExists();
 	for (const TD& data : talkData)
 	{
 		const TalkDatas::SpeakEvent* speak = std::get_if<TalkDatas::SpeakEvent>(&data);

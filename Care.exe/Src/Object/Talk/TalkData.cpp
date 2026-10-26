@@ -359,7 +359,7 @@ const std::vector<TD>& TalkDatas::GetTalkData(TalkDataIndex dataIndex)
 		}},
 
 		// 看護師削除END
-		{ TDI::TALK_END_NURCE_LOST, {
+		{ TDI::TALK_END_NURSE_LOST, {
 			Speak(患者, "...へえ。"),
 			Speak(患者, "そっちを消したんですね。"),
 			Speak(患者, "私を残した、という言い方もできますけど。"),

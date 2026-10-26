@@ -30,9 +30,6 @@
     <ClCompile Include="Src\Debug\DebugCursorPosition.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Common\FpsController.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Src\Common\Quaternion.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -87,7 +84,7 @@
     <ClCompile Include="Src\Object\Talk\window\TalkWindow.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Object\Talk\window\Text\Text\TalkScriptParser.cpp">
+    <ClCompile Include="Src\Object\Talk\window\TalkScriptParser.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Src\Object\Talk\TalkData.cpp">
@@ -126,7 +123,7 @@
     <ClCompile Include="Src\Object\Collider\Collider.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Object\Stage\NurceStation.cpp">
+    <ClCompile Include="Src\Object\Stage\NurseStation.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Src\Object\Actor\Patient.cpp">
@@ -183,9 +180,6 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Src\Debug\DebugCursorPosition.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\Common\FpsController.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Src\Common\Quaternion.h">
@@ -245,7 +239,7 @@
     <ClInclude Include="Src\Object\Talk\window\TalkWindow.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Object\Talk\window\Text\Text\TalkScriptParser.h">
+    <ClInclude Include="Src\Object\Talk\window\TalkScriptParser.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Src\Object\Talk\TalkData.h">
@@ -284,7 +278,7 @@
     <ClInclude Include="Src\Object\Collider\Collider.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Object\Stage\NurceStation.h">
+    <ClInclude Include="Src\Object\Stage\NurseStation.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Src\Object\Actor\Patient.h">

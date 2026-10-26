@@ -90,7 +90,7 @@ void ResourceManager::Init()
 
 	// Live2Dƒ‚ƒfƒ‹
 	CreateResource(SRC::PATIENT_MODEL, RES_T::LIVE2D, PATH_MODEL + "patient/patient.model3.json");
-	CreateResource(SRC::PLAYER_MODEL, RES_T::LIVE2D, PATH_MODEL + "nurce/nurce.model3.json");
+	CreateResource(SRC::PLAYER_MODEL, RES_T::LIVE2D, PATH_MODEL + "nurse/nurse.model3.json");
 
 	// ‰¹Šy
 	res = new Resource(RES_T::SOUND, PATH_SOUND + "BGM/Title.wav");
@@ -170,7 +170,7 @@ void ResourceManager::Destroy()
 	delete instance_;
 }
 
-char* ResourceManager::GetResourcePath(SRC src) const
+const char* ResourceManager::GetResourcePath(SRC src) const
 {
 	const auto& rPair = resourcesMap_.find(src);
 	if (rPair != resourcesMap_.end())

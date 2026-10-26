@@ -36,7 +36,7 @@ void GameMenu::Load()
 	fontTitle_ = resMng.LoadFont(ResourceManager::SRC::MAIN_FONT, TITLE_FONT_SIZE);
 	font_ = resMng.LoadFont(ResourceManager::SRC::MAIN_FONT, MENU_FONT_SIZE);
 
-	if (ProgressManager::GetInstance().IsNurceCharExists())
+	if (ProgressManager::GetInstance().IsNurseCharExists())
 	{
 		playerController_ = Live2DModelHub::Instance().GetController(ResourceManager::SRC::PLAYER_MODEL);
 		UpdatePlayerModel();

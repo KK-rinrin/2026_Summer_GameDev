@@ -23,8 +23,8 @@ public:
 
 		END_PATIENT_LOST = 100,	// 患者削除END
 		END_PATIENT_LOCKED,
-		END_NURCE_LOST = 110,	// 看護師削除END
-		END_NURCE_LOCKED,
+		END_NURSE_LOST = 110,	// 看護師削除END
+		END_NURSE_LOCKED,
 		END_BOTH_LOST = 120,	// 両方削除END
 		END_BOTH_LOCKED,
 		END_RUINED = 200,		// 崩壊END
@@ -58,7 +58,7 @@ public:
 	bool IsPatientCharExists() const;
 
 	// 看護師charファイル存在取得
-	bool IsNurceCharExists() const;
+	bool IsNurseCharExists() const;
 
 	bool IsCharaFileDeletedDuringRun() const;
 
@@ -84,7 +84,7 @@ private:
 	int progress_;
 	int resetCount_;
 	bool isPatientCharExists_;
-	bool isNurceCharExists_;
+	bool isNurseCharExists_;
 
 	// シングルトン
 	ProgressManager();

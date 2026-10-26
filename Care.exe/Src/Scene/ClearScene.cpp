@@ -44,6 +44,7 @@ ClearScene::ClearScene()
 	, creditIndex_(0)
 	, creditFrame_(0)
 	, hiddenResetHoldFrame_(0)
+	, endTitle_()
 	, isGameOver_(false)
 	, isCreditsActive_(false)
 	, isExitConfirm_(false)
@@ -52,6 +53,7 @@ ClearScene::ClearScene()
 	, gameOverLines_{}
 	, gameOverLineCount_(0)
 	, prevKeyState_{}
+	, sndMng_(nullptr)
 {
 	std::memset(prevKeyState_, 0, sizeof(prevKeyState_));
 	sndMng_ = &SoundManager::GetInstance();
@@ -152,7 +154,7 @@ void ClearScene::Delete()
 	// 進行度がクリア済みかどうかを確認し、クリア済みであれば進行度をリセット完了に設定する
 	int prgres = prgMng_.GetProgress();
 	if (prgres == ProgressManager::END_PATIENT_LOCKED ||
-		prgres == ProgressManager::END_NURCE_LOCKED || prgres == ProgressManager::END_BOTH_LOCKED ||
+		prgres == ProgressManager::END_NURSE_LOCKED || prgres == ProgressManager::END_BOTH_LOCKED ||
 		prgres == ProgressManager::END_RUINED_LOCKED)
 	{
 		prgMng_.SetProgress(ProgressManager::CLEAR_COMPLETE);
@@ -219,7 +221,7 @@ void ClearScene::InitGameOver()
 	// ゲームオーバー時の初期化処理
 	gameOverState_ = GameOverState::INITIAL_CONFIRM;
 	gameOverLineCount_ = 0;
-	if (!prgMng_.IsNurceCharExists())
+	if (!prgMng_.IsNurseCharExists())
 	{
 		AddLineGameOver("Chara/neit.charが見つかりません。");
 	}
@@ -517,7 +519,7 @@ const ClearScene::EndInfo& ClearScene::GetEndInfo() const
 			"End_T:存在しない入院患者"
 		},
 		{
-			ProgressManager::STORY_PROGRESS::END_NURCE_LOCKED,
+			ProgressManager::STORY_PROGRESS::END_NURSE_LOCKED,
 			ResourceManager::SRC::STILL_END_NUI,
 			"End_D:思い通り"
 		},

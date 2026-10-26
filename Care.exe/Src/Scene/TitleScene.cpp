@@ -59,7 +59,7 @@ void TitleScene::InitLoad()
 	BuildSelectMenu();
 
 	// ハブからコントローラ共有を取得
-	if (!prgMng_.IsResetRequiredProgress() && prgMng_.IsNurceCharExists())
+	if (!prgMng_.IsResetRequiredProgress() && prgMng_.IsNurseCharExists())
 	{
 		liveTalkController_ = Live2DModelHub::Instance().GetController(ResourceManager::SRC::PLAYER_MODEL);
 		liveTalkController_->SetExtendRate(PLAYER_MODEL_EXTEND.x, PLAYER_MODEL_EXTEND.y);

@@ -11,7 +11,7 @@
 #include "../Object/Renderer2D.h"
 #include "../Object/Stage/StageBase.h"
 #include "../Object/Stage/PatientRoom.h"
-#include "../Object/Stage/NurceStation.h"
+#include "../Object/Stage/NurseStation.h"
 #include "../Object/Menu/GameMenu.h"
 #include "../Debug/DebugCursorPosition.h"
 #include "../Manager/ProgressManager.h"
@@ -248,7 +248,7 @@ void GameScene::InitLoad()
 	gameMenu_ = new GameMenu();
 	gameMenu_->Load();
 
-	if (prgMng_.IsNurceCharExists())
+	if (prgMng_.IsNurseCharExists())
 	{
 		player_ = new Player();
 		player_->Init();
@@ -327,7 +327,7 @@ void GameScene::ChangeStage(Stage nextStage)
 		break;
 
 	case Stage::NURSE_STATION:
-		stage_ = new NurceStation();
+		stage_ = new NurseStation();
 		break;
 	}
 

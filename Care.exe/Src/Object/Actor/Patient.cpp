@@ -7,7 +7,7 @@
 Patient::Patient()
 {
 	// 看護師charファイルがなく患者charファイルがある場合はprocessMove_を生成する
-	if (!ProgressManager::GetInstance().IsNurceCharExists() && 
+	if (!ProgressManager::GetInstance().IsNurseCharExists() && 
 		ProgressManager::GetInstance().IsPatientCharExists())
 	{
 		processMove_ = new ProcessMove();

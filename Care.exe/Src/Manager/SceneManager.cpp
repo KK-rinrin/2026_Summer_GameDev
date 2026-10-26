@@ -55,7 +55,7 @@ void SceneManager::Init()
 	// 初期シーンの設定
 	ProgressManager& progressManager = ProgressManager::GetInstance();
 	const bool isCharaFileMissing =
-		!progressManager.IsPatientCharExists() || !progressManager.IsNurceCharExists();
+		!progressManager.IsPatientCharExists() || !progressManager.IsNurseCharExists();
 
 	// 進行度が不十分でファイルが消されていたらエンドに直行
 	// エンドロックされている場合もエンドに直行
@@ -219,8 +219,7 @@ SceneManager::SCENE_ID SceneManager::GetSceneID()
 
 float SceneManager::GetDeltaTime() const
 {
-	return FALLBACK_DELTA_SECONDS;
-	//return deltaTime_;
+	return deltaTime_;
 }
 
 SceneManager::SceneManager()

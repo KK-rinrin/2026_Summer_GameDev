@@ -1,4 +1,4 @@
-#include "NurceStation.h"
+#include "NurseStation.h"
 #include "../../Manager/ResourceManager.h"
 #include "../../Manager/InputManager.h"
 #include "../../Manager/ProgressManager.h"
@@ -9,7 +9,7 @@
 #include "../Renderer2D.h"
 #include "../../Scene/PCScene.h"
 
-NurceStation::NurceStation()
+NurseStation::NurseStation()
 	: pcHandle_(-1)
 	, chairHandle_(-1)
 	, lockerHandle_(-1)
@@ -20,11 +20,11 @@ NurceStation::NurceStation()
 {
 }
 
-NurceStation::~NurceStation()
+NurseStation::~NurseStation()
 {
 }
 
-void NurceStation::Update()
+void NurseStation::Update()
 {
 	StageBase::Update();
 	if (pcScene_ != nullptr)
@@ -33,7 +33,7 @@ void NurceStation::Update()
 	}
 }
 
-void NurceStation::DrawForeground() const
+void NurseStation::DrawForeground() const
 {
 	if (pcScene_ != nullptr)
 	{
@@ -41,7 +41,7 @@ void NurceStation::DrawForeground() const
 	}
 }
 
-void NurceStation::RegisterObjects(Renderer2D& renderer)
+void NurseStation::RegisterObjects(Renderer2D& renderer)
 {
 	StageBase::RegisterObjects(renderer);
 
@@ -55,7 +55,7 @@ void NurceStation::RegisterObjects(Renderer2D& renderer)
 	renderer.Add(PLATE_SORT_Y, [this]() { DrawPlate(); });
 }
 
-void NurceStation::Delete()
+void NurseStation::Delete()
 {
 	if (pcScene_ != nullptr)
 	{
@@ -66,12 +66,12 @@ void NurceStation::Delete()
 	StageBase::Delete();
 }
 
-bool NurceStation::IsInputBlocked() const
+bool NurseStation::IsInputBlocked() const
 {
 	return pcScene_ != nullptr && pcScene_->IsOpen();
 }
 
-void NurceStation::DrawGuide(const ActorBase& controlActor) const
+void NurseStation::DrawGuide(const ActorBase& controlActor) const
 {
 	const VECTOR actorPos = controlActor.GetTransform().pos;
 
@@ -88,7 +88,7 @@ void NurceStation::DrawGuide(const ActorBase& controlActor) const
 		return;
 	}
 }
-void NurceStation::Decide(DecideContext& context) const
+void NurseStation::Decide(DecideContext& context) const
 {
 	const VECTOR actorPos = context.controlActor.GetTransform().pos;
 	const ProgressManager::STORY_PROGRESS progress = context.progressManager.GetProgressEnum();
@@ -154,7 +154,7 @@ void NurceStation::Decide(DecideContext& context) const
 
 }
 
-void NurceStation::InitLoad()
+void NurseStation::InitLoad()
 {
 	pcScene_ = new PCScene();
 	pcScene_->Load();
@@ -172,7 +172,7 @@ void NurceStation::InitLoad()
 	plateFolderHandle_ = resMng_.Load(ResourceManager::SRC::BG_2_PLATE_FOLDER).handleId_;
 }
 
-void NurceStation::InitTransform()
+void NurseStation::InitTransform()
 {
 	AddTransformObject(Transform2D(PC_POS), Sprite2D(pcHandle_, false));
 
@@ -182,7 +182,7 @@ void NurceStation::InitTransform()
 
 }
 
-void NurceStation::DrawPlate() const
+void NurseStation::DrawPlate() const
 {
 	int plateHandle = -1;
 	const ProgressManager::STORY_PROGRESS progress = ProgressManager::GetInstance().GetProgressEnum();
@@ -201,7 +201,7 @@ void NurceStation::DrawPlate() const
 	}
 }
 
-void NurceStation::InitCollider()
+void NurseStation::InitCollider()
 {
 	AddMBRectPercent(PC_BLOCK_LEFT_TOP, PC_BLOCK_RIGHT_BOTTOM);	// PCŽü•Ó
 

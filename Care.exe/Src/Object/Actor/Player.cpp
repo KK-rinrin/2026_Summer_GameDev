@@ -5,7 +5,7 @@
 
 Player::Player()
 {
-	if (ProgressManager::GetInstance().IsNurceCharExists())
+	if (ProgressManager::GetInstance().IsNurseCharExists())
 	{
 		processMove_ = new ProcessMove();
 		processMove_->SetMoveSpeedPercent(INIT_MOVE_SPEED_PER);
@@ -40,7 +40,7 @@ void Player::Update()
 
 void Player::Draw()
 {
-	if (!ProgressManager::GetInstance().IsNurceCharExists())
+	if (!ProgressManager::GetInstance().IsNurseCharExists())
 	{
 		return;
 	}

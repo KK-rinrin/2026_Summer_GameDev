@@ -4,7 +4,7 @@
 #include <vector>
 #include <DxLib.h>
 
-#include "Text/Text/TalkScriptParser.h"
+#include "TalkScriptParser.h"
 #include "../../../Application.h"
 #include "../TalkData.h"
 #include "Live2DTalkController.h"

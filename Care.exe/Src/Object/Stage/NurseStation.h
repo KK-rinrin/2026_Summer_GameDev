@@ -3,7 +3,7 @@
 
 class PCScene;
 
-class NurceStation : public StageBase
+class NurseStation : public StageBase
 {
 public:
 
@@ -36,8 +36,8 @@ public:
 	static constexpr Vector2 GUIDE_TO_PATIENT_ROOM_TOP_POS = { 590, 0 };
 	static constexpr Vector2 GUIDE_TO_PATIENT_ROOM_LEFT_POS = { 28, 168 };
 
-	NurceStation();
-	~NurceStation();
+	NurseStation();
+	~NurseStation();
 
 	void Update() override;
 	void DrawForeground() const override;
