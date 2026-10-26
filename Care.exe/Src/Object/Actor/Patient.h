@@ -1,6 +1,7 @@
 #pragma once
 #include "ActorBase.h"
 #include <DxLib.h>
+#include <memory>
 class ProcessMove;
 
 class Patient : public ActorBase
@@ -32,5 +33,5 @@ private:
 
 	void UpdateAnimation() override;
 
-	ProcessMove* processMove_;
+	std::unique_ptr<ProcessMove> processMove_;
 };

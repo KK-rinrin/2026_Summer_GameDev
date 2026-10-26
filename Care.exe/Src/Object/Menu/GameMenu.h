@@ -49,7 +49,7 @@ private:
 	};
 
 	static constexpr int MAX_ALPHA = 255;
-	static constexpr int DIM_COLOR = 0x000000;
+	static constexpr int DIM_COLOR = Application::DEFAULT_COLOR_0;
 
 	static constexpr Vector2 TITLE_POS = { 35, 20 };
 	static constexpr int TITLE_FONT_SIZE = 38;
@@ -64,12 +64,12 @@ private:
 
 	static constexpr int MENU_MOVE_PREV = -1;
 	static constexpr int MENU_MOVE_NEXT = 1;
-	static constexpr int MENU_BG_COLOR = 0xe6e6e6;
-	static constexpr int MENU_TEXT_COLOR = 0x222222;
-	static constexpr int MENU_SUB_TEXT_COLOR = 0x555555;
+	static constexpr int MENU_BG_COLOR = Application::DEFAULT_COLOR_7;
+	static constexpr int MENU_TEXT_COLOR = Application::DEFAULT_COLOR_1;
+	static constexpr int MENU_SUB_TEXT_COLOR = Application::DEFAULT_COLOR_3;
 
 	static constexpr int PAUSE_BLEND_ALPHA = 150;
-	static constexpr int PAUSE_TEXT_COLOR = 0xffffff;
+	static constexpr int PAUSE_TEXT_COLOR = Application::DEFAULT_COLOR_8;
 
 	static constexpr VECTOR PLAYER_MODEL_EXTEND = { 3.0f, 3.0f, 0.0f };
 	static constexpr VECTOR PLAYER_MODEL_POS = { 230.0f, -300.0f, 0.0f };

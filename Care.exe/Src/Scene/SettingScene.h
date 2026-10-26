@@ -1,4 +1,5 @@
 #pragma once
+#include "../Application.h"
 #include <array>
 #include <functional>
 #include "../Common/Vector2.h"
@@ -25,10 +26,10 @@ public:
 	static constexpr int TITLE_FONT_SIZE = 38;
 	static constexpr int MENU_FONT_SIZE = 30;
 	static constexpr int ITEM_INTERVAL_Y = 60;
-	static constexpr int ITEM_COLOR = 0x666666;
-	static constexpr int ITEM_SELECTED_COLOR = 0x222222;
+	static constexpr int ITEM_COLOR = Application::DEFAULT_COLOR_4;
+	static constexpr int ITEM_SELECTED_COLOR = Application::DEFAULT_COLOR_1;
 	static constexpr Vector2 TITLE_POS = { 50, 50 };
-	static constexpr int TITLE_COLOR = 0x333333;
+	static constexpr int TITLE_COLOR = Application::DEFAULT_COLOR_2;
 	static constexpr int INVALID_FONT_HANDLE = -1;
 	static constexpr int INITIAL_SELECT_ITEM = 0;
 	static constexpr int MENU_MOVE_PREV = -1;
@@ -48,8 +49,8 @@ public:
 	static constexpr Vector2 RESET_CONFIRM_TEXT_OFFSET = { 50, 45 };
 
 	static constexpr int RESET_CONFIRM_TEXT_LINE_INTERVAL_Y = 45;
-	static constexpr int RESET_CONFIRM_BG_COLOR = 0xffffff;
-	static constexpr int RESET_CONFIRM_FRAME_COLOR = 0x222222;
+	static constexpr int RESET_CONFIRM_BG_COLOR = Application::DEFAULT_COLOR_8;
+	static constexpr int RESET_CONFIRM_FRAME_COLOR = Application::DEFAULT_COLOR_1;
 	static constexpr const char* TITLE_TEXT = "Setting";
 
 	// 項目テキスト(余裕あれば4番目に"テキストサイズ（倍率）"を追加)

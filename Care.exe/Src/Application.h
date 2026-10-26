@@ -10,6 +10,17 @@ public:
 	static constexpr int SCREEN_SIZE_X = 800;
 	static constexpr int SCREEN_SIZE_Y = 600;
 
+	// ƒfƒtƒHƒ‹ƒgF
+	static constexpr int DEFAULT_COLOR_0 = 0x000000;	// ^‚Á•
+	static constexpr int DEFAULT_COLOR_1 = 0x222222;	// ŠD‚Ý‚Ì•
+	static constexpr int DEFAULT_COLOR_2 = 0x333333;	// ŠD‚Ý‚Ì•
+	static constexpr int DEFAULT_COLOR_3 = 0x555555;	// ˆÃ‚¢ŠDF
+	static constexpr int DEFAULT_COLOR_4 = 0x666666;	// ŠDF
+	static constexpr int DEFAULT_COLOR_5 = 0x7a7a7a;	// ŠDF
+	static constexpr int DEFAULT_COLOR_6 = 0xaaaaaa;
+	static constexpr int DEFAULT_COLOR_7 = 0xe6e6e6;
+	static constexpr int DEFAULT_COLOR_8 = 0xffffff;
+
 	// UI‹¤’Ê•¶Žš
 	static constexpr const char* SELECT_MARK = "> ";
 	static constexpr const char* MENU_MARK_SPACE = "  ";

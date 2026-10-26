@@ -1,4 +1,5 @@
 #pragma once
+#include "../Application.h"
 #include <DxLib.h>
 #include "../Common/Vector2.h"
 #include "SceneBase.h"
@@ -20,8 +21,8 @@ class TitleScene : public SceneBase
 	static constexpr int MENU_INTERVAL_Y = 54;
 	static constexpr int MENU_MOVE_PREV = -1;
 	static constexpr int MENU_MOVE_NEXT = 1;
-	static constexpr int MENU_COLOR = 0x7a7a7a;
-	static constexpr int MENU_SELECTED_COLOR = 0x333333;
+	static constexpr int MENU_COLOR = Application::DEFAULT_COLOR_5;
+	static constexpr int MENU_SELECTED_COLOR = Application::DEFAULT_COLOR_2;
 
 	static constexpr int PUSH_START_BLINK_INTERVAL = 30;
 public:

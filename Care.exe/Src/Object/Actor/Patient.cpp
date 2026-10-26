@@ -6,11 +6,11 @@
 
 Patient::Patient()
 {
-	// 看護師charファイルがなく患者charファイルがある場合はprocessMove_を生成する
+	// 看護師charファイルがなく患者charファイルがある場合は操作クラスを生成
 	if (!ProgressManager::GetInstance().IsNurseCharExists() && 
 		ProgressManager::GetInstance().IsPatientCharExists())
 	{
-		processMove_ = new ProcessMove();
+		processMove_ = std::make_unique<ProcessMove>();
 		processMove_->SetMoveSpeedPercent(INIT_MOVE_SPEED_PER);
 	}
 	else
@@ -20,14 +20,7 @@ Patient::Patient()
 	}
 }
 
-Patient::~Patient()
-{
-	if (processMove_ != nullptr)
-	{
-		delete processMove_;
-		processMove_ = nullptr;
-	}
-}
+Patient::~Patient() = default;
 
 void Patient::Update()
 {
@@ -41,11 +34,7 @@ void Patient::Update()
 
 void Patient::Release()
 {
-	if (processMove_ != nullptr)
-	{
-		delete processMove_;
-		processMove_ = nullptr;
-	}
+	processMove_.reset();
 
 	ActorBase::Release();
 }

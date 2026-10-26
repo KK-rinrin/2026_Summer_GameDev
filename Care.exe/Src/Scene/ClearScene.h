@@ -1,4 +1,5 @@
 #pragma once
+#include "../Application.h"
 #include <string>
 #include "SceneBase.h"
 #include "../Manager/ProgressManager.h"
@@ -35,7 +36,7 @@ private:
 	static constexpr int END_TITLE_BOTTOM_MARGIN = 32;
 	static constexpr int END_TITLE_ANIMATION_FRAMES = 60;
 	static constexpr int END_TITLE_MAX_ALPHA = DX_MAX;
-	static constexpr int END_TITLE_COLOR = 0x000000;
+	static constexpr int END_TITLE_COLOR = Application::DEFAULT_COLOR_0;
 	static constexpr int END_STILL_HOLD_FRAMES = 180;
 
 	static constexpr int CREDIT_FADE_IN_FRAMES = 30;
@@ -46,8 +47,8 @@ private:
 	static constexpr int CREDIT_NAME_POS_Y = 482;
 	static constexpr int CREDIT_RIGHT_MARGIN = 30;
 	static constexpr int CREDIT_SHADOW_OFFSET = 2;
-	static constexpr int CREDIT_ROLE_COLOR = 0xaaaaaa;
-	static constexpr int CREDIT_NAME_COLOR = 0xffffff;
+	static constexpr int CREDIT_ROLE_COLOR = Application::DEFAULT_COLOR_6;
+	static constexpr int CREDIT_NAME_COLOR = Application::DEFAULT_COLOR_8;
 
 	static constexpr int HIDDEN_RESET_HOLD_FRAMES = 180;
 	static constexpr float HIDDEN_RESET_STICK_UP = -0.8f;
@@ -59,10 +60,10 @@ private:
 	static constexpr int RESET_TEXT_POS_X = 100;
 	static constexpr int RESET_TEXT_POS_Y = 195;
 	static constexpr int RESET_TEXT_LINE_INTERVAL = 45;
-	static constexpr int RESET_WINDOW_BG_COLOR = 0xffffff;
-	static constexpr int RESET_WINDOW_FRAME_COLOR = 0x222222;
-	static constexpr int RESET_TEXT_COLOR = 0x222222;
-	static constexpr int RESET_SUB_TEXT_COLOR = 0x666666;
+	static constexpr int RESET_WINDOW_BG_COLOR = Application::DEFAULT_COLOR_8;
+	static constexpr int RESET_WINDOW_FRAME_COLOR = Application::DEFAULT_COLOR_1;
+	static constexpr int RESET_TEXT_COLOR = Application::DEFAULT_COLOR_1;
+	static constexpr int RESET_SUB_TEXT_COLOR = Application::DEFAULT_COLOR_4;
 
 	struct EndInfo
 	{

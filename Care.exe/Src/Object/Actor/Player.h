@@ -35,5 +35,5 @@ private:
 
 	void UpdateAnimation() override;
 
-	std::unique_ptr<ProcessMove*> processMove_;
+	std::unique_ptr<ProcessMove> processMove_;
 };

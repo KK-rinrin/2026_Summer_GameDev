@@ -1,4 +1,5 @@
 #pragma once
+#include "../../Application.h"
 
 #include "TalkData.h"
 #include <DxLib.h>
@@ -50,7 +51,7 @@ public:
 	bool ConsumeTalkEnd(TDI dataIndex);
 
 private:
-	static constexpr int FADE_COLOR = 0x000000;
+	static constexpr int FADE_COLOR = Application::DEFAULT_COLOR_0;
 
 	static constexpr int MAX_ALPHA = 255;
 	static constexpr int OVERLAY_ALPHA = 30;

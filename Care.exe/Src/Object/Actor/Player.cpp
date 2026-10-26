@@ -5,9 +5,10 @@
 
 Player::Player()
 {
+	// 看護師charファイルがある場合、操作クラスを生成
 	if (ProgressManager::GetInstance().IsNurseCharExists())
 	{
-		processMove_ = new ProcessMove();
+		processMove_ = std::make_unique<ProcessMove>();
 		processMove_->SetMoveSpeedPercent(INIT_MOVE_SPEED_PER);
 
 	}
@@ -15,14 +16,7 @@ Player::Player()
 
 }
 
-Player::~Player()
-{
-	if (processMove_ != nullptr)
-	{
-		delete processMove_;
-		processMove_ = nullptr;
-	}
-}
+Player::~Player() = default;
 
 void Player::Update()
 {
@@ -60,16 +54,12 @@ bool Player::IsFacingRight() const
 
 ProcessMove* Player::GetProcessMove()
 {
-	return processMove_;
+	return processMove_.get();
 }
 
 void Player::Release()
 {
-	if (processMove_ != nullptr)
-	{
-		delete processMove_;
-		processMove_ = nullptr;
-	}
+	processMove_.reset();
 	ActorBase::Release();
 }
 

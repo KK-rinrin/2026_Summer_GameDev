@@ -1,4 +1,5 @@
 #pragma once
+#include "../../Application.h"
 #include "../SceneBase.h"
 #include "../../Manager/Live2D.h"
 #include "../../Object/Stage/StageBase.h"
@@ -32,7 +33,7 @@ public:
 
 private:
 	static constexpr float GRID_PERCENT_MAX = 100.0f;
-	static constexpr int GRID_LINE_COLOR = 0x000000;
+	static constexpr int GRID_LINE_COLOR = Application::DEFAULT_COLOR_0;
 
 	static constexpr int INITIAL_GRID_DIVISION_X = 5;
 	static constexpr int INITIAL_GRID_DIVISION_Y = 3;

@@ -1,4 +1,5 @@
 #pragma once
+#include "../Application.h"
 #include "SceneBase.h"
 #include "../Manager/Live2D.h"
 #include "../Object/Stage/StageBase.h"
@@ -46,11 +47,11 @@ public:
 	void Delete() override;
 
 private:
-	static constexpr int RUINED_BLINK_COLOR = 0x000000;
+	static constexpr int RUINED_BLINK_COLOR = Application::DEFAULT_COLOR_0;
 
 	static constexpr int DEBUG_PROGRESS_POS_X = 0;
 	static constexpr int DEBUG_PROGRESS_POS_Y = 50;
-	static constexpr int DEBUG_PROGRESS_COLOR = 0x000000;
+	static constexpr int DEBUG_PROGRESS_COLOR = Application::DEFAULT_COLOR_0;
 
 	void InitLoad() override;
 	void InitPost() override;
