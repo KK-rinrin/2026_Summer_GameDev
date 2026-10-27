@@ -125,7 +125,7 @@ void GameScene::Draw()
 
 	if (stage_ != nullptr)
 	{
-		stage_->DrawBackground();
+		stage_->DrawBG();
 	}
 
 	render_->Render();
@@ -515,7 +515,7 @@ void GameScene::UpdatePR()
 		controlActor_->Update();
 		if (stage_ != nullptr)
 		{
-			stage_->ApplyMovementBlocks(*controlActor_);
+			stage_->ApplyCollision(*controlActor_);
 		}
 
 		if (patient_ != nullptr && controlActor_ != patient_ && controlActor_->IsHitCircle(*patient_))
@@ -537,7 +537,7 @@ void GameScene::UpdateNS()
 		controlActor_->Update();
 		if (stage_ != nullptr)
 		{
-			stage_->ApplyMovementBlocks(*controlActor_);
+			stage_->ApplyCollision(*controlActor_);
 		}
 	}
 }

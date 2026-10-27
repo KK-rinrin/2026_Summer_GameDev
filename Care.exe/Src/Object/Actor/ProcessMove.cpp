@@ -1,5 +1,5 @@
 #include "ProcessMove.h"
-#include "../Common/2DTransform.h"
+#include "../Common/Transform2D.h"
 #include "../../Manager/InputManager.h"
 #include "../../Manager/PadInput.h"
 #include "../../Manager/KeyConfig.h"

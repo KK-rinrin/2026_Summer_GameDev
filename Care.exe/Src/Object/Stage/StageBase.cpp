@@ -7,6 +7,9 @@
 StageBase::StageBase()
 	: BGhandle_(-1)
 	, guideMoveHandle_(-1)
+	, objects_()
+	, screenObjects_()
+	, movementRectPercents_()
 	, resMng_(ResourceManager::GetInstance())
 {
 }
@@ -40,7 +43,7 @@ void StageBase::Update()
 
 void StageBase::Draw()
 {
-	DrawBackground();
+	DrawBG();
 
 	for (const auto& obj : screenObjects_)
 	{
@@ -73,7 +76,7 @@ bool StageBase::IsInputBlocked() const
 	return false;
 }
 
-void StageBase::DrawBackground() const
+void StageBase::DrawBG() const
 {
 	if (BGhandle_ != -1)
 	{
@@ -102,24 +105,13 @@ void StageBase::RegisterObjects(Renderer2D& renderer)
 	}
 }
 
-void StageBase::ApplyMovementBlocks(ActorBase& actor) const
+void StageBase::ApplyCollision(ActorBase& actor) const
 {
 	// ローカル百分率矩形ブロック（左上/右下指定）
 	for (const auto& rect : movementRectPercents_)
 	{
 		actor.BlockCrossingLocalRect(rect.leftTop, rect.rightBottom);
 	}
-}
-
-
-void StageBase::DrawGuide(const ActorBase& controlActor) const
-{
-	(void)controlActor;
-}
-
-void StageBase::Decide(DecideContext& context) const
-{
-	(void)context;
 }
 
 void StageBase::AddScreenObject(int handle, float sortY, bool trans)

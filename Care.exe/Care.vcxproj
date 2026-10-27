@@ -245,7 +245,7 @@
     <ClCompile Include="Src\Object\Actor\Player.cpp" />
     <ClCompile Include="Src\Object\Actor\ProcessMove.cpp" />
     <ClCompile Include="Src\Object\Collider\Collider.cpp" />
-    <ClCompile Include="Src\Object\Common\2DTransform.cpp" />
+    <ClCompile Include="Src\Object\Common\Transform2D.cpp" />
     <ClCompile Include="Src\Object\Common\Sprite2D.cpp" />
     <ClCompile Include="Src\Object\Common\CharacterAnimator2D.cpp" />
     <ClCompile Include="Src\Object\Stage\StageProjection2D.cpp" />
@@ -297,7 +297,7 @@
     <ClInclude Include="Src\Object\Actor\Player.h" />
     <ClInclude Include="Src\Object\Actor\ProcessMove.h" />
     <ClInclude Include="Src\Object\Collider\Collider.h" />
-    <ClInclude Include="Src\Object\Common\2DTransform.h" />
+    <ClInclude Include="Src\Object\Common\Transform2D.h" />
     <ClInclude Include="Src\Object\Common\Sprite2D.h" />
     <ClInclude Include="Src\Object\Common\CharacterAnimator2D.h" />
     <ClInclude Include="Src\Object\Stage\StageProjection2D.h" />

@@ -3,7 +3,7 @@
 #include <functional>
 #include <vector>
 #include "Actor/ActorBase.h"
-#include "Common/2DTransform.h"
+#include "Common/Transform2D.h"
 #include "Common/Sprite2D.h"
 
 class Renderer2D

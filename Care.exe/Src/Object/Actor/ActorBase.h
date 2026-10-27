@@ -1,27 +1,31 @@
 #pragma once
-#include "../Common/2DTransform.h"
+#include "../Common/Transform2D.h"
 #include "../Common/Sprite2D.h"
 #include "../Common/CharacterAnimator2D.h"
 #include "../Collider/Collider.h"
+#include <memory>
+
 class ResourceManager;
 class SceneManager;
+class ProcessMove;
 
 class ActorBase
 {
 
 public:
+	static constexpr float INIT_MOVE_SPEED_PER = 0.6f;	// コントロール移動速度
 
 	// コンストラクタ
 	ActorBase();
 
 	// デストラクタ
-	virtual ~ActorBase();
+	virtual ~ActorBase() = default;
 
 	// 初期化
 	void Init();
 
 	// 更新
-	virtual void Update() = 0;
+	virtual void Update();
 
 	// 描画
 	virtual void Draw();
@@ -58,6 +62,10 @@ protected:
 	VECTOR beforePos_;
 
 	void BeginMovement() { beforePos_ = transform_.pos; }
+	virtual void UpdateProcessMove() = 0;
+
+	// 移動コントローラークラス
+	std::unique_ptr<ProcessMove> processMove_;
 
 	// アニメーション
 	CharacterAnimator2D animator_;
@@ -74,5 +82,7 @@ protected:
 	virtual void InitPost() = 0;
 
 	virtual void UpdateAnimation() {}
+
+	void LoadMoveGraph(const Resource& res);
 
 };

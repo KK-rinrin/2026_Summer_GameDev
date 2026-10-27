@@ -200,7 +200,7 @@ private:
 	int GetDisplayPulse() const;
 
 	void DrawRoom() const;
-	void DrawBackground() const;
+	void DrawBG() const;
 	void DrawMonitor() const;
 	void DrawPressureGauge() const;
 	void DrawPulseMarker() const;

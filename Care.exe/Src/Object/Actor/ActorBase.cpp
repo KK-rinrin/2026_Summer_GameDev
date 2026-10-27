@@ -4,6 +4,7 @@
 #include "../Stage/StageProjection2D.h"
 #include "../../Common/Vector2.h"
 #include "../../Utility/SchoolUtility.h"
+#include "ProcessMove.h"
 
 ActorBase::ActorBase()
 	: resMng_(ResourceManager::GetInstance())
@@ -13,6 +14,8 @@ ActorBase::ActorBase()
 	, radius_(0.0f)
 	, collider_(radius_)
 {
+	processMove_ = std::make_unique<ProcessMove>();
+	processMove_->SetMoveSpeedPercent(INIT_MOVE_SPEED_PER);
 }
 
 ActorBase::~ActorBase()
@@ -39,6 +42,18 @@ void ActorBase::Init()
 
 }
 
+void ActorBase::Update()
+{
+	BeginMovement();
+	
+	UpdateProcessMove();
+
+	// transform2D 側でパーセンテージのクランプとワールド座標への収め込みを行う
+	transform_.Update();
+
+	UpdateAnimation();
+}
+
 void ActorBase::Draw()
 {
 	const VECTOR world = transform_.GetWorldPos();
@@ -48,6 +63,8 @@ void ActorBase::Draw()
 void ActorBase::Release()
 {
 	transform_.Delete();
+
+	processMove_.reset();
 }
 
 const Transform2D& ActorBase::GetTransform() const
@@ -87,4 +104,28 @@ void ActorBase::MoveToBeforePos()
 void ActorBase::BlockCrossingLocalRect(const VECTOR& leftTopPercent, const VECTOR& rightBottomPercent)
 {
 	transform_.pos = Collision::BlockCrossingLocalRect(beforePos_, transform_.pos, leftTopPercent, rightBottomPercent);
+}
+
+void ActorBase::LoadMoveGraph(const Resource& res)
+{
+	// IMGS（分割画像）の場合は numX_ * numY_ 個の handleIds_ が存在する
+	if (res.type_ == Resource::TYPE::IMGS && res.handleIds_ != nullptr)
+	{
+		int num = res.numX_ * res.numY_;
+		std::vector<int> handles;
+		handles.reserve(num);
+		for (int i = 0; i < num; ++i)
+			handles.push_back(res.handleIds_[i]);
+		sprite_.SetHandles(handles, res.numX_, res.numY_);
+	}
+	else if (res.type_ == Resource::TYPE::IMG)
+	{
+		// 単一画像なら handleId_ を 1 要素の vector にして渡す
+		sprite_.SetHandles(std::vector<int>{ res.handleId_ }, 1, 1);
+	}
+	else
+	{
+		// その他は空ベクタを渡す（安全側）
+		sprite_.SetHandles(std::vector<int>{}, 1, 1);
+	}
 }

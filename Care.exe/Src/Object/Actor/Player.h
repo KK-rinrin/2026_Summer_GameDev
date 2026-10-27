@@ -1,7 +1,6 @@
 #pragma once
 #include "ActorBase.h"
 #include <DxLib.h>
-#include <memory>
 
 class ProcessMove;
 
@@ -9,15 +8,12 @@ class Player : public ActorBase
 {
 public:
 
-	static constexpr float INIT_MOVE_SPEED_PER = 0.6f;
 	static constexpr VECTOR INIT_PER = { 50.0f, 50.0f, 0.0f };
 
 	static constexpr float COL_RADIUS = 3.0f;
 
 	Player();
-	~Player();
 
-	void Update() override;
 	void Draw() override;
 	void SetLocalPercent(float x, float y);
 	bool IsFacingRight() const;
@@ -33,7 +29,6 @@ private:
 	void InitAnimation() override;
 	void InitPost() override;
 
+	void UpdateProcessMove() override;
 	void UpdateAnimation() override;
-
-	std::unique_ptr<ProcessMove> processMove_;
 };

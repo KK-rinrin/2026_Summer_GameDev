@@ -5,31 +5,6 @@
 
 Player::Player()
 {
-	// 看護師charファイルがある場合、操作クラスを生成
-	if (ProgressManager::GetInstance().IsNurseCharExists())
-	{
-		processMove_ = std::make_unique<ProcessMove>();
-		processMove_->SetMoveSpeedPercent(INIT_MOVE_SPEED_PER);
-
-	}
-	else { processMove_ = nullptr; }
-
-}
-
-Player::~Player() = default;
-
-void Player::Update()
-{
-	BeginMovement();
-	if (processMove_ != nullptr)
-	{
-		processMove_->Update(transform_);
-	}
-
-	// transform2D 側でパーセンテージのクランプとワールド座標への収め込みを行う
-	transform_.Update();
-
-	UpdateAnimation();
 }
 
 void Player::Draw()
@@ -59,34 +34,11 @@ ProcessMove* Player::GetProcessMove()
 
 void Player::Release()
 {
-	processMove_.reset();
-	ActorBase::Release();
 }
 
 void Player::InitLoad()
 {
-	const Resource& res = resMng_.Load(ResourceManager::SRC::PLAYER_GRAPHICS);
-
-	// IMGS（分割画像）の場合は numX_ * numY_ 個の handleIds_ が存在する
-	if (res.type_ == Resource::TYPE::IMGS && res.handleIds_ != nullptr)
-	{
-		int num = res.numX_ * res.numY_;
-		std::vector<int> handles;
-		handles.reserve(num);
-		for (int i = 0; i < num; ++i) 
-			handles.push_back(res.handleIds_[i]);
-		sprite_.SetHandles(handles, res.numX_, res.numY_);
-	}
-	else if (res.type_ == Resource::TYPE::IMG)
-	{
-		// 単一画像なら handleId_ を 1 要素の vector にして渡す
-		sprite_.SetHandles(std::vector<int>{ res.handleId_ },1,1);
-	}
-	else
-	{
-		// その他は空ベクタを渡す（安全側）
-		sprite_.SetHandles(std::vector<int>{},1,1);
-	}
+	LoadMoveGraph(resMng_.Load(ResourceManager::SRC::PLAYER_GRAPHICS));
 }
 
 void Player::InitTransform()
@@ -114,6 +66,11 @@ void Player::InitAnimation()
 
 void Player::InitPost()
 {
+}
+
+void Player::UpdateProcessMove()
+{
+	if (processMove_ != nullptr) processMove_->Update(transform_);
 }
 
 void Player::UpdateAnimation()

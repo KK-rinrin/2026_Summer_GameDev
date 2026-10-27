@@ -2,7 +2,7 @@
 #include <functional>
 #include <vector>
 #include "../../Common/Vector2.h"
-#include "../Common/2DTransform.h"
+#include "../Common/Transform2D.h"
 #include "../Common/Sprite2D.h"
 class ResourceManager;
 class Renderer2D;
@@ -42,18 +42,19 @@ public:
 	virtual void Delete();
 	virtual bool IsInputBlocked() const;
 
-	void DrawBackground() const;
-	virtual void RegisterObjects(Renderer2D& renderer);
-	void ApplyMovementBlocks(ActorBase& actor) const;
-	virtual void DrawGuide(const ActorBase& controlActor) const;
-	virtual void Decide(DecideContext& context) const;
+	void DrawBG() const;	// 背景を描画
+	virtual void RegisterObjects(Renderer2D& renderer);	// オブジェクト登録
+	void ApplyCollision(ActorBase& actor) const;		// 当たり判定登録
+	virtual void DrawGuide(const ActorBase& controlActor) const { (void)controlActor; }
+	virtual void Decide(DecideContext& context) const { (void)context; }
 
 protected:
+	// オブジェクトのレンダー情報
 	struct RenderObject
 	{
-		int handle;
-		float sortY;
-		bool trans;
+		int handle;	// 画像ハンドル
+		float sortY;// レンダリング順
+		bool trans = true;	// 背景を透明にするか？
 	};
 
 	// ローカル百分率基準の矩形（pos.x/pos.y が 0..100 の空間）
@@ -62,6 +63,7 @@ protected:
 		VECTOR leftTop;    // 左上 (x=0..100, y=0..100)
 		VECTOR rightBottom;// 右下 (x=0..100, y=0..100)
 	};
+
 
 	struct TransformObject
 	{
@@ -84,9 +86,9 @@ protected:
 
 	int BGhandle_;
 	int guideMoveHandle_;
-	std::vector<TransformObject> objects_;	// 障害物の位置
+	std::vector<TransformObject> objects_;		// 障害物の位置
 	std::vector<RenderObject> screenObjects_;
-	std::vector<Rect> movementRectPercents_;
+	std::vector<Rect> movementRectPercents_;	// 当たり判定
 
 	ResourceManager& resMng_;
 };

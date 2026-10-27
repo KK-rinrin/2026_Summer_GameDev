@@ -59,7 +59,7 @@ void BPMiniGameScene::Update()
 void BPMiniGameScene::Draw()
 {
 	DrawRoom();
-	DrawBackground();
+	DrawBG();
 	DrawMonitor();
 
 	DrawGraph(0, 0, images_[static_cast<int>(Image::INTRUCT)], true);
@@ -297,7 +297,7 @@ void BPMiniGameScene::DrawRoom() const
 	DrawBox(FLOOR_POS.x, FLOOR_POS.y, FLOOR_POS.x + FLOOR_SIZE.x, FLOOR_POS.y + FLOOR_SIZE.y, FLOOR_COLOR.ToDxColor(), true);
 }
 
-void BPMiniGameScene::DrawBackground() const
+void BPMiniGameScene::DrawBG() const
 {
 	const int background = images_[static_cast<int>(Image::BACKGROUND)];
 

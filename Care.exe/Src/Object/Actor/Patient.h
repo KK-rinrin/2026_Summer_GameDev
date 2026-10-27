@@ -1,14 +1,13 @@
 #pragma once
 #include "ActorBase.h"
 #include <DxLib.h>
-#include <memory>
+
 class ProcessMove;
 
 class Patient : public ActorBase
 {
 public:
 
-	static constexpr float INIT_MOVE_SPEED_PER = 0.6f;
 	static constexpr VECTOR INIT_PER = { 60.0f, 32.0f, 0.0f };
 
 	static constexpr float COL_RADIUS = 3.0f;
@@ -17,9 +16,6 @@ public:
 	static constexpr float TALK_RADIUS = 15.0f;
 
 	Patient();
-	~Patient();
-
-	void Update() override;
 
 	void Release() override;
 
@@ -31,7 +27,6 @@ private:
 	void InitAnimation() override;
 	void InitPost() override;
 
+	void UpdateProcessMove() override;
 	void UpdateAnimation() override;
-
-	std::unique_ptr<ProcessMove> processMove_;
 };

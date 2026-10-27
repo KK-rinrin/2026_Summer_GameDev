@@ -89,25 +89,25 @@ private:
 	// ------------------------------
 	// UI
 	// ------------------------------
-	bool isVisible_ = true;
-	int y_ = 0;
+	bool isVisible_;
+	int y_;
 	
 	// ------------------------------
 	// 描画
 	// ------------------------------
-	int handle_ = -1;
-	int imgX_, imgY_ = 0;
-	int speakerHandle_ = -1;
+	int handle_;
+	int imgX_, imgY_;
+	int speakerHandle_;
 
-	int nextHandle_ = -1;	// 右下の▼
-	int nextIconX_ = NEXT_ICON_X;
-	int nextIconY_ = NEXT_ICON_Y;
-	float nextIconYf_ = static_cast<float>(NEXT_ICON_Y);
-	bool isMoveUp_ = false;
+	int nextHandle_;	// 右下の▼
+	int nextIconX_;
+	int nextIconY_;
+	float nextIconYf_;
+	bool isMoveUp_;
 
 	// テキスト表示位置（Resource のフォント情報で調整）
-	int textX_ = TEXT_X;
-	int textY_ = TEXT_Y;
+	int textX_;
+	int textY_;
 
 	// ------------------------------
 	// トークデータ（単行パース済み）
@@ -115,39 +115,39 @@ private:
 	std::string talkScript_;
 
 	std::vector<CharUnit> units_;
-	size_t unitPos_ = 0;
+	size_t unitPos_;
 
 	// ------------------------------
 	// 単行発話制御
 	// ------------------------------
-	bool speakActive_ = false;
-	bool waitingForClick_ = false;
+	bool speakActive_;
+	bool waitingForClick_;
 
 
 	// 現在の話者
-	TalkDatas::Speaker currentSpeaker_ = TalkDatas::Speaker::NONE;
+	TalkDatas::Speaker currentSpeaker_;
 
 	// ------------------------------
 	// 表示制御
 	// ------------------------------
 	int font_; // フォントハンドル
-	float visCharaTime_ = 0.0f;
-	float baseCharTime_ = LINE_ADVANCE_TIME;
-	float lineAdTimeMulti_ = TalkDatas::DEFAULT_ADVANCE_TIME;
-	float waitTimer_ = 0.0f;
+	float visCharaTime_;
+	float baseCharTime_;
+	float lineAdTimeMulti_;
+	float waitTimer_;
 
 	// ------------------------------
 	// 時間
 	// ------------------------------
-	long long prevTime_ = 0;
-	float deltaTime_ = 0.0f;
+	long long prevTime_;
+	float deltaTime_;
 
 	// ------------------------------
 	// その他
 	// ------------------------------
-	int enableB_ = 0;
+	int enableB_;
 
 	// Live2D コントローラ参照（非所有）
-	Live2DTalkController* patientController_ = nullptr;
-	Live2DTalkController* playerController_ = nullptr;
+	Live2DTalkController* patientController_;
+	Live2DTalkController* playerController_;
 };

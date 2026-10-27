@@ -14,6 +14,8 @@ Resource::Resource()
 	, thick_(-1)
 	, fontSpace_(0)
 	, fontType_(DX_FONTTYPE_ANTIALIASING)
+	, fontVariants_{}
+	, duplicateModelIds_{}
 {
 }
 
@@ -30,6 +32,8 @@ Resource::Resource(TYPE type, const std::string& path)
 	, thick_(-1)
 	, fontSpace_(0)
 	, fontType_(DX_FONTTYPE_ANTIALIASING)
+	,fontVariants_{}
+	, duplicateModelIds_{}
 {
 }
 
@@ -46,6 +50,8 @@ Resource::Resource(TYPE type, const std::string& path, int value1, int value2, i
 	, thick_(type == TYPE::FONT ? value2 : -1)
 	, fontSpace_(type == TYPE::FONT ? value3 : 0)
 	, fontType_(type == TYPE::FONT ? value4 : DX_FONTTYPE_ANTIALIASING)
+	, fontVariants_{}
+	, duplicateModelIds_{}
 {
 }
 

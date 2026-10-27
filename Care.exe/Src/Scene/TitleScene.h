@@ -3,7 +3,7 @@
 #include <DxLib.h>
 #include "../Common/Vector2.h"
 #include "SceneBase.h"
-#include "../Object/Common/2DTransform.h"
+#include "../Object/Common/Transform2D.h"
 #include <memory>
 #include <vector>
 
