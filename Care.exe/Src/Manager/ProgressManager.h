@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 
 class ProgressManager
 {
@@ -79,7 +80,7 @@ private:
 	static constexpr int RESET_REQUIRED_PROGRESS_MIN = 512;
 
 
-	static ProgressManager* instance_;
+	static std::shared_ptr<ProgressManager> instance_;
 
 	int progress_;
 	int resetCount_;

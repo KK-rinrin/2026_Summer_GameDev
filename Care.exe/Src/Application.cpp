@@ -10,7 +10,7 @@
 #include "Manager/Live2DModelHub.h"
 #include "Manager/SoundManager.h"
 
-Application* Application::instance_ = nullptr;
+std::shared_ptr<Application> Application::instance_ = nullptr;
 
 const std::string Application::PATH_DATA = "Data/";
 const std::string Application::PATH_CSV = "Data/Csv/";
@@ -25,7 +25,7 @@ void Application::CreateInstance()
 {
 	if (instance_ == nullptr)
 	{
-		instance_ = new Application();
+		instance_ = std::shared_ptr<Application>(new Application(), [](Application* instance) { delete instance; });
 	}
 	instance_->Init();
 }
@@ -58,7 +58,7 @@ void Application::Init()
 
 	SetMouseDispFlag(FALSE);
 	// フレームレート制御初期化
-	fpsControl_ = new FpsControl();
+	fpsControl_ = std::make_unique<FpsControl>();
 	fpsControl_->Init();
 
 	// 乱数のシード値を設定する
@@ -123,7 +123,7 @@ void Application::Run()
 
 }
 
-void Application::Destroy()
+bool Application::Destroy()
 {
 	// シーン内オブジェクトが各管理クラスを参照できるうちに先に解放する
 	SceneManager::GetInstance().Destroy();
@@ -142,7 +142,7 @@ void Application::Destroy()
 
 	// 進行度管理解放
 	ProgressManager::GetInstance().Destroy();
-	delete fpsControl_;
+	fpsControl_.reset();
 
 	// DxLib終了
 	if (DxLib_End() == -1)
@@ -151,7 +151,9 @@ void Application::Destroy()
 	}
 
 	// インスタンスのメモリ解放
-	delete instance_;
+	const bool releaseFailed = isReleaseFail_;
+	instance_.reset();
+	return releaseFailed;
 }
 
 bool Application::IsInitFail() const
@@ -163,6 +165,8 @@ bool Application::IsReleaseFail() const
 {
 	return isReleaseFail_;
 }
+
+Application::~Application() = default;
 
 Application::Application()
 	: isInitFail_(false)

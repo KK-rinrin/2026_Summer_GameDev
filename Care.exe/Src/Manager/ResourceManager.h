@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 #include <map>
 #include <string>
 #include "Resource.h"
@@ -130,20 +131,20 @@ private:
 	void CreateResource(SRC src, Resource::TYPE type, const std::string& path);
 
 	// 静的インスタンス
-	static ResourceManager* instance_;
+	static std::shared_ptr<ResourceManager> instance_;
 
 	// リソース管理の対象
-	std::map<SRC, Resource*> resourcesMap_;
+	std::map<SRC, std::unique_ptr<Resource>> resourcesMap_;
 
-	// 読み込み済みリソース
-	std::map<SRC, Resource&> loadedMap_;
+	// 読み込み済みリソースの保管
+	std::map<SRC, Resource*> loadedMap_;
 
 	Resource dummy_;
 
 	// デフォルトコンストラクタをprivateにして、
 	// 外部から生成できない様にする
 	ResourceManager();
-	ResourceManager(const ResourceManager& manager) = default;
+	ResourceManager(const ResourceManager& manager) = delete;
 	~ResourceManager() = default;
 
 	// 内部ロード

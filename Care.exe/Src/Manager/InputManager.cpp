@@ -5,13 +5,13 @@
 #include "PadInput.h"
 #include "KeyConfig.h"
 
-InputManager* InputManager::instance_ = nullptr;
+std::shared_ptr<InputManager> InputManager::instance_ = nullptr;
 
 void InputManager::CreateInstance()
 {
 	if (instance_ == nullptr)
 	{
-		instance_ = new InputManager();
+		instance_ = std::shared_ptr<InputManager>(new InputManager(), [](InputManager* instance) { delete instance; });
 	}
 	instance_->Init();
 }
@@ -117,7 +117,7 @@ void InputManager::Destroy()
 	mouseInfos_.clear();
 
 	// インスタンスのメモリ解放
-	delete instance_;
+	instance_.reset();
 
 }
 

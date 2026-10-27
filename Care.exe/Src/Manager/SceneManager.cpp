@@ -11,13 +11,13 @@
 #include "SceneManager.h"
 #include "../Scene/Debug/DebugScene.h"
 
-SceneManager* SceneManager::instance_ = nullptr;
+std::shared_ptr<SceneManager> SceneManager::instance_ = nullptr;
 
 void SceneManager::CreateInstance()
 {
 	if (instance_ == nullptr)
 	{
-		instance_ = new SceneManager();
+		instance_ = std::shared_ptr<SceneManager>(new SceneManager(), [](SceneManager* instance) { delete instance; });
 	}
 	instance_->Init();
 }
@@ -37,7 +37,7 @@ void SceneManager::Init()
 	settingReturnActorPos_ = VGet(0.0f, 0.0f, 0.0f);
 
 	// フェード機能の初期化
-	fader_ = new Fader();
+	fader_ = std::make_unique<Fader>();
 	fader_->Init();
 
 	// 画面遷移中判定
@@ -131,16 +131,14 @@ void SceneManager::Destroy()
 	if (scene_ != nullptr)
 	{
 		scene_->Delete();
-		delete scene_;
-		scene_ = nullptr;
+		scene_.reset();
 	}
 
 	// フェード機能の解放
-	delete fader_;
-	fader_ = nullptr;
+	fader_.reset();
 
 	// インスタンスのメモリ解放
-	delete instance_;
+	instance_.reset();
 
 }
 
@@ -237,6 +235,8 @@ SceneManager::SceneManager()
 {
 }
 
+SceneManager::~SceneManager() = default;
+
 void SceneManager::ResetDeltaTime()
 {
 	deltaTime_ = RESET_DELTA_SECONDS;
@@ -250,8 +250,7 @@ void SceneManager::DoChangeScene(SCENE_ID sceneId)
 	if (scene_ != nullptr)
 	{
 		scene_->Delete();
-		delete scene_;
-		scene_ = nullptr;
+		scene_.reset();
 	}
 
 	// シーン内オブジェクトが参照し終えてからリソースを解放する
@@ -263,22 +262,22 @@ void SceneManager::DoChangeScene(SCENE_ID sceneId)
 	switch (sceneId_)
 	{
 	case SCENE_ID::TITLE:
-		scene_ = new TitleScene();
+		scene_ = std::make_unique<TitleScene>();
 		break;
 	case SCENE_ID::GAME:
-		scene_ = new GameScene();
+		scene_ = std::make_unique<GameScene>();
 		break;
 	case SCENE_ID::SETTING:
-		scene_ = new SettingScene();
+		scene_ = std::make_unique<SettingScene>();
 		break;
 	case SCENE_ID::BP_MINIGAME:
-		scene_ = new BPMiniGameScene();
+		scene_ = std::make_unique<BPMiniGameScene>();
 		break;
 	case SCENE_ID::CLEAR:
-		scene_ = new ClearScene();
+		scene_ = std::make_unique<ClearScene>();
 		break;
 	case SCENE_ID::DEBUG:
-		scene_ = new DebugScene();
+		scene_ = std::make_unique<DebugScene>();
 		break;
 	}
 

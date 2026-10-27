@@ -83,7 +83,7 @@ void GameScene::Update()
 		StageBase::DecideContext context =
 		{
 			*controlActor_,
-			patient_,
+			patient_.get(),
 			prgMng_,
 			*talk_,
 			sndMng_,
@@ -192,35 +192,30 @@ void GameScene::Delete()
 	if (talk_ != nullptr)
 	{
 		talk_->Delete();
-		delete talk_;
-		talk_ = nullptr;
+		talk_.reset();
 	}
 
 	if (gameMenu_ != nullptr)
 	{
 		gameMenu_->Delete();
-		delete gameMenu_;
-		gameMenu_ = nullptr;
+		gameMenu_.reset();
 	}
 
 	if (player_ != nullptr)
 	{
 		player_->Release();
-		delete player_;
-		player_ = nullptr;
+		player_.reset();
 	}
 	if (patient_ != nullptr)
 	{
 		patient_->Release();
-		delete patient_;
-		patient_ = nullptr;
+		patient_.reset();
 	}
 	controlActor_ = nullptr;
 	if (stage_ != nullptr)
 	{
 		stage_->Delete();
-		delete stage_;
-		stage_ = nullptr;
+		stage_.reset();
 	}
 	if (colorShiftScreenHandle_ != -1)
 	{
@@ -228,10 +223,8 @@ void GameScene::Delete()
 		colorShiftScreenHandle_ = -1;
 	}
 
-	delete debugCursorPosition_;
-	debugCursorPosition_ = nullptr;
-	delete render_;
-	render_ = nullptr;
+	debugCursorPosition_.reset();
+	render_.reset();
 }
 
 void GameScene::InitLoad()
@@ -242,28 +235,28 @@ void GameScene::InitLoad()
 		FALSE
 	);
 
-	talk_ = new Talk();
+	talk_ = std::make_unique<Talk>();
 	talk_->Load();
 
-	gameMenu_ = new GameMenu();
+	gameMenu_ = std::make_unique<GameMenu>();
 	gameMenu_->Load();
 
 	if (prgMng_.IsNurseCharExists())
 	{
-		player_ = new Player();
+		player_ = std::make_unique<Player>();
 		player_->Init();
 	}
 
 	if (prgMng_.IsPatientCharExists())
 	{
-		patient_ = new Patient();
+		patient_ = std::make_unique<Patient>();
 		patient_->Init();
 	}
 
-	controlActor_ = (player_ != nullptr) ? static_cast<ActorBase*>(player_) : static_cast<ActorBase*>(patient_);
+	controlActor_ = (player_ != nullptr) ? static_cast<ActorBase*>(player_.get()) : static_cast<ActorBase*>(patient_.get());
 
-	render_ = new Renderer2D();
-	debugCursorPosition_ = new DebugCursorPosition();
+	render_ = std::make_unique<Renderer2D>();
+	debugCursorPosition_ = std::make_unique<DebugCursorPosition>();
 
 	ApplyInitialProgressState();
 	ApplyControlMoveDelay();
@@ -316,18 +309,17 @@ void GameScene::ChangeStage(Stage nextStage)
 	if (stage_ != nullptr)
 	{
 		stage_->Delete();
-		delete stage_;
-		stage_ = nullptr;
+		stage_.reset();
 	}
 
 	switch (currentStage_)
 	{
 	case Stage::PAT_ROOM:
-		stage_ = new PatientRoom();
+		stage_ = std::make_unique<PatientRoom>();
 		break;
 
 	case Stage::NURSE_STATION:
-		stage_ = new NurseStation();
+		stage_ = std::make_unique<NurseStation>();
 		break;
 	}
 
@@ -346,11 +338,11 @@ void GameScene::ChangeStage(Stage nextStage)
 
 		if (currentStage_ == Stage::PAT_ROOM && patient_ != nullptr)
 		{
-			render_->AddActor(patient_);
+			render_->AddActor(patient_.get());
 		}
 		if (player_ != nullptr)
 		{
-			render_->AddActor(player_);
+			render_->AddActor(player_.get());
 		}
 	}
 }
@@ -518,13 +510,13 @@ void GameScene::UpdatePR()
 			stage_->ApplyCollision(*controlActor_);
 		}
 
-		if (patient_ != nullptr && controlActor_ != patient_ && controlActor_->IsHitCircle(*patient_))
+		if (patient_ != nullptr && controlActor_ != patient_.get() && controlActor_->IsHitCircle(*patient_))
 		{
 			controlActor_->MoveToBeforePos();
 		}
 	}
 
-	if (patient_ != nullptr && controlActor_ != patient_)
+	if (patient_ != nullptr && controlActor_ != patient_.get())
 	{
 		patient_->Update();
 	}

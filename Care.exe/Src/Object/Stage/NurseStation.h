@@ -1,5 +1,6 @@
 #pragma once
 #include "StageBase.h"
+#include <memory>
 
 class PCScene;
 
@@ -65,5 +66,5 @@ private:
 	int tableHandle_;
 	int plateHandle_;
 	int plateFolderHandle_;
-	PCScene* pcScene_;
+	std::unique_ptr<PCScene> pcScene_;
 };

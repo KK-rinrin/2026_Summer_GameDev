@@ -72,7 +72,7 @@ void Resource::Load()
 
 	case Resource::TYPE::IMGS:
 		// •¡”‰æ‘œ
-		handleIds_ = new int[numX_ * numY_];
+		handleIds_ = std::make_unique<int[]>(numX_ * numY_);
 		LoadDivGraph(
 			path_.c_str(),
 			numX_ * numY_,
@@ -160,8 +160,7 @@ void Resource::Release()
 					DeleteGraph(handleIds_[i]);
 				}
 			}
-			delete[] handleIds_;
-			handleIds_ = nullptr;
+			handleIds_.reset();
 		}
 	break;
 

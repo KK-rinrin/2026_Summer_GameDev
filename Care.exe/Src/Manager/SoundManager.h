@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 #include <array>
 #include "ResourceManager.h"
 
@@ -78,7 +79,7 @@ private:
 
 
 	// インスタンス
-	static SoundManager* instance_;
+	static std::shared_ptr<SoundManager> instance_;
 
 	ResourceManager& resMng_;
 

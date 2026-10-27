@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 #include "../../Application.h"
 #include "../SceneBase.h"
 #include "../../Manager/Live2D.h"
@@ -46,8 +47,8 @@ private:
 
 	std::vector<int> BG_;	// 背景ハンドルたち
 
-	DebugCursorPosition* cursorPos_;
-	DebugPerspective* debugPers_;
+	std::unique_ptr<DebugCursorPosition> cursorPos_;
+	std::unique_ptr<DebugPerspective> debugPers_;
 
 	int gridDivisionX_ = INITIAL_GRID_DIVISION_X;	// グリッドX分割数
 	int gridDivisionY_ = INITIAL_GRID_DIVISION_Y;	// グリッドY分割数

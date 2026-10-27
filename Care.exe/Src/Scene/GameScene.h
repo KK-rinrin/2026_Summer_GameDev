@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 #include "../Application.h"
 #include "SceneBase.h"
 #include "../Manager/Live2D.h"
@@ -70,20 +71,20 @@ private:
 
 	void UpdateNS();
 
-	Talk* talk_;
-	GameMenu* gameMenu_;
+	std::unique_ptr<Talk> talk_;
+	std::unique_ptr<GameMenu> gameMenu_;
 
 	Stage currentStage_;
 
 	bool canMove_ = false;
 
-	StageBase* stage_;
-	Renderer2D* render_;
-	Player* player_;
-	Patient* patient_;
+	std::unique_ptr<StageBase> stage_;
+	std::unique_ptr<Renderer2D> render_;
+	std::unique_ptr<Player> player_;
+	std::unique_ptr<Patient> patient_;
 	ActorBase* controlActor_;
 
-	DebugCursorPosition* debugCursorPosition_;
+	std::unique_ptr<DebugCursorPosition> debugCursorPosition_;
 	int colorShiftScreenHandle_ = -1;
 
 	bool isReturningFromSetting_;

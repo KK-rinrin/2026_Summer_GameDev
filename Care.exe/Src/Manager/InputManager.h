@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 #include <vector>
 #include <map>
 #include <Dxlib.h>
@@ -169,7 +170,7 @@ private:
 	XINPUT_STATE joyXInState_;
 
 	// シングルトン用インスタンス
-	static InputManager* instance_;
+	static std::shared_ptr<InputManager> instance_;
 
 	// キー情報
 	std::map<int, InputManager::Info> keyInfos_;

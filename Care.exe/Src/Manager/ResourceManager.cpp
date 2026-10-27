@@ -3,13 +3,13 @@
 #include "Resource.h"
 #include "ResourceManager.h"
 
-ResourceManager* ResourceManager::instance_ = nullptr;
+std::shared_ptr<ResourceManager> ResourceManager::instance_ = nullptr;
 
 void ResourceManager::CreateInstance()
 {
 	if (instance_ == nullptr)
 	{
-		instance_ = new ResourceManager();
+		instance_ = std::shared_ptr<ResourceManager>(new ResourceManager(), [](ResourceManager* instance) { delete instance; });
 	}
 	instance_->Init();
 }
@@ -40,10 +40,8 @@ void ResourceManager::Init()
 	CreateResource(SRC::TALK_IMAGE_0, RES_T::IMG, PATH_IMG + "Talk/talk_image_0.png");
 
 	// キャラクターグラフィック
-	Resource* res = new Resource(RES_T::IMGS, PATH_IMG + "Game/Player.png", CHARACTER_SHEET_COLUMNS, CHARACTER_SHEET_ROWS, CHARACTER_CELL_WIDTH, CHARACTER_CELL_HEIGHT);
-	resourcesMap_.emplace(SRC::PLAYER_GRAPHICS, res);
-	res = new Resource(RES_T::IMGS, PATH_IMG + "Game/Patient.png", CHARACTER_SHEET_COLUMNS, CHARACTER_SHEET_ROWS, CHARACTER_CELL_WIDTH, CHARACTER_CELL_HEIGHT);
-	resourcesMap_.emplace(SRC::PATIENT_GRAPHICS, res);
+	resourcesMap_.emplace(SRC::PLAYER_GRAPHICS, std::make_unique<Resource>(RES_T::IMGS, PATH_IMG + "Game/Player.png", CHARACTER_SHEET_COLUMNS, CHARACTER_SHEET_ROWS, CHARACTER_CELL_WIDTH, CHARACTER_CELL_HEIGHT));
+	resourcesMap_.emplace(SRC::PATIENT_GRAPHICS, std::make_unique<Resource>(RES_T::IMGS, PATH_IMG + "Game/Patient.png", CHARACTER_SHEET_COLUMNS, CHARACTER_SHEET_ROWS, CHARACTER_CELL_WIDTH, CHARACTER_CELL_HEIGHT));
 
 	// 背景グラフィック
 	CreateResource(SRC::BG_1, RES_T::IMG, PATH_IMG + "Game/BG/PICU_BG.png");
@@ -93,56 +91,41 @@ void ResourceManager::Init()
 	CreateResource(SRC::PLAYER_MODEL, RES_T::LIVE2D, PATH_MODEL + "nurse/nurse.model3.json");
 
 	// 音楽
-	res = new Resource(RES_T::SOUND, PATH_SOUND + "BGM/Title.wav");
-	resourcesMap_.emplace(SRC::BGM_TITLE, res);
+	resourcesMap_.emplace(SRC::BGM_TITLE, std::make_unique<Resource>(RES_T::SOUND, PATH_SOUND + "BGM/Title.wav"));
 
-	res = new Resource(RES_T::SOUND, PATH_SOUND + "BGM/Game.wav");
-	resourcesMap_.emplace(SRC::BGM_GAME, res);
+	resourcesMap_.emplace(SRC::BGM_GAME, std::make_unique<Resource>(RES_T::SOUND, PATH_SOUND + "BGM/Game.wav"));
 
-	res = new Resource(RES_T::SOUND, PATH_SOUND + "BGM/Game_2.wav");
-	resourcesMap_.emplace(SRC::BGM_GAME_2, res);
+	resourcesMap_.emplace(SRC::BGM_GAME_2, std::make_unique<Resource>(RES_T::SOUND, PATH_SOUND + "BGM/Game_2.wav"));
 
-	res = new Resource(RES_T::SOUND, PATH_SOUND + "BGM/kowai.mp3");
-	resourcesMap_.emplace(SRC::BGM_KOWAI, res);
+	resourcesMap_.emplace(SRC::BGM_KOWAI, std::make_unique<Resource>(RES_T::SOUND, PATH_SOUND + "BGM/kowai.mp3"));
 
-	res = new Resource(RES_T::SOUND, PATH_SOUND + "BGM/Ending.mp3");
-	resourcesMap_.emplace(SRC::BGM_ENDING, res);
+	resourcesMap_.emplace(SRC::BGM_ENDING, std::make_unique<Resource>(RES_T::SOUND, PATH_SOUND + "BGM/Ending.mp3"));
 
 	// SE
-	res = new Resource(RES_T::SOUND, PATH_SOUND + "SE/system_decide.mp3");
-	resourcesMap_.emplace(SRC::SE_DECIDE, res);
+	resourcesMap_.emplace(SRC::SE_DECIDE, std::make_unique<Resource>(RES_T::SOUND, PATH_SOUND + "SE/system_decide.mp3"));
 	
-	res = new Resource(RES_T::SOUND, PATH_SOUND + "SE/system_cancel.mp3");
-	resourcesMap_.emplace(SRC::SE_CANCEL, res);
+	resourcesMap_.emplace(SRC::SE_CANCEL, std::make_unique<Resource>(RES_T::SOUND, PATH_SOUND + "SE/system_cancel.mp3"));
 
-	res = new Resource(RES_T::SOUND, PATH_SOUND + "SE/system_cursor_move.mp3");
-	resourcesMap_.emplace(SRC::SE_CURSOR_MOVE, res);
+	resourcesMap_.emplace(SRC::SE_CURSOR_MOVE, std::make_unique<Resource>(RES_T::SOUND, PATH_SOUND + "SE/system_cursor_move.mp3"));
 
-	res = new Resource(RES_T::SOUND, PATH_SOUND + "SE/system_beep.mp3");
-	resourcesMap_.emplace(SRC::SE_BEEP, res);
+	resourcesMap_.emplace(SRC::SE_BEEP, std::make_unique<Resource>(RES_T::SOUND, PATH_SOUND + "SE/system_beep.mp3"));
 
-	res = new Resource(RES_T::SOUND, PATH_SOUND + "SE/ringtone.mp3");
-	resourcesMap_.emplace(SRC::SE_RINGTONE, res);
+	resourcesMap_.emplace(SRC::SE_RINGTONE, std::make_unique<Resource>(RES_T::SOUND, PATH_SOUND + "SE/ringtone.mp3"));
 
-	res = new Resource(RES_T::SOUND, PATH_SOUND + "SE/typing.mp3");
-	resourcesMap_.emplace(SRC::SE_TYPING, res);
+	resourcesMap_.emplace(SRC::SE_TYPING, std::make_unique<Resource>(RES_T::SOUND, PATH_SOUND + "SE/typing.mp3"));
 
-	res = new Resource(RES_T::SOUND, PATH_SOUND + "SE/door.mp3");
-	resourcesMap_.emplace(SRC::SE_DOOR, res);
+	resourcesMap_.emplace(SRC::SE_DOOR, std::make_unique<Resource>(RES_T::SOUND, PATH_SOUND + "SE/door.mp3"));
 
-	res = new Resource(RES_T::SOUND, PATH_SOUND + "SE/mouse.mp3");
-	resourcesMap_.emplace(SRC::SE_PC_MOUSE, res);
+	resourcesMap_.emplace(SRC::SE_PC_MOUSE, std::make_unique<Resource>(RES_T::SOUND, PATH_SOUND + "SE/mouse.mp3"));
 
 	// フォント
 	// 一時登録
 	AddFontResourceExA((PATH_FONT + "Corporate-Mincho-ver3.otf").c_str(), FR_PRIVATE, NULL);
 	AddFontResourceExA((PATH_FONT + "mplus-1p-thin.ttf").c_str(), FR_PRIVATE, NULL);
 	
-	res = new Resource(RES_T::FONT, "コーポレート明朝 ver3 Medium", MAIN_FONT_SIZE, DEFAULT_FONT_THICK, DEFAULT_FONT_SPACE, DX_FONTTYPE_ANTIALIASING);
-	resourcesMap_.emplace(SRC::MAIN_FONT, res);
+	resourcesMap_.emplace(SRC::MAIN_FONT, std::make_unique<Resource>(RES_T::FONT, "コーポレート明朝 ver3 Medium", MAIN_FONT_SIZE, DEFAULT_FONT_THICK, DEFAULT_FONT_SPACE, DX_FONTTYPE_ANTIALIASING));
 
-	res = new Resource(RES_T::FONT, "M+ 1p thin", DEFAULT_PC_FONT_SIZE, DEFAULT_PC_FONT_THICK, DEFAULT_PC_FONT_SPACE, DX_FONTTYPE_NORMAL);
-	resourcesMap_.emplace(SRC::PC_FONT, res);
+	resourcesMap_.emplace(SRC::PC_FONT, std::make_unique<Resource>(RES_T::FONT, "M+ 1p thin", DEFAULT_PC_FONT_SIZE, DEFAULT_PC_FONT_THICK, DEFAULT_PC_FONT_SPACE, DX_FONTTYPE_NORMAL));
 }
 
 void ResourceManager::Release()
@@ -161,13 +144,12 @@ void ResourceManager::Destroy()
 	for (auto& res : resourcesMap_)
 	{
 		res.second->Release();
-		delete res.second;
 	}
 	resourcesMap_.clear();
 
 	RemoveFontResourceExA((Application::PATH_FONT + "Corporate-Mincho-ver3.otf").c_str(), FR_PRIVATE, NULL);
 	RemoveFontResourceExA((Application::PATH_FONT + "mplus-1p-thin.ttf").c_str(), FR_PRIVATE, NULL);
-	delete instance_;
+	instance_.reset();
 }
 
 const char* ResourceManager::GetResourcePath(SRC src) const
@@ -223,8 +205,7 @@ int ResourceManager::LoadModelDuplicate(SRC src)
 
 void ResourceManager::CreateResource(SRC src, Resource::TYPE type, const std::string& path)
 {
-	Resource* res = new Resource(type, path);
-	resourcesMap_.emplace(src, res);
+	resourcesMap_.emplace(src, std::make_unique<Resource>(type, path));
 }
 
 ResourceManager::ResourceManager()

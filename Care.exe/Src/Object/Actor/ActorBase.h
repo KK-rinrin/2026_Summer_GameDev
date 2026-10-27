@@ -5,6 +5,7 @@
 #include "../Collider/Collider.h"
 #include <memory>
 
+class Resource;
 class ResourceManager;
 class SceneManager;
 class ProcessMove;

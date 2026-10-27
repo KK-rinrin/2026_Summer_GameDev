@@ -60,8 +60,7 @@ void NurseStation::Delete()
 	if (pcScene_ != nullptr)
 	{
 		pcScene_->Delete();
-		delete pcScene_;
-		pcScene_ = nullptr;
+		pcScene_.reset();
 	}
 	StageBase::Delete();
 }
@@ -156,7 +155,7 @@ void NurseStation::Decide(DecideContext& context) const
 
 void NurseStation::InitLoad()
 {
-	pcScene_ = new PCScene();
+	pcScene_ = std::make_unique<PCScene>();
 	pcScene_->Load();
 
 	BGhandle_ = resMng_.Load(ResourceManager::SRC::BG_2).handleId_;

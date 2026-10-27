@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 #include <chrono>
 #include <DxLib.h>
 class SceneBase;
@@ -79,7 +80,7 @@ private:
 
 
 	// 静的インスタンス
-	static SceneManager* instance_;
+	static std::shared_ptr<SceneManager> instance_;
 
 	SCENE_ID sceneId_;
 	SCENE_ID waitSceneId_;
@@ -93,10 +94,10 @@ private:
 	VECTOR settingReturnActorPos_;
 
 	// フェード
-	Fader* fader_;
+	std::unique_ptr<Fader> fader_;
 
 	// 各種シーン
-	SceneBase* scene_;
+	std::unique_ptr<SceneBase> scene_;
 
 	// シーン遷移中判定
 	bool isSceneChanging_;
@@ -113,7 +114,7 @@ private:
 	SceneManager(const SceneManager& instance) = default;
 
 	// デストラクタも同様
-	~SceneManager() = default;
+	~SceneManager();
 
 	// デルタタイムをリセットする
 	void ResetDeltaTime();

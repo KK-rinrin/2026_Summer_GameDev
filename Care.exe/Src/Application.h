@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 #include <string>
 
 class FpsControl;
@@ -54,7 +55,7 @@ public:
 	void Run();
 
 	// リソースの破棄
-	void Destroy();
+	bool Destroy();
 
 	// 初期化成功／失敗の判定
 	bool IsInitFail() const;
@@ -67,7 +68,7 @@ private:
 
 
 	// 静的インスタンス
-	static Application* instance_;
+	static std::shared_ptr<Application> instance_;
 
 	// 初期化失敗
 	bool isInitFail_;
@@ -83,9 +84,9 @@ private:
 	Application(const Application& instance) = default;
 
 	// デストラクタも同様
-	~Application() = default;
+	~Application();
 
 	void InitLive2D();
 
-	FpsControl* fpsControl_;
+	std::unique_ptr<FpsControl> fpsControl_;
 };

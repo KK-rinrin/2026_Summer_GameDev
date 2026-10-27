@@ -114,13 +114,14 @@ void DebugScene::Draw()
 
 void DebugScene::Delete()
 {
-	delete cursorPos_;
+	cursorPos_.reset();
+	debugPers_.reset();
 }
 
 void DebugScene::InitLoad()
 {
-	cursorPos_ = new DebugCursorPosition();
-	debugPers_ = new DebugPerspective();
+	cursorPos_ = std::make_unique<DebugCursorPosition>();
+	debugPers_ = std::make_unique<DebugPerspective>();
 
 	BG_.emplace_back(resMng_.Load(ResourceManager::SRC::BG_1).handleId_);
 	BG_.emplace_back(resMng_.Load(ResourceManager::SRC::BG_2).handleId_);

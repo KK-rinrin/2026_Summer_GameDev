@@ -4,13 +4,13 @@
 
 #include <DxLib.h>
 
-SoundManager* SoundManager::instance_ = nullptr;
+std::shared_ptr<SoundManager> SoundManager::instance_ = nullptr;
 
 void SoundManager::CreateInstance()
 {
 	if (instance_ == nullptr)
 	{
-		instance_ = new SoundManager();
+		instance_ = std::shared_ptr<SoundManager>(new SoundManager(), [](SoundManager* instance) { delete instance; });
 	}
 }
 
@@ -25,7 +25,7 @@ SoundManager& SoundManager::GetInstance()
 
 void SoundManager::Destroy()
 {
-	delete instance_;
+	instance_.reset();
 	instance_ = nullptr;
 }
 

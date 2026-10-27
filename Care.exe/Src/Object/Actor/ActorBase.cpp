@@ -18,10 +18,6 @@ ActorBase::ActorBase()
 	processMove_->SetMoveSpeedPercent(INIT_MOVE_SPEED_PER);
 }
 
-ActorBase::~ActorBase()
-{
-}
-
 void ActorBase::Init()
 {
 

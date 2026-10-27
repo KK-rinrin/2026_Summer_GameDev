@@ -24,13 +24,13 @@ namespace
 	}
 }
 
-ProgressManager* ProgressManager::instance_ = nullptr;
+std::shared_ptr<ProgressManager> ProgressManager::instance_ = nullptr;
 	
 void ProgressManager::CreateInstance()
 {
 	if (instance_ == nullptr)
 	{
-		instance_ = new ProgressManager();
+		instance_ = std::shared_ptr<ProgressManager>(new ProgressManager(), [](ProgressManager* instance) { delete instance; });
 	}
 	instance_->Init();
 }
@@ -144,7 +144,7 @@ bool ProgressManager::IsEndLockedProgress() const
 
 void ProgressManager::Destroy()
 {
-	delete instance_;
+	instance_.reset();
 	instance_ = nullptr;
 }
 

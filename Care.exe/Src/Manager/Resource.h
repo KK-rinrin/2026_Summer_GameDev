@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 #include <DxLib.h>
 #include <string>
 #include <vector>
@@ -53,7 +54,7 @@ public:
 	int handleId_;
 
 	// IMGS::LoadDivGraph—p
-	int* handleIds_;
+	std::unique_ptr<int[]> handleIds_;
 	int numX_;
 	int numY_;
 	int sizeX_;
