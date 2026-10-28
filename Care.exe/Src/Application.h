@@ -8,38 +8,38 @@ class Application
 {
 public:
 	// スクリーンサイズ
-	static constexpr int SCREEN_SIZE_X = 800;
-	static constexpr int SCREEN_SIZE_Y = 600;
+	static constexpr int SCREEN_SIZE_X = 800;	// X座標
+	static constexpr int SCREEN_SIZE_Y = 600;	// Y座標
 
 	// デフォルト色
-	static constexpr int DEFAULT_COLOR_0 = 0x000000;	// 真っ黒
-	static constexpr int DEFAULT_COLOR_1 = 0x222222;	// 灰みの黒
-	static constexpr int DEFAULT_COLOR_2 = 0x333333;	// 灰みの黒
+	static constexpr int DEFAULT_COLOR_0 = 0x000000;	// 黒
+	static constexpr int DEFAULT_COLOR_1 = 0x222222;	// ほぼ黒
+	static constexpr int DEFAULT_COLOR_2 = 0x333333;	// とても暗いグレー
 	static constexpr int DEFAULT_COLOR_3 = 0x555555;	// 暗い灰色
-	static constexpr int DEFAULT_COLOR_4 = 0x666666;	// 灰色
-	static constexpr int DEFAULT_COLOR_5 = 0x7a7a7a;	// 灰色
-	static constexpr int DEFAULT_COLOR_6 = 0xaaaaaa;
-	static constexpr int DEFAULT_COLOR_7 = 0xe6e6e6;
-	static constexpr int DEFAULT_COLOR_8 = 0xffffff;
+	static constexpr int DEFAULT_COLOR_4 = 0x666666;	// 少し暗い灰色
+	static constexpr int DEFAULT_COLOR_5 = 0x7a7a7a;	// ちょうど灰色
+	static constexpr int DEFAULT_COLOR_6 = 0xaaaaaa;	// 明るいグレー
+	static constexpr int DEFAULT_COLOR_7 = 0xe6e6e6;	// ほぼ白
+	static constexpr int DEFAULT_COLOR_8 = 0xffffff;	// 白
 
 	// UI共通文字
-	static constexpr const char* SELECT_MARK = "> ";
-	static constexpr const char* MENU_MARK_SPACE = "  ";
+	static constexpr const char* SELECT_MARK = "> ";		// 選択している時
+	static constexpr const char* MENU_MARK_SPACE = "  ";	// 選択してない時
 
 	// データパス関連
 	//-------------------------------------------
-	static const std::string PATH_DATA;
-	static const std::string PATH_CSV;
-	static const std::string PATH_CHARA;
-	static const std::string PATH_IMAGE;
-	static const std::string PATH_TITLE;
-	static const std::string PATH_SOUND;
-	static const std::string PATH_MODEL;
-	static const std::string PATH_FONT;
+	static const std::string PATH_DATA;		// データフォルダパス
+	static const std::string PATH_CSV;		// CSVデータフォルダ
+	static const std::string PATH_IMAGE;	// 画像フォルダ
+	static const std::string PATH_TITLE;	// タイトル画面関連画像データ
+	static const std::string PATH_SOUND;	// サウンドデータフォルダ
+	static const std::string PATH_MODEL;	// Live2Dモデルデータフォルダ
+	static const std::string PATH_FONT;		// フォントデータフォルダ
+	static const std::string PATH_CHARA;	// Charaフォルダ（ストーリーに関わる）
 
-	static const std::string PATH_KEY_CONFIG;
-	static const std::string PATH_KEY_CONFIG_GAMEPAD;
-	static const std::string PATH_KEY_CONFIG_KEYBOARD;
+	static const std::string PATH_KEY_CONFIG;			// キーコンフィグ保存パス？（未使用）
+	static const std::string PATH_KEY_CONFIG_GAMEPAD;	// ゲームパッドキーコンフィグ保存パス？（未使用）
+	static const std::string PATH_KEY_CONFIG_KEYBOARD;	// キーボードコンフィグ保存パス？（未使用）
 	//-------------------------------------------
 
 	// インスタンスを明示的に生成

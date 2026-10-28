@@ -132,7 +132,7 @@ void ResourceManager::Release()
 {
 	for (auto& p : loadedMap_)
 	{
-		p.second.Release();
+		p.second->Release();
 	}
 
 	loadedMap_.clear();
@@ -183,7 +183,7 @@ int ResourceManager::LoadFont(SRC src, int fontSize, int thick, int fontSpace, i
 	Resource& res = *rPair->second;
 	if (loadedMap_.find(src) == loadedMap_.end())
 	{
-		loadedMap_.emplace(src, res);
+		loadedMap_.emplace(src, &res);
 	}
 
 	return res.LoadFont(fontSize, thick, fontSpace, fontType);
@@ -234,7 +234,7 @@ Resource& ResourceManager::_Load(SRC src)
 	rPair->second->Load();
 
 	// 念のためコピーコンストラクタ
-	loadedMap_.emplace(src, *rPair->second);
+	loadedMap_.emplace(src, rPair->second.get());
 
 	return *rPair->second;
 
