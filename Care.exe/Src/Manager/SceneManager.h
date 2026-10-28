@@ -10,18 +10,36 @@ class SceneManager
 public:
 	// 背景色
 	static constexpr int BACKGROUND_COLOR_R = 226;
+
+	// 背景色の緑成分
 	static constexpr int BACKGROUND_COLOR_G = 226;
+
+	// 背景色の青成分
 	static constexpr int BACKGROUND_COLOR_B = 226;
 
 	// シーン管理用
 	enum class SCENE_ID
 	{
+
+		// シーン未指定の状態
 		NONE,
+
+		// タイトル画面
 		TITLE,
+
+		// メインゲーム画面
 		GAME,
+
+		// 設定画面
 		SETTING,
+
+		// 血圧測定ミニゲーム画面
 		BP_MINIGAME,
+
+		// エンディング画面
 		CLEAR,
+
+		// デバッグ画面
 		DEBUG,
 	};
 	
@@ -67,22 +85,31 @@ public:
 	// GameScene復帰情報を破棄する
 	void ClearSettingReturnGameState();
 
-	// シーンIDの取得
+	// 現在のシーンIDの取得（未使用）
 	SCENE_ID GetSceneID();
 
 	// デルタタイムの取得
 	float GetDeltaTime() const;
 
 private:
+
+	// 1秒当たりのナノ秒数
 	static constexpr double NANOSECONDS_PER_SECOND = 1000000000.0;
+
+	// 時間差が不正な場合の代替更新秒数
 	static constexpr float FALLBACK_DELTA_SECONDS = 1.0f / 60.0f;
+
+	// デルタタイム初期化時の秒数
 	static constexpr float RESET_DELTA_SECONDS = 0.016f;
 
 
 	// 静的インスタンス
 	static std::shared_ptr<SceneManager> instance_;
 
+	// 現在のシーンID
 	SCENE_ID sceneId_;
+
+	// フェード完了待ちの遷移先シーンID
 	SCENE_ID waitSceneId_;
 
 	// SettingSceneのBACKで戻る先。通常はタイトルに戻る
@@ -90,7 +117,11 @@ private:
 
 	// GameSceneからSettingSceneを開いた時だけ使う復帰情報
 	bool hasSettingReturnGameState_;
+
+	// 設定画面からの復帰先ステージ
 	int settingReturnGameStage_;
+
+	// 設定画面からの復帰時の操作キャラ座標
 	VECTOR settingReturnActorPos_;
 
 	// フェード
@@ -104,6 +135,8 @@ private:
 
 	// デルタタイム
 	std::chrono::system_clock::time_point preTime_;
+
+	// 前フレームからの経過秒数
 	float deltaTime_;
 	
 	// デフォルトコンストラクタをprivateにして、

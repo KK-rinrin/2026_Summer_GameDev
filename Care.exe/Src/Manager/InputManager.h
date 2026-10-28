@@ -17,6 +17,8 @@ public:
 		PAD2,				// パッド２入力
 		PAD3,				// パッド３入力
 		PAD4,				// パッド４入力
+
+		// キーボード単独入力の認識番号（未使用）
 		INPUT_KEY = 4096	// キー入力
 	};
 
@@ -24,46 +26,108 @@ public:
 	// DxLib定数、DX_OTHER等に対応
 	enum class JOYPAD_TYPE
 	{
+
+		// その他のコントローラー種別
 		OTHER = 0,
+
+		// Xbox 360コントローラー
 		XBOX_360,
+
+		// Xbox Oneコントローラー
 		XBOX_ONE,
+
+		// DUALSHOCK 4コントローラー
 		DUAL_SHOCK_4,
+
+		// DualSenseコントローラー
 		DUAL_SENSE,
+
+		// 左側Joy-Conの種別
 		SWITCH_JOY_CON_L,
+
+		// 右側Joy-Conの種別
 		SWITCH_JOY_CON_R,
+
+		// Switch Proコントローラー
 		SWITCH_PRO_CTRL,
+
+		// コントローラー種別の件数
 		MAX
 	};
 
 	// ゲームコントローラーボタン
 	enum class JOYPAD_BTN
 	{
+
+		// 左側のフェイスボタン
 		LEFT = 0,
+
+		// 右側のフェイスボタン
 		RIGHT,
+
+		// 上側のフェイスボタン
 		TOP,
+
+		// 下側のフェイスボタン
 		DOWN,
+
+		// 右トリガー
 		R_TRIGGER,
+
+		// 左トリガー
 		L_TRIGGER,
+
+		// スタートボタン
 		START,
+
+		// 方向キーの上
 		DPAD_UP,
+
+		// 方向キーの下
 		DPAD_DOWN,
+
+		// 方向キーの左
 		DPAD_LEFT,
+
+		// 方向キーの右
 		DPAD_RIGHT,
+
+		// 入力管理対象のボタン数
 		MAX
 	};
 
 	// ゲームコントローラーの入力情報
 	struct JOYPAD_IN_STATE
 	{
+
+		// 前フレームの各ボタンの生入力値
 		unsigned char ButtonsOld[static_cast<int>(JOYPAD_BTN::MAX)];
+
+		// 現フレームの各ボタンの生入力値
 		unsigned char ButtonsNew[static_cast<int>(JOYPAD_BTN::MAX)];
+
+		// 前フレームの各ボタンの押下状態
 		bool IsOld[static_cast<int>(JOYPAD_BTN::MAX)];
+
+		// 現フレームの各ボタンの押下状態
 		bool IsNew[static_cast<int>(JOYPAD_BTN::MAX)];
+
+		// 各ボタンの押下開始状態
 		bool IsTrgDown[static_cast<int>(JOYPAD_BTN::MAX)];
+
+		// 各ボタンの解放開始状態
 		bool IsTrgUp[static_cast<int>(JOYPAD_BTN::MAX)];
+
+		// 左スティックの横入力値
 		int AKeyLX;
+
+		// 左スティックの縦入力値
 		int AKeyLY;
+
+		// 右スティックの横入力値
 		int AKeyRX;
+
+		// 右スティックの縦入力値
 		int AKeyRY;
 	};
 
@@ -103,42 +167,61 @@ public:
 	// マウス座標の取得
 	Vector2 GetMousePos() const;
 
-	// マウスのクリック状態を取得(MOUSE_INPUT_LEFT、RIGHT)
+	// マウスのボタン入力ビット列の取得（未使用）
 	int GetMouse() const;
 
-	// マウスが左クリックされたか
+	// マウス左ボタンの押下状態の取得（未使用）
 	bool IsClickMouseLeft() const;
 
-	// マウスが右クリックされたか
+	// マウス右ボタンの押下状態の取得（未使用）
 	bool IsClickMouseRight() const;
 
 	// マウスが左クリックされたか(押しっぱなしはNG)
 	bool IsTrgMouseLeft() const;
 
-	// マウスが右クリックされたか(押しっぱなしはNG)
+	// マウス右ボタンの押下開始判定（未使用）
 	bool IsTrgMouseRight() const;
 
 	// コントローラの入力情報を取得する
 	JOYPAD_IN_STATE GetJPadInputState(JOYPAD_NO no);
+
+	// 保持済みのパッド入力状態への参照の取得
 	const JOYPAD_IN_STATE& GetPadInputState(JOYPAD_NO no) const;
 
 	// ボタンが押された
 	bool IsPadBtnNew(JOYPAD_NO no, JOYPAD_BTN btn) const;
+
+	// パッドボタンの押下開始判定
 	bool IsPadBtnTrgDown(JOYPAD_NO no, JOYPAD_BTN btn) const;
+
+	// パッドボタンの解放開始判定
 	bool IsPadBtnTrgUp(JOYPAD_NO no, JOYPAD_BTN btn) const;
+
+	// パッド1の接続判定
 	bool IsPadConnected() const;
-	// コントローラのいずれかのボタンが押された
+
+	// いずれかのパッドボタンの押下判定（未使用）
 	bool IsPadBtnNewAll(JOYPAD_NO no) const;
 
-	// アナログキーの入力値から方向(正規化済み)を取得
+	// スティック入力に対応する正規化済みXZ方向の取得（未使用）
 	VECTOR GetDirectionXZAKey(int aKeyX, int aKeyY) const;
 
 private:
+
+	// キーボード併用枠を含むパッド情報配列の要素数
 	static constexpr int PAD_INFO_COUNT = static_cast<int>(JOYPAD_NO::PAD4) + 1;
+
+	// XboxのAとBとXとYのDirectInputボタン番号
 	enum XboxDInputButton : int { XBOX_A, XBOX_B, XBOX_X, XBOX_Y };
+
+	// DirectInputのPlayStationボタン番号
 	enum PlayStationDInputButton : int
 	{
+
+		// 四角とバツと丸と三角のDirectInput番号
 		PS_SQUARE, PS_CROSS, PS_CIRCLE, PS_TRIANGLE,
+
+		// 左右トリガーとOptionsのDirectInput番号
 		PS_L2 = 6, PS_R2 = 7, PS_OPTIONS = 9
 	};
 
@@ -174,10 +257,14 @@ private:
 
 	// キー情報
 	std::map<int, InputManager::Info> keyInfos_;
+
+	// 未登録キーに対する空の入力情報
 	InputManager::Info infoEmpty_;
 
 	// マウス情報
 	std::map<int, InputManager::MouseInfo> mouseInfos_;
+
+	// 未登録マウスボタンに対する空の入力情報
 	InputManager::MouseInfo mouseInfoEmpty_;
 
 	// マウスカーソルの位置

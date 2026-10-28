@@ -25,6 +25,8 @@ public:
 	void ReleaseAll();
 
 private:
+
+	// デバッグ出力用バッファの文字数
 	static constexpr int DEBUG_BUFFER_SIZE = 256;
 
 	Live2DModelHub() = default;
@@ -32,6 +34,8 @@ private:
 
 	// 非コピー
 	Live2DModelHub(const Live2DModelHub&) = delete;
+
+	// モデルハブのコピー代入の禁止
 	Live2DModelHub& operator=(const Live2DModelHub&) = delete;
 
 	// Live2D モデルの保管

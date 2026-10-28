@@ -17,7 +17,11 @@ public:
 	// GameSceneに依存せず遷移先ステージを伝えるためのID
 	enum class StageId
 	{
+
+		// 患者部屋のステージID
 		PAT_ROOM,
+
+		// ナースステーションのステージID
 		NURSE_STATION,
 	};
 
@@ -38,14 +42,22 @@ public:
 	void Init();
 	virtual void Update();
 	virtual void Draw();
+
+	// 派生ステージの前景描画
 	virtual void DrawForeground() const;
 	virtual void Delete();
+
+	// ステージ内操作による入力ブロックの判定
 	virtual bool IsInputBlocked() const;
 
 	void DrawBG() const;	// 背景を描画
 	virtual void RegisterObjects(Renderer2D& renderer);	// オブジェクト登録
 	void ApplyCollision(ActorBase& actor) const;		// 当たり判定登録
+
+	// 操作キャラの位置に応じた移動ガイドの描画
 	virtual void DrawGuide(const ActorBase& controlActor) const { (void)controlActor; }
+
+	// ステージ内の決定操作に対応するイベント実行
 	virtual void Decide(DecideContext& context) const { (void)context; }
 
 protected:
@@ -64,7 +76,7 @@ protected:
 		VECTOR rightBottom;// 右下 (x=0..100, y=0..100)
 	};
 
-
+	// 座標変換を伴うステージオブジェクトの描画情報
 	struct TransformObject
 	{
 		Transform2D transform;	// 物体情報
@@ -80,15 +92,23 @@ protected:
 	void AddMBRectPercent(const VECTOR& leftTopPercent, const VECTOR& rightBottomPercent);	// 障害物当たり判定（矩形）を作成
 	void DrawMoveGuide(const Vector2& pos) const;	// 移動ガイドを描画
 
+	// 派生ステージによるリソース読み込み
 	virtual void InitLoad() {}
+
+	// 派生ステージによる座標情報の初期化
 	virtual void InitTransform() {}
+
+	// 派生ステージによる当たり判定の初期化
 	virtual void InitCollider() {}
 
 	int BGhandle_;	// 背景画像ハンドル
 	int guideMoveHandle_;	// 移動可能を示す操作ガイド画像ハンドル
 	std::vector<TransformObject> objects_;		// 障害物の位置
+
+	// 画面座標で描画するオブジェクトの一覧
 	std::vector<RenderObject> screenObjects_;
 	std::vector<Rect> movementRectPercents_;	// 当たり判定
 
+	// リソース管理への参照
 	ResourceManager& resMng_;
 };

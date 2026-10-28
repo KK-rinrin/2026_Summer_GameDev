@@ -10,12 +10,26 @@ public:
 	// リソースタイプ
 	enum class TYPE
 	{
+
+		// 未指定のリソース種別
 		NONE,
+
+		// 単一画像のリソース
 		IMG,
+
+		// 分割画像のリソース
 		IMGS,
+
+		// 三次元モデルのリソース
 		MODEL,
+
+		// Live2Dモデルのリソース
 		LIVE2D,
+
+		// フォントのリソース
 		FONT,
+
+		// 音声のリソース
 		SOUND,
 	};
 
@@ -41,7 +55,7 @@ public:
 	// 解放
 	void Release();
 
-	// 複数画像ハンドルを別配列にコピー
+	// 分割画像ハンドルの外部配列へのコピー（未使用）
 	void CopyHandle(int* imgs) const;
 
 	// リソースタイプ
@@ -55,35 +69,65 @@ public:
 
 	// IMGS::LoadDivGraph用
 	std::unique_ptr<int[]> handleIds_;
+
+	// 分割画像の横方向のコマ数
 	int numX_;
+
+	// 分割画像の縦方向のコマ数
 	int numY_;
+
+	// 分割画像1コマの幅
 	int sizeX_;
+
+	// 分割画像1コマの高さ
 	int sizeY_;
 
-	// FONT::CreateFontToHandle用
+	// 既定フォントの文字サイズ
 	int fontSize_;
+
+	// フォントの文字の太さ
 	int thick_;
+
+	// フォントの文字間隔
 	int fontSpace_;
+
+	// フォントの描画方式
 	int fontType_;
 
 	// モデル複製用
 	std::vector<int> duplicateModelIds_;
 
 private:
+
+	// フォントの生成設定
 	struct FontSetting
 	{
+
+		// フォントサイズ
 		int size;
+
+		// 文字の太さ
 		int thick;
+
+		// 文字間隔
 		int space;
+
+		// 文字の描画方式
 		int type;
 	};
 
+	// 設定別の生成済みフォント情報
 	struct FontVariant
 	{
+
+		// フォントの生成に使用した設定
 		FontSetting setting;
+
+		// 生成済みフォントのハンドル
 		int handle;
 	};
 
+	// 設定別に保持するフォントの一覧
 	std::vector<FontVariant> fontVariants_;
 
 };

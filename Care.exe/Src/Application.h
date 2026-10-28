@@ -57,10 +57,12 @@ public:
 	// 初期化成功／失敗の判定
 	bool IsInitFail() const;
 
-	// 解放成功／失敗の判定
+	// 解放失敗状態の取得（未使用）
 	bool IsReleaseFail() const;
 
 private:
+
+	// 画面の色深度のビット数
 	static constexpr int SCREEN_COLOR_DEPTH = 32;
 
 
@@ -83,7 +85,9 @@ private:
 	// デストラクタも同様
 	~Application();
 
+	// Live2D描画環境の初期化
 	void InitLive2D();
 
+	// フレームレート制御の所有ポインタ
 	std::unique_ptr<FpsControl> fpsControl_;
 };

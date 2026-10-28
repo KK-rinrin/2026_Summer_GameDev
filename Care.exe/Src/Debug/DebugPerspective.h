@@ -10,7 +10,5 @@ public:
 
 	// ƒ[ƒJƒ‹•S•ª—¦‚Åü‚ğ•`‰æ
 	void DrawLineDebug(VECTOR StartLPos, VECTOR EndLPos, int color);
-
-private:
 	
 };

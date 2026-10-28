@@ -5,9 +5,17 @@
 class StageProjection2D
 {
 public:
+
+	// ステージ内百分率座標から画面座標への変換
 	static VECTOR ToWorld(const VECTOR& localPos);
+
+	// 画面座標からステージ内百分率座標への変換
 	static VECTOR ToLocalPercent(const VECTOR& worldPos);
+
+	// ステージ内座標の百分率範囲への制限
 	static VECTOR ClampLocalPercent(VECTOR pos);
+
+	// 画面Y座標に応じた遠近拡大率の取得
 	static float GetPerspectiveScale(float worldY);
 
 private:
@@ -20,12 +28,25 @@ private:
 
 	// 遠近での最小スケール（遠方でこの値になる）
 	static constexpr float MOVE_PERSPECTIVE_MIN_SCALE = 0.7f;
+
+	// ステージ内百分率座標の上限
 	static constexpr float LOCAL_PERCENT_MAX = 100.0f;
+
+	// ステージ内百分率座標の中央値
 	static constexpr float LOCAL_PERCENT_MID = 50.0f;
 
+	// 百分率Y座標から画面Y座標への変換
 	static float PercentToY(float percentY);
+
+	// 画面Y座標から百分率Y座標への変換
 	static float WorldYToPercentY(float worldY);
+
+	// 画面Y座標に対応する移動可能X座標の下限の算出
 	static float CalcXMinForY(float y);
+
+	// 画面Y座標に対応する移動可能X座標の上限の算出
 	static float CalcXMaxForY(float y);
+
+	// 画面座標から百分率X座標への変換
 	static float WorldXToPercentX(float worldX, float y);
 };

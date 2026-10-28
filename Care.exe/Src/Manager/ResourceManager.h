@@ -7,18 +7,36 @@
 class ResourceManager
 {
 public:
+
+	// キャラクター画像シートの横コマ数
 	static constexpr int CHARACTER_SHEET_COLUMNS = 3;
+
+	// キャラクター画像シートの縦コマ数
 	static constexpr int CHARACTER_SHEET_ROWS = 2;
+
+	// キャラクター画像1コマの幅
 	static constexpr int CHARACTER_CELL_WIDTH = 120;
+
+	// キャラクター画像1コマの高さ
 	static constexpr int CHARACTER_CELL_HEIGHT = 300;
+
+	// 正面向きの静止コマのインデックス
 	static constexpr int CHARACTER_FRONT_STILL_INDEX = 1;
+
+	// 背面向きの静止コマのインデックス（未使用）
 	static constexpr int CHARACTER_BACK_STILL_INDEX = 4;
 
 	// リソース名
 	enum class SRC
 	{
+
+		// タイトル画面の画像
 		TITLE_IMG,
+
+		// 通常画面で使用するフォント
 		MAIN_FONT,
+
+		// PC画面で使用するフォント
 		PC_FONT,
 		
 		// アドベンチャー画面
@@ -38,6 +56,8 @@ public:
 
 		PC_BG,					// パソコン画面背景
 		PC_FRAME,				// パソコン画面フレーム
+
+		// PC画面のマニュアルフォルダ画像
 		PC_MANUAL_FOLDER,
 		PC_FILE,		// ミニゲームマニュアルフォルダ
 		PC_BP_MANUAL,			// 血圧測定ミニゲームマニュアル
@@ -104,7 +124,7 @@ public:
 	// リソースの完全破棄
 	void Destroy();
 
-	// リソースのパスを取得
+	// 登録リソースのファイルパスの取得（未使用）
 	const char* GetResourcePath(SRC src) const;
 
 	// リソースのロード
@@ -113,18 +133,29 @@ public:
 	// フォントを指定設定でロード
 	int LoadFont(SRC src, int fontSize, int thick = DEFAULT_FONT_THICK, int fontSpace = DEFAULT_FONT_SPACE, int fontType = DX_FONTTYPE_ANTIALIASING);
 
-	// リソースの複製ロード(モデル用)
+	// 三次元モデルを複製したハンドルの取得（未使用）
 	int LoadModelDuplicate(SRC src);
 
 	//
 
 private:
+
+	// PC用フォントの既定サイズ
 	static constexpr int DEFAULT_PC_FONT_SIZE = 22;
+
+	// PC用フォントの既定の太さ
 	static constexpr int DEFAULT_PC_FONT_THICK = 0;
+
+	// PC用フォントの既定文字間隔
 	static constexpr int DEFAULT_PC_FONT_SPACE = -1;
 
+	// 通常フォントの基本サイズ
 	static constexpr int MAIN_FONT_SIZE = 30;
+
+	// フォントの既定の太さ
 	static constexpr int DEFAULT_FONT_THICK = -1;
+
+	// フォントの既定文字間隔
 	static constexpr int DEFAULT_FONT_SPACE = 0;
 
 	// 素材登録するヘルパー関数
@@ -139,6 +170,7 @@ private:
 	// 読み込み済みリソースの保管
 	std::map<SRC, Resource*> loadedMap_;
 
+	// 未登録リソースに対する代替リソース
 	Resource dummy_;
 
 	// デフォルトコンストラクタをprivateにして、

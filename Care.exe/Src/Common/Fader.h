@@ -12,6 +12,8 @@ public:
 	// 状態
 	enum class STATE
 	{
+
+		// フェードなし
 		NONE, 
 		FADE_OUT,	// 徐々に暗転
 		FADE_IN		// 徐々に明転
@@ -42,8 +44,11 @@ public:
 	void Draw();
 
 private:
+
+	// フェードに使用する塗りつぶし色
 	static constexpr int FADE_COLOR = Application::DEFAULT_COLOR_0;
 
+	// 完全不透明時のアルファ値
 	static constexpr int MAX_ALPHA = 255;
 
 

@@ -16,10 +16,16 @@ public:
 	static constexpr Vector2 PULSE_WAVE_RELATIVE_POS = { 154, 46 }; // 脈波の開始位置（表示領域の左上基準、px）
 
 private:
+
+	// 描画色のRGB成分の組
 	struct Rgb
 	{
+
+		// 各色成分
 		int r, g, b;
-		int ToDxColor() const { return GetColor(r, g, b); }
+
+		// RGB成分からカラーコードへの変換
+		unsigned int ToDxColor() const { return GetColor(r, g, b); }
 	};
 
 	// 数値表示と異常時の揺れ（フレームはUpdateの呼び出し回数）
@@ -104,22 +110,25 @@ private:
 	static constexpr Rgb FAILED_COLOR = { 225, 60, 70 }; // 失敗画像がない場合のFAILEDの文字色
 	static constexpr Rgb BLACK_COLOR = { 0, 0, 0 }; // 失敗画面の黒い下地色
 
+	// 血圧測定の進行状態
 	enum class State
 	{
-		INFLATE,
-		DEFLATE,
-		SUCCESS,
-		FAILED,
+		INFLATE,	// 加圧中
+		DEFLATE,	// 減圧と血圧検出中
+		SUCCESS,	// 血圧測定の成功
+		FAILED,		// 血圧測定の失敗
+
 	};
 
+	// ミニゲーム画像の配列インデックス
 	enum class Image
 	{
-		BACKGROUND,
-		MONITOR,
-		PULSE,
-		FAILED,
-		INTRUCT,
-		MAX
+		BACKGROUND,	// 背景画像
+		MONITOR,	// 血圧計モニター画像
+		PULSE,		// 脈拍マーカー画像
+		FAILED,		// 測定失敗画像
+		INTRUCT,	// 操作説明画像
+		MAX			// 画像総数
 	};
 
 
@@ -182,47 +191,119 @@ private:
 
 
 	void InitLoad() override;
+
+	// ミニゲームに使用する画像の読み込み
 	void LoadImages();
+
+	// 入力に応じた加圧状態の更新
 	void UpdateInflate(float deltaTime);
+
+	// 減圧と血圧検出入力の更新
 	void UpdateDeflate(float deltaTime);
+
+	// 測定成功後の復帰待ち時間の更新
 	void UpdateSuccess(float deltaTime);
+
+	// 測定失敗後の入力状態の更新
 	void UpdateFailed();
+
+	// 測定失敗状態への切り替え
 	void Fail();
+
+	// 現在圧力の最高血圧としての記録
 	void RecordSystolic();
+
+	// 現在圧力の最低血圧としての記録
 	void RecordDiastolic();
 
+	// 最高血圧を記録可能な圧力範囲の判定
 	bool IsSystolicDetectable() const;
+
+	// 最低血圧を記録可能な圧力範囲の判定
 	bool IsDiastolicDetectable() const;
+
+	// 現在圧力での脈動状態の判定
 	bool IsPulseMoving() const;
+
+	// 最高血圧の検出機会の通過判定
 	bool IsPulseMissed() const;
+
+	// 最低血圧の検出機会の通過判定
 	bool IsDiastolicMissed() const;
+
+	// 異常演出と上限を反映した表示圧力の取得
 	int GetDisplayPressure() const;
+
+	// 異常演出と脈動状態を反映した表示脈拍の取得
 	int GetDisplayPulse() const;
 
+	// 背景素材がない場合の部屋の代替描画
 	void DrawRoom() const;
+
+	// 背景画像の描画
 	void DrawBG() const;
+
+	// モニターと測定数値の描画
 	void DrawMonitor() const;
+
+	// 圧力ゲージの描画
 	void DrawPressureGauge() const;
+
+	// 脈動に合わせた腕のマーカーの描画
 	void DrawPulseMarker() const;
+
+	// モニター内の脈波の描画
 	void DrawPulseWave() const;
+
+	// モニターの横ノイズとエラー表示の描画
 	void DrawGlitch() const;
+
+	// 測定失敗画面の描画
 	void DrawFailed() const;
 
+	// 整数値の指定範囲への制限
 	static int ClampInt(int value, int minValue, int maxValue);
+
+	// 二つの整数の最大値の取得（未使用）
 	static int MaxInt(int lhs, int rhs);
+
+	// 二つの整数の最小値の取得
 	static int MinInt(int lhs, int rhs);
 
+	// 現在の血圧測定の進行状態
 	State state_;
+
+	// 現在のカフ圧力
 	float pressure_;
+
+	// 成功結果の表示経過秒数
 	float resultTimer_;
+
+	// 演出用の経過フレーム数
 	int frame_;
+
+	// 通常文字用フォントのハンドル
 	int font_;
+
+	// 数値表示用の大きいフォントのハンドル
 	int largeFont_;
+
+	// 画像種別ごとの読み込み済みハンドル
 	int images_[static_cast<int>(Image::MAX)];
+
+	// 記録済みの最高血圧
 	int systolic_;
+
+	// 記録済みの最低血圧
 	int diastolic_;
+
+	// モニターの異常演出の有効状態
 	bool isMonitorAbnormal_;
+
+	// 最高血圧の測定済み状態
 	bool isSystolicMeasured_;
+
+	// リソースの解放済み状態
 	bool isDeleted_;
 
 };
