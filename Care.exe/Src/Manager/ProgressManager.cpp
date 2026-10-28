@@ -50,8 +50,23 @@ void ProgressManager::Init()
 	progress_ = START;
 	resetCount_ = 0;
 
-	_mkdir(SYSTEM_DIR_PATH);
-	_mkdir(CHARA_DIR_PATH);
+	// システムフォルダの生成
+	if (_mkdir(SYSTEM_DIR_PATH) == -1) {
+		if (errno != EEXIST) {
+			// フォルダが既に存在する場合以外のエラー
+			printf("フォルダが正常に作成できませんでした。MAKE_SYSTEM_DIR_FAILED");
+
+		}
+	}
+
+	// Charaフォルダの生成
+	if (_mkdir(CHARA_DIR_PATH) == -1) {
+		if (errno != EEXIST) {
+			// フォルダが既に存在する場合以外のエラー
+			printf("フォルダが正常に作成できませんでした。MAKE_CHARA_DIR_FAILED");
+
+		}
+	}
 
 	const bool isFirstLaunch = !IsFileExists(PROGRESS_SAVE_PATH);
 	if (!isFirstLaunch)
@@ -75,7 +90,10 @@ void ProgressManager::SetProgress(STORY_PROGRESS progress)
 	SaveProgress();
 }
 
-
+/// <summary>
+/// セーブデータの削除
+/// </summary>
+/// <returns>リセット成功したか？</returns>
 bool ProgressManager::ResetProgressCache()
 {
 	isPatientCharExists_ = IsFileExists(PATIENT_CHAR_PATH);
@@ -101,6 +119,7 @@ bool ProgressManager::ResetProgressCache()
 	resetCount_ = 0;
 #endif
 
+	// リセットが成功したか判定（charデータの存在復元・進行度の保存成功か）を返す
 	return isPatientCharExists_ && isNurseCharExists_ && SaveProgress();
 }
 
@@ -175,9 +194,11 @@ void ProgressManager::LoadProgress()
 	}
 
 #ifndef _DEMO
+	// デモ版でなければ、リセットカウントを読み込む
 	file >> resetCount_;
 	if (!file || resetCount_ < 0)
 	{
+		// ファイルが存在しないか、カウントが0未満なら0とする
 		resetCount_ = 0;
 	}
 #else

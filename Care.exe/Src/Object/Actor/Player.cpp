@@ -29,7 +29,7 @@ bool Player::IsFacingRight() const
 
 ProcessMove* Player::GetProcessMove()
 {
-	return processMove_.get();
+	
 }
 
 void Player::Release()

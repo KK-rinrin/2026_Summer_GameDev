@@ -24,12 +24,12 @@ public:
 	// ステージ内イベント実行時にGameScene側の所有物へアクセスするための窓口
 	struct DecideContext
 	{
-		ActorBase& controlActor;
-		const ActorBase* patientActor;
-		ProgressManager& progressManager;
-		Talk& talk;
-		SoundManager& soundManager;
-		std::function<void(StageId, const VECTOR&)> ChangeStage;
+		ActorBase& controlActor;			// コントロールするキャラ
+		const ActorBase* patientActor;		// 患者キャラ
+		ProgressManager& progressManager;	// 進行度管理マネージャ
+		Talk& talk;							// 会話
+		SoundManager& soundManager;			// サウンドマネージャ
+		std::function<void(StageId, const VECTOR&)> ChangeStage;	// 移動先のステージ・座標へ移動
 	};
 
 	StageBase();
@@ -67,25 +67,25 @@ protected:
 
 	struct TransformObject
 	{
-		Transform2D transform;
-		Sprite2D sprite;
-		void Draw() const;
-		bool useSortY;
-		float sortY;
+		Transform2D transform;	// 物体情報
+		Sprite2D sprite;		// 画像スプライトデータ
+		void Draw() const;		// 描画
+		bool useSortY;			// レンダリング順にsortYを適用するか？false→transformから取得
+		float sortY;			// 前後を切り替えるY座標（プレイヤーがこれより奥に行くと手前に出る）
 	};
 
-	void AddScreenObject(int handle, float sortY, bool trans = true);
-	void AddTransformObject(const Transform2D& transform, const Sprite2D& sprite);
-	void AddTransformObject(const Transform2D& transform, const Sprite2D& sprite, float sortY);
-	void AddMBRectPercent(const VECTOR& leftTopPercent, const VECTOR& rightBottomPercent);
-	void DrawMoveGuide(const Vector2& pos) const;
+	void AddScreenObject(int handle, float sortY, bool trans = true);	// スクリーンオブジェクトを追加
+	void AddTransformObject(const Transform2D& transform, const Sprite2D& sprite);				// 物体を追加
+	void AddTransformObject(const Transform2D& transform, const Sprite2D& sprite, float sortY);	// 物体を追加（奥行きつき）
+	void AddMBRectPercent(const VECTOR& leftTopPercent, const VECTOR& rightBottomPercent);	// 障害物当たり判定（矩形）を作成
+	void DrawMoveGuide(const Vector2& pos) const;	// 移動ガイドを描画
 
 	virtual void InitLoad() {}
 	virtual void InitTransform() {}
 	virtual void InitCollider() {}
 
-	int BGhandle_;
-	int guideMoveHandle_;
+	int BGhandle_;	// 背景画像ハンドル
+	int guideMoveHandle_;	// 移動可能を示す操作ガイド画像ハンドル
 	std::vector<TransformObject> objects_;		// 障害物の位置
 	std::vector<RenderObject> screenObjects_;
 	std::vector<Rect> movementRectPercents_;	// 当たり判定

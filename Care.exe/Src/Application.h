@@ -37,10 +37,7 @@ public:
 	static const std::string PATH_FONT;		// フォントデータフォルダ
 	static const std::string PATH_CHARA;	// Charaフォルダ（ストーリーに関わる）
 
-	static const std::string PATH_KEY_CONFIG;			// キーコンフィグ保存パス？（未使用）
-	static const std::string PATH_KEY_CONFIG_GAMEPAD;	// ゲームパッドキーコンフィグ保存パス？（未使用）
-	static const std::string PATH_KEY_CONFIG_KEYBOARD;	// キーボードコンフィグ保存パス？（未使用）
-	//-------------------------------------------
+	////-------------------------------------------
 
 	// インスタンスを明示的に生成
 	static void CreateInstance();

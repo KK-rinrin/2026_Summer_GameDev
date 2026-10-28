@@ -37,6 +37,9 @@ public:
 	// 変換情報取得
 	const Transform2D& GetTransform() const;
 
+	// 移動コントローラークラスを取得
+	const ProcessMove* GetProcessMove() const { return processMove_.get(); }
+
 	void SetLocalPercent(float x, float y);
 	bool IsFacingRight() const;
 
