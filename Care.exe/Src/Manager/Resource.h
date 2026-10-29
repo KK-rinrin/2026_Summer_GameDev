@@ -7,30 +7,16 @@
 class Resource
 {
 public:
+
 	// リソースタイプ
 	enum class TYPE
 	{
-
-		// 未指定のリソース種別
-		NONE,
-
-		// 単一画像のリソース
-		IMG,
-
-		// 分割画像のリソース
-		IMGS,
-
-		// 三次元モデルのリソース
-		MODEL,
-
-		// Live2Dモデルのリソース
-		LIVE2D,
-
-		// フォントのリソース
-		FONT,
-
-		// 音声のリソース
-		SOUND,
+		NONE,	// 未指定のリソース種別
+		IMG,	// 単一画像のリソース
+		IMGS,	// 分割画像のリソース
+		LIVE2D,	// Live2Dモデルのリソース
+		FONT,	// フォントのリソース
+		SOUND,	// 音声のリソース
 	};
 
 	// コンストラクタ
@@ -94,8 +80,6 @@ public:
 	// フォントの描画方式
 	int fontType_;
 
-	// モデル複製用
-	std::vector<int> duplicateModelIds_;
 
 private:
 

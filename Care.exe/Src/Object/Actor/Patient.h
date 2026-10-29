@@ -1,4 +1,5 @@
 #pragma once
+#include "../../Common/Vector2.h"
 #include "ActorBase.h"
 #include <DxLib.h>
 
@@ -9,7 +10,7 @@ class Patient : public ActorBase
 public:
 
 	// 初期座標
-	static constexpr VECTOR INIT_PER = { 60.0f, 32.0f, 0.0f };
+	static constexpr Vector2<float> INIT_PER = { 60.0f, 32.0f };
 
 	// 当たり判定（半径）
 	static constexpr float COL_RADIUS = 3.0f;
@@ -19,6 +20,9 @@ public:
 
 	// コンストラクタ
 	Patient();
+
+	// ファイルがある場合の描画
+	void Draw() override;
 
 	// 開放
 	void Release() override;

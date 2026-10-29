@@ -26,7 +26,7 @@ void Renderer2D::AddSprite(const Transform2D* transform, const Sprite2D* sprite,
 	Add(
 		[transform]() { return transform->GetWorldPos().y; },
 		[transform, sprite]() {
-			const VECTOR world = transform->GetWorldPos();
+			const Vector2<float> world = transform->GetWorldPos();
 			sprite->Draw(world, transform->scaleX, transform->scaleY, StageProjection2D::GetPerspectiveScale(world.y));
 		},
 		layer

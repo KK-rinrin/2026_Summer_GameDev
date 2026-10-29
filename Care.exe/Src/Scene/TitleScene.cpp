@@ -12,10 +12,10 @@
 #include "../Object/Talk/window/Live2DTalkController.h"
 
 static constexpr int TITLE_IMAGE_BOTTOM_OFFSET = 500;
-static constexpr Vector2 TITLE_IMAGE_POS = { Application::SCREEN_SIZE_X / 2,
+static constexpr Vector2<int> TITLE_IMAGE_POS = { Application::SCREEN_SIZE_X / 2,
 	Application::SCREEN_SIZE_Y - TITLE_IMAGE_BOTTOM_OFFSET };
 
-constexpr Vector2 TitleScene::MENU_POS;
+constexpr Vector2<int> TitleScene::MENU_POS;
 
 TitleScene::TitleScene()
 	: SceneBase()

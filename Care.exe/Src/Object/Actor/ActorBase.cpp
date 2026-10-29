@@ -10,7 +10,7 @@ ActorBase::ActorBase()
 	: resMng_(ResourceManager::GetInstance())
 	, scnMng_(SceneManager::GetInstance())
 	, transform_()
-	, beforePos_(SchoolUtility::VECTOR_ZERO)
+	, beforePos_(Vector2<float>{})
 	, radius_(0.0f)
 	, collider_(radius_)
 {
@@ -38,11 +38,14 @@ void ActorBase::Init()
 
 }
 
-void ActorBase::Update()
+void ActorBase::Update(bool acceptMoveInput)
 {
 	BeginMovement();
 	
-	UpdateProcessMove();
+	if (acceptMoveInput)
+	{
+		UpdateProcessMove();
+	}
 
 	// transform2D 側でパーセンテージのクランプとワールド座標への収め込みを行う
 	transform_.Update();
@@ -52,7 +55,7 @@ void ActorBase::Update()
 
 void ActorBase::Draw()
 {
-	const VECTOR world = transform_.GetWorldPos();
+	const Vector2<float> world = transform_.GetWorldPos();
 	sprite_.Draw(world, transform_.scaleX, transform_.scaleY, StageProjection2D::GetPerspectiveScale(world.y));
 }
 
@@ -88,7 +91,7 @@ void ActorBase::UpdateSortKey()
 
 bool ActorBase::IsHitCircle(const ActorBase& other) const
 {
-	return SchoolUtility::IsHitSpheres(transform_.pos, collider_.radius, other.transform_.pos, other.collider_.radius);
+	return Collision::CollisionCircle(transform_.pos, collider_.radius, other.transform_.pos, other.collider_.radius);
 }
 
 void ActorBase::MoveToBeforePos()
@@ -97,7 +100,7 @@ void ActorBase::MoveToBeforePos()
 	transform_.Update();
 }
 
-void ActorBase::BlockCrossingLocalRect(const VECTOR& leftTopPercent, const VECTOR& rightBottomPercent)
+void ActorBase::BlockCrossingLocalRect(const Vector2<float>& leftTopPercent, const Vector2<float>& rightBottomPercent)
 {
 	transform_.pos = Collision::BlockCrossingLocalRect(beforePos_, transform_.pos, leftTopPercent, rightBottomPercent);
 }

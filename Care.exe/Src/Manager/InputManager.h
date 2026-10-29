@@ -8,6 +8,7 @@
 class InputManager
 {
 public:
+
 	// ゲームコントローラーの認識番号
 	// DxLib定数、DX_INPUT_PAD1等に対応
 	enum class JOYPAD_NO
@@ -17,83 +18,39 @@ public:
 		PAD2,				// パッド２入力
 		PAD3,				// パッド３入力
 		PAD4,				// パッド４入力
-
-		// キーボード単独入力の認識番号（未使用）
-		INPUT_KEY = 4096	// キー入力
+		INPUT_KEY = 4096	// キーボード単独入力の認識番号 / キー入力（未使用）
 	};
 
 	// ゲームコントローラータイプ
 	// DxLib定数、DX_OTHER等に対応
 	enum class JOYPAD_TYPE
 	{
-
-		// その他のコントローラー種別
-		OTHER = 0,
-
-		// Xbox 360コントローラー
-		XBOX_360,
-
-		// Xbox Oneコントローラー
-		XBOX_ONE,
-
-		// DUALSHOCK 4コントローラー
-		DUAL_SHOCK_4,
-
-		// DualSenseコントローラー
-		DUAL_SENSE,
-
-		// 左側Joy-Conの種別
-		SWITCH_JOY_CON_L,
-
-		// 右側Joy-Conの種別
-		SWITCH_JOY_CON_R,
-
-		// Switch Proコントローラー
-		SWITCH_PRO_CTRL,
-
-		// コントローラー種別の件数
-		MAX
+		OTHER = 0,			// その他のコントローラー種別
+		XBOX_360,			// Xbox 360コントローラー
+		XBOX_ONE,			// Xbox Oneコントローラー
+		DUAL_SHOCK_4,		// DUALSHOCK 4コントローラー
+		DUAL_SENSE,			// DualSenseコントローラー
+		SWITCH_JOY_CON_L,	// 左側Joy-Conの種別
+		SWITCH_JOY_CON_R,	// 右側Joy-Conの種別
+		SWITCH_PRO_CTRL,	// Switch Proコントローラー
+		MAX					// コントローラー種別の件数
 	};
 
 	// ゲームコントローラーボタン
 	enum class JOYPAD_BTN
 	{
-
-		// 左側のフェイスボタン
-		LEFT = 0,
-
-		// 右側のフェイスボタン
-		RIGHT,
-
-		// 上側のフェイスボタン
-		TOP,
-
-		// 下側のフェイスボタン
-		DOWN,
-
-		// 右トリガー
-		R_TRIGGER,
-
-		// 左トリガー
-		L_TRIGGER,
-
-		// スタートボタン
-		START,
-
-		// 方向キーの上
-		DPAD_UP,
-
-		// 方向キーの下
-		DPAD_DOWN,
-
-		// 方向キーの左
-		DPAD_LEFT,
-
-		// 方向キーの右
-		DPAD_RIGHT,
-
-		// 入力管理対象のボタン数
-		MAX
+		LEFT = 0,	// 左側のフェイスボタン
+		RIGHT,		// 右側のフェイスボタン
+		TOP,		// 上側のフェイスボタン
+		DOWN,		// 下側のフェイスボタン
+		R_TRIGGER,	// 右トリガー
+		L_TRIGGER,	// 左トリガー
+		START,		// スタートボタン
+		DPAD_UP,	// 方向キーの上
+		DPAD_DOWN,	// 方向キーの下
+		DPAD_LEFT,	// 方向キーの左
+		DPAD_RIGHT,	// 方向キーの右
+		MAX			// 入力管理対象のボタン数
 	};
 
 	// ゲームコントローラーの入力情報
@@ -165,7 +122,7 @@ public:
 	bool IsNewKeyAll() const;
 
 	// マウス座標の取得
-	Vector2 GetMousePos() const;
+	Vector2<int> GetMousePos() const;
 
 	// マウスのボタン入力ビット列の取得（未使用）
 	int GetMouse() const;
@@ -204,7 +161,6 @@ public:
 	bool IsPadBtnNewAll(JOYPAD_NO no) const;
 
 	// スティック入力に対応する正規化済みXZ方向の取得（未使用）
-	VECTOR GetDirectionXZAKey(int aKeyX, int aKeyY) const;
 
 private:
 
@@ -217,12 +173,8 @@ private:
 	// DirectInputのPlayStationボタン番号
 	enum PlayStationDInputButton : int
 	{
-
-		// 四角とバツと丸と三角のDirectInput番号
-		PS_SQUARE, PS_CROSS, PS_CIRCLE, PS_TRIANGLE,
-
-		// 左右トリガーとOptionsのDirectInput番号
-		PS_L2 = 6, PS_R2 = 7, PS_OPTIONS = 9
+		PS_SQUARE, PS_CROSS, PS_CIRCLE, PS_TRIANGLE,	// 四角とバツと丸と三角のDirectInput番号
+		PS_L2 = 6, PS_R2 = 7, PS_OPTIONS = 9			// 左右トリガーとOptionsのDirectInput番号
 	};
 
 
@@ -268,7 +220,7 @@ private:
 	InputManager::MouseInfo mouseInfoEmpty_;
 
 	// マウスカーソルの位置
-	Vector2 mousePos_;
+	Vector2<int> mousePos_;
 	
 	// マウスボタンの入力状態
 	int mouseInput_;

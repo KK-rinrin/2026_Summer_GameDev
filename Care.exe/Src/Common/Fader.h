@@ -12,9 +12,7 @@ public:
 	// 状態
 	enum class STATE
 	{
-
-		// フェードなし
-		NONE, 
+		NONE,		// フェードなし
 		FADE_OUT,	// 徐々に暗転
 		FADE_IN		// 徐々に明転
 	};

@@ -1,4 +1,5 @@
 #pragma once
+#include "../../Common/Vector2.h"
 #include "../Common/Transform2D.h"
 #include "../Common/Sprite2D.h"
 #include "../Common/CharacterAnimator2D.h"
@@ -26,7 +27,7 @@ public:
 	void Init();
 
 	// 更新
-	virtual void Update();
+	virtual void Update(bool acceptMoveInput = true);
 
 	// 描画
 	virtual void Draw();
@@ -38,7 +39,7 @@ public:
 	const Transform2D& GetTransform() const;
 
 	// 移動コントローラークラスを取得
-	const ProcessMove* GetProcessMove() const { return processMove_.get(); }
+	ProcessMove* GetProcessMove() const { return processMove_.get(); }
 
 	// ステージ内百分率座標による位置の設定
 	void SetLocalPercent(float x, float y);
@@ -52,8 +53,8 @@ public:
 	// 描画順に使用する画面Y座標の取得
 	float GetSortY() const { return transform_.GetWorldPos().y; }
 
-	// ローカル百分率矩形による通過防止（leftTop / rightBottom は VECTOR、0..100）
-	void BlockCrossingLocalRect(const VECTOR& leftTopPercent, const VECTOR& rightBottomPercent);
+	// ローカル百分率矩形による通過防止（leftTop / rightBottom は Vector2<float>、0..100）
+	void BlockCrossingLocalRect(const Vector2<float>& leftTopPercent, const Vector2<float>& rightBottomPercent);
 
 	// 他のキャラクターとの円形衝突判定
 	bool IsHitCircle(const ActorBase& other) const;
@@ -76,7 +77,7 @@ protected:
 	Sprite2D sprite_;
 
 	// 移動開始前のローカル座標
-	VECTOR beforePos_;
+	Vector2<float> beforePos_;
 
 	// 移動前のローカル座標の保存
 	void BeginMovement() { beforePos_ = transform_.pos; }

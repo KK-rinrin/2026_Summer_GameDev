@@ -77,17 +77,17 @@ void GameScene::Update()
 		break;
 	}
 
-	if (canMove_ && stage_ != nullptr && controlActor_ != nullptr && talk_ != nullptr &&
+	if (canMove_ && stage_ != nullptr && IsControlActorAvailable() && talk_ != nullptr &&
 		KeyConfig::IsTrgDown(KeyConfig::ACTION::DECIDE, iptMng_))
 	{
 		StageBase::DecideContext context =
 		{
 			*controlActor_,
-			patient_.get(),
+			(prgMng_.IsPatientCharExists() ? patient_.get() : nullptr),
 			prgMng_,
 			*talk_,
 			sndMng_,
-			[this](StageBase::StageId nextStage, const VECTOR& movePos)
+			[this](StageBase::StageId nextStage, const Vector2<float>& movePos)
 			{
 				const Stage stage = (nextStage == StageBase::StageId::PAT_ROOM) ?
 					Stage::PAT_ROOM : Stage::NURSE_STATION;
@@ -130,7 +130,7 @@ void GameScene::Draw()
 
 	render_->Render();
 
-	if (canMove_ && stage_ != nullptr && controlActor_ != nullptr &&
+	if (canMove_ && stage_ != nullptr && IsControlActorAvailable() &&
 		!stage_->IsInputBlocked() &&
 		(gameMenu_ == nullptr || !gameMenu_->IsOpen()))
 	{
@@ -280,7 +280,7 @@ void GameScene::ApplyInitialProgressState()
 {
 	if (sceMng_.HasSettingReturnGameState())
 	{
-		const VECTOR returnPos = sceMng_.GetSettingReturnActorPos();
+		const Vector2<float> returnPos = sceMng_.GetSettingReturnActorPos();
 
 		// SettingSceneから戻った時は、開いた時点のステージと操作キャラ座標を復元する。
 		currentStage_ = static_cast<Stage>(sceMng_.GetSettingReturnGameStage());
@@ -502,7 +502,7 @@ void GameScene::OpenSettingFromGameMenu()
 
 void GameScene::UpdatePR()
 {
-	if (canMove_ && controlActor_ != nullptr)
+	if (canMove_ && IsControlActorAvailable())
 	{
 		controlActor_->Update();
 		if (stage_ != nullptr)
@@ -510,21 +510,22 @@ void GameScene::UpdatePR()
 			stage_->ApplyCollision(*controlActor_);
 		}
 
-		if (patient_ != nullptr && controlActor_ != patient_.get() && controlActor_->IsHitCircle(*patient_))
+		if (patient_ != nullptr && prgMng_.IsPatientCharExists() &&
+			controlActor_ != patient_.get() && controlActor_->IsHitCircle(*patient_))
 		{
 			controlActor_->MoveToBeforePos();
 		}
 	}
 
-	if (patient_ != nullptr && controlActor_ != patient_.get())
+	if (patient_ != nullptr && prgMng_.IsPatientCharExists() && controlActor_ != patient_.get())
 	{
-		patient_->Update();
+		patient_->Update(false);
 	}
 }
 
 void GameScene::UpdateNS()
 {
-	if (canMove_ && controlActor_ != nullptr)
+	if (canMove_ && IsControlActorAvailable())
 	{
 		controlActor_->Update();
 		if (stage_ != nullptr)
@@ -532,4 +533,17 @@ void GameScene::UpdateNS()
 			stage_->ApplyCollision(*controlActor_);
 		}
 	}
+}
+
+bool GameScene::IsControlActorAvailable() const
+{
+	if (controlActor_ == nullptr)
+	{
+		return false;
+	}
+	if (controlActor_ == player_.get())
+	{
+		return prgMng_.IsNurseCharExists();
+	}
+	return controlActor_ == patient_.get() && prgMng_.IsPatientCharExists();
 }

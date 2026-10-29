@@ -15,29 +15,17 @@ public:
 	// 通常メニューと一時停止の表示モード
 	enum class Mode
 	{
-
-		// 通常メニュー表示
-		NORMAL,
-
-		// 一時停止表示
-		PAUSE,
+		NORMAL,	// 通常メニュー表示
+		PAUSE,	// 一時停止表示
 	};
 
 	// メニュー操作の確定結果
 	enum class Result
 	{
-
-		// 確定結果なし
-		NONE,
-
-		// ゲームへの復帰要求
-		RESUME,
-
-		// 設定画面への移動要求
-		OPEN_SETTING,
-
-		// タイトル画面への移動要求
-		BACK_TO_TITLE,
+		NONE,			// 確定結果なし
+		RESUME,			// ゲームへの復帰要求
+		OPEN_SETTING,	// 設定画面への移動要求
+		BACK_TO_TITLE,	// タイトル画面への移動要求
 	};
 
 	GameMenu();
@@ -62,18 +50,10 @@ private:
 	// 通常メニューの選択項目
 	enum class Item
 	{
-
-		// ゲームに戻る項目
-		RESUME,
-
-		// 設定画面を開く項目
-		SETTING,
-
-		// タイトル画面に戻る項目
-		BACK_TO_TITLE,
-
-		// メニュー項目数
-		MAX
+		RESUME,			// ゲームに戻る項目
+		SETTING,		// 設定画面を開く項目
+		BACK_TO_TITLE,	// タイトル画面に戻る項目
+		MAX				// メニュー項目数
 	};
 
 	// 完全不透明時のアルファ値
@@ -83,7 +63,7 @@ private:
 	static constexpr int DIM_COLOR = Application::DEFAULT_COLOR_0;
 
 	// メニュー見出しの画面座標
-	static constexpr Vector2 TITLE_POS = { 35, 20 };
+	static constexpr Vector2<int> TITLE_POS = { 35, 20 };
 
 	// メニュー見出しのフォントサイズ
 	static constexpr int TITLE_FONT_SIZE = 38;
@@ -92,13 +72,13 @@ private:
 	static constexpr int MENU_FONT_SIZE = 30;
 
 	// 先頭メニュー項目の画面座標
-	static constexpr Vector2 MENU_TEXT_POS = { 70, 280 };
+	static constexpr Vector2<int> MENU_TEXT_POS = { 70, 280 };
 
 	// メニュー項目間の縦間隔
 	static constexpr int MENU_TEXT_INTERVAL_Y = 70;
 
 	// 一時停止文字列の画面座標
-	static constexpr Vector2 PAUSE_TEXT_POS = { 340, 280 };
+	static constexpr Vector2<int> PAUSE_TEXT_POS = { 340, 280 };
 
 	// 全画面矩形の左端
 	static constexpr int SCREEN_LEFT = 0;
@@ -134,10 +114,10 @@ private:
 	static constexpr int PAUSE_TEXT_COLOR = Application::DEFAULT_COLOR_8;
 
 	// プレイヤーモデルの表示倍率
-	static constexpr VECTOR PLAYER_MODEL_EXTEND = { 3.0f, 3.0f, 0.0f };
+	static constexpr Vector2<float> PLAYER_MODEL_EXTEND = { 3.0f, 3.0f };
 
 	// プレイヤーモデルの表示位置
-	static constexpr VECTOR PLAYER_MODEL_POS = { 230.0f, -300.0f, 0.0f };
+	static constexpr Vector2<float> PLAYER_MODEL_POS = { 230.0f, -300.0f };
 
 	// メニュー見出しの表示文字列
 	static constexpr const char* TITLE_TEXT = "MENU";

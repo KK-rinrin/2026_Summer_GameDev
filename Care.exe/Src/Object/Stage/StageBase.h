@@ -14,15 +14,12 @@ class Talk;
 class StageBase
 {
 public:
+
 	// GameSceneに依存せず遷移先ステージを伝えるためのID
 	enum class StageId
 	{
-
-		// 患者部屋のステージID
-		PAT_ROOM,
-
-		// ナースステーションのステージID
-		NURSE_STATION,
+		PAT_ROOM,		// 患者部屋のステージID
+		NURSE_STATION,	// ナースステーションのステージID
 	};
 
 	// ステージ内イベント実行時にGameScene側の所有物へアクセスするための窓口
@@ -33,7 +30,7 @@ public:
 		ProgressManager& progressManager;	// 進行度管理マネージャ
 		Talk& talk;							// 会話
 		SoundManager& soundManager;			// サウンドマネージャ
-		std::function<void(StageId, const VECTOR&)> ChangeStage;	// 移動先のステージ・座標へ移動
+		std::function<void(StageId, const Vector2<float>&)> ChangeStage;	// 移動先のステージ・座標へ移動
 	};
 
 	StageBase();
@@ -72,8 +69,8 @@ protected:
 	// ローカル百分率基準の矩形（pos.x/pos.y が 0..100 の空間）
 	struct Rect
 	{
-		VECTOR leftTop;    // 左上 (x=0..100, y=0..100)
-		VECTOR rightBottom;// 右下 (x=0..100, y=0..100)
+		Vector2<float> leftTop;    // 左上 (x=0..100, y=0..100)
+		Vector2<float> rightBottom;// 右下 (x=0..100, y=0..100)
 	};
 
 	// 座標変換を伴うステージオブジェクトの描画情報
@@ -89,8 +86,8 @@ protected:
 	void AddScreenObject(int handle, float sortY, bool trans = true);	// スクリーンオブジェクトを追加
 	void AddTransformObject(const Transform2D& transform, const Sprite2D& sprite);				// 物体を追加
 	void AddTransformObject(const Transform2D& transform, const Sprite2D& sprite, float sortY);	// 物体を追加（奥行きつき）
-	void AddMBRectPercent(const VECTOR& leftTopPercent, const VECTOR& rightBottomPercent);	// 障害物当たり判定（矩形）を作成
-	void DrawMoveGuide(const Vector2& pos) const;	// 移動ガイドを描画
+	void AddMBRectPercent(const Vector2<float>& leftTopPercent, const Vector2<float>& rightBottomPercent);	// 障害物当たり判定（矩形）を作成
+	void DrawMoveGuide(const Vector2<int>& pos) const;	// 移動ガイドを描画
 
 	// 派生ステージによるリソース読み込み
 	virtual void InitLoad() {}

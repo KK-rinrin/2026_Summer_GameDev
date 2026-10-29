@@ -11,30 +11,22 @@ struct CharUnit
 	// 文字ユニットの処理種別
 	enum class Type
 	{
-
-		// 通常の表示文字
-		NORMAL,
-
-		// 待機を伴う句読点文字
-		PUNCT,
-
-		// 文字表示を伴わない制御タグ
-		TAG
+		NORMAL,	// 通常の表示文字
+		PUNCT,	// 待機を伴う句読点文字
+		TAG		// 文字表示を伴わない制御タグ
 	};
 
 	// 句読点種別
 	enum class PunctKind
 	{
-
-		// 句読点の指定なし
-		NONE,
-		PERIOD,    // 。 .
-		COMMA,     // 、 ,
-		EXCLAM,    // !
-		QUESTION,  // ?
-		EXCLAM_MANY,   // !!! 等
-		QUESTION_MANY, // ??? 等
-		MIXED          // !? ?! 等
+		NONE,			// 句読点の指定なし
+		PERIOD,			// 句点とピリオド
+		COMMA,			// 読点とカンマ
+		EXCLAM,			// !
+		QUESTION,		// ?
+		EXCLAM_MANY,	// !!! 等
+		QUESTION_MANY,	// ??? 等
+		MIXED			// !? ?! 等
 	};
 
 	// 文字ユニットの処理種別

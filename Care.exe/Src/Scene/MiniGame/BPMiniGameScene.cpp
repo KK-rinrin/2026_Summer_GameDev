@@ -416,9 +416,9 @@ void BPMiniGameScene::DrawMonitor() const
 void BPMiniGameScene::DrawPressureGauge() const
 {
 
-	const Vector2& gaugePos = PRESSURE_GAUGE_POS;
+	const Vector2<int>& gaugePos = PRESSURE_GAUGE_POS;
 
-	const Vector2& gaugeSize = PRESSURE_GAUGE_SIZE;
+	const Vector2<int>& gaugeSize = PRESSURE_GAUGE_SIZE;
 
 	const float rate = SchoolUtility::Clamp(pressure_ / PRESSURE_MAX, 0.0f, 1.0f);
 
@@ -444,31 +444,31 @@ void BPMiniGameScene::DrawPulseMarker() const
 
 	const float beatRange = isMonitorAbnormal_ ? MARKER_ABNORMAL_AMPLITUDE : MARKER_NORMAL_AMPLITUDE;
 
-	const Vector2 markerPos =
+	const Vector2<float> markerPos =
 	{
 		PULSE_MARKER_POS.x,
-		PULSE_MARKER_POS.y + static_cast<int>(beat * beatRange)
+		PULSE_MARKER_POS.y + beat * beatRange
 	};
 	if (pulse != -1)
 	{
-		DrawRotaGraph(markerPos.x, markerPos.y, 1.0, 0.0, pulse, true);
+		DrawRotaGraph(static_cast<int>(markerPos.x), static_cast<int>(markerPos.y), 1.0, 0.0, pulse, true);
 		return;
 	}
 
 	const int color = detectable ? PULSE_ACTIVE_COLOR.ToDxColor() : PULSE_IDLE_COLOR.ToDxColor();
 	const int radius = detectable ? MARKER_ACTIVE_RADIUS + static_cast<int>(std::fabs(beat) * MARKER_RADIUS_AMPLITUDE) : MARKER_IDLE_RADIUS;
-	DrawCircle(markerPos.x, markerPos.y, radius, color, true);
+	DrawCircle(static_cast<int>(markerPos.x), static_cast<int>(markerPos.y), radius, color, true);
 }
 
 void BPMiniGameScene::DrawPulseWave() const
 {
-	const Vector2 waveStart = { DISPLAY_POS.x + PULSE_WAVE_RELATIVE_POS.x, DISPLAY_POS.y + PULSE_WAVE_RELATIVE_POS.y };
+	const Vector2<float> waveStart = { DISPLAY_POS.x + PULSE_WAVE_RELATIVE_POS.x, DISPLAY_POS.y + PULSE_WAVE_RELATIVE_POS.y };
 	const bool detectable = IsPulseMoving();
-	Vector2 prevPos = waveStart;
+	Vector2<float> prevPos = waveStart;
 
 	for (int i = 1; i <= WAVE_SAMPLE_COUNT; ++i)
 	{
-		Vector2 linePos = { waveStart.x + i, waveStart.y };
+		Vector2<float> linePos = { waveStart.x + i, waveStart.y };
 		float amp = 0.0f;
 		if (detectable)
 		{
@@ -483,8 +483,8 @@ void BPMiniGameScene::DrawPulseWave() const
 			amp = std::sinf((frame_ + i) * WAVE_IDLE_PHASE_STEP) * WAVE_IDLE_AMPLITUDE;
 		}
 
-		linePos.y -= static_cast<int>(amp);
-		DrawLine(prevPos.x, prevPos.y, linePos.x, linePos.y, WAVE_COLOR.ToDxColor(), WAVE_LINE_WIDTH);
+		linePos.y -= amp;
+		DrawLine(static_cast<int>(prevPos.x), static_cast<int>(prevPos.y), static_cast<int>(linePos.x), static_cast<int>(linePos.y), WAVE_COLOR.ToDxColor(), WAVE_LINE_WIDTH);
 		prevPos = linePos;
 	}
 }
@@ -499,7 +499,7 @@ void BPMiniGameScene::DrawGlitch() const
 	const int lineCount = GLITCH_LINE_COUNT;
 	for (int i = 0; i < lineCount; ++i)
 	{
-		const Vector2 glitchPos =
+		const Vector2<int> glitchPos =
 		{
 			DISPLAY_POS.x + GLITCH_X_INSET + (i * GLITCH_X_STRIDE + frame_) % GLITCH_X_RANGE,
 			DISPLAY_POS.y + GLITCH_Y_INSET + (frame_ * (i + GLITCH_SPEED_BIAS) + i * GLITCH_Y_STRIDE) % (DISPLAY_SIZE.y - GLITCH_Y_MARGIN)

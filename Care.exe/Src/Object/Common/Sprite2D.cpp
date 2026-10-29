@@ -23,7 +23,7 @@ void Sprite2D::SetFrame(int frame)
 	currentFrame_ = handles_.empty() ? 0 : SchoolUtility::Clamp(frame, 0, GetFrameCount() - 1);
 }
 
-void Sprite2D::Draw(const VECTOR& worldPos, float scaleX, float scaleY, float perspectiveScale) const
+void Sprite2D::Draw(const Vector2<float>& worldPos, float scaleX, float scaleY, float perspectiveScale) const
 {
 	if (handles_.empty()) return;
 	const int handle = handles_[currentFrame_];

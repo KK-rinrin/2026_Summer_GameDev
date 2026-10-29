@@ -26,7 +26,7 @@ static bool IsPadDecideTrgDown(const InputManager& input)
 			input.IsPadBtnTrgDown(InputManager::JOYPAD_NO::PAD1, binding->configurableButton));
 }
 
-constexpr Vector2 PCScene::FOLDER_POS[];
+constexpr Vector2<int> PCScene::FOLDER_POS[];
 
 PCScene::PCScene()
 	: backgroundHandle_(-1)
@@ -82,13 +82,18 @@ void PCScene::Update(const InputManager& input)
 
 	UpdateKarteText();
 	UpdatePcFolderState();
-	cursorPos_ = input.GetMousePos();
+	const Vector2 mousePos = input.GetMousePos();
+	// スティック移動の小数部分の保持
+	if (mousePos.x != static_cast<int>(cursorPos_.x) || mousePos.y != static_cast<int>(cursorPos_.y))
+	{
+		cursorPos_ = mousePos;
+	}
 	const bool isDecideTrgDown = input.IsTrgMouseLeft() || IsPadDecideTrgDown(input);
-	const VECTOR stickInput = PadInput::GetMoveAxis(input, InputManager::JOYPAD_NO::PAD1);
+	const Vector2<float> stickInput = PadInput::GetMoveAxis(input, InputManager::JOYPAD_NO::PAD1);
 	if (stickInput.x != 0.0f || stickInput.y != 0.0f)
 	{
-		cursorPos_.x += static_cast<int>(stickInput.x * CURSOR_MOVE_SPEED);
-		cursorPos_.y += static_cast<int>(stickInput.y * CURSOR_MOVE_SPEED);
+		cursorPos_.x += stickInput.x * CURSOR_MOVE_SPEED;
+		cursorPos_.y += stickInput.y * CURSOR_MOVE_SPEED;
 
 		if (cursorPos_.x < 0)
 		{
@@ -107,7 +112,7 @@ void PCScene::Update(const InputManager& input)
 			cursorPos_.y = Application::SCREEN_SIZE_Y - 1;
 		}
 
-		SetMousePoint(cursorPos_.x, cursorPos_.y);
+		SetMousePoint(static_cast<int>(cursorPos_.x), static_cast<int>(cursorPos_.y));
 	}
 
 	if (isAccessDeniedVisible_ && isDecideTrgDown)
@@ -182,7 +187,7 @@ void PCScene::Draw()
 	{
 		for (int i = 0; i < (isCharaFolderVisible_ ? FOLDER_COUNT : INITIAL_FOLDER_COUNT); ++i)
 		{
-			const Vector2& folderPos = FOLDER_POS[i];
+			const Vector2<int>& folderPos = FOLDER_POS[i];
 			DrawGraph(folderPos.x, folderPos.y, folderHandle_, TRUE);
 
 			const char* label = (i == MANUAL_FOLDER) ? "マニュアル確認" : (i == KARTE_FOLDER ? "カルテ" : "Chara");
@@ -222,7 +227,7 @@ void PCScene::Draw()
 		DrawAccessDeniedMessage();
 	}
 
-	DrawGraph(cursorPos_.x, cursorPos_.y, cursorHandle_, TRUE);
+	DrawGraph(static_cast<int>(cursorPos_.x), static_cast<int>(cursorPos_.y), cursorHandle_, TRUE);
 	DrawGraph(0, 0, frameHandle_, TRUE);
 }
 
@@ -268,7 +273,7 @@ void PCScene::DrawFiles() const
 
 	for (int i = 0; i < FILE_COUNT; ++i)
 	{
-		const Vector2& filePos = FILE_POS[i];
+		const Vector2<int>& filePos = FILE_POS[i];
 		DrawGraph(filePos.x, filePos.y, fileHandle_, TRUE);
 		const char* fileName = (i == NURSE_FILE) ? "neit.char" : "nui.char";
 		const int textWidth = GetDrawStringWidthToHandle(fileName, static_cast<int>(std::strlen(fileName)), pcFontHandle_);
@@ -378,7 +383,7 @@ bool PCScene::IsCloseButtonHit() const
 		PC_GUIDE_CLOSE_TEXT, static_cast<int>(std::strlen(PC_GUIDE_CLOSE_TEXT)), pcFontHandle_);
 
 	return SchoolUtility::IsPointInRect(
-		cursorPos_, Vector2(closeX, PC_GUIDE_CLOSE_POS_Y), Vector2(closeWidth, PC_GUIDE_CLOSE_HIT_SIZE_Y));
+		cursorPos_, Vector2<float>(closeX, PC_GUIDE_CLOSE_POS_Y), Vector2<float>(closeWidth, PC_GUIDE_CLOSE_HIT_SIZE_Y));
 }
 
 bool PCScene::IsOpen() const

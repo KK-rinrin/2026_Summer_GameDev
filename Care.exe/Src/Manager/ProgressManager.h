@@ -8,39 +8,28 @@ public:
 	// ストーリーの進行状態
 	enum STORY_PROGRESS
 	{
-		START = 0,	// ゲーム開始
-		START_MINIGAME0,	// ゲーム開始後のイベント1
-		MINIGAME_RETRY,	// ミニゲーム再挑戦待ち
-
-		AFTER_MG,	// ミニゲーム後
-		AFTER_MG_TALKED,	// ミニゲーム後の会話後
-		AFTER_PC,	// PC作業後
-		AFTER_GET_PLATE,	// 昼食の配膳プレート取得後
-		LUNCH,		// 昼食
-		AFTER_PC2,	// PC作業再び
-		AFTER_LUNCH,	// 昼食後
-		AFTER_PC3,		// カルテ記入
-		AFTER_TALK3,	// バグり始める
-		AFTER_PC4,		// Charaフォルダ確認後
-		DINNER,			// 夕食？
-
+		START = 0,				// ゲーム開始
+		START_MINIGAME0,		// ゲーム開始後のイベント1
+		MINIGAME_RETRY,			// ミニゲーム再挑戦待ち
+		AFTER_MG,				// ミニゲーム後
+		AFTER_MG_TALKED,		// ミニゲーム後の会話後
+		AFTER_PC,				// PC作業後
+		AFTER_GET_PLATE,		// 昼食の配膳プレート取得後
+		LUNCH,					// 昼食
+		AFTER_PC2,				// PC作業再び
+		AFTER_LUNCH,			// 昼食後
+		AFTER_PC3,				// カルテ記入
+		AFTER_TALK3,			// バグり始める
+		AFTER_PC4,				// Charaフォルダ確認後
+		DINNER,					// 夕食？
 		END_PATIENT_LOST = 100,	// 患者削除END
-
-		// 患者削除エンディングの固定状態
-		END_PATIENT_LOCKED,
+		END_PATIENT_LOCKED,		// 患者削除エンディングの固定状態
 		END_NURSE_LOST = 110,	// 看護師削除END
-
-		// 看護師削除エンディングの固定状態
-		END_NURSE_LOCKED,
+		END_NURSE_LOCKED,		// 看護師削除エンディングの固定状態
 		END_BOTH_LOST = 120,	// 両方削除END
-
-		// 両者削除エンディングの固定状態
-		END_BOTH_LOCKED,
+		END_BOTH_LOCKED,		// 両者削除エンディングの固定状態
 		END_RUINED = 200,		// 崩壊END
-
-		// 崩壊エンディングの固定状態
-		END_RUINED_LOCKED,
-
+		END_RUINED_LOCKED,		// 崩壊エンディングの固定状態
 		CLEAR_COMPLETE = 500,	// スタッフロール後リセット要求
 	};
 

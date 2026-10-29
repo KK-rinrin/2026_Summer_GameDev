@@ -34,7 +34,7 @@ void SceneManager::Init()
 	settingReturnSceneId_ = SCENE_ID::TITLE;
 	hasSettingReturnGameState_ = false;
 	settingReturnGameStage_ = 0;
-	settingReturnActorPos_ = VGet(0.0f, 0.0f, 0.0f);
+	settingReturnActorPos_ = Vector2<float>{};
 
 	// フェード機能の初期化
 	fader_ = std::make_unique<Fader>();
@@ -174,7 +174,7 @@ void SceneManager::SetSettingReturnScene(SCENE_ID sceneId)
 	}
 }
 
-void SceneManager::SetSettingReturnGameState(int stage, const VECTOR& actorPos)
+void SceneManager::SetSettingReturnGameState(int stage, const Vector2<float>& actorPos)
 {
 	// SettingSceneのBACKでGameSceneへ戻るために、開いた時点の状態を保存する。
 	settingReturnSceneId_ = SCENE_ID::GAME;
@@ -198,7 +198,7 @@ int SceneManager::GetSettingReturnGameStage() const
 	return settingReturnGameStage_;
 }
 
-VECTOR SceneManager::GetSettingReturnActorPos() const
+Vector2<float> SceneManager::GetSettingReturnActorPos() const
 {
 	return settingReturnActorPos_;
 }
@@ -207,7 +207,7 @@ void SceneManager::ClearSettingReturnGameState()
 {
 	hasSettingReturnGameState_ = false;
 	settingReturnGameStage_ = 0;
-	settingReturnActorPos_ = VGet(0.0f, 0.0f, 0.0f);
+	settingReturnActorPos_ = Vector2<float>{};
 }
 
 SceneManager::SCENE_ID SceneManager::GetSceneID()
@@ -226,7 +226,7 @@ SceneManager::SceneManager()
 	, settingReturnSceneId_(SCENE_ID::TITLE)
 	, hasSettingReturnGameState_(false)
 	, settingReturnGameStage_(0)
-	, settingReturnActorPos_(VGet(0.0f, 0.0f, 0.0f))
+	, settingReturnActorPos_(Vector2<float>{})
 	, fader_(nullptr)
 	, scene_(nullptr)
 	, isSceneChanging_(false)

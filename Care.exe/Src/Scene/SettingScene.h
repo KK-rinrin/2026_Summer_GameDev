@@ -15,28 +15,16 @@ public:
 	// 設定画面の選択項目
 	enum class Item
 	{
-
-		// BGM音量の設定項目
-		BGM_VOLUME,
-
-		// 効果音音量の設定項目
-		SE_VOLUME,
-
-		// キーボード割り当ての設定項目
-		KEY_CONFIG,
-
-		// パッド割り当ての設定項目
-		PAD_CONFIG,
-
-		// 直前の画面へ戻る項目
-		BACK,
-
-		// 設定項目の総数
-		MAX
+		BGM_VOLUME,	// BGM音量の設定項目
+		SE_VOLUME,	// 効果音音量の設定項目
+		KEY_CONFIG,	// キーボード割り当ての設定項目
+		PAD_CONFIG,	// パッド割り当ての設定項目
+		BACK,		// 直前の画面へ戻る項目
+		MAX			// 設定項目の総数
 	};
 
 	// 先頭設定項目の画面座標
-	static constexpr Vector2 ITEM_POS = { 100, 210 };
+	static constexpr Vector2<int> ITEM_POS = { 100, 210 };
 
 	// 見出しのフォントサイズ
 	static constexpr int TITLE_FONT_SIZE = 38;
@@ -54,7 +42,7 @@ public:
 	static constexpr int ITEM_SELECTED_COLOR = Application::DEFAULT_COLOR_1;
 
 	// 設定画面の見出し位置
-	static constexpr Vector2 TITLE_POS = { 50, 50 };
+	static constexpr Vector2<int> TITLE_POS = { 50, 50 };
 
 	// 設定画面の見出しの色
 	static constexpr int TITLE_COLOR = Application::DEFAULT_COLOR_2;
@@ -81,7 +69,7 @@ public:
 	static constexpr int VOLUME_STEP = 10;
 
 	// 設定詳細の表示位置
-	static constexpr Vector2 DETAIL_POS = { 390, 210 };
+	static constexpr Vector2<int> DETAIL_POS = { 390, 210 };
 
 	// 設定詳細の行間隔
 	static constexpr int DETAIL_INTERVAL_Y = 45;
@@ -96,13 +84,13 @@ public:
 	static constexpr int PAD_CONFIG_ACTION_NUM = 2;
 
 	// 隠しウィンドウ座標
-	static constexpr Vector2 RESET_CONFIRM_WINDOW_POS = { 50, 150 };
+	static constexpr Vector2<int> RESET_CONFIRM_WINDOW_POS = { 50, 150 };
 
 	// リセット確認ウィンドウの幅と高さ
-	static constexpr Vector2 RESET_CONFIRM_WINDOW_SIZE = { 700, 220 };
+	static constexpr Vector2<int> RESET_CONFIRM_WINDOW_SIZE = { 700, 220 };
 
 	// リセット確認本文の左上からの相対座標
-	static constexpr Vector2 RESET_CONFIRM_TEXT_OFFSET = { 50, 45 };
+	static constexpr Vector2<int> RESET_CONFIRM_TEXT_OFFSET = { 50, 45 };
 
 	// リセット確認本文の行間隔
 	static constexpr int RESET_CONFIRM_TEXT_LINE_INTERVAL_Y = 45;

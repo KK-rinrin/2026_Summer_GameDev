@@ -1,4 +1,5 @@
 #pragma once
+#include "../../Common/Vector2.h"
 #include <DxLib.h>
 
 // ステージの百分率座標と画面上の座標・遠近倍率を変換する。
@@ -7,13 +8,13 @@ class StageProjection2D
 public:
 
 	// ステージ内百分率座標から画面座標への変換
-	static VECTOR ToWorld(const VECTOR& localPos);
+	static Vector2<float> ToWorld(const Vector2<float>& localPos);
 
 	// 画面座標からステージ内百分率座標への変換
-	static VECTOR ToLocalPercent(const VECTOR& worldPos);
+	static Vector2<float> ToLocalPercent(const Vector2<float>& worldPos);
 
 	// ステージ内座標の百分率範囲への制限
-	static VECTOR ClampLocalPercent(VECTOR pos);
+	static Vector2<float> ClampLocalPercent(Vector2<float> pos);
 
 	// 画面Y座標に応じた遠近拡大率の取得
 	static float GetPerspectiveScale(float worldY);

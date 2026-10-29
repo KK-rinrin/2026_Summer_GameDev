@@ -1,4 +1,5 @@
 #pragma once
+#include "../Common/Vector2.h"
 #include "../Application.h"
 #include <DxLib.h>
 
@@ -27,8 +28,8 @@ public:
 private:
 
 	// カーソルの画面座標
-	VECTOR worldPos_;
+	Vector2<float> worldPos_;
 
 	// カーソルのステージ内百分率座標
-	VECTOR localPercent_;
+	Vector2<float> localPercent_;
 };

@@ -225,15 +225,9 @@ private:
 	// ゲームオーバー対話の進行状態
 	enum class GameOverState
 	{
-
-		// 最初の確認入力待ち
-		INITIAL_CONFIRM,
-
-		// 終了確認の選択入力待ち
-		EXIT_CONFIRM,
-
-		// 終了待ち状態
-		WAIT_EXIT
+		INITIAL_CONFIRM,	// 最初の確認入力待ち
+		EXIT_CONFIRM,		// 終了確認の選択入力待ち
+		WAIT_EXIT			// 終了待ち状態
 	};
 
 	// エンディング一枚絵の画像ハンドル

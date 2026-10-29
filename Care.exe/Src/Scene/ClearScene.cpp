@@ -353,7 +353,7 @@ void ClearScene::UpdateHiddenReset()
 {
 	// ↑キーまたはパッドの上方向入力が押されていたら
 	const bool isKeyOrDpadUp = KeyConfig::IsNew(KeyConfig::ACTION::MOVE_UP, iptMng_);
-	const VECTOR stickInput = PadInput::GetMoveAxis(iptMng_, InputManager::JOYPAD_NO::PAD1);
+	const Vector2<float> stickInput = PadInput::GetMoveAxis(iptMng_, InputManager::JOYPAD_NO::PAD1);
 	const bool isStickUp = stickInput.y <= HIDDEN_RESET_STICK_UP;
 
 	if (!isKeyOrDpadUp && !isStickUp)

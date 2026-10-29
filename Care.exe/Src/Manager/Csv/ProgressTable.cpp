@@ -126,9 +126,9 @@ void ProgressTable::LoadCsvData()
 			data.playerInitPos =
 			{
 				std::stof(strSplit[idx++]),
-				std::stof(strSplit[idx++]),
 				std::stof(strSplit[idx++])
 			};
+			++idx; // 列ずれ防止のためのZ列の読み捨て
 
 			// 進行開始時に自動再生する会話ID
 			data.firstTalk = static_cast<TDI>(std::stoi(strSplit[idx++]));

@@ -19,18 +19,10 @@ public:
 	// 会話の話者識別子
 	enum class Speaker
 	{
-
-		// 話者の指定なし
-		NONE = -1,
-
-		// 操作キャラクターの話者
-		Player,
-
-		// 患者キャラクターの話者
-		Patient,
-
-		// 地の文の話者
-		Narator,
+		NONE = -1,	// 話者の指定なし
+		Player,		// 操作キャラクターの話者
+		Patient,	// 患者キャラクターの話者
+		Narator,	// 地の文の話者
 	};
 
 	// 1行分の通常発話。文字送り・クリック待ち・Live2D口パクの対象になる。
@@ -90,34 +82,30 @@ public:
 	// 会話イベント列の識別子
 	enum class TalkDataIndex
 	{
+		NONE = -1,						// 指定なし
 
-		// 会話イベント列の指定なし
-		NONE = -1,
-		TALK_INIT,		// 一番最初
-		TALK_0,			// 血圧測定前の会話
-		TALK_0_RETRY,	// 血圧測定しなおし
-
-		TALK_AFTERMG,	// ミニゲーム後の会話
-		TALK_PC,		// パソコンでの会話
-		TALK_1,			// 昼食前の会話
-		TALK_PC2,		// パソコンでの会話2
-		TALK_2,			// 昼食後の会話
-		TALK_PC3,		// カルテ記入
-
-		TALK_3,			// ヌイとの会話
-		TALK_PC4,		// パソコンでの会話4
-		TALK_DINNER,	// 夕食前の会話
-		TALK_GET_PLATE,	// 昼食の配膳プレート取得
-		TALK_GET_PLATE_FOLDER,	// 夕食の配膳プレート取得
-
-		TALK_END_NURSE_LOST = 901,		// 看護師削除、患者生存
-		TALK_END_PATIENT_LOST = 902,	// 患者削除、看護師生存
+		TALK_INIT,						// 一番最初
+		TALK_0,							// 血圧測定前の会話
+		TALK_0_RETRY,					// 血圧測定しなおし
+		TALK_AFTERMG,					// ミニゲーム後の会話
+		TALK_PC,						// パソコンでの会話
+		TALK_GET_PLATE = 12,			// 昼食の配膳プレート取得
+		TALK_1 = 5,						// 昼食前の会話
+		TALK_PC2,						// パソコンでの会話2
+		TALK_2,							// 昼食後の会話
+		TALK_PC3,						// カルテ記入
+		TALK_3,							// ヌイとの会話
+		TALK_PC4,						// パソコンでの会話4
+		TALK_DINNER,					// 夕食前の会話
+		TALK_GET_PLATE_FOLDER,			// 夕食の配膳プレート取得
+		TALK_END_NURSE_LOST = 901,		// 看護師削除時の患者生存
+		TALK_END_PATIENT_LOST = 902,	// 患者削除時の看護師生存
 		TALK_END_BOTH_LOST = 903,		// 両方削除
 		TALK_END_RUINED = 904,			// 崩壊END
 
-		TALK_0_FAIL = 102,	// 血圧測定失敗時の会話
+		TALK_0_FAIL = 102,				// 血圧測定失敗時の会話
 
-		HIDE_TALK = 666,	// 隠し会話イベント
+		HIDE_TALK = 666,				// 隠し会話イベント
 	};
 
 	// 可読性のためのイベント生成ヘルパー

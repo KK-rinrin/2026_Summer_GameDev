@@ -8,11 +8,11 @@
 #include "../../Manager/SoundManager.h"
 #include "../Talk/window/Live2DTalkController.h"
 
-constexpr Vector2 GameMenu::TITLE_POS;
-constexpr Vector2 GameMenu::MENU_TEXT_POS;
-constexpr Vector2 GameMenu::PAUSE_TEXT_POS;
-constexpr VECTOR GameMenu::PLAYER_MODEL_EXTEND;
-constexpr VECTOR GameMenu::PLAYER_MODEL_POS;
+constexpr Vector2<int> GameMenu::TITLE_POS;
+constexpr Vector2<int> GameMenu::MENU_TEXT_POS;
+constexpr Vector2<int> GameMenu::PAUSE_TEXT_POS;
+constexpr Vector2<float> GameMenu::PLAYER_MODEL_EXTEND;
+constexpr Vector2<float> GameMenu::PLAYER_MODEL_POS;
 
 GameMenu::GameMenu()
 	: isOpen_(false)

@@ -27,12 +27,12 @@ namespace
 	};
 }
 
-constexpr Vector2 SettingScene::ITEM_POS;
-constexpr Vector2 SettingScene::TITLE_POS;
-constexpr Vector2 SettingScene::DETAIL_POS;
-constexpr Vector2 SettingScene::RESET_CONFIRM_WINDOW_POS;
-constexpr Vector2 SettingScene::RESET_CONFIRM_WINDOW_SIZE;
-constexpr Vector2 SettingScene::RESET_CONFIRM_TEXT_OFFSET;
+constexpr Vector2<int> SettingScene::ITEM_POS;
+constexpr Vector2<int> SettingScene::TITLE_POS;
+constexpr Vector2<int> SettingScene::DETAIL_POS;
+constexpr Vector2<int> SettingScene::RESET_CONFIRM_WINDOW_POS;
+constexpr Vector2<int> SettingScene::RESET_CONFIRM_WINDOW_SIZE;
+constexpr Vector2<int> SettingScene::RESET_CONFIRM_TEXT_OFFSET;
 
 SettingScene::SettingScene()
 	: SceneBase()
@@ -313,11 +313,11 @@ void SettingScene::UpdateResetDialog()
 
 void SettingScene::DrawResetDialog()
 {
-	const Vector2 windowEnd = {
+	const Vector2<int> windowEnd = {
 		RESET_CONFIRM_WINDOW_POS.x + RESET_CONFIRM_WINDOW_SIZE.x,
 		RESET_CONFIRM_WINDOW_POS.y + RESET_CONFIRM_WINDOW_SIZE.y
 	};
-	const Vector2 textPos = {
+	const Vector2<int> textPos = {
 		RESET_CONFIRM_WINDOW_POS.x + RESET_CONFIRM_TEXT_OFFSET.x,
 		RESET_CONFIRM_WINDOW_POS.y + RESET_CONFIRM_TEXT_OFFSET.y
 	};

@@ -29,84 +29,60 @@ public:
 	// リソース名
 	enum class SRC
 	{
-
-		// タイトル画面の画像
-		TITLE_IMG,
-
-		// 通常画面で使用するフォント
-		MAIN_FONT,
-
-		// PC画面で使用するフォント
-		PC_FONT,
-		
-		// アドベンチャー画面
-		PLAYER_GRAPHICS,		// プレイヤーグラフィック
+		TITLE_IMG,				// タイトル画面の画像
+		MAIN_FONT,				// 通常画面で使用するフォント
+		PC_FONT,				// PC画面で使用するフォント
+		PLAYER_GRAPHICS,		// アドベンチャー画面 / プレイヤーグラフィック
 		PATIENT_GRAPHICS,		// ヌイグラフィック
 		BG_1,					// 患者部屋背景
 		BG_1_WALL,				// 患者部屋壁画像
 		BG_1_TOILET,			// 患者部屋トイレ画像
-
 		BG_2,					// ナースステーション背景
 		BG_2_PC,				// パソコンデスク画像
 		BG_2_CHAIR,				// パソコンデスクの椅子
 		BG_2_LOCKER,			// ナースステーションのロッカー
-		BG_2_TABLE,			// ナースステーションの配膳台
-		BG_2_PLATE,			// 昼食の配膳プレート
-		BG_2_PLATE_FOLDER,	// 夕食の配膳プレート
-
+		BG_2_TABLE,				// ナースステーションの配膳台
+		BG_2_PLATE,				// 昼食の配膳プレート
+		BG_2_PLATE_FOLDER,		// 夕食の配膳プレート
 		PC_BG,					// パソコン画面背景
 		PC_FRAME,				// パソコン画面フレーム
-
-		// PC画面のマニュアルフォルダ画像
-		PC_MANUAL_FOLDER,
-		PC_FILE,		// ミニゲームマニュアルフォルダ
+		PC_MANUAL_FOLDER,		// PC画面のマニュアルフォルダ画像
+		PC_FILE,				// ミニゲームマニュアルフォルダ
 		PC_BP_MANUAL,			// 血圧測定ミニゲームマニュアル
 		PC_CURSOR,				// パソコンカーソル
-
 		GUIDE_MOVE,				// 移動可能ドアガイド画像
-
 		BGM_TITLE,				// タイトル画面のBGM
 		BGM_GAME,				// ゲーム中BGM（アドベンチャーモード）
 		BGM_GAME_2,				// ゲーム中のBGM 2
 		BGM_KOWAI,				// 怖いBGM　※やさしい
 		BGM_ENDING,				// エンディングBGM
-
 		SE_DECIDE,				// システム決定音
 		SE_CANCEL,				// システムキャンセル音
 		SE_CURSOR_MOVE,			// システムカーソル移動音
 		SE_BEEP,				// システムエラー音
-
 		SE_DOOR,				// ドアの音
 		SE_RINGTONE,			// 呼び出し音
 		SE_TYPING,				// タイピング音
-		SE_PC_MOUSE,				// パソコンのシステムマウス音
-
-		// 会話画面
-		PLAYER_MODEL,			// プレイヤーLive2Dモデル
+		SE_PC_MOUSE,			// パソコンのシステムマウス音
+		PLAYER_MODEL,			// 会話画面 / プレイヤーLive2Dモデル
 		PATIENT_MODEL,			// ヌイLive2Dモデル
 		TALK_WINDOW_IMG,		// 会話ウィンドウ画像
 		TALK_WINDOW_NEXT_IMG,	// 会話ウィンドウ▼画像
-		TALK_SPEAKER_IMG,	// 会話話者画像
+		TALK_SPEAKER_IMG,		// 会話話者画像
 		TALK_IMAGE_0,			// 会話用一枚絵
-
-		// ミニゲーム画面
-		BPMG_BG_IMG,		// 背景
-		BPMG_MONITOR_IMG,	// モニター
-		BPMG_PULSE_IMG,		// 脈
-		BPMG_FAILED_IMG,	// 失敗画像
-		BPMG_INTRUCT_IMG,	// 操作説明
-
-		// キャラクター一枚絵
-		STILL_1,			// 不気味な笑顔をうかべるヌイ
-		STILL_2,			// 看護師
-		STILL_STAGE_PR,		// 無人の患者部屋
-		STILL_STAGE_NS,		// 無人のナースステーション
-
-		// ゲームクリア一枚絵
-		STILL_END_NUR,		// ヌイ削除
-		STILL_END_NUI,		// 看護師削除
-		STILL_END_BOTH,		// 両方削除
-		STILL_END_RUIN		// 削除しないまま破滅
+		BPMG_BG_IMG,			// ミニゲーム画面 / 背景
+		BPMG_MONITOR_IMG,		// モニター
+		BPMG_PULSE_IMG,			// 脈
+		BPMG_FAILED_IMG,		// 失敗画像
+		BPMG_INTRUCT_IMG,		// 操作説明
+		STILL_1,				// キャラクター一枚絵 / 不気味な笑顔をうかべるヌイ
+		STILL_2,				// 看護師
+		STILL_STAGE_PR,			// 無人の患者部屋
+		STILL_STAGE_NS,			// 無人のナースステーション
+		STILL_END_NUR,			// ゲームクリア一枚絵 / ヌイ削除
+		STILL_END_NUI,			// 看護師削除
+		STILL_END_BOTH,			// 両方削除
+		STILL_END_RUIN			// 削除しないまま破滅
 	};
 
 	// 明示的にインスタンスを生成する
@@ -134,7 +110,6 @@ public:
 	int LoadFont(SRC src, int fontSize, int thick = DEFAULT_FONT_THICK, int fontSpace = DEFAULT_FONT_SPACE, int fontType = DX_FONTTYPE_ANTIALIASING);
 
 	// 三次元モデルを複製したハンドルの取得（未使用）
-	int LoadModelDuplicate(SRC src);
 
 	//
 

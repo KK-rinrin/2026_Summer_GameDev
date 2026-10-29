@@ -1,4 +1,5 @@
 #pragma once
+#include "../../Common/Vector2.h"
 #include <DxLib.h>
 #include <vector>
 
@@ -29,7 +30,7 @@ public:
 
 	// •Û‚·‚é‰æ‘œ‚Ì‘ƒRƒ}”‚Ìæ“¾
 	int GetFrameCount() const { return static_cast<int>(handles_.size()); }
-	void Draw(const VECTOR& worldPos, float scaleX, float scaleY, float perspectiveScale) const;
+	void Draw(const Vector2<float>& worldPos, float scaleX, float scaleY, float perspectiveScale) const;
 
 private:
 

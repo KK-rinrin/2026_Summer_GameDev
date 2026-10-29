@@ -129,7 +129,7 @@ void StageBase::AddTransformObject(const Transform2D& transform, const Sprite2D&
 	objects_.push_back({ transform, sprite, true, sortY });
 }
 
-void StageBase::DrawMoveGuide(const Vector2& pos) const
+void StageBase::DrawMoveGuide(const Vector2<int>& pos) const
 {
 	if (guideMoveHandle_ != -1)
 	{
@@ -137,7 +137,7 @@ void StageBase::DrawMoveGuide(const Vector2& pos) const
 	}
 }
 
-void StageBase::AddMBRectPercent(const VECTOR& leftTopPercent, const VECTOR& rightBottomPercent)
+void StageBase::AddMBRectPercent(const Vector2<float>& leftTopPercent, const Vector2<float>& rightBottomPercent)
 {
 	Rect r = {};
 	r.leftTop = leftTopPercent;
@@ -147,6 +147,6 @@ void StageBase::AddMBRectPercent(const VECTOR& leftTopPercent, const VECTOR& rig
 
 void StageBase::TransformObject::Draw() const
 {
-	const VECTOR world = transform.GetWorldPos();
+	const Vector2<float> world = transform.GetWorldPos();
 	sprite.Draw(world, transform.scaleX, transform.scaleY, StageProjection2D::GetPerspectiveScale(world.y));
 }

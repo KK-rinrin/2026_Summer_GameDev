@@ -98,14 +98,14 @@ void DebugScene::Draw()
 	for (int i = 0; i <= gridDivisionX_; i++)
 	{
 		float x = i * stepX;
-		debugPers_->DrawLineDebug(VECTOR{ x, 0.0f, 0.0f }, VECTOR{ x, GRID_PERCENT_MAX, 0.0f }, GRID_LINE_COLOR);
+		debugPers_->DrawLineDebug(Vector2<float>{ x, 0.0f }, Vector2<float>{ x, GRID_PERCENT_MAX }, GRID_LINE_COLOR);
 	}
 
 	// â°ê¸Çï`âÊ
 	for (int i = 0; i <= gridDivisionY_; i++)
 	{
 		float y = i * stepY;
-		debugPers_->DrawLineDebug(VECTOR{ 0.0f, y, 0.0f }, VECTOR{ GRID_PERCENT_MAX, y, 0.0f }, GRID_LINE_COLOR);
+		debugPers_->DrawLineDebug(Vector2<float>{ 0.0f, y }, Vector2<float>{ GRID_PERCENT_MAX, y }, GRID_LINE_COLOR);
 	}
 
 	cursorPos_->Draw();

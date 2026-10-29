@@ -158,7 +158,7 @@ bool InputManager::IsNewKeyAll() const
 	return CheckHitKeyAll() != 0;
 }
 
-Vector2 InputManager::GetMousePos() const
+Vector2<int> InputManager::GetMousePos() const
 {
 	return mousePos_;
 }
@@ -443,7 +443,4 @@ const InputManager::JOYPAD_IN_STATE& InputManager::GetPadInputState(JOYPAD_NO no
 	return padInfos_[static_cast<int>(no)];
 }
 
-VECTOR InputManager::GetDirectionXZAKey(int aKeyX, int aKeyY) const
-{
-	return PadInput::GetDirectionXZA(aKeyX, aKeyY);
-}
+

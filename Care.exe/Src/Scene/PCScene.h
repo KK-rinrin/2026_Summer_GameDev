@@ -25,31 +25,31 @@ class PCScene
 	static constexpr int PC_FONT_SPACE = -1;
 
 	// カルテ本文の表示位置
-	static constexpr Vector2 KARTE_TEXT_POS = { 40, 55 };
+	static constexpr Vector2<int> KARTE_TEXT_POS = { 40, 55 };
 
 	// カルテ本文の行間隔
 	static constexpr int KARTE_TEXT_LINE_INTERVAL_Y = 40;
 
 	// キャラファイルアイコンの表示位置一覧
-	static constexpr Vector2 FILE_POS[] = { { 60, 80 }, { 170, 80 } };
+	static constexpr Vector2<int> FILE_POS[] = { { 60, 80 }, { 170, 80 } };
 
 	// ファイルアイコンからラベルまでの縦ずらし量
 	static constexpr int FILE_LABEL_Y_OFFSET = 96;
 
 	// アクセス拒否ウィンドウの左上座標
-	static constexpr Vector2 ACCESS_DENIED_BOX_POS = { 200, 180 };
+	static constexpr Vector2<int> ACCESS_DENIED_BOX_POS = { 200, 180 };
 
 	// アクセス拒否ウィンドウの幅と高さ
-	static constexpr Vector2 ACCESS_DENIED_BOX_SIZE = { 400, 180 };
+	static constexpr Vector2<int> ACCESS_DENIED_BOX_SIZE = { 400, 180 };
 
 	// アクセス拒否ウィンドウのタイトルバーの高さ
 	static constexpr int ACCESS_DENIED_TITLE_BAR_HEIGHT = 28;
 
 	// アクセス拒否のOKボタンの左上座標
-	static constexpr Vector2 ACCESS_DENIED_OK_POS = { 480, 310 };
+	static constexpr Vector2<int> ACCESS_DENIED_OK_POS = { 480, 310 };
 
 	// アクセス拒否のOKボタンの幅と高さ
-	static constexpr Vector2 ACCESS_DENIED_OK_SIZE = { 80, 28 };
+	static constexpr Vector2<int> ACCESS_DENIED_OK_SIZE = { 80, 28 };
 
 	// PC画面の操作案内文字列
 	static constexpr const char* PC_GUIDE_TEXT = "マウス操作可　キャンセルキーで閉じる　×";
@@ -114,13 +114,13 @@ private:
 	static constexpr int FRAME_WIDTH = 2;
 
 	// ウィンドウ左上から見たタイトル文字の位置
-	static constexpr Vector2 TITLE_TEXT_OFFSET = { 12, 6 };
+	static constexpr Vector2<int> TITLE_TEXT_OFFSET = { 12, 6 };
 
 	// ウィンドウ左上から見たメッセージ文字の位置
-	static constexpr Vector2 MESSAGE_TEXT_OFFSET = { 24, 58 };
+	static constexpr Vector2<int> MESSAGE_TEXT_OFFSET = { 24, 58 };
 
 	// OKボタン左上から見た文字の位置
-	static constexpr Vector2 OK_TEXT_OFFSET = { 30, 5 };
+	static constexpr Vector2<int> OK_TEXT_OFFSET = { 30, 5 };
 
 	// マニュアルとカルテとキャラのフォルダ番号
 	enum FolderIndex : int { MANUAL_FOLDER, KARTE_FOLDER, CHARA_FOLDER };
@@ -159,7 +159,7 @@ private:
 	bool IsCloseButtonHit() const;
 
 	// PCフォルダアイコンの表示位置一覧
-	static constexpr Vector2 FOLDER_POS[] = { { 70, 33 }, { 70, 155 }, { 70, 277 } };
+	static constexpr Vector2<int> FOLDER_POS[] = { { 70, 33 }, { 70, 155 }, { 70, 277 } };
 
 	// PCフォルダの総数
 	static constexpr int FOLDER_COUNT = sizeof(FOLDER_POS) / sizeof(FOLDER_POS[0]);
@@ -192,13 +192,13 @@ private:
 	int pcFontHandleS_;
 
 	// フォルダアイコンの幅と高さ
-	Vector2 folderSize_;
+	Vector2<int> folderSize_;
 
 	// ファイルアイコンの幅と高さ
-	Vector2 fileSize_;
+	Vector2<int> fileSize_;
 
 	// PCカーソルの画面座標
-	Vector2 cursorPos_;
+	Vector2<float> cursorPos_;
 
 	// カルテに表示する看護師名
 	std::string nurseName_;

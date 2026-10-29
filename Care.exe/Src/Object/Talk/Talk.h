@@ -1,4 +1,5 @@
 #pragma once
+#include "../../Common/Vector2.h"
 #include "../../Application.h"
 
 #include "TalkData.h"
@@ -18,10 +19,10 @@ class Talk
 	static constexpr float EXTEND_RATE = 2.0f;
 
 	// 患者Live2Dモデルの表示位置
-	static constexpr VECTOR PATIENT_POS = { 230.0f, -100.0f, 0.0f };
+	static constexpr Vector2<float> PATIENT_POS = { 230.0f, -100.0f };
 
 	// 操作キャラLive2Dモデルの表示位置
-	static constexpr VECTOR PLAYER_POS = { -230.0f, -100.0f, 0.0f };
+	static constexpr Vector2<float> PLAYER_POS = { -230.0f, -100.0f };
 
 	// 会話終了時の暗幕のアルファ減少量
 	static constexpr int FADE_ALPHA = 10;
@@ -32,13 +33,11 @@ class Talk
 	// TalkEventの進行状態。入力待ちと自動進行をここで切り分ける。
 	enum class EventState
 	{
-
-		// 会話イベントの待機状態
-		NONE,
-		SPEAK,			// TalkWindowの文字送り中、または発話後のクリック待ち
-		IMAGE_WAIT,		// 一枚絵を表示し、クリックで次イベントへ進む
-		CLEAR_IMAGE,	// 一枚絵を短くフェードアウトし、自動で次イベントへ進む
-		FADING_OUT,		// Talk内Faderによる暗転中。入力待ちはしない
+		NONE,			// 会話イベントの待機状態
+		SPEAK,			// TalkWindowの文字送り中または発話後のクリック待ち
+		IMAGE_WAIT,		// 一枚絵表示中のクリック待ち
+		CLEAR_IMAGE,	// 一枚絵の短いフェードアウトと次イベントへの自動進行
+		FADING_OUT,		// 入力待ちを伴わないTalk内Faderによる暗転中
 		FADE_IN_WAIT,	// 暗転完了から指定時間待ち
 		FADING_IN,		// Talk内Faderによる明転中
 	};

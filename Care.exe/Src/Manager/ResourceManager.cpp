@@ -189,19 +189,7 @@ int ResourceManager::LoadFont(SRC src, int fontSize, int thick, int fontSpace, i
 	return res.LoadFont(fontSize, thick, fontSpace, fontType);
 }
 
-int ResourceManager::LoadModelDuplicate(SRC src)
-{
-	Resource& res = _Load(src);
-	if (res.type_ == Resource::TYPE::NONE)
-	{
-		return -1;
-	}
 
-	int duId = MV1DuplicateModel(res.handleId_);
-	res.duplicateModelIds_.push_back(duId);
-
-	return duId;
-}
 
 void ResourceManager::CreateResource(SRC src, Resource::TYPE type, const std::string& path)
 {

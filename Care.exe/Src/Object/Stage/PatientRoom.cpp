@@ -22,7 +22,7 @@ PatientRoom::~PatientRoom()
 
 void PatientRoom::DrawGuide(const ActorBase& controlActor) const
 {
-	const VECTOR actorPos = controlActor.GetTransform().pos;
+	const Vector2<float> actorPos = controlActor.GetTransform().pos;
 
 	if (Collision::IsPointInRect(actorPos, TO_NURSE_STATION_AREA1_LEFT_TOP, TO_NURSE_STATION_AREA1_RIGHT_BOTTOM) &&
 		controlActor.IsFacingRight())
@@ -39,7 +39,7 @@ void PatientRoom::DrawGuide(const ActorBase& controlActor) const
 }
 void PatientRoom::Decide(DecideContext& context) const
 {
-	const VECTOR actorPos = context.controlActor.GetTransform().pos;
+	const Vector2<float> actorPos = context.controlActor.GetTransform().pos;
 
 	// 前ドアの位置にいて右を向いている時は、ナースステーション前ドアへ移動する
 	if (Collision::IsPointInRect(actorPos, TO_NURSE_STATION_AREA1_LEFT_TOP, TO_NURSE_STATION_AREA1_RIGHT_BOTTOM) &&

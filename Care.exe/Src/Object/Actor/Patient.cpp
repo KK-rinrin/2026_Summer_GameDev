@@ -8,6 +8,15 @@ Patient::Patient()
 {
 }
 
+void Patient::Draw()
+{
+	if (!ProgressManager::GetInstance().IsPatientCharExists())
+	{
+		return;
+	}
+	ActorBase::Draw();
+}
+
 void Patient::Release()
 {
 }
@@ -45,7 +54,10 @@ void Patient::InitPost()
 
 void Patient::UpdateProcessMove()
 {
-	if (processMove_ != nullptr) processMove_->Update(transform_);
+	if (ProgressManager::GetInstance().IsPatientCharExists() && processMove_ != nullptr)
+	{
+		processMove_->Update(transform_);
+	}
 }
 
 void Patient::UpdateAnimation()

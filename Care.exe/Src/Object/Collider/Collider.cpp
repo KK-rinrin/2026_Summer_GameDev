@@ -3,10 +3,10 @@
 #include <algorithm>
 #include <cmath>
 
-VECTOR Collision::BlockCrossingLocalRect(const VECTOR& beforePos, const VECTOR& currentPos,
-	const VECTOR& leftTopPercent, const VECTOR& rightBottomPercent)
+Vector2<float> Collision::BlockCrossingLocalRect(const Vector2<float>& beforePos, const Vector2<float>& currentPos,
+	const Vector2<float>& leftTopPercent, const Vector2<float>& rightBottomPercent)
 {
-	VECTOR pos = currentPos;
+	Vector2<float> pos = currentPos;
 	float left = leftTopPercent.x;
 	float top = leftTopPercent.y;
 	float right = rightBottomPercent.x;

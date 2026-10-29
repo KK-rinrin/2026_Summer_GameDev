@@ -1,4 +1,5 @@
 #pragma once
+#include "../Common/Vector2.h"
 #include "InputManager.h"
 
 class PadInput
@@ -6,12 +7,11 @@ class PadInput
 public:
 
 	// パッドの左スティックと方向キーによる移動軸の取得
-	static VECTOR GetMoveAxis(
+	static Vector2<float> GetMoveAxis(
 		const InputManager& input,
 		InputManager::JOYPAD_NO no = InputManager::JOYPAD_NO::PAD1);
 
 	// スティック生入力からデッドゾーン適用済みXZ方向の取得
-	static VECTOR GetDirectionXZA(int axisX, int axisY);
 
 private:
 

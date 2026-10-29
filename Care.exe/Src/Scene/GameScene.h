@@ -20,12 +20,8 @@ public:
 	// メインゲームの滞在ステージ
 	enum class Stage
 	{
-
-		// 患者部屋のステージ
-		PAT_ROOM,
-
-		// ナースステーションのステージ
-		NURSE_STATION,
+		PAT_ROOM,		// 患者部屋のステージ
+		NURSE_STATION,	// ナースステーションのステージ
 	};
 
 	// ゲーム開始時の既定ステージ
@@ -113,6 +109,9 @@ private:
 
 	// ステージごとの更新処理
 	void UpdatePR();
+
+	// 操作キャラのファイルの有無の確認
+	bool IsControlActorAvailable() const;
 
 	// ナースステーションでの決定操作とイベントの更新
 	void UpdateNS();

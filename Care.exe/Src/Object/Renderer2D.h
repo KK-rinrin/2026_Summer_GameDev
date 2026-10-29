@@ -9,18 +9,13 @@
 class Renderer2D
 {
 public:
+
 	// レイヤー順を優先し、同じレイヤー内ではY座標による奥行き順で描画する
 	enum class Layer
 	{
-
-		// 最背面の描画レイヤー
-		Back,
-
-		// 通常オブジェクトの描画レイヤー
-		Object,
-
-		// 最前面の描画レイヤー
-		Front,
+		Back,	// 最背面の描画レイヤー
+		Object,	// 通常オブジェクトの描画レイヤー
+		Front,	// 最前面の描画レイヤー
 	};
 
 	void Clear();

@@ -28,9 +28,9 @@ float StageProjection2D::WorldXToPercentX(float worldX, float y) {
 	return (clamped - xmin) / (xmax - xmin) * LOCAL_PERCENT_MAX;
 }
 
-VECTOR StageProjection2D::ToWorld(const VECTOR& localPos)
+Vector2<float> StageProjection2D::ToWorld(const Vector2<float>& localPos)
 {
-	VECTOR v = SchoolUtility::VECTOR_ZERO;
+	Vector2<float> v = Vector2<float>{};
 
 	const float actualY = PercentToY(localPos.y);
 	const float xmin = CalcXMinForY(actualY);
@@ -39,21 +39,18 @@ VECTOR StageProjection2D::ToWorld(const VECTOR& localPos)
 
 	v.x = worldX;
 	v.y = actualY;
-	v.z = 0.0f;
-
 	return v;
 }
 
-VECTOR StageProjection2D::ToLocalPercent(const VECTOR& worldPos)
+Vector2<float> StageProjection2D::ToLocalPercent(const Vector2<float>& worldPos)
 {
-	VECTOR local = SchoolUtility::VECTOR_ZERO;
+	Vector2<float> local = Vector2<float>{};
 	local.x = WorldXToPercentX(worldPos.x, worldPos.y);
 	local.y = WorldYToPercentY(worldPos.y);
-	local.z = 0.0f;
 	return local;
 }
 
-VECTOR StageProjection2D::ClampLocalPercent(VECTOR pos)
+Vector2<float> StageProjection2D::ClampLocalPercent(Vector2<float> pos)
 {
 	pos.x = SchoolUtility::Clamp(pos.x, 0.0f, LOCAL_PERCENT_MAX);
 	pos.y = SchoolUtility::Clamp(pos.y, 0.0f, LOCAL_PERCENT_MAX);

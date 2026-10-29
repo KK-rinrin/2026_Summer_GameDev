@@ -9,7 +9,7 @@ DebugPerspective::~DebugPerspective()
 {
 }
 
-void DebugPerspective::DrawLineDebug(VECTOR StartLPos, VECTOR EndLPos, int color)
+void DebugPerspective::DrawLineDebug(Vector2<float> StartLPos, Vector2<float> EndLPos, int color)
 {
 	auto s = StageProjection2D::ToWorld(StartLPos);
 	auto e = StageProjection2D::ToWorld(EndLPos);

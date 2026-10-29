@@ -27,11 +27,6 @@ bool Player::IsFacingRight() const
 	return ActorBase::IsFacingRight();
 }
 
-ProcessMove* Player::GetProcessMove()
-{
-	
-}
-
 void Player::Release()
 {
 }
@@ -70,10 +65,13 @@ void Player::InitPost()
 
 void Player::UpdateProcessMove()
 {
-	if (processMove_ != nullptr) processMove_->Update(transform_);
+	if (ProgressManager::GetInstance().IsNurseCharExists() && processMove_ != nullptr)
+	{
+		processMove_->Update(transform_);
+	}
 }
 
 void Player::UpdateAnimation()
 {
-	animator_.Update(sprite_, VSub(transform_.pos, beforePos_), transform_.GetWorldPos().x);
+	animator_.Update(sprite_, (transform_.pos - beforePos_), transform_.GetWorldPos().x);
 }

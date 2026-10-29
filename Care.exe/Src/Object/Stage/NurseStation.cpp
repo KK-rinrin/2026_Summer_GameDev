@@ -72,7 +72,7 @@ bool NurseStation::IsInputBlocked() const
 
 void NurseStation::DrawGuide(const ActorBase& controlActor) const
 {
-	const VECTOR actorPos = controlActor.GetTransform().pos;
+	const Vector2<float> actorPos = controlActor.GetTransform().pos;
 
 	if (Collision::IsPointInRect(actorPos, TO_PATIENT_ROOM_AREA1_LEFT_TOP, TO_PATIENT_ROOM_AREA1_RIGHT_BOTTOM) &&
 		!controlActor.IsFacingRight())
@@ -89,7 +89,7 @@ void NurseStation::DrawGuide(const ActorBase& controlActor) const
 }
 void NurseStation::Decide(DecideContext& context) const
 {
-	const VECTOR actorPos = context.controlActor.GetTransform().pos;
+	const Vector2<float> actorPos = context.controlActor.GetTransform().pos;
 	const ProgressManager::STORY_PROGRESS progress = context.progressManager.GetProgressEnum();
 
 	if ((progress == ProgressManager::STORY_PROGRESS::AFTER_PC ||

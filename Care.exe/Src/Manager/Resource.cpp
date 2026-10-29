@@ -15,7 +15,6 @@ Resource::Resource()
 	, fontSpace_(0)
 	, fontType_(DX_FONTTYPE_ANTIALIASING)
 	, fontVariants_{}
-	, duplicateModelIds_{}
 {
 }
 
@@ -33,7 +32,6 @@ Resource::Resource(TYPE type, const std::string& path)
 	, fontSpace_(0)
 	, fontType_(DX_FONTTYPE_ANTIALIASING)
 	,fontVariants_{}
-	, duplicateModelIds_{}
 {
 }
 
@@ -51,7 +49,6 @@ Resource::Resource(TYPE type, const std::string& path, int value1, int value2, i
 	, fontSpace_(type == TYPE::FONT ? value3 : 0)
 	, fontType_(type == TYPE::FONT ? value4 : DX_FONTTYPE_ANTIALIASING)
 	, fontVariants_{}
-	, duplicateModelIds_{}
 {
 }
 
@@ -81,10 +78,7 @@ void Resource::Load()
 			&handleIds_[0]);
 		break;
 
-	case Resource::TYPE::MODEL:
-		// ƒ‚ƒfƒ‹
-		handleId_ = MV1LoadModel(path_.c_str());
-		break;
+
 	case Resource::TYPE::LIVE2D:
 		handleId_ = Live2D_LoadModel(path_.c_str());
 		break;
@@ -164,21 +158,7 @@ void Resource::Release()
 		}
 	break;
 
-	case Resource::TYPE::MODEL:
-		if (handleId_ != -1)
-		{
-			MV1DeleteModel(handleId_);
-			handleId_ = -1;
-		}
-		for (auto id : duplicateModelIds_)
-		{
-			if (id != -1)
-			{
-				MV1DeleteModel(id);
-			}
-		}
-		duplicateModelIds_.clear();
-	break;
+
 	case Resource::TYPE::LIVE2D:
 		if (handleId_ != -1)
 		{

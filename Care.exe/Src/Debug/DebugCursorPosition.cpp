@@ -3,8 +3,8 @@
 #include "../Utility/SchoolUtility.h"
 
 DebugCursorPosition::DebugCursorPosition()
-	: worldPos_(SchoolUtility::VECTOR_ZERO)
-	, localPercent_(SchoolUtility::VECTOR_ZERO)
+	: worldPos_(Vector2<float>{})
+	, localPercent_(Vector2<float>{})
 {
 }
 
@@ -20,8 +20,6 @@ void DebugCursorPosition::Update()
 
 	worldPos_.x = static_cast<float>(mouseX);
 	worldPos_.y = static_cast<float>(mouseY);
-	worldPos_.z = 0.0f;
-
 	localPercent_ = StageProjection2D::ToLocalPercent(worldPos_);
 }
 

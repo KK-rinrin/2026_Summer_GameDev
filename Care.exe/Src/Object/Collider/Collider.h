@@ -1,17 +1,12 @@
 #pragma once
+#include "../../Common/Vector2.h"
 #include <DxLib.h>
 
 // コライダークラス群
 enum class ColliderType {
-
-	// コライダー種別なし
-	None,
-
-	// 円形コライダーの種別
-	Circle,
-
-	// 矩形コライダーの種別
-	Rect
+	None,	// コライダー種別なし
+	Circle,	// 円形コライダーの種別
+	Rect	// 矩形コライダーの種別
 };
 
 // コライダーベースクラス
@@ -56,12 +51,12 @@ class Collision
 public:
 
 	// 移動線分が矩形障害物を横切らない座標への補正
-	static VECTOR BlockCrossingLocalRect(const VECTOR& beforePos, const VECTOR& currentPos,
-		const VECTOR& leftTopPercent, const VECTOR& rightBottomPercent);
+	static Vector2<float> BlockCrossingLocalRect(const Vector2<float>& beforePos, const Vector2<float>& currentPos,
+		const Vector2<float>& leftTopPercent, const Vector2<float>& rightBottomPercent);
 
 
 	// 点(point)が中心(center), 半径(radius)の円の内側にいるか
-	static bool IsPointInCircle(const VECTOR& point, const VECTOR& center, float radius)
+	static bool IsPointInCircle(const Vector2<float>& point, const Vector2<float>& center, float radius)
 	{
 
 		// 点と円中心のX方向の差
@@ -73,21 +68,21 @@ public:
 	}
 
 	// 中心座標と半幅と半高さによる点の矩形内判定（未使用）
-	static bool IsPointInRect(const VECTOR& point, const VECTOR& center, float halfW, float halfH)
+	static bool IsPointInRect(const Vector2<float>& point, const Vector2<float>& center, float halfW, float halfH)
 	{
 		return (point.x >= center.x - halfW && point.x <= center.x + halfW &&
 				point.y >= center.y - halfH && point.y <= center.y + halfH);
 	}
 
 	// 点(point)が左上(leftTop), 右下(rightBottom)の矩形の内側にいるか
-	static bool IsPointInRect(const VECTOR& point, const VECTOR& leftTop, const VECTOR& rightBottom)
+	static bool IsPointInRect(const Vector2<float>& point, const Vector2<float>& leftTop, const Vector2<float>& rightBottom)
 	{
 		return (point.x >= leftTop.x && point.x <= rightBottom.x &&
 			point.y >= leftTop.y && point.y <= rightBottom.y);
 	}
 
 	// 二つの円の接触と重なりの判定（未使用）
-	static bool CollisionCircle(const VECTOR& centerA, float radiusA, const VECTOR& centerB, float radiusB)
+	static bool CollisionCircle(const Vector2<float>& centerA, float radiusA, const Vector2<float>& centerB, float radiusB)
 	{
 
 		// 円中心同士のX方向の差

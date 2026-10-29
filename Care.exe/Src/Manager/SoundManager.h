@@ -10,59 +10,27 @@ public:
 	// BGMの識別子
 	enum class BGM
 	{
-
-		// タイトル画面のBGM
-		TITLE,
-
-		// ゲーム進行前半のBGM
-		GAME0,
-
-		// ゲーム進行後半のBGM
-		GAME1,
-
-		// 悲しい曲の識別子（未使用）
-		SAD_THEME,
-
-		// 恐怖演出用BGM
-		KOWAI,
-
-		// エンディング用BGM
-		ENDING,
-
-		// BGMの件数と未選択値
-		MAX
+		TITLE,		// タイトル画面のBGM
+		GAME0,		// ゲーム進行前半のBGM
+		GAME1,		// ゲーム進行後半のBGM
+		SAD_THEME,	// 悲しい曲の識別子（未使用）
+		KOWAI,		// 恐怖演出用BGM
+		ENDING,		// エンディング用BGM
+		MAX			// BGMの件数と未選択値
 	};
 
 	// 効果音の識別子
 	enum class SE
 	{
-
-		// 決定の効果音
-		DECIDE,
-
-		// キャンセルの効果音
-		CANCEL,
-
-		// カーソル移動の効果音
-		MOVE,
-
-		// 操作エラーの効果音
-		BEEP,
-
-		// ドアの効果音
-		DOOR,
-
-		// 呼び出しの効果音
-		RINGTONE,
-
-		// タイピングの効果音
-		TYPING,
-
-		// PCマウス操作の効果音
-		MOUSE,
-
-		// 効果音の件数
-		MAX
+		DECIDE,		// 決定の効果音
+		CANCEL,		// キャンセルの効果音
+		MOVE,		// カーソル移動の効果音
+		BEEP,		// 操作エラーの効果音
+		DOOR,		// ドアの効果音
+		RINGTONE,	// 呼び出しの効果音
+		TYPING,		// タイピングの効果音
+		MOUSE,		// PCマウス操作の効果音
+		MAX			// 効果音の件数
 	};
 
 	// 初期音量の百分率

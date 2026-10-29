@@ -1,4 +1,5 @@
 #pragma once
+#include "../../Common/Vector2.h"
 #include <cstddef>
 #include <DxLib.h>
 #include "../ProgressManager.h"
@@ -9,7 +10,7 @@ struct ProgressData
 {
 	ProgressManager::STORY_PROGRESS progress;	// 進行状況
 	GameScene::Stage initStage;					// ロード時初期ステージ
-	VECTOR playerInitPos;						// ロード時操作キャラ初期位置
+	Vector2<float> playerInitPos;						// ロード時操作キャラ初期位置
 	TDI firstTalk;								// 進行状況開始時の会話
 	TDI patientTalk;							// その進行状況時患者に話しかけたときの会話
 	TDI talkEnd;								// 進行する条件となる会話

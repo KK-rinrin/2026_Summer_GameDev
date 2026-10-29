@@ -9,27 +9,13 @@ public:
 	// ゲーム操作の割り当て対象
 	enum class ACTION
 	{
-
-		// 決定操作
-		DECIDE,
-
-		// キャンセル操作
-		CANCEL,
-
-		// 上方向への移動操作
-		MOVE_UP,
-
-		// 下方向への移動操作
-		MOVE_DOWN,
-
-		// 左方向への移動操作
-		MOVE_LEFT,
-
-		// 右方向への移動操作
-		MOVE_RIGHT,
-
-		// 割り当て対象の操作数
-		MAX
+		DECIDE,		// 決定操作
+		CANCEL,		// キャンセル操作
+		MOVE_UP,	// 上方向への移動操作
+		MOVE_DOWN,	// 下方向への移動操作
+		MOVE_LEFT,	// 左方向への移動操作
+		MOVE_RIGHT,	// 右方向への移動操作
+		MAX			// 割り当て対象の操作数
 	};
 
 	// キー未割り当てを表す値

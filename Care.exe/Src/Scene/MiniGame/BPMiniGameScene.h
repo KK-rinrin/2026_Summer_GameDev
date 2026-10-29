@@ -12,8 +12,8 @@ public:
 	void Update() override;
 	void Draw() override;
 	void Delete() override;
-	static constexpr Vector2 OK_RELATIVE_POS = { 178, 18 }; // 成功表示OKの左上位置（表示領域の左上基準、px）
-	static constexpr Vector2 PULSE_WAVE_RELATIVE_POS = { 154, 46 }; // 脈波の開始位置（表示領域の左上基準、px）
+	static constexpr Vector2<int> OK_RELATIVE_POS = { 178, 18 }; // 成功表示OKの左上位置（表示領域の左上基準、px）
+	static constexpr Vector2<int> PULSE_WAVE_RELATIVE_POS = { 154, 46 }; // 脈波の開始位置（表示領域の左上基準、px）
 
 private:
 
@@ -117,7 +117,6 @@ private:
 		DEFLATE,	// 減圧と血圧検出中
 		SUCCESS,	// 血圧測定の成功
 		FAILED,		// 血圧測定の失敗
-
 	};
 
 	// ミニゲーム画像の配列インデックス
@@ -151,43 +150,43 @@ private:
 	static constexpr int MONITOR_ABNORMAL_PROGRESS = 8; // モニターの異常演出を有効にするゲーム進行値の下限
 
 	// 画面配置（位置とサイズはpx）
-	static constexpr Vector2 SCREEN_SIZE = { Application::SCREEN_SIZE_X, Application::SCREEN_SIZE_Y }; // 画面全体の幅・高さ（px）
-	static constexpr Vector2 MONITOR_POS = { 240, 64 }; // モニター本体の左上位置（画面基準、px）
-	static constexpr Vector2 MONITOR_SIZE = { 320, 250 }; // モニター本体の幅・高さ（px、画像の描画中心計算にも使用）
-	static constexpr Vector2 DISPLAY_POS = { MONITOR_POS.x + 28, MONITOR_POS.y + 30 }; // 表示領域の左上位置（画面基準、px）
-	static constexpr Vector2 DISPLAY_SIZE = { MONITOR_SIZE.x - 56, 178 }; // 表示領域の幅・高さ（px）
-	static constexpr Vector2 PULSE_MARKER_POS = { 394, 314 }; // 脈拍マーカーの中心位置（画面基準、上下運動前、px）
-	static constexpr Vector2 FLOOR_POS = { 0, 418 }; // 床の左上位置（画面基準、px）
-	static constexpr Vector2 FLOOR_SIZE = { Application::SCREEN_SIZE_X, Application::SCREEN_SIZE_Y - FLOOR_POS.y }; // 床の幅・高さ（px）
-	static constexpr Vector2 BED_POS = { 86, 350 }; // 代替描画のベッドの左上位置（画面基準、px）
-	static constexpr Vector2 BED_SIZE = { 358, 138 }; // 代替描画のベッドの幅・高さ（px）
-	static constexpr Vector2 BED_SHADOW_POS = { 86, 480 }; // 代替描画のベッドの影の左上位置（画面基準、px）
-	static constexpr Vector2 BED_SHADOW_SIZE = { 358, 20 }; // 代替描画のベッドの影の幅・高さ（px）
-	static constexpr Vector2 FALLBACK_LIMB_CENTER = { 250, 380 }; // 代替描画の腕の楕円の中心（画面基準、px）
-	static constexpr Vector2 FALLBACK_LIMB_RADIUS = { 180, 48 }; // 代替描画の腕の楕円の横半径・縦半径（px）
-	static constexpr Vector2 FALLBACK_WRAP_POS = { 244, 316 }; // 代替描画のカフの左上位置（画面基準、px）
-	static constexpr Vector2 FALLBACK_WRAP_SIZE = { 118, 118 }; // 代替描画のカフの幅・高さ（px）
+	static constexpr Vector2<int> SCREEN_SIZE = { Application::SCREEN_SIZE_X, Application::SCREEN_SIZE_Y }; // 画面全体の幅・高さ（px）
+	static constexpr Vector2<int> MONITOR_POS = { 240, 64 }; // モニター本体の左上位置（画面基準、px）
+	static constexpr Vector2<int> MONITOR_SIZE = { 320, 250 }; // モニター本体の幅・高さ（px、画像の描画中心計算にも使用）
+	static constexpr Vector2<int> DISPLAY_POS = { MONITOR_POS.x + 28, MONITOR_POS.y + 30 }; // 表示領域の左上位置（画面基準、px）
+	static constexpr Vector2<int> DISPLAY_SIZE = { MONITOR_SIZE.x - 56, 178 }; // 表示領域の幅・高さ（px）
+	static constexpr Vector2<int> PULSE_MARKER_POS = { 394, 314 }; // 脈拍マーカーの中心位置（画面基準、上下運動前、px）
+	static constexpr Vector2<int> FLOOR_POS = { 0, 418 }; // 床の左上位置（画面基準、px）
+	static constexpr Vector2<int> FLOOR_SIZE = { Application::SCREEN_SIZE_X, Application::SCREEN_SIZE_Y - FLOOR_POS.y }; // 床の幅・高さ（px）
+	static constexpr Vector2<int> BED_POS = { 86, 350 }; // 代替描画のベッドの左上位置（画面基準、px）
+	static constexpr Vector2<int> BED_SIZE = { 358, 138 }; // 代替描画のベッドの幅・高さ（px）
+	static constexpr Vector2<int> BED_SHADOW_POS = { 86, 480 }; // 代替描画のベッドの影の左上位置（画面基準、px）
+	static constexpr Vector2<int> BED_SHADOW_SIZE = { 358, 20 }; // 代替描画のベッドの影の幅・高さ（px）
+	static constexpr Vector2<int> FALLBACK_LIMB_CENTER = { 250, 380 }; // 代替描画の腕の楕円の中心（画面基準、px）
+	static constexpr Vector2<int> FALLBACK_LIMB_RADIUS = { 180, 48 }; // 代替描画の腕の楕円の横半径・縦半径（px）
+	static constexpr Vector2<int> FALLBACK_WRAP_POS = { 244, 316 }; // 代替描画のカフの左上位置（画面基準、px）
+	static constexpr Vector2<int> FALLBACK_WRAP_SIZE = { 118, 118 }; // 代替描画のカフの幅・高さ（px）
 
 	// モニター画像がない場合の支柱・台座
-	static constexpr Vector2 MONITOR_STEM_POS = { 130, MONITOR_SIZE.y }; // 代替描画の支柱の左上位置（モニター左上基準、px）
-	static constexpr Vector2 MONITOR_STEM_SIZE = { 60, 50 }; // 代替描画の支柱の幅・高さ（px）
-	static constexpr Vector2 MONITOR_BASE_POS = { 82, MONITOR_SIZE.y + 48 }; // 代替描画の台座の左上位置（モニター左上基準、px）
-	static constexpr Vector2 MONITOR_BASE_SIZE = { 156, 20 }; // 代替描画の台座の幅・高さ（px）
+	static constexpr Vector2<int> MONITOR_STEM_POS = { 130, MONITOR_SIZE.y }; // 代替描画の支柱の左上位置（モニター左上基準、px）
+	static constexpr Vector2<int> MONITOR_STEM_SIZE = { 60, 50 }; // 代替描画の支柱の幅・高さ（px）
+	static constexpr Vector2<int> MONITOR_BASE_POS = { 82, MONITOR_SIZE.y + 48 }; // 代替描画の台座の左上位置（モニター左上基準、px）
+	static constexpr Vector2<int> MONITOR_BASE_SIZE = { 156, 20 }; // 代替描画の台座の幅・高さ（px）
 
 	// 表示領域内の文字と圧力ゲージの配置
-	static constexpr Vector2 PRESSURE_LABEL_OFFSET = { 18, 14 }; // PRESSUREの左上位置（表示領域の左上基準、px）
-	static constexpr Vector2 PRESSURE_VALUE_OFFSET = { 24, 42 }; // 圧力数値の左上位置（表示領域の左上基準、px）
-	static constexpr Vector2 PRESSURE_UNIT_OFFSET = { 158, 68 }; // 単位mmHgの左上位置（表示領域の左上基準、px）
-	static constexpr Vector2 PULSE_LABEL_OFFSET = { 18, 98 }; // PULSEの左上位置（表示領域の左上基準、px）
-	static constexpr Vector2 PULSE_VALUE_OFFSET = { 28, 120 }; // 脈拍数値の左上位置（表示領域の左上基準、px）
-	static constexpr Vector2 SYSTOLIC_LABEL_OFFSET = { 142, 112 }; // 最高血圧の項目名SYSの左上位置（表示領域の左上基準、px）
-	static constexpr Vector2 SYSTOLIC_VALUE_OFFSET = { 196, 112 }; // 最高血圧の測定結果の左上位置（表示領域の左上基準、px）
-	static constexpr Vector2 DIASTOLIC_LABEL_OFFSET = { 142, 142 }; // 最低血圧の項目名DIAの左上位置（表示領域の左上基準、px）
-	static constexpr Vector2 DIASTOLIC_VALUE_OFFSET = { 196, 142 }; // 最低血圧の測定結果の左上位置（表示領域の左上基準、px）
-	static constexpr Vector2 PRESSURE_GAUGE_POS = { MONITOR_POS.x + MONITOR_SIZE.x - 42, DISPLAY_POS.y + 18 }; // 圧力ゲージの左上位置（画面基準、px）
-	static constexpr Vector2 PRESSURE_GAUGE_SIZE = { 10, DISPLAY_SIZE.y - 36 }; // 圧力ゲージの幅・高さ（px）
-	static constexpr Vector2 ERROR_TEXT_OFFSET = { 154, 20 }; // ERRの左上位置（表示領域の左上基準、px）
-	static constexpr Vector2 FAILED_TEXT_CENTER_OFFSET = { 108, 34 }; // FAILEDの左上を画面中心から左・上にずらす量（px）
+	static constexpr Vector2<int> PRESSURE_LABEL_OFFSET = { 18, 14 }; // PRESSUREの左上位置（表示領域の左上基準、px）
+	static constexpr Vector2<int> PRESSURE_VALUE_OFFSET = { 24, 42 }; // 圧力数値の左上位置（表示領域の左上基準、px）
+	static constexpr Vector2<int> PRESSURE_UNIT_OFFSET = { 158, 68 }; // 単位mmHgの左上位置（表示領域の左上基準、px）
+	static constexpr Vector2<int> PULSE_LABEL_OFFSET = { 18, 98 }; // PULSEの左上位置（表示領域の左上基準、px）
+	static constexpr Vector2<int> PULSE_VALUE_OFFSET = { 28, 120 }; // 脈拍数値の左上位置（表示領域の左上基準、px）
+	static constexpr Vector2<int> SYSTOLIC_LABEL_OFFSET = { 142, 112 }; // 最高血圧の項目名SYSの左上位置（表示領域の左上基準、px）
+	static constexpr Vector2<int> SYSTOLIC_VALUE_OFFSET = { 196, 112 }; // 最高血圧の測定結果の左上位置（表示領域の左上基準、px）
+	static constexpr Vector2<int> DIASTOLIC_LABEL_OFFSET = { 142, 142 }; // 最低血圧の項目名DIAの左上位置（表示領域の左上基準、px）
+	static constexpr Vector2<int> DIASTOLIC_VALUE_OFFSET = { 196, 142 }; // 最低血圧の測定結果の左上位置（表示領域の左上基準、px）
+	static constexpr Vector2<int> PRESSURE_GAUGE_POS = { MONITOR_POS.x + MONITOR_SIZE.x - 42, DISPLAY_POS.y + 18 }; // 圧力ゲージの左上位置（画面基準、px）
+	static constexpr Vector2<int> PRESSURE_GAUGE_SIZE = { 10, DISPLAY_SIZE.y - 36 }; // 圧力ゲージの幅・高さ（px）
+	static constexpr Vector2<int> ERROR_TEXT_OFFSET = { 154, 20 }; // ERRの左上位置（表示領域の左上基準、px）
+	static constexpr Vector2<int> FAILED_TEXT_CENTER_OFFSET = { 108, 34 }; // FAILEDの左上を画面中心から左・上にずらす量（px）
 
 
 	void InitLoad() override;

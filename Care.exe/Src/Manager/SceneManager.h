@@ -1,4 +1,5 @@
 #pragma once
+#include "../Common/Vector2.h"
 #include <memory>
 #include <chrono>
 #include <DxLib.h>
@@ -20,27 +21,13 @@ public:
 	// シーン管理用
 	enum class SCENE_ID
 	{
-
-		// シーン未指定の状態
-		NONE,
-
-		// タイトル画面
-		TITLE,
-
-		// メインゲーム画面
-		GAME,
-
-		// 設定画面
-		SETTING,
-
-		// 血圧測定ミニゲーム画面
-		BP_MINIGAME,
-
-		// エンディング画面
-		CLEAR,
-
-		// デバッグ画面
-		DEBUG,
+		NONE,			// シーン未指定の状態
+		TITLE,			// タイトル画面
+		GAME,			// メインゲーム画面
+		SETTING,		// 設定画面
+		BP_MINIGAME,	// 血圧測定ミニゲーム画面
+		CLEAR,			// エンディング画面
+		DEBUG,			// デバッグ画面
 	};
 	
 	// インスタンスの生成
@@ -68,7 +55,7 @@ public:
 	void SetSettingReturnScene(SCENE_ID sceneId);
 
 	// GameSceneからSettingSceneを開くときの復帰情報を保存する
-	void SetSettingReturnGameState(int stage, const VECTOR& actorPos);
+	void SetSettingReturnGameState(int stage, const Vector2<float>& actorPos);
 
 	// SettingSceneのBACKで戻る先を取得する
 	SCENE_ID GetSettingReturnScene() const;
@@ -80,7 +67,7 @@ public:
 	int GetSettingReturnGameStage() const;
 
 	// GameScene復帰時の操作キャラ座標を取得する
-	VECTOR GetSettingReturnActorPos() const;
+	Vector2<float> GetSettingReturnActorPos() const;
 
 	// GameScene復帰情報を破棄する
 	void ClearSettingReturnGameState();
@@ -122,7 +109,7 @@ private:
 	int settingReturnGameStage_;
 
 	// 設定画面からの復帰時の操作キャラ座標
-	VECTOR settingReturnActorPos_;
+	Vector2<float> settingReturnActorPos_;
 
 	// フェード
 	std::unique_ptr<Fader> fader_;

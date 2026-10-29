@@ -65,7 +65,7 @@ ProcessMove::MoveInput ProcessMove::ReadInput() const
 {
 	MoveInput input = { 0.0f, 0.0f, DEFAULT_DELAY_FRAME };
 	const InputManager& inputManager = InputManager::GetInstance();
-	const VECTOR stickInput = PadInput::GetMoveAxis(inputManager, InputManager::JOYPAD_NO::PAD1);
+	const Vector2<float> stickInput = PadInput::GetMoveAxis(inputManager, InputManager::JOYPAD_NO::PAD1);
 
 	input.x += stickInput.x * moveSpeedPercent_;
 	input.y += stickInput.y * moveSpeedPercent_;

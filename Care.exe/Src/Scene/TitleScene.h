@@ -13,13 +13,13 @@ class TitleScene : public SceneBase
 {
 
 	// タイトル画面のプレイヤーモデルの表示倍率
-	static constexpr VECTOR PLAYER_MODEL_EXTEND = { 2.5f, 2.5f, 0.0f };
+	static constexpr Vector2<float> PLAYER_MODEL_EXTEND = { 2.5f, 2.5f };
 
 	// タイトル画面のプレイヤーモデルの表示位置
-	static constexpr VECTOR PLAYER_MODEL_POS = { -240.0f, -300.0f, 0.0f };
+	static constexpr Vector2<float> PLAYER_MODEL_POS = { -240.0f, -300.0f };
 
 	// 先頭メニュー項目の画面座標
-	static constexpr Vector2 MENU_POS = { 520, 285 };
+	static constexpr Vector2<int> MENU_POS = { 520, 285 };
 
 	// タイトル画面のフォントサイズ
 	static constexpr int TITLE_FONT_SIZE = 38;
@@ -63,18 +63,10 @@ private:
 	// タイトルメニューの操作種別
 	enum class Menu
 	{
-
-		// ゲーム開始の項目
-		START,
-
-		// 設定画面の項目
-		SETTING,
-
-		// 進行リセットの項目
-		RESET,
-
-		// アプリケーション終了の項目
-		CLOSE,
+		START,		// ゲーム開始の項目
+		SETTING,	// 設定画面の項目
+		RESET,		// 進行リセットの項目
+		CLOSE,		// アプリケーション終了の項目
 	};
 
 	void InitLoad() override;

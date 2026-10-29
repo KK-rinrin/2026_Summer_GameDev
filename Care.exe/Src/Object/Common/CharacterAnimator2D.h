@@ -1,4 +1,5 @@
 #pragma once
+#include "../../Common/Vector2.h"
 #include "AnimationController2D.h"
 class Sprite2D;
 
@@ -14,36 +15,21 @@ public:
 
 	// 現在の向きに対応する静止コマの表示
 	void ShowStill(Sprite2D& sprite);
-	void Update(Sprite2D& sprite, const VECTOR& movement, float worldX);
+	void Update(Sprite2D& sprite, const Vector2<float>& movement, float worldX);
 
 private:
+
 	// 8方向
 	enum Direction : int
 	{
-
-		// 下向きの方向番号
-		DOWN,
-
-		// 右下向きの方向番号
-		DOWN_RIGHT,
-
-		// 右向きの方向番号
-		RIGHT,
-
-		// 右上向きの方向番号
-		UP_RIGHT,
-
-		// 上向きの方向番号
-		UP, 
-
-		// 左上向きの方向番号
-		UP_LEFT,
-
-		// 左向きの方向番号
-		LEFT,
-
-		// 左下向きの方向番号
-		DOWN_LEFT
+		DOWN,		// 下向きの方向番号
+		DOWN_RIGHT,	// 右下向きの方向番号
+		RIGHT,		// 右向きの方向番号
+		UP_RIGHT,	// 右上向きの方向番号
+		UP,			// 上向きの方向番号
+		UP_LEFT,	// 左上向きの方向番号
+		LEFT,		// 左向きの方向番号
+		DOWN_LEFT	// 左下向きの方向番号
 	};
 
 	// ラジアンから度への換算倍率

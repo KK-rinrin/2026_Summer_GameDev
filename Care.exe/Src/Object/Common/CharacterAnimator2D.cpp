@@ -29,7 +29,7 @@ void CharacterAnimator2D::ShowStill(Sprite2D& sprite)
 
 }
 
-void CharacterAnimator2D::Update(Sprite2D& sprite, const VECTOR& movement, float worldX)
+void CharacterAnimator2D::Update(Sprite2D& sprite, const Vector2<float>& movement, float worldX)
 {
 	if (sprite.GetFrameCount() == 0 || sprite.GetColumns() <= 1)
 	{

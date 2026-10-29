@@ -1,4 +1,5 @@
 #pragma once
+#include "../../Common/Vector2.h"
 #include "ActorBase.h"
 #include <DxLib.h>
 
@@ -9,7 +10,7 @@ class Player : public ActorBase
 public:
 
 	// ‰ŠúÀ•W
-	static constexpr VECTOR INIT_PER = { 50.0f, 50.0f, 0.0f };
+	static constexpr Vector2<float> INIT_PER = { 50.0f, 50.0f };
 
 	// “–‚½‚è”»’èi”¼Œaj
 	static constexpr float COL_RADIUS = 3.0f;
