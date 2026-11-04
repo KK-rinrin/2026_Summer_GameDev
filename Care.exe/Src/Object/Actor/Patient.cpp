@@ -63,6 +63,5 @@ void Patient::UpdateProcessMove()
 void Patient::UpdateAnimation()
 {
 	animator_.ShowStill(sprite_);
-
-	// ˜b‚µ‚©‚¯‚ç‚ê‚½‚ç‚»‚Ì•ûŒü‚ðŒü‚­
+	
 }

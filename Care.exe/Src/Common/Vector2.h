@@ -16,6 +16,7 @@ struct Vector2
 	constexpr Vector2(T vX, T vY) : x(vX), y(vY) {}
 
 	// ®”‚©‚çfloat‚Ö‚Ì©“®•ÏŠ·
+	// templateğŒ®
 	// @param •ÏŠ·Œ³‚ÌŒ^
 	template<typename U, std::enable_if_t<
 		std::is_same_v<T, float> && std::is_same_v<U, int>, int> = 0>
