@@ -40,7 +40,7 @@ public:
 	virtual void Update();
 	virtual void Draw();
 
-	// ï¿½hï¿½ï¿½ï¿½Xï¿½eï¿½[ï¿½Wï¿½Ì‘Oï¿½iï¿½`ï¿½ï¿½
+	// ‘OŒi•`‰æ
 	virtual void DrawForeground() const;
 	virtual void Delete();
 
