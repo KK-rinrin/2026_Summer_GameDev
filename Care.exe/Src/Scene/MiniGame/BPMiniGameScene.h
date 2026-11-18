@@ -263,12 +263,6 @@ private:
 	// 整数値の指定範囲への制限
 	static int ClampInt(int value, int minValue, int maxValue);
 
-	// 二つの整数の最大値の取得（未使用）
-	static int MaxInt(int lhs, int rhs);
-
-	// 二つの整数の最小値の取得
-	static int MinInt(int lhs, int rhs);
-
 	// 現在の血圧測定の進行状態
 	State state_;
 

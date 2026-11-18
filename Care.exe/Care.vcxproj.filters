@@ -30,8 +30,7 @@
     <ClCompile Include="Src\Debug\DebugCursorPosition.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-
-<ClCompile Include="Src\Common\Vector2.cpp">
+    <ClCompile Include="Src\Common\Vector2.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Src\FpsControl\FpsControl.cpp">
@@ -70,8 +69,7 @@
     <ClCompile Include="Src\Utility\SchoolUtility.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-
-<ClCompile Include="Src\Manager\Live2D.cpp">
+    <ClCompile Include="Src\Manager\Live2D.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Src\Object\Talk\Talk.cpp">
@@ -164,6 +162,12 @@
     <ClCompile Include="Src\Scene\ClearScene.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Src\Renderer\PixelMaterial.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Renderer\PixelRenderer.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Application.h">
@@ -178,8 +182,7 @@
     <ClInclude Include="Src\Debug\DebugCursorPosition.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-
-<ClInclude Include="Src\Common\Vector2.h">
+    <ClInclude Include="Src\Common\Vector2.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Src\FpsControl\FpsControl.h">
@@ -218,8 +221,7 @@
     <ClInclude Include="Src\Utility\SchoolUtility.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-
-<ClInclude Include="Src\main.h">
+    <ClInclude Include="Src\main.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Src\Manager\Live2D.h">
@@ -318,6 +320,12 @@
     <ClInclude Include="Src\Scene\ClearScene.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="Src\Renderer\PixelMaterial.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Renderer\PixelRenderer.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="icon.ico">
@@ -328,10 +336,16 @@
     <None Include="Src\Effect\Shader\ColorShiftPS.fx">
       <Filter>ソース ファイル</Filter>
     </None>
+    <None Include="Src\Shader\Common\Pixel\PixelShader2DHeader.hlsli" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Care.rc">
       <Filter>リソース ファイル</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Src\Shader\PostEffect\MonotoneLine.hlsl" />
+    <FxCompile Include="Src\Shader\PostEffect\Noise.hlsl" />
+    <FxCompile Include="Src\Shader\PostEffect\Vignette.hlsl" />
   </ItemGroup>
 </Project>

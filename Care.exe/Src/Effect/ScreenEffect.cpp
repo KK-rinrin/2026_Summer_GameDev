@@ -168,39 +168,3 @@ void ScreenEffect::DrawColorShift(
 	SetDrawCustomBlendMode(FALSE, 0, 0, 0, 0, 0, 0, 0);
 	SetDrawBlendMode(previousBlendMode, previousBlendParam);
 }
-
-#pragma region LegacyColorShift
-#if 0
-void ScreenEffect::DrawColorShift(int handle, float x, float y, float shiftX, float shiftY)
-{
-	if (handle == -1)
-	{
-		return;
-	}
-
-	int previousRed = MAX_BRIGHTNESS;
-	int previousGreen = MAX_BRIGHTNESS;
-	int previousBlue = MAX_BRIGHTNESS;
-	GetDrawBright(&previousRed, &previousGreen, &previousBlue);
-
-	int previousBlendMode = DX_BLENDMODE_NOBLEND;
-	int previousBlendParam = 0;
-	GetDrawBlendMode(&previousBlendMode, &previousBlendParam);
-
-	SetDrawBlendMode(DX_BLENDMODE_ADD, MAX_BRIGHTNESS);
-
-	DrawColorChannel(handle, x - shiftX, y - shiftY, MAX_BRIGHTNESS, 0, 0);
-	DrawColorChannel(handle, x, y, 0, MAX_BRIGHTNESS, 0);
-	DrawColorChannel(handle, x + shiftX, y + shiftY, 0, 0, MAX_BRIGHTNESS);
-
-	SetDrawBright(previousRed, previousGreen, previousBlue);
-	SetDrawBlendMode(previousBlendMode, previousBlendParam);
-}
-
-void ScreenEffect::DrawColorChannel(int handle, float x, float y, int red, int green, int blue)
-{
-	SetDrawBright(red, green, blue);
-	DrawGraphF(x, y, handle, TRUE);
-}
-#endif
-#pragma endregion

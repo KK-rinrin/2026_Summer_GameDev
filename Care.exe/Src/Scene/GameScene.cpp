@@ -139,14 +139,10 @@ void GameScene::Draw()
 
 	talk_->Draw();
 
+	// ƒƒjƒ…[
 	if (gameMenu_ != nullptr)
 	{
 		gameMenu_->Draw();
-	}
-
-	if (stage_ != nullptr)
-	{
-		stage_->DrawForeground();
 	}
 
 	if (useAfterTalk3ColorShift)

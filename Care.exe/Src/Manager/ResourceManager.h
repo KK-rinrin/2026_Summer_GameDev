@@ -23,7 +23,7 @@ public:
 	// 正面向きの静止コマのインデックス
 	static constexpr int CHARACTER_FRONT_STILL_INDEX = 1;
 
-	// 背面向きの静止コマのインデックス（未使用）
+	// 背面向きの静止コマのインデックス
 	static constexpr int CHARACTER_BACK_STILL_INDEX = 4;
 
 	// リソース名
@@ -32,8 +32,11 @@ public:
 		TITLE_IMG,				// タイトル画面の画像
 		MAIN_FONT,				// 通常画面で使用するフォント
 		PC_FONT,				// PC画面で使用するフォント
-		PLAYER_GRAPHICS,		// アドベンチャー画面 / プレイヤーグラフィック
+
+								// アドベンチャー画面
+		PLAYER_GRAPHICS,		// プレイヤーグラフィック
 		PATIENT_GRAPHICS,		// ヌイグラフィック
+
 		BG_1,					// 患者部屋背景
 		BG_1_WALL,				// 患者部屋壁画像
 		BG_1_TOILET,			// 患者部屋トイレ画像
@@ -100,7 +103,7 @@ public:
 	// リソースの完全破棄
 	void Destroy();
 
-	// 登録リソースのファイルパスの取得（未使用）
+	// 登録リソースのファイルパスの取得
 	const char* GetResourcePath(SRC src) const;
 
 	// リソースのロード
@@ -108,10 +111,6 @@ public:
 
 	// フォントを指定設定でロード
 	int LoadFont(SRC src, int fontSize, int thick = DEFAULT_FONT_THICK, int fontSpace = DEFAULT_FONT_SPACE, int fontType = DX_FONTTYPE_ANTIALIASING);
-
-	// 三次元モデルを複製したハンドルの取得（未使用）
-
-	//
 
 private:
 

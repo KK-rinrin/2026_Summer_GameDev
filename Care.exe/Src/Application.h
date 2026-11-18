@@ -36,6 +36,8 @@ public:
 	static const std::string PATH_MODEL;	// Live2Dモデルデータフォルダ
 	static const std::string PATH_FONT;		// フォントデータフォルダ
 	static const std::string PATH_CHARA;	// Charaフォルダ（ストーリーに関わる）
+	static const std::string PATH_SHADER;	// シェーダーデータ
+
 
 	////-------------------------------------------
 

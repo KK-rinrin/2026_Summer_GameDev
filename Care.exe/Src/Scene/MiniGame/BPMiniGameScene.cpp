@@ -281,16 +281,6 @@ int BPMiniGameScene::ClampInt(int value, int minValue, int maxValue)
 	return value;
 }
 
-int BPMiniGameScene::MaxInt(int lhs, int rhs)
-{
-	return (lhs > rhs) ? lhs : rhs;
-}
-
-int BPMiniGameScene::MinInt(int lhs, int rhs)
-{
-	return (lhs < rhs) ? lhs : rhs;
-}
-
 void BPMiniGameScene::DrawRoom() const
 {
 	DrawBox(0, 0, SCREEN_SIZE.x, SCREEN_SIZE.y, ROOM_COLOR.ToDxColor(), true);
@@ -506,7 +496,7 @@ void BPMiniGameScene::DrawGlitch() const
 		};
 		const int glitchLength = GLITCH_MIN_LENGTH + (i * GLITCH_LENGTH_STRIDE + GLITCH_LENGTH_OFFSET) % GLITCH_LENGTH_RANGE;
 		const int color = (i % 2 == 0) ? GLITCH_EVEN_COLOR.ToDxColor() : GLITCH_ODD_COLOR.ToDxColor();
-		DrawBox(glitchPos.x, glitchPos.y, MinInt(glitchPos.x + glitchLength, DISPLAY_POS.x + DISPLAY_SIZE.x - GLITCH_X_INSET), glitchPos.y + GLITCH_LINE_HEIGHT, color, true);
+		DrawBox(glitchPos.x, glitchPos.y, min(glitchPos.x + glitchLength, DISPLAY_POS.x + DISPLAY_SIZE.x - GLITCH_X_INSET), glitchPos.y + GLITCH_LINE_HEIGHT, color, true);
 	}
 
 	if ((frame_ / ERROR_BLINK_FRAMES) % 2 == 0)

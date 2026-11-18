@@ -39,9 +39,6 @@ public:
 	void Init();
 	virtual void Update();
 	virtual void Draw();
-
-	// 派生ステージの前景描画
-	virtual void DrawForeground() const;
 	virtual void Delete();
 
 	// ステージ内操作による入力ブロックの判定

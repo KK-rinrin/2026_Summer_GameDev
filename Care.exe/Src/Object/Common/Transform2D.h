@@ -29,6 +29,6 @@ public:
 	// 指定した百分率座標に対応する画面座標の取得
 	static Vector2<float> GetWorldPos(const Vector2<float>& localPos);
 
-	// 画面座標からステージ内百分率座標への変換（未使用）
+	// 画面座標からステージ内百分率座標への変換
 	static Vector2<float> WorldToLocalPercent(const Vector2<float>& worldPos);
 };

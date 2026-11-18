@@ -67,13 +67,6 @@ public:
 		return (dx * dx + dy * dy) <= (radius * radius);
 	}
 
-	// 中心座標と半幅と半高さによる点の矩形内判定（未使用）
-	static bool IsPointInRect(const Vector2<float>& point, const Vector2<float>& center, float halfW, float halfH)
-	{
-		return (point.x >= center.x - halfW && point.x <= center.x + halfW &&
-				point.y >= center.y - halfH && point.y <= center.y + halfH);
-	}
-
 	// 点(point)が左上(leftTop), 右下(rightBottom)の矩形の内側にいるか
 	static bool IsPointInRect(const Vector2<float>& point, const Vector2<float>& leftTop, const Vector2<float>& rightBottom)
 	{
@@ -81,7 +74,7 @@ public:
 			point.y >= leftTop.y && point.y <= rightBottom.y);
 	}
 
-	// 二つの円の接触と重なりの判定（未使用）
+	// 二つの円の接触と重なりの判定
 	static bool CollisionCircle(const Vector2<float>& centerA, float radiusA, const Vector2<float>& centerB, float radiusB)
 	{
 

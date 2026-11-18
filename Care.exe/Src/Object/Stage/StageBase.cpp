@@ -59,10 +59,6 @@ void StageBase::Draw()
 	}
 }
 
-void StageBase::DrawForeground() const
-{
-}
-
 void StageBase::Delete()
 {
 	for (auto& obj : objects_)

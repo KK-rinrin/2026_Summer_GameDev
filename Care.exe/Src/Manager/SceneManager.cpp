@@ -118,7 +118,6 @@ void SceneManager::Draw()
 	// ŠeƒV[ƒ“‚Ì•`‰æˆ—
 	scene_->Draw();
 
-	
 	// ˆÃ“]E–¾“]
 	fader_->Draw();
 
