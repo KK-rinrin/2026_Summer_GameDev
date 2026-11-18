@@ -354,11 +354,6 @@
   <ItemGroup>
     <ResourceCompile Include="Care.rc" />
   </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="Src\Shader\PostEffect\MonotoneLine.hlsl" />
-    <FxCompile Include="Src\Shader\PostEffect\Noise.hlsl" />
-    <FxCompile Include="Src\Shader\PostEffect\Vignette.hlsl" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

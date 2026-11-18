@@ -39,6 +39,9 @@ public:
 	void Init();
 	virtual void Update();
 	virtual void Draw();
+
+	// ï¿½hï¿½ï¿½ï¿½Xï¿½eï¿½[ï¿½Wï¿½Ì‘Oï¿½iï¿½`ï¿½ï¿½
+	virtual void DrawForeground() const;
 	virtual void Delete();
 
 	// ƒXƒe[ƒW“à‘€ì‚É‚æ‚é“ü—ÍƒuƒƒbƒN‚Ì”»’è
