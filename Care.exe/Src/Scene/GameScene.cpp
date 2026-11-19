@@ -145,6 +145,11 @@ void GameScene::Draw()
 		gameMenu_->Draw();
 	}
 
+	if (stage_ != nullptr)
+	{
+		stage_->DrawForeground();
+	}
+
 	if (useAfterTalk3ColorShift)
 	{
 		int addBugging = static_cast<int>(prgMng_.GetProgressEnum()) - static_cast<int>(ProgressManager::STORY_PROGRESS::AFTER_TALK3);

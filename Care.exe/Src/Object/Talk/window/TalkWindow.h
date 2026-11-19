@@ -188,12 +188,6 @@ private:
 	// 次送りアイコンの上向き移動状態
 	bool isMoveUp_;
 
-	// 本文の描画開始X座標の保存値（未使用）
-	int textX_;
-
-	// 本文の描画開始Y座標の保存値（未使用）
-	int textY_;
-
 	// 解析前の単行会話スクリプト
 	std::string talkScript_;
 
@@ -235,9 +229,6 @@ private:
 
 	// 前回更新からの経過秒数
 	float deltaTime_;
-
-	// 用途不明の補助状態値（要確認）（未使用）
-	int enableB_;
 
 	// Live2D コントローラ参照（非所有）
 	Live2DTalkController* patientController_;

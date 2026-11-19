@@ -12,6 +12,9 @@ class Live2DTalkController
 {
 public:
 
+	// 完全不透明時のアルファ値
+	static constexpr int MAX_ALPHA = 255;
+
 	// Live2Dの操作対象パラメーター識別子
 	enum class Param : int
 	{
@@ -98,9 +101,6 @@ public:
 	void ResetForScene();
 
 private:
-
-	// 完全不透明時のアルファ値
-	static constexpr int MAX_ALPHA = 255;
 
 	// デバッグ出力用バッファの文字数
 	static constexpr int DEBUG_BUFFER_SIZE = 256;

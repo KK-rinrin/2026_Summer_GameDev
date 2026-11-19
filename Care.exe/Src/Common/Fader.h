@@ -49,7 +49,6 @@ private:
 	// 完全不透明時のアルファ値
 	static constexpr int MAX_ALPHA = 255;
 
-
 	// 状態
 	STATE state_;
 

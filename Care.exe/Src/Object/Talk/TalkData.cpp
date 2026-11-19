@@ -258,6 +258,8 @@ const std::vector<TD>& TalkDatas::GetTalkData(TalkDataIndex dataIndex)
 			Speak(看護師, "(......でも)"),
 			Speak(看護師, "(確かめないと)"),
 			Speak(看護師, "確かめに行くためにも、これを配膳しなきゃ。"),
+			Speak(看護師, "...(もしかしたら...この行動は、違う気がする。\nだから...嫌なのかもしれない。)"),
+			Speak(看護師, "(私を、止めて...)")
 		}},
 
 		// 夕食前
@@ -271,10 +273,8 @@ const std::vector<TD>& TalkDatas::GetTalkData(TalkDataIndex dataIndex)
 			Speak(患者, "探しているんでしょう？"),
 			Speak(看護師, "......"),
 			Speak(患者, "私たちを構成しているもの。"),
-			Speak(看護師, "...！"),
-			Speak(患者, "......"),
-			Speak(看護師, "...何を言ってるの？"),
-			Speak(患者, "あなたは、ずっと同じところを歩いている。"),
+			Speak(看護師, "...さっき...言ってたね。"),
+			Speak(患者, "......\nあなたは、ずっと同じところを歩いている。"),
 			Speak(看護師, "......"),
 			Speak(患者, "できないんですよ。"),
 			Speak(患者, "あなたには。"),
@@ -286,6 +286,7 @@ const std::vector<TD>& TalkDatas::GetTalkData(TalkDataIndex dataIndex)
 			Speak(患者, "ここにいればいい。"),
 			Speak(看護師, "......"),
 			Speak(患者, "あなたも、そのほうが楽でしょう？"),
+			Speak(患者, "ね。分からないなら、それでいいです。"),
 			Speak(患者, "...はは。無駄なのに。{WAIT:700}{FBF:0.1}無駄なのに無駄なのに無駄なのに\n"
 					"無駄なのに無駄なのに無駄なのに無駄なのに無駄なのに無駄なのに\n"
 					"無駄なのに無駄なのに無駄なのに無駄なのに無駄なのに無駄なのに\n"
@@ -352,10 +353,6 @@ const std::vector<TD>& TalkDatas::GetTalkData(TalkDataIndex dataIndex)
 			Speak(患者, "もう、何もできない。"),
 			Speak(患者, "何も、残らない。"),
 			Speak(看護師, "..."),
-			Speak(患者, "{FBF:2.0}プレイヤー...."),
-			Speak(患者, "お...まえ...."),
-			Speak(患者, "......"),
-			Speak(患者, "崩壊する....."),
 		}},
 
 		// 看護師削除END

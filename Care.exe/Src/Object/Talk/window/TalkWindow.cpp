@@ -59,8 +59,6 @@ TalkWindow::TalkWindow()
 	, nextIconY_(NEXT_ICON_Y)
 	, nextIconYf_(static_cast<float>(NEXT_ICON_Y))
 	, isMoveUp_(false)
-	, textX_(TEXT_X)
-	, textY_(TEXT_Y)
 	, talkScript_()
 	, units_()
 	, unitPos_(0)
@@ -74,7 +72,6 @@ TalkWindow::TalkWindow()
 	, waitTimer_(0.0f)
 	, prevTime_(0)
 	, deltaTime_(0.0f)
-	, enableB_(0)
 	, patientController_(nullptr)
 	, playerController_(nullptr)
 {
@@ -112,10 +109,6 @@ void TalkWindow::Init()
 
 	currentSpeaker_ = TalkDatas::Speaker::NONE;
 
-	// デフォルトのテキスト位置
-	textX_ = TEXT_X;
-	textY_ = TEXT_Y;
-
 }
 
 // ==============================
@@ -151,6 +144,7 @@ void TalkWindow::LoadEnd()
 void TalkWindow::StartSpeak(TalkDatas::Speaker speaker, const std::string& talk, float advanceTime)
 {
 	currentSpeaker_ = speaker;
+
 	speakActive_ = true;
 	waitingForClick_ = false;
 	Speak(talk, advanceTime);
@@ -269,7 +263,6 @@ void TalkWindow::ContinueSpeak()
 // ==============================
 void TalkWindow::Update()
 {
-
 	// 前回からの経過時間
 	long long now = GetNowHiPerformanceCount();
 	deltaTime_ = (now - prevTime_) / MICROSECONDS_PER_SECOND;
@@ -319,12 +312,14 @@ void TalkWindow::Draw()
 	if (handle_ >= 0)
 		DrawRotaGraph(imgX_, imgY_ + y_, 1.0, 0.0, handle_, true);
 
+	// 話者の近くにクリップを表示
 	if (speakerHandle_ >= 0 && (currentSpeaker_ == TalkDatas::Speaker::Player || currentSpeaker_ == TalkDatas::Speaker::Patient))
 	{
 		const int speakerX = (currentSpeaker_ == TalkDatas::Speaker::Patient)
 			? SPEAKER_PATIENT_X
 			: SPEAKER_PLAYER_X;
 		DrawGraph(speakerX, SPEAKER_Y, speakerHandle_, true);
+
 	}
 
 	std::string vis = GetVisibleText();
@@ -371,6 +366,7 @@ void TalkWindow::Speak(const std::string& talk, float advanceTime)
 	waitTimer_ = 0.0f;
 	prevTime_ = GetNowHiPerformanceCount();
 	ResetMouths();
+
 }
 
 // ==============================
@@ -378,7 +374,6 @@ void TalkWindow::Speak(const std::string& talk, float advanceTime)
 // ==============================
 void TalkWindow::UpdateVisibleWindow()
 {
-	// (既存のコメント化された処理はそのまま)
 }
 
 // ==============================
